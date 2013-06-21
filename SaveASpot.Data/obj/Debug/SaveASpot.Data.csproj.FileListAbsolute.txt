@@ -1,0 +1,9 @@
+C:\Code\CustomerProjects\SaveASpot\SaveASpot.Data\obj\Debug\ResolveAssemblyReference.cache
+C:\Code\CustomerProjects\SaveASpot\SaveASpot.Data\bin\Debug\SaveASpot.Data.dll
+C:\Code\CustomerProjects\SaveASpot\SaveASpot.Data\bin\Debug\SaveASpot.Data.pdb
+C:\Code\CustomerProjects\SaveASpot\SaveASpot.Data\bin\Debug\MongoDB.Bson.dll
+C:\Code\CustomerProjects\SaveASpot\SaveASpot.Data\bin\Debug\MongoDB.Driver.dll
+C:\Code\CustomerProjects\SaveASpot\SaveASpot.Data\bin\Debug\MongoDB.Bson.xml
+C:\Code\CustomerProjects\SaveASpot\SaveASpot.Data\bin\Debug\MongoDB.Driver.xml
+C:\Code\CustomerProjects\SaveASpot\SaveASpot.Data\obj\Debug\SaveASpot.Data.dll
+C:\Code\CustomerProjects\SaveASpot\SaveASpot.Data\obj\Debug\SaveASpot.Data.pdb
