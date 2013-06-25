@@ -134,6 +134,7 @@
     <Content Include="Content\css\user-list.css" />
     <Content Include="Content\css\user-profile.css" />
     <Content Include="Content\css\web-app-icons.css" />
+    <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\img\bgs\10.jpg" />
     <Content Include="Content\img\bgs\11.jpg" />
     <Content Include="Content\img\bgs\12.jpg" />
@@ -336,6 +337,11 @@
     <None Include="Content\data\Phase4_Grid.json" />
     <None Include="Content\data\Phase5.json" />
     <None Include="Content\data\Phase5_Grid.json" />
+    <Content Include="Content\data\siteTheme.zip" />
+    <None Include="Content\font\fontawesome-webfont.eot" />
+    <None Include="Content\font\fontawesome-webfont.ttf" />
+    <None Include="Content\font\fontawesome-webfont.woff" />
+    <None Include="Content\font\FontAwesome.otf" />
     <None Include="Content\img\Thumbs.db" />
     <Content Include="Views\Shared\_LayoutDetailAdmin.cshtml" />
     <Content Include="Views\Home\Test.cshtml" />
