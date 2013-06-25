@@ -8,8 +8,8 @@ C:\Code\CustomerProjects\SaveASpot\SaveASpot\bin\MongoDB.Web.pdb
 C:\Code\CustomerProjects\SaveASpot\SaveASpot\bin\EntityFramework.xml
 C:\Code\CustomerProjects\SaveASpot\SaveASpot\bin\MongoDB.Bson.xml
 C:\Code\CustomerProjects\SaveASpot\SaveASpot\bin\MongoDB.Driver.xml
-C:\Code\CustomerProjects\SaveASpot\SaveASpot\obj\Debug\ResolveAssemblyReference.cache
 C:\Code\CustomerProjects\SaveASpot\SaveASpot\obj\Debug\SaveASpot.dll
 C:\Code\CustomerProjects\SaveASpot\SaveASpot\obj\Debug\SaveASpot.pdb
 C:\Code\CustomerProjects\SaveASpot\SaveASpot\bin\SaveASpot.Data.dll
 C:\Code\CustomerProjects\SaveASpot\SaveASpot\bin\SaveASpot.Data.pdb
+C:\Code\CustomerProjects\SaveASpot\SaveASpot\obj\Debug\SaveASpot.csprojResolveAssemblyReference.cache

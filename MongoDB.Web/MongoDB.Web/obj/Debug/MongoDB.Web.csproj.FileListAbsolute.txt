@@ -13,6 +13,6 @@ C:\Code\CustomerProjects\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Debug\MongoDB.Bso
 C:\Code\CustomerProjects\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Debug\MongoDB.Driver.dll
 C:\Code\CustomerProjects\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Debug\MongoDB.Bson.xml
 C:\Code\CustomerProjects\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Debug\MongoDB.Driver.xml
-C:\Code\CustomerProjects\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Debug\ResolveAssemblyReference.cache
 C:\Code\CustomerProjects\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Debug\MongoDB.Web.dll
 C:\Code\CustomerProjects\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Debug\MongoDB.Web.pdb
+C:\Code\CustomerProjects\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Debug\MongoDB.Web.csprojResolveAssemblyReference.cache
