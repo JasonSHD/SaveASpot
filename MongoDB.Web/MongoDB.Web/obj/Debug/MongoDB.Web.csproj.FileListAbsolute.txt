@@ -16,3 +16,12 @@ C:\Code\CustomerProjects\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Debug\MongoDB.Dri
 C:\Code\CustomerProjects\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Debug\MongoDB.Web.dll
 C:\Code\CustomerProjects\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Debug\MongoDB.Web.pdb
 C:\Code\CustomerProjects\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Debug\MongoDB.Web.csprojResolveAssemblyReference.cache
+G:\MyDoc\_VisualSD\alverden\Save_a_Spot\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Debug\MongoDB.Web.dll
+G:\MyDoc\_VisualSD\alverden\Save_a_Spot\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Debug\MongoDB.Web.pdb
+G:\MyDoc\_VisualSD\alverden\Save_a_Spot\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Debug\MongoDB.Bson.dll
+G:\MyDoc\_VisualSD\alverden\Save_a_Spot\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Debug\MongoDB.Driver.dll
+G:\MyDoc\_VisualSD\alverden\Save_a_Spot\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Debug\MongoDB.Bson.xml
+G:\MyDoc\_VisualSD\alverden\Save_a_Spot\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Debug\MongoDB.Driver.xml
+G:\MyDoc\_VisualSD\alverden\Save_a_Spot\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Debug\MongoDB.Web.csprojResolveAssemblyReference.cache
+G:\MyDoc\_VisualSD\alverden\Save_a_Spot\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Debug\MongoDB.Web.dll
+G:\MyDoc\_VisualSD\alverden\Save_a_Spot\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Debug\MongoDB.Web.pdb
