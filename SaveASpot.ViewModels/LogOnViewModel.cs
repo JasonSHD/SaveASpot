@@ -2,7 +2,7 @@
 
 namespace SaveASpot.ViewModels
 {
-	public sealed class LogOnModel
+	public sealed class LogOnViewModel
 	{
 		[Required]
 		[Display(Name = "User name")]
