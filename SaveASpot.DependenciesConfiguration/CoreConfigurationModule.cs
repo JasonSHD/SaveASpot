@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using Ninject;
 using SaveASpot.Core.Web.Mvc;
 
 namespace SaveASpot.DependenciesConfiguration
@@ -8,7 +7,6 @@ namespace SaveASpot.DependenciesConfiguration
 	{
 		public override void Load()
 		{
-			Bind<IKernel>().ToConstant(Kernel);
 			Bind<IControllerFactory>().To<ControllerFactory>();
 		}
 	}
