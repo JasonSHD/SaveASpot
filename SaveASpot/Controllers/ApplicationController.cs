@@ -280,6 +280,5 @@ namespace SaveASpot.Controllers
         }
 
         #endregion
-
     }
 }

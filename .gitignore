@@ -1,10 +1,11 @@
 # Compiled source #
 ###################
-*.dll
-*.exe
+obj/
+bin/
 # Temporary files #
 ###################
 *.user
+*.suo
 # Resharper folders #
 ###################
 _ReSharper.SaveASpot
