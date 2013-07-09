@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7575380F-C10B-45F0-9FA5-5BC4DB6C1340}</ProjectGuid>
+    <ProjectGuid>{ACEB4518-171F-4FE4-AE03-1C11E638E639}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SaveASpot.Repositories</RootNamespace>
-    <AssemblyName>SaveASpot.Repositories</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>SaveASpot.DependenciesConfiguration</RootNamespace>
+    <AssemblyName>SaveASpot.DependenciesConfiguration</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,8 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -39,7 +44,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoreConfigurationModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SaveASpot.Core\SaveASpot.Core.csproj">
+      <Project>{3689bdf8-2cbc-4583-b109-1b5163c97b53}</Project>
+      <Name>SaveASpot.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SaveASpot.Repositories\SaveASpot.Repositories.csproj">
+      <Project>{7575380f-c10b-45f0-9fa5-5bc4db6c1340}</Project>
+      <Name>SaveASpot.Repositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SaveASpot.Services\SaveASpot.Services.csproj">
+      <Project>{eb67b128-7362-4c82-9116-faada938ed64}</Project>
+      <Name>SaveASpot.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
