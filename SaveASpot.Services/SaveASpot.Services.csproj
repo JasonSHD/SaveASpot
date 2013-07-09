@@ -39,7 +39,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\Controllers\IAccountControllerService.cs" />
+    <Compile Include="Interfaces\Security\IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Implementations\Controllers\" />
+    <Folder Include="Implementations\Security\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SaveASpot.Core\SaveASpot.Core.csproj">
+      <Project>{3689bdf8-2cbc-4583-b109-1b5163c97b53}</Project>
+      <Name>SaveASpot.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SaveASpot.ViewModels\SaveASpot.ViewModels.csproj">
+      <Project>{a12b5d26-3f9d-4a4c-a374-98cc8b3d64ba}</Project>
+      <Name>SaveASpot.ViewModels</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
