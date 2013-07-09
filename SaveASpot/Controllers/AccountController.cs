@@ -1,13 +1,12 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Security;
-using SaveASpot.Models;
+using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.ViewModels;
 
 namespace SaveASpot.Controllers
 {
-	public class AccountController : ApplicationController
+	public class AccountController : BaseController
 	{
 		private readonly IAccountControllerService _accountControllerService;
 
@@ -26,23 +25,13 @@ namespace SaveASpot.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				if (Membership.ValidateUser(viewModel.UserName, viewModel.Password))
+				var logOnResult = _accountControllerService.LogOn(viewModel);
+
+				if (logOnResult.IsSuccess)
 				{
-					FormsAuthentication.SetAuthCookie(viewModel.UserName, viewModel.RememberMe);
-					if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-							&& !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-					{
-						return Redirect(returnUrl);
-					}
-					else
-					{
-						return RedirectToAction("Index", "Home");
-					}
+					return RedirectToAction("Index", "Home");
 				}
-				else
-				{
-					ModelState.AddModelError("", "The user name or password provided is incorrect.");
-				}
+				ModelState.AddModelError("", logOnResult.Status.Message);
 			}
 
 			// If we got this far, something failed, redisplay form
@@ -62,27 +51,36 @@ namespace SaveASpot.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Register(RegisterModel model)
+		public ActionResult Register(RegisterViewModel viewModel)
 		{
 			if (ModelState.IsValid)
 			{
 				// Attempt to register the user
-				MembershipCreateStatus createStatus;
-				Membership.CreateUser(model.UserName, model.Password, model.Email, null, null, true, null, out createStatus);
+				//MembershipCreateStatus createStatus;
+				//Membership.CreateUser(viewModel.UserName, viewModel.Password, viewModel.Email, null, null, true, null, out createStatus);
 
-				if (createStatus == MembershipCreateStatus.Success)
+				//if (createStatus == MembershipCreateStatus.Success)
+				//{
+				//	FormsAuthentication.SetAuthCookie(viewModel.UserName, false /* createPersistentCookie */);
+				//	return RedirectToAction("Index", "Home");
+				//}
+				//else
+				//{
+				//	ModelState.AddModelError("", ErrorCodeToString(createStatus));
+				//}
+
+				var registerResult = _accountControllerService.RegisterUser(viewModel);
+
+				if (registerResult.IsSuccess)
 				{
-					FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
 					return RedirectToAction("Index", "Home");
 				}
-				else
-				{
-					ModelState.AddModelError("", ErrorCodeToString(createStatus));
-				}
+
+				ModelState.AddModelError("", registerResult.Status.Message);
 			}
 
 			// If we got this far, something failed, redisplay form
-			return View(model);
+			return View(viewModel);
 		}
 
 		[Authorize]
@@ -93,32 +91,18 @@ namespace SaveASpot.Controllers
 
 		[Authorize]
 		[HttpPost]
-		public ActionResult ChangePassword(ChangePasswordModel model)
+		public ActionResult ChangePassword(ChangePasswordViewModel model)
 		{
 			if (ModelState.IsValid)
 			{
+				var changePasswordResult = _accountControllerService.ChangePassword(model);
 
-				// ChangePassword will throw an exception rather
-				// than return false in certain failure scenarios.
-				bool changePasswordSucceeded;
-				try
-				{
-					MembershipUser currentUser = Membership.GetUser(User.Identity.Name, true /* userIsOnline */);
-					changePasswordSucceeded = currentUser.ChangePassword(model.OldPassword, model.NewPassword);
-				}
-				catch (Exception)
-				{
-					changePasswordSucceeded = false;
-				}
-
-				if (changePasswordSucceeded)
+				if (changePasswordResult.IsSuccess)
 				{
 					return RedirectToAction("ChangePasswordSuccess");
 				}
-				else
-				{
-					ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
-				}
+
+				ModelState.AddModelError("", changePasswordResult.Status.Message);
 			}
 
 			// If we got this far, something failed, redisplay form

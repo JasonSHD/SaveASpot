@@ -1,11 +1,12 @@
 ﻿using SaveASpot.Core;
-using SaveASpot.Services.Interfaces.Security;
 using SaveASpot.ViewModels;
 
 namespace SaveASpot.Services.Interfaces.Controllers
 {
 	public interface IAccountControllerService
 	{
-		IMethodResult<CreateUserResult> LogOn(LogOnViewModel logOnViewModel);
+		IMethodResult<MessageResult> LogOn(LogOnViewModel logOnViewModel);
+		IMethodResult<MessageResult> RegisterUser(RegisterViewModel registerViewModel);
+		IMethodResult<MessageResult> ChangePassword(ChangePasswordViewModel changePasswordViewModel);
 	}
 }

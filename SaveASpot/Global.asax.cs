@@ -16,6 +16,8 @@ namespace SaveASpot
 		{
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+			routes.MapRoute("LogOn", "logon", new { controller = "Account", action = "LogOn" });
+
 			routes.MapRoute(
 					"Default", // Route name
 					"{controller}/{action}/{id}", // URL with parameters
@@ -26,7 +28,7 @@ namespace SaveASpot
 
 		protected void Application_Start()
 		{
-			var kernel = new StandardKernel(new CoreConfigurationModule());
+			var kernel = new StandardKernel(new CoreConfigurationModule(), new ServicesConfigurationModule());
 
 			ControllerBuilder.Current.SetControllerFactory(kernel.Get<IControllerFactory>());
 
