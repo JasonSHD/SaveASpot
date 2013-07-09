@@ -5,8 +5,9 @@ namespace SaveASpot.Services.Interfaces.Security
 {
 	public interface IUserService
 	{
-		IMethodResult<CreateUserResult> CreateUser(LogOnViewModel logOnViewModel);
+		IMethodResult<UserExistsResult> UserExists(string username, string password);
+		IMethodResult<CreateUserResult> CreateUser(UserArg userArg);
+		IMethodResult<MessageResult> ChangePassword(string username, string newPassword);
+		UserViewModel GetUserById(string id);
 	}
-
-	public sealed class CreateUserResult { }
 }

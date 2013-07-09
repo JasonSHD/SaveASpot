@@ -15,6 +15,8 @@ namespace SaveASpot.Core.Web.Mvc
 
 		protected override IController GetControllerInstance(RequestContext requestContext, System.Type controllerType)
 		{
+			if (controllerType == null) return null;
+
 			return (IController)_kernel.Get(controllerType);
 		}
 	}

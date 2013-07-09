@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,23 +42,49 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implementations\Controllers\AccountControllerService.cs" />
+    <Compile Include="Implementations\CurrentUser.cs" />
+    <Compile Include="Implementations\Security\UserHarvester.cs" />
+    <Compile Include="Implementations\Security\UserService.cs" />
+    <Compile Include="Implementations\TextService.cs" />
+    <Compile Include="Implementations\Validators\Security\UserValidateFactory.cs" />
     <Compile Include="Interfaces\Controllers\IAccountControllerService.cs" />
+    <Compile Include="Interfaces\ICurrentUser.cs" />
+    <Compile Include="Interfaces\ITextService.cs" />
+    <Compile Include="Interfaces\Security\IUserValidateFactory.cs" />
+    <Compile Include="Interfaces\Security\UserArg.cs" />
+    <Compile Include="Interfaces\Security\CreateUserResult.cs" />
+    <Compile Include="Interfaces\Security\IUserHarvester.cs" />
     <Compile Include="Interfaces\Security\IUserService.cs" />
+    <Compile Include="Interfaces\Security\UserExistsResult.cs" />
+    <Compile Include="Interfaces\Security\UserValidatorResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Implementations\Security\" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SaveASpot.Core\SaveASpot.Core.csproj">
       <Project>{3689bdf8-2cbc-4583-b109-1b5163c97b53}</Project>
       <Name>SaveASpot.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SaveASpot.Repositories\SaveASpot.Repositories.csproj">
+      <Project>{7575380f-c10b-45f0-9fa5-5bc4db6c1340}</Project>
+      <Name>SaveASpot.Repositories</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SaveASpot.ViewModels\SaveASpot.ViewModels.csproj">
       <Project>{a12b5d26-3f9d-4a4c-a374-98cc8b3d64ba}</Project>
       <Name>SaveASpot.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

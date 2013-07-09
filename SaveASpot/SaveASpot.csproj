@@ -14,7 +14,7 @@
     <RootNamespace>SaveASpot</RootNamespace>
     <AssemblyName>SaveASpot</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <MvcBuildViews>false</MvcBuildViews>
+    <MvcBuildViews>true</MvcBuildViews>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>4.0</OldToolsVersion>
@@ -310,6 +310,10 @@
     <ProjectReference Include="..\MongoDB.Web\MongoDB.Web\MongoDB.Web.csproj">
       <Project>{90BB8808-E091-463D-AAFD-5134183BDCF7}</Project>
       <Name>MongoDB.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SaveASpot.Core\SaveASpot.Core.csproj">
+      <Project>{3689bdf8-2cbc-4583-b109-1b5163c97b53}</Project>
+      <Name>SaveASpot.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SaveASpot.Data\SaveASpot.Data.csproj">
       <Project>{1154793E-59E7-4AB8-AD84-2B5640321584}</Project>

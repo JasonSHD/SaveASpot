@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using SaveASpot.Core.Web;
 using SaveASpot.Core.Web.Mvc;
 
 namespace SaveASpot.DependenciesConfiguration
@@ -8,6 +9,7 @@ namespace SaveASpot.DependenciesConfiguration
 		public override void Load()
 		{
 			Bind<IControllerFactory>().To<ControllerFactory>();
+			Bind<IWebAuthentication>().To<WebAuthentication>();
 		}
 	}
 }
