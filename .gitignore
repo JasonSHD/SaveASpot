@@ -5,6 +5,7 @@
 # Temporary files #
 ###################
 *.user
+*.suo
 # Resharper folders #
 ###################
 _ReSharper.SaveASpot
