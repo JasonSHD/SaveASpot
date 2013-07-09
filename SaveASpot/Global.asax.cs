@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
 using Ninject;
+using SaveASpot.DependenciesConfiguration;
 
 namespace SaveASpot
 {
@@ -25,7 +26,7 @@ namespace SaveASpot
 
 		protected void Application_Start()
 		{
-			var kernel = new StandardKernel(new global::SaveASpot.DependenciesConfiguration.CoreConfigurationModule());
+			var kernel = new StandardKernel(new CoreConfigurationModule());
 
 			ControllerBuilder.Current.SetControllerFactory(kernel.Get<IControllerFactory>());
 
