@@ -1,7 +1,7 @@
 # Compiled source #
 ###################
-*.dll
-*.exe
+obj/
+bin/
 # Temporary files #
 ###################
 *.user
