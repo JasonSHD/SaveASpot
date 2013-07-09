@@ -6,6 +6,6 @@ namespace SaveASpot.Services.Interfaces.Controllers
 {
 	public interface IAccountControllerService
 	{
-		IMethodResult<CreateUserResult> LogOn(LogOnModel logOnModel);
+		IMethodResult<CreateUserResult> LogOn(LogOnViewModel logOnViewModel);
 	}
 }
