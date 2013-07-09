@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4281BCD7-37ED-4348-A14A-B2FFBE918DA9}</ProjectGuid>
+    <ProjectGuid>{A12B5D26-3F9D-4A4C-A374-98CC8B3D64BA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestsSaveASpot</RootNamespace>
-    <AssemblyName>TestsSaveASpot</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>SaveASpot.ViewModels</RootNamespace>
+    <AssemblyName>SaveASpot.ViewModels</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,13 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ninject">
-      <HintPath>..\..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -45,25 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\MethodResultTests.cs" />
+    <Compile Include="LogOnModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\SaveASpot.Core\SaveASpot.Core.csproj">
-      <Project>{3689bdf8-2cbc-4583-b109-1b5163c97b53}</Project>
-      <Name>SaveASpot.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SaveASpot.Services\SaveASpot.Services.csproj">
-      <Project>{eb67b128-7362-4c82-9116-faada938ed64}</Project>
-      <Name>SaveASpot.Services</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SaveASpot\SaveASpot.csproj">
-      <Project>{a9bc5894-1b38-4c61-88a7-c5dd0f7a8a77}</Project>
-      <Name>SaveASpot</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

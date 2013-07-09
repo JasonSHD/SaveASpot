@@ -319,6 +319,10 @@
       <Project>{aceb4518-171f-4fe4-ae03-1c11e638e639}</Project>
       <Name>SaveASpot.DependenciesConfiguration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SaveASpot.ViewModels\SaveASpot.ViewModels.csproj">
+      <Project>{a12b5d26-3f9d-4a4c-a374-98cc8b3d64ba}</Project>
+      <Name>SaveASpot.ViewModels</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\data\GreatWestern.zip" />

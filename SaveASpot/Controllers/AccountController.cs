@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using SaveASpot.Models;
+using SaveASpot.ViewModels;
 
 namespace SaveASpot.Controllers
 {

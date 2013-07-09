@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaveASpot.Repositories", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaveASpot.DependenciesConfiguration", "SaveASpot.DependenciesConfiguration\SaveASpot.DependenciesConfiguration.csproj", "{ACEB4518-171F-4FE4-AE03-1C11E638E639}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaveASpot.ViewModels", "SaveASpot.ViewModels\SaveASpot.ViewModels.csproj", "{A12B5D26-3F9D-4A4C-A374-98CC8B3D64BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,12 @@ Global
 		{ACEB4518-171F-4FE4-AE03-1C11E638E639}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ACEB4518-171F-4FE4-AE03-1C11E638E639}.Staging|Any CPU.ActiveCfg = Release|Any CPU
 		{ACEB4518-171F-4FE4-AE03-1C11E638E639}.Staging|Any CPU.Build.0 = Release|Any CPU
+		{A12B5D26-3F9D-4A4C-A374-98CC8B3D64BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A12B5D26-3F9D-4A4C-A374-98CC8B3D64BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A12B5D26-3F9D-4A4C-A374-98CC8B3D64BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A12B5D26-3F9D-4A4C-A374-98CC8B3D64BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A12B5D26-3F9D-4A4C-A374-98CC8B3D64BA}.Staging|Any CPU.ActiveCfg = Release|Any CPU
+		{A12B5D26-3F9D-4A4C-A374-98CC8B3D64BA}.Staging|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
