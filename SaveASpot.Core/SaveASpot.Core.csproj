@@ -38,6 +38,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,7 +58,10 @@
     <Compile Include="ValidationResult.cs" />
     <Compile Include="Web\IWebAuthentication.cs" />
     <Compile Include="Web\Mvc\BaseController.cs" />
+    <Compile Include="Web\Mvc\BaseViewPage.cs" />
     <Compile Include="Web\Mvc\ControllerFactory.cs" />
+    <Compile Include="Web\Mvc\ViewConfiguration.cs" />
+    <Compile Include="Web\Mvc\ViewPageInitializer.cs" />
     <Compile Include="Web\WebAuthentication.cs" />
   </ItemGroup>
   <ItemGroup>
