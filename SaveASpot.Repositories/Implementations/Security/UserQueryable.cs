@@ -30,9 +30,13 @@ namespace SaveASpot.Repositories.Implementations.Security
 
 		public IUserFilter FilterById(string identity)
 		{
-			var objectId = ObjectId.Parse(identity);
+			ObjectId objectId;
+			if (ObjectId.TryParse(identity, out objectId))
+			{
+				return ToFilter(e => e.Id == objectId);
+			}
 
-			return ToFilter(e => e.Id == objectId);
+			return ToFilter(e => false);
 		}
 
 		public IUserFilter And(IUserFilter first, IUserFilter second)

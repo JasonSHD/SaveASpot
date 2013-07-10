@@ -1,7 +1,7 @@
 using System.Web;
+using SaveASpot.Core.Security;
 using SaveASpot.Services.Interfaces;
 using SaveASpot.Services.Interfaces.Security;
-using SaveASpot.ViewModels.Security;
 
 namespace SaveASpot.Services.Implementations
 {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SaveASpot.ViewModels.Security
+namespace SaveASpot.Core.Security
 {
 	public sealed class User
 	{
