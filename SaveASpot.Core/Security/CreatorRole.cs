@@ -1,4 +1,4 @@
-﻿namespace SaveASpot.ViewModels.Security
+﻿namespace SaveASpot.Core.Security
 {
 	public sealed class CreatorRole : Role
 	{

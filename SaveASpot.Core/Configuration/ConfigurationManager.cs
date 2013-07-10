@@ -4,12 +4,12 @@
 	{
 		public string GetSettings(string key)
 		{
-			throw new System.NotImplementedException();
+			return System.Configuration.ConfigurationManager.AppSettings[key];
 		}
 
 		public string GetConnectionString(string key)
 		{
-			throw new System.NotImplementedException();
+			return System.Configuration.ConfigurationManager.ConnectionStrings[key].ConnectionString;
 		}
 	}
 }

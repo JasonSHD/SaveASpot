@@ -1,5 +1,5 @@
 ﻿using SaveASpot.Core;
-using SaveASpot.ViewModels.Security;
+using SaveASpot.Core.Security;
 
 namespace SaveASpot.Services.Interfaces.Security
 {

@@ -1,3 +1,5 @@
+using SaveASpot.Repositories.Implementations;
+using SaveASpot.Repositories.Implementations.Security;
 using SaveASpot.Repositories.Interfaces.Security;
 
 namespace SaveASpot.DependenciesConfiguration
@@ -6,7 +8,10 @@ namespace SaveASpot.DependenciesConfiguration
 	{
 		public override void Load()
 		{
-			Bind<IUserRepository>().To<IUserRepository>();
+			Bind<IUserRepository>().To<UserRepository>();
+			Bind<IUserQueryable>().To<UserQueryable>();
+			Bind<IMongoDBCollectionFactory>().To<MongoDBProvider>();
+			Bind<IMongoDBConfiguration>().To<MongoDBConfiguration>();
 		}
 	}
 }

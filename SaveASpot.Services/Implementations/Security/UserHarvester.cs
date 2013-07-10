@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using SaveASpot.Core.Security;
 using SaveASpot.Repositories.Models.Security;
 using SaveASpot.Services.Interfaces.Security;
-using SaveASpot.ViewModels.Security;
 
 namespace SaveASpot.Services.Implementations.Security
 {
