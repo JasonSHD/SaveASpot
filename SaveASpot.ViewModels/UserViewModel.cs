@@ -12,5 +12,10 @@ namespace SaveASpot.ViewModels
 			_username = username;
 			_email = email;
 		}
+
+		public bool IsExists()
+		{
+			return !string.IsNullOrWhiteSpace(Username);
+		}
 	}
 }

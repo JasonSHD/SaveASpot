@@ -70,11 +70,56 @@ namespace SaveASpot.Services.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid spedified user email..
+        /// </summary>
+        internal static string InvalidUserEmail {
+            get {
+                return ResourceManager.GetString("InvalidUserEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid specified username..
+        /// </summary>
+        internal static string InvalidUserName {
+            get {
+                return ResourceManager.GetString("InvalidUserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The user name or password provided is incorrect..
         /// </summary>
         internal static string InvalidUsernameOrPassword {
             get {
                 return ResourceManager.GetString("InvalidUsernameOrPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid specified user password. Password should be greater than {0} and less than {1}..
+        /// </summary>
+        internal static string InvalidUserPassword {
+            get {
+                return ResourceManager.GetString("InvalidUserPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User with same name exists..
+        /// </summary>
+        internal static string UseExistsError {
+            get {
+                return ResourceManager.GetString("UseExistsError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User is not exists..
+        /// </summary>
+        internal static string UserNotExistsError {
+            get {
+                return ResourceManager.GetString("UserNotExistsError", resourceCulture);
             }
         }
     }

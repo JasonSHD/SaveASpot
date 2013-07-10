@@ -46,6 +46,11 @@
     <Compile Include="Implementations\Security\UserHarvester.cs" />
     <Compile Include="Implementations\Security\UserService.cs" />
     <Compile Include="Implementations\TextService.cs" />
+    <Compile Include="Implementations\Validators\Security\PasswordValidator.cs" />
+    <Compile Include="Implementations\Validators\Security\UseNotExistsValidator.cs" />
+    <Compile Include="Implementations\Validators\Security\UserEmailValidator.cs" />
+    <Compile Include="Implementations\Validators\Security\UserExistsValidator.cs" />
+    <Compile Include="Implementations\Validators\Security\UsernameValidator.cs" />
     <Compile Include="Implementations\Validators\Security\UserValidateFactory.cs" />
     <Compile Include="Interfaces\Controllers\IAccountControllerService.cs" />
     <Compile Include="Interfaces\ICurrentUser.cs" />
