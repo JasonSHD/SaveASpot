@@ -36,7 +36,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 
 		public IMethodResult<MessageResult> RegisterUser(RegisterViewModel registerViewModel)
 		{
-			var createUserResult = _userService.CreateUser(new UserArg { Email = registerViewModel.Email, Password = registerViewModel.Password, Username = registerViewModel.Password });
+			var createUserResult = _userService.CreateUser(new UserArg { Email = registerViewModel.Email, Password = registerViewModel.Password, Username = registerViewModel.UserName });
 
 			return new MessageMethodResult(createUserResult.IsSuccess, _textService.ResolveTest(createUserResult.Status.MessageKet));
 		}
