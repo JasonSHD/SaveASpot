@@ -13,18 +13,20 @@ namespace SaveASpot.Services.Implementations.Security
 		private readonly IUserRepository _userRepository;
 		private readonly IUserHarvester _userHarvester;
 		private readonly IUserQueryable _userQueryable;
+		private readonly IPasswordHash _passwordHash;
 
-		public UserService(IUserValidateFactory userValidateFactory, IUserRepository userRepository, IUserHarvester userHarvester, IUserQueryable userQueryable)
+		public UserService(IUserValidateFactory userValidateFactory, IUserRepository userRepository, IUserHarvester userHarvester, IUserQueryable userQueryable, IPasswordHash passwordHash)
 		{
 			_userValidateFactory = userValidateFactory;
 			_userRepository = userRepository;
 			_userHarvester = userHarvester;
 			_userQueryable = userQueryable;
+			_passwordHash = passwordHash;
 		}
 
 		public IMethodResult<UserExistsResult> UserExists(string username, string password)
 		{
-			var userFilter = _userQueryable.And(_userQueryable.FilterByName(username), _userQueryable.FiltreByPassword(password));
+			var userFilter = _userQueryable.And(_userQueryable.FilterByName(username), _userQueryable.FiltreByPassword(_passwordHash.GetHash(password, username)));
 			var users = _userQueryable.FindUsers(userFilter).ToList();
 
 			if (users.Any())
@@ -50,8 +52,9 @@ namespace SaveASpot.Services.Implementations.Security
 					_userRepository.CreateUser(new UserEntity
 																			 {
 																				 Email = userArg.Email,
-																				 Password = userArg.Password,
-																				 Username = userArg.Username
+																				 Password = _passwordHash.GetHash(userArg.Password, userArg.Username),
+																				 Username = userArg.Username,
+																				 Roles = new string[0]
 																			 });
 
 				return new MethodResult<CreateUserResult>(true, new CreateUserResult { UserId = user.Identity });

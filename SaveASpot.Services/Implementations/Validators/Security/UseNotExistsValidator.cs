@@ -16,9 +16,9 @@ namespace SaveASpot.Services.Implementations.Validators.Security
 
 		public IValidationResult Validate(UserArg input)
 		{
-			var userExists = !_userQueryable.FindUsers(_userQueryable.FilterByName(input.Username)).Any();
+			var userExists = _userQueryable.FindUsers(_userQueryable.FilterByName(input.Username)).Any();
 
-			return userExists ? new ValidationResult(false, "UseExistsError") : new ValidationResult(true, string.Empty);
+			return userExists ? new ValidationResult(false, "UserExistsError") : new ValidationResult(true, string.Empty);
 		}
 	}
 }
