@@ -15,10 +15,5 @@ namespace SaveASpot.Repositories.Implementations.Security
 		{
 			throw new System.NotImplementedException();
 		}
-
-		public IEnumerable<User> FindUsers(IUserFilter userFilter)
-		{
-			throw new System.NotImplementedException();
-		}
 	}
 }

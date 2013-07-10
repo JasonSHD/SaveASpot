@@ -15,7 +15,7 @@ namespace SaveASpot.ViewModels
 		public string Email { get; set; }
 
 		[Required]
-		[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+		[StringLength(PasswordMaxLength, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = PasswordMinLength)]
 		[DataType(DataType.Password)]
 		[Display(Name = "Password")]
 		public string Password { get; set; }
@@ -24,5 +24,8 @@ namespace SaveASpot.ViewModels
 		[Display(Name = "Confirm password")]
 		[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
 		public string ConfirmPassword { get; set; }
+
+		public const int PasswordMinLength = 6;
+		public const int PasswordMaxLength = 100;
 	}
 }

@@ -120,7 +120,22 @@
   <data name="InvalidOldOrNewPassword" xml:space="preserve">
     <value>The current password is incorrect or the new password is invalid.</value>
   </data>
+  <data name="InvalidUserEmail" xml:space="preserve">
+    <value>Invalid spedified user email.</value>
+  </data>
+  <data name="InvalidUserName" xml:space="preserve">
+    <value>Invalid specified username.</value>
+  </data>
   <data name="InvalidUsernameOrPassword" xml:space="preserve">
     <value>The user name or password provided is incorrect.</value>
+  </data>
+  <data name="InvalidUserPassword" xml:space="preserve">
+    <value>Invalid specified user password. Password should be greater than {0} and less than {1}.</value>
+  </data>
+  <data name="UseExistsError" xml:space="preserve">
+    <value>User with same name exists.</value>
+  </data>
+  <data name="UserNotExistsError" xml:space="preserve">
+    <value>User is not exists.</value>
   </data>
 </root>

@@ -15,5 +15,10 @@ namespace SaveASpot.Services.Implementations.Security
 		{
 			return new UserViewModel(string.Empty, string.Empty);
 		}
+
+		public UserViewModel NotExists()
+		{
+			return new UserViewModel(string.Empty, string.Empty);
+		}
 	}
 }

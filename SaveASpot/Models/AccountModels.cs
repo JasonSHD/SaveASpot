@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 using System.Web.Security;
+using SaveASpot.ViewModels;
 
 namespace SaveASpot.Models
 {
@@ -9,7 +9,7 @@ namespace SaveASpot.Models
 	public sealed class EmailAttribute : RegularExpressionAttribute
 	{
 		private const string _defaultErrorMessage = "'{0}' must be a valid email.";
-		public EmailAttribute() : base(@"^(?("")("".+?""@)|(([0-9a-zA-Z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-zA-Z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,6}))$") { }
+		public EmailAttribute() : base(Constants.EmailRegularExpression) { }
 
 		public override string FormatErrorMessage(string name)
 		{

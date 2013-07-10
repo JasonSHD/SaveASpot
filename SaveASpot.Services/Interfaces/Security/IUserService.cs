@@ -9,5 +9,6 @@ namespace SaveASpot.Services.Interfaces.Security
 		IMethodResult<CreateUserResult> CreateUser(UserArg userArg);
 		IMethodResult<MessageResult> ChangePassword(string username, string newPassword);
 		UserViewModel GetUserById(string id);
+		UserViewModel GetUserByName(string username);
 	}
 }

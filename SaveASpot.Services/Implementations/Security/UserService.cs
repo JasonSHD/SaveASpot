@@ -87,7 +87,14 @@ namespace SaveASpot.Services.Implementations.Security
 				return _userHarvester.Convert(users.First());
 			}
 
-			return _userHarvester.Anonyms();
+			return _userHarvester.NotExists();
+		}
+
+		public UserViewModel GetUserByName(string username)
+		{
+			var users = _userQueryable.FindUsers(_userQueryable.FilterByName(username)).ToList();
+
+			return users.Any() ? _userHarvester.Convert(users.First()) : _userHarvester.NotExists();
 		}
 	}
 }

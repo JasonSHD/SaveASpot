@@ -5,29 +5,36 @@ namespace SaveASpot.Services.Implementations.Validators.Security
 {
 	public sealed class UserValidateFactory : IUserValidateFactory
 	{
+		private readonly IUserService _userService;
+
+		public UserValidateFactory(IUserService userService)
+		{
+			_userService = userService;
+		}
+
 		public IValidator<UserArg> UserExistsValidator()
 		{
-			throw new System.NotImplementedException();
+			return new UserExistsValidator(_userService);
 		}
 
 		public IValidator<UserArg> UserNotExistsValidator()
 		{
-			throw new System.NotImplementedException();
+			return new UseNotExistsValidator(_userService);
 		}
 
 		public IValidator<UserArg> UserNameValidator()
 		{
-			throw new System.NotImplementedException();
+			return new UsernameValidator();
 		}
 
 		public IValidator<UserArg> PasswordValidator()
 		{
-			throw new System.NotImplementedException();
+			return new PasswordValidator();
 		}
 
 		public IValidator<UserArg> EmailValidator()
 		{
-			throw new System.NotImplementedException();
+			return new UserEmailValidator();
 		}
 	}
 }

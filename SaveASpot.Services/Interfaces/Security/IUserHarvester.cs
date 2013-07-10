@@ -7,5 +7,6 @@ namespace SaveASpot.Services.Interfaces.Security
 	{
 		UserViewModel Convert(User user);
 		UserViewModel Anonyms();
+		UserViewModel NotExists();
 	}
 }
