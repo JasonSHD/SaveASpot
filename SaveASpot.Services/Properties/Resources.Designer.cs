@@ -106,7 +106,7 @@ namespace SaveASpot.Services.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User with same name exists..
+        ///   Looks up a localized string similar to UserEntity with same name exists..
         /// </summary>
         internal static string UseExistsError {
             get {
@@ -115,7 +115,7 @@ namespace SaveASpot.Services.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User is not exists..
+        ///   Looks up a localized string similar to UserEntity is not exists..
         /// </summary>
         internal static string UserNotExistsError {
             get {

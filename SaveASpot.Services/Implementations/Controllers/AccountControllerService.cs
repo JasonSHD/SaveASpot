@@ -43,11 +43,11 @@ namespace SaveASpot.Services.Implementations.Controllers
 
 		public IMethodResult<MessageResult> ChangePassword(ChangePasswordViewModel changePasswordViewModel)
 		{
-			var userExists = _userService.UserExists(_currentUser.User.Username, changePasswordViewModel.OldPassword);
+			var userExists = _userService.UserExists(_currentUser.User.Name, changePasswordViewModel.OldPassword);
 
 			if (userExists.IsSuccess)
 			{
-				var changePasswordResult = _userService.ChangePassword(_currentUser.User.Username,
+				var changePasswordResult = _userService.ChangePassword(_currentUser.User.Name,
 																															 changePasswordViewModel.NewPassword);
 
 				if (changePasswordResult.IsSuccess)

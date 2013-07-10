@@ -1,12 +1,11 @@
 using SaveASpot.Repositories.Models.Security;
-using SaveASpot.ViewModels;
+using SaveASpot.ViewModels.Security;
 
 namespace SaveASpot.Services.Interfaces.Security
 {
 	public interface IUserHarvester
 	{
-		UserViewModel Convert(User user);
-		UserViewModel Anonyms();
-		UserViewModel NotExists();
+		User Convert(UserEntity userEntity);
+		User NotExists();
 	}
 }

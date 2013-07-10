@@ -1,7 +1,7 @@
 using System.Web;
 using SaveASpot.Services.Interfaces;
 using SaveASpot.Services.Interfaces.Security;
-using SaveASpot.ViewModels;
+using SaveASpot.ViewModels.Security;
 
 namespace SaveASpot.Services.Implementations
 {
@@ -14,6 +14,6 @@ namespace SaveASpot.Services.Implementations
 			_userService = userService;
 		}
 
-		public UserViewModel User { get { return _userService.GetUserById(HttpContext.Current.User.Identity.Name); } }
+		public User User { get { return _userService.GetUserById(HttpContext.Current.User.Identity.Name); } }
 	}
 }

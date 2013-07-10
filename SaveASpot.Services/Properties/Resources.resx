@@ -133,9 +133,9 @@
     <value>Invalid specified user password. Password should be greater than {0} and less than {1}.</value>
   </data>
   <data name="UseExistsError" xml:space="preserve">
-    <value>User with same name exists.</value>
+    <value>UserEntity with same name exists.</value>
   </data>
   <data name="UserNotExistsError" xml:space="preserve">
-    <value>User is not exists.</value>
+    <value>UserEntity is not exists.</value>
   </data>
 </root>

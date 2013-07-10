@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AndValidator.cs" />
+    <Compile Include="Configuration\ConfigurationManager.cs" />
     <Compile Include="Configuration\IConfigurationManager.cs" />
     <Compile Include="IMethodResult.cs" />
     <Compile Include="IValidationResult.cs" />
