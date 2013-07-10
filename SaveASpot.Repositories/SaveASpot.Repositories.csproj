@@ -46,15 +46,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementations\IMongoDBCollectionFactory.cs" />
+    <Compile Include="Implementations\IMongoDBConfiguration.cs" />
+    <Compile Include="Implementations\MongoDBConfiguration.cs" />
+    <Compile Include="Implementations\MongoDBProvider.cs" />
+    <Compile Include="Implementations\Security\UserFilter.cs" />
     <Compile Include="Implementations\Security\UserQueryable.cs" />
     <Compile Include="Implementations\Security\UserRepository.cs" />
     <Compile Include="Interfaces\Security\IUserFilter.cs" />
     <Compile Include="Interfaces\Security\IUserQueryable.cs" />
     <Compile Include="Interfaces\Security\IUserRepository.cs" />
-    <Compile Include="Models\Security\User.cs" />
+    <Compile Include="Models\Security\UserEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SaveASpot.Core\SaveASpot.Core.csproj">
+      <Project>{3689bdf8-2cbc-4583-b109-1b5163c97b53}</Project>
+      <Name>SaveASpot.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

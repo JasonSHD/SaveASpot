@@ -3,7 +3,7 @@ using SaveASpot.Core;
 using SaveASpot.Repositories.Interfaces.Security;
 using SaveASpot.Repositories.Models.Security;
 using SaveASpot.Services.Interfaces.Security;
-using SaveASpot.ViewModels;
+using SaveASpot.ViewModels.Security;
 
 namespace SaveASpot.Services.Implementations.Security
 {
@@ -47,7 +47,7 @@ namespace SaveASpot.Services.Implementations.Security
 			if (validationResult.IsValid)
 			{
 				var user =
-					_userRepository.CreateUser(new User
+					_userRepository.CreateUser(new UserEntity
 																			 {
 																				 Email = userArg.Email,
 																				 Password = userArg.Password,
@@ -77,7 +77,7 @@ namespace SaveASpot.Services.Implementations.Security
 			return new MessageMethodResult(false, validationResult.Message);
 		}
 
-		public UserViewModel GetUserById(string id)
+		public User GetUserById(string id)
 		{
 			var userFilter = _userQueryable.FilterById(id);
 			var users = _userQueryable.FindUsers(userFilter).ToList();
@@ -90,7 +90,7 @@ namespace SaveASpot.Services.Implementations.Security
 			return _userHarvester.NotExists();
 		}
 
-		public UserViewModel GetUserByName(string username)
+		public User GetUserByName(string username)
 		{
 			var users = _userQueryable.FindUsers(_userQueryable.FilterByName(username)).ToList();
 

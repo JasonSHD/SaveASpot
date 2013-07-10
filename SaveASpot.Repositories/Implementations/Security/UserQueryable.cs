@@ -1,4 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using MongoDB.Bson;
+using MongoDB.Driver.Linq;
 using SaveASpot.Repositories.Interfaces.Security;
 using SaveASpot.Repositories.Models.Security;
 
@@ -6,34 +11,51 @@ namespace SaveASpot.Repositories.Implementations.Security
 {
 	public sealed class UserQueryable : IUserQueryable
 	{
+		private readonly IMongoDBCollectionFactory _mongoDBCollectionFactory;
+
+		public UserQueryable(IMongoDBCollectionFactory mongoDBCollectionFactory)
+		{
+			_mongoDBCollectionFactory = mongoDBCollectionFactory;
+		}
+
 		public IUserFilter FilterByName(string name)
 		{
-			throw new System.NotImplementedException();
+			return ToFilter(e => e.Username == name);
 		}
 
 		public IUserFilter FiltreByPassword(string password)
 		{
-			throw new System.NotImplementedException();
+			return ToFilter(e => e.Password == password);
 		}
 
 		public IUserFilter FilterById(string identity)
 		{
-			throw new System.NotImplementedException();
+			var objectId = ObjectId.Parse(identity);
+
+			return ToFilter(e => e.Id == objectId);
 		}
 
 		public IUserFilter And(IUserFilter first, IUserFilter second)
 		{
-			throw new System.NotImplementedException();
+			return new UserFilter(e => ToFilter(second).Filter(ToFilter(first).Filter(e)));
 		}
 
-		public IEnumerable<User> FindUsers(IUserFilter userFilter)
+		public IEnumerable<UserEntity> FindUsers(IUserFilter userFilter)
 		{
-			throw new System.NotImplementedException();
+			return ToFilter(userFilter).Filter(_mongoDBCollectionFactory.Collection<UserEntity>().AsQueryable());
 		}
-	}
 
-	public sealed class UserFilter : IUserFilter
-	{
+		private IUserFilter ToFilter(Expression<Func<UserEntity, bool>> expression)
+		{
+			return new UserFilter(e => e.Where(expression));
+		}
 
+		private UserFilter ToFilter(IUserFilter userFilter)
+		{
+			if (userFilter == null || userFilter.GetType() != typeof(UserFilter))
+				throw new ArgumentException();
+
+			return (UserFilter)userFilter;
+		}
 	}
 }

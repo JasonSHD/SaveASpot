@@ -1,5 +1,6 @@
 using SaveASpot.Core;
 using SaveASpot.Services.Interfaces.Security;
+using SaveASpot.ViewModels.Security;
 
 namespace SaveASpot.Services.Implementations.Validators.Security
 {
