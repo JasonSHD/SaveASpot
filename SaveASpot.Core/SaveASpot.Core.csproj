@@ -62,6 +62,7 @@
     <Compile Include="Web\Mvc\ControllerFactory.cs" />
     <Compile Include="Web\Mvc\ViewConfiguration.cs" />
     <Compile Include="Web\Mvc\ViewPageInitializer.cs" />
+    <Compile Include="Web\Mvc\ViewPageInitializerFilter.cs" />
     <Compile Include="Web\WebAuthentication.cs" />
   </ItemGroup>
   <ItemGroup>
