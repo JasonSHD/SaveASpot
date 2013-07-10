@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="Implementations\Controllers\AccountControllerService.cs" />
     <Compile Include="Implementations\CurrentUser.cs" />
+    <Compile Include="Implementations\Security\AuthorizeManager.cs" />
+    <Compile Include="Implementations\Security\RoleHarvester.cs" />
     <Compile Include="Implementations\Security\UserHarvester.cs" />
     <Compile Include="Implementations\Security\UserService.cs" />
     <Compile Include="Implementations\TextService.cs" />
@@ -55,6 +57,7 @@
     <Compile Include="Interfaces\Controllers\IAccountControllerService.cs" />
     <Compile Include="Interfaces\ICurrentUser.cs" />
     <Compile Include="Interfaces\ITextService.cs" />
+    <Compile Include="Interfaces\Security\IRoleHarvester.cs" />
     <Compile Include="Interfaces\Security\IUserValidateFactory.cs" />
     <Compile Include="Interfaces\Security\UserArg.cs" />
     <Compile Include="Interfaces\Security\CreateUserResult.cs" />

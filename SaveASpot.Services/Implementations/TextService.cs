@@ -10,7 +10,7 @@ namespace SaveASpot.Services.Implementations
 		{
 			if (string.IsNullOrWhiteSpace(key)) return string.Empty;
 
-			var resources = new ResourceManager("Resources.Strings", Assembly.GetExecutingAssembly());
+			var resources = new ResourceManager("SaveASpot.Services.Properties.Resources", Assembly.GetExecutingAssembly());
 			return resources.GetString(key);
 		}
 	}

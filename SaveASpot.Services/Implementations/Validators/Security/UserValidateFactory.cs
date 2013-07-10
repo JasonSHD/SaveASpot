@@ -1,25 +1,26 @@
 ﻿using SaveASpot.Core;
+using SaveASpot.Repositories.Interfaces.Security;
 using SaveASpot.Services.Interfaces.Security;
 
 namespace SaveASpot.Services.Implementations.Validators.Security
 {
 	public sealed class UserValidateFactory : IUserValidateFactory
 	{
-		private readonly IUserService _userService;
+		private readonly IUserQueryable _userQueryable;
 
-		public UserValidateFactory(IUserService userService)
+		public UserValidateFactory(IUserQueryable userQueryable)
 		{
-			_userService = userService;
+			_userQueryable = userQueryable;
 		}
 
 		public IValidator<UserArg> UserExistsValidator()
 		{
-			return new UserExistsValidator(_userService);
+			return new UserExistsValidator(_userQueryable);
 		}
 
 		public IValidator<UserArg> UserNotExistsValidator()
 		{
-			return new UseNotExistsValidator(_userService);
+			return new UseNotExistsValidator(_userQueryable);
 		}
 
 		public IValidator<UserArg> UserNameValidator()

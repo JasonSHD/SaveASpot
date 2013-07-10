@@ -9,6 +9,6 @@ namespace SaveASpot.Repositories.Interfaces.Security
 		IUserFilter FiltreByPassword(string password);
 		IUserFilter FilterById(string identity);
 		IUserFilter And(IUserFilter first, IUserFilter second);
-		IEnumerable<User> FindUsers(IUserFilter userFilter);
+		IEnumerable<UserEntity> FindUsers(IUserFilter userFilter);
 	}
 }

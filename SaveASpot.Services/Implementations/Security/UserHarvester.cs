@@ -1,24 +1,28 @@
+using System.Collections.Generic;
+using System.Linq;
+using SaveASpot.Core.Security;
 using SaveASpot.Repositories.Models.Security;
 using SaveASpot.Services.Interfaces.Security;
-using SaveASpot.ViewModels;
 
 namespace SaveASpot.Services.Implementations.Security
 {
 	public sealed class UserHarvester : IUserHarvester
 	{
-		public UserViewModel Convert(User user)
+		private readonly IEnumerable<Role> _roles;
+
+		public UserHarvester()
 		{
-			return new UserViewModel(user.Username, user.Email);
+			_roles = new Role[] { new AdministratorRole(), new CreatorRole() };
 		}
 
-		public UserViewModel Anonyms()
+		public User Convert(UserEntity userEntity)
 		{
-			return new UserViewModel(string.Empty, string.Empty);
+			return new User(userEntity.Identity, userEntity.Username, userEntity.Email, userEntity.Roles.Select(e => _roles.First(r => r.Identity == e)));
 		}
 
-		public UserViewModel NotExists()
+		public User NotExists()
 		{
-			return new UserViewModel(string.Empty, string.Empty);
+			return new User(string.Empty, string.Empty, string.Empty, new Role[0]);
 		}
 	}
 }

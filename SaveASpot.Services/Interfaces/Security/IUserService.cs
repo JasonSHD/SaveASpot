@@ -1,5 +1,5 @@
 ﻿using SaveASpot.Core;
-using SaveASpot.ViewModels;
+using SaveASpot.Core.Security;
 
 namespace SaveASpot.Services.Interfaces.Security
 {
@@ -8,7 +8,7 @@ namespace SaveASpot.Services.Interfaces.Security
 		IMethodResult<UserExistsResult> UserExists(string username, string password);
 		IMethodResult<CreateUserResult> CreateUser(UserArg userArg);
 		IMethodResult<MessageResult> ChangePassword(string username, string newPassword);
-		UserViewModel GetUserById(string id);
-		UserViewModel GetUserByName(string username);
+		User GetUserById(string id);
+		User GetUserByName(string username);
 	}
 }

@@ -1,9 +1,9 @@
-﻿using SaveASpot.ViewModels;
+﻿using SaveASpot.Core.Security;
 
 namespace SaveASpot.Services.Interfaces
 {
 	public interface ICurrentUser
 	{
-		UserViewModel User { get; }
+		User User { get; }
 	}
 }

@@ -13,7 +13,7 @@ namespace SaveASpot.Core.Web.Mvc
 
 		public void Initialize<TModel>(BaseViewPage<TModel> viewPage)
 		{
-			viewPage.ViewConfiguration = new ViewConfiguration(true);
+			viewPage.ViewConfiguration = new ViewConfiguration(_configurationManager.GetSettings("UserMinimizedScripts") != "false");
 		}
 
 		public static void SetInitializer(dynamic viewBag, ViewPageInitializer viewPageInitializer)
