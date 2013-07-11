@@ -31,6 +31,7 @@ namespace SaveASpot
 		{
 			var kernel = new StandardKernel(new CoreConfigurationModule(), new ServicesConfigurationModule(), new RepositoriesConfigurationModule());
 			GlobalFilters.Filters.Add(kernel.Get<MvcAuthorizeFilter>());
+			GlobalFilters.Filters.Add(kernel.Get<ViewPageInitializerFilter>());
 
 			ControllerBuilder.Current.SetControllerFactory(kernel.Get<IControllerFactory>());
 
