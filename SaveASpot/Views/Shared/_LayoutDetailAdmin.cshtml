@@ -33,7 +33,12 @@
 
 	<!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+	<![endif]-->
+
+	<script>
+		@*See "SaveASpot\SaveASpot\Scripts\js\saveaspot.initscript.js"*@
+		(function () { var a = []; window.q = function (c, b) { if (b === undefined && c === undefined) { return window.q } if (b == undefined && typeof c === "function") { b = c; c = undefined } if (window.q.init == undefined) { a.push({ filter: c, handler: b }) } return window.q }; window.q.ready = function (b) { window.q(b); return window.q }; window.q.readyCollection = function () { return a } })();
+	</script>
 </head>
 <body>
 
@@ -127,7 +132,8 @@
 		<script src="@Url.Content("~/Scripts/js/bootstrap.min.js")" type="text/javascript"></script>
 		<script src="@Url.Content("~/Scripts/js/theme.js")" type="text/javascript"></script>
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCw9fP5c4kc5MiZBvUzLiMc8tY00BU4_i4&sensor=true" type="text/javascript"></script>
-		@*<script src="@Url.Content("~/Scripts/js/map.js")" type="text/javascript"></script>*@
+@*<script src="@Url.Content("~/Scripts/js/map.js")" type="text/javascript"></script>*@
+		<script src="@Url.Content("~/Scripts/js/saveaspot.js")" type="text/javascript"></script>
  }
  else
  {
@@ -135,7 +141,8 @@
 		<script src="@Url.Content("~/Scripts/js/bootstrap.js")" type="text/javascript"></script>
 		<script src="@Url.Content("~/Scripts/js/theme.js")" type="text/javascript"></script>
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCw9fP5c4kc5MiZBvUzLiMc8tY00BU4_i4&sensor=true" type="text/javascript"></script>
-		@*<script src="@Url.Content("~/Scripts/js/map.js")" type="text/javascript"></script>*@
+@*<script src="@Url.Content("~/Scripts/js/map.js")" type="text/javascript"></script>*@
+		<script src="@Url.Content("~/Scripts/js/saveaspot.js")" type="text/javascript"></script>
  }
 	<!-- end this page scripts -->
 

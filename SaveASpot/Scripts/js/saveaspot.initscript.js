@@ -1,8 +1,17 @@
 ﻿(function () {
 	var documentReadyCollection = [];
-	window.q = function (handler) {
+	window.q = function (filter, handler) {
+		if(handler === undefined && filter === undefined){
+			return window.q;
+		}
+	
+		if(handler == undefined && typeof filter === "function"){
+			handler = filter;
+			filter = undefined;
+		}
+		
 		if (window.q.init == undefined) {
-			documentReadyCollection.push(handler);
+			documentReadyCollection.push({filter: filter, handler: handler});
 		}
 
 		return window.q;
@@ -20,4 +29,4 @@
 })();
 
 
-////compressed: (function(){var a=[];window.m=function(b){if(window.m.init==undefined){a.push(b)}return window.m};window.m.ready=function(b){window.m(b);return window.m};window.m.readyCollection=function(){return a}})();
+////compressed: (function(){var a=[];window.q=function(c,b){if(b===undefined&&c===undefined){return window.q}if(b==undefined&&typeof c==="function"){b=c;c=undefined}if(window.q.init==undefined){a.push({filter:c,handler:b})}return window.q};window.q.ready=function(b){window.q(b);return window.q};window.q.readyCollection=function(){return a}})();
