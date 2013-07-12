@@ -101,12 +101,5 @@ namespace SaveASpot.Controllers
 		}
 	}
 
-	[AdministratorAuthorize]
-	public sealed class TestController : BaseController
-	{
-		public ActionResult Index()
-		{
-			return Json(new { result = true }, JsonRequestBehavior.AllowGet);
-		}
-	}
+	
 }

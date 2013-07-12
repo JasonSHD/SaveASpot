@@ -34,14 +34,12 @@
 	<!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-
+</head>
+<body>
 	<script>
 		@*See "SaveASpot\SaveASpot\Scripts\js\saveaspot.initscript.js"*@
 		(function () { var a = []; window.q = function (c, b) { if (b === undefined && c === undefined) { return window.q } if (b == undefined && typeof c === "function") { b = c; c = undefined } if (window.q.init == undefined) { a.push({ filter: c, handler: b }) } return window.q }; window.q.ready = function (b) { window.q(b); return window.q }; window.q.readyCollection = function () { return a } })();
 	</script>
-</head>
-<body>
-
 	<!-- navbar -->
 	<div class="navbar navbar-inverse">
 		<div class="navbar-inner">
