@@ -3,6 +3,8 @@
 	ViewBag.Title = "Home";
 	Layout = SiteConstants.BootstrapLayout;
 }
+<input id="@SiteConstants.QFilter" value="homePage" type="hidden" />
+
 <!-- navbar -->
 <div class="navbar navbar-inverse">
 	<div class="navbar-inner">
@@ -19,7 +21,7 @@
 		</div>
 
 		<ul class="nav pull-right">
-			<li class="settings hidden-phone">
+			<li class="settings hidden-phone" id="loginButton">
 				<a href="#" role="button">
 					<i class="icon-envelope-alt"></i>
 					<span>Login</span>
@@ -29,3 +31,15 @@
 	</div>
 </div>
 <!-- end navbar -->
+
+<div class="content wide-content">
+	<h2>Hello</h2>
+</div>
+
+@{ Html.RenderPartial(SiteConstants.ModalDialogContentView);}
+
+<script>
+	q.pageConfig = {
+		loginUrl: "@Url.Action("Logon", "Account")"
+	};
+</script>

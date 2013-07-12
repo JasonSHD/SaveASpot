@@ -76,17 +76,9 @@
 	</div>
 </div>
 <!-- end navbar -->
-<input type="hidden" id="qFilter" value="adminTabController" />
+<input type="hidden" id="@SiteConstants.QFilter" value="adminTabController" />
 <!-- main container -->
 
 <div id="tabContent">
 	@RenderBody()
 </div>
-
-
-<script>
-	q("adminTabController", function () {
-		q.controls.ajaxTab($("#tabContent"));
-	});
-</script>
-
