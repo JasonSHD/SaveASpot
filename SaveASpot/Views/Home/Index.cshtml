@@ -1,8 +1,31 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using SaveASpot.Controllers
+@{
+	ViewBag.Title = "Home";
+	Layout = SiteConstants.BootstrapLayout;
 }
+<!-- navbar -->
+<div class="navbar navbar-inverse">
+	<div class="navbar-inner">
+		<button type="button" class="btn btn-navbar visible-phone" id="menu-toggler">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
 
-<h2>@ViewBag.Message</h2>
-<p>
-    To learn more about ASP.NET MVC visit <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
-</p>
+		<a class="brand" href="@Url.Action("Index", "Home", new { area = "" })">Save A Spot</a>
+		<div class="nav-collapse collapse">
+			<ul class="nav">
+			</ul>
+		</div>
+
+		<ul class="nav pull-right">
+			<li class="settings hidden-phone">
+				<a href="#" role="button">
+					<i class="icon-envelope-alt"></i>
+					<span>Login</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<!-- end navbar -->

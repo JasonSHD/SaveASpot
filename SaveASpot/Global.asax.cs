@@ -39,6 +39,9 @@ namespace SaveASpot
 
 			RegisterGlobalFilters(GlobalFilters.Filters);
 			RegisterRoutes(RouteTable.Routes);
+
+			ViewEngines.Engines.Clear();
+			ViewEngines.Engines.Add(new RazorViewEngine());
 		}
 	}
 }

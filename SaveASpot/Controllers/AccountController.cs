@@ -100,6 +100,4 @@ namespace SaveASpot.Controllers
 			return View();
 		}
 	}
-
-	
 }
