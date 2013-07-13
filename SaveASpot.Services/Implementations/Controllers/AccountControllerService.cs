@@ -1,6 +1,8 @@
-﻿using SaveASpot.Core;
+﻿using System.Linq;
+using SaveASpot.Core;
 using SaveASpot.Core.Security;
 using SaveASpot.Core.Web;
+using SaveASpot.Repositories.Interfaces.Security;
 using SaveASpot.Services.Interfaces;
 using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.Services.Interfaces.Security;
@@ -14,25 +16,33 @@ namespace SaveASpot.Services.Implementations.Controllers
 		private readonly IWebAuthentication _webAuthentication;
 		private readonly ITextService _textService;
 		private readonly ICurrentUser _currentUser;
+		private readonly IUserHarvester _userHarvester;
+		private readonly IUserQueryable _userQueryable;
 
-		public AccountControllerService(IUserService userService, IWebAuthentication webAuthentication, ITextService textService, ICurrentUser currentUser)
+		public AccountControllerService(IUserService userService, IWebAuthentication webAuthentication, ITextService textService, ICurrentUser currentUser, IUserHarvester userHarvester, IUserQueryable userQueryable)
 		{
 			_userService = userService;
 			_webAuthentication = webAuthentication;
 			_textService = textService;
 			_currentUser = currentUser;
+			_userHarvester = userHarvester;
+			_userQueryable = userQueryable;
 		}
 
-		public IMethodResult<MessageResult> LogOn(LogOnViewModel logOnViewModel)
+		public IMethodResult<UserResult> LogOn(LogOnViewModel logOnViewModel)
 		{
 			var userExistsResult = _userService.UserExists(logOnViewModel.UserName, logOnViewModel.Password);
 
 			if (userExistsResult.IsSuccess)
 			{
 				_webAuthentication.Authenticate(userExistsResult.Status.UserId, logOnViewModel.RememberMe);
+				var user =
+					_userHarvester.Convert(_userQueryable.FindUsers(_userQueryable.FilterById(userExistsResult.Status.UserId)).First());
+
+				return new MethodResult<UserResult>(true, new UserResult(user, string.Empty));
 			}
 
-			return new MessageMethodResult(userExistsResult.IsSuccess, _textService.ResolveTest(userExistsResult.Status.MessageKey));
+			return new MethodResult<UserResult>(false, new UserResult(_userHarvester.NotExists(), _textService.ResolveTest(userExistsResult.Status.MessageKey)));
 		}
 
 		public IMethodResult<MessageResult> RegisterUser(RegisterViewModel registerViewModel)
@@ -58,6 +68,13 @@ namespace SaveASpot.Services.Implementations.Controllers
 			}
 
 			return new MessageMethodResult(false, _textService.ResolveTest("InvalidOldOrNewPassword"));
+		}
+
+		public IMethodResult<MessageResult> LogOff()
+		{
+			_webAuthentication.LogOff();
+
+			return new MessageMethodResult(true, string.Empty);
 		}
 	}
 }

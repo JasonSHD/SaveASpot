@@ -3,5 +3,6 @@
 	public interface IWebAuthentication
 	{
 		void Authenticate(string username, bool createPersistentCookie);
+		void LogOff();
 	}
 }

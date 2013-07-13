@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using System.Web.Security;
+using SaveASpot.Core.Security;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.ViewModels;
@@ -29,7 +30,7 @@ namespace SaveASpot.Controllers
 
 				if (logOnResult.IsSuccess)
 				{
-					return RedirectToAction("Index", "Home");
+					return Json(logOnResult.Status.User.AsUserJson());
 				}
 				ModelState.AddModelError("", logOnResult.Status.Message);
 			}
@@ -40,9 +41,10 @@ namespace SaveASpot.Controllers
 
 		public ActionResult LogOff()
 		{
-			FormsAuthentication.SignOut();
+			//FormsAuthentication.SignOut();
+			var logOffResult = _accountControllerService.LogOff();
 
-			return RedirectToAction("Index", "Home");
+			return Json(new { result = logOffResult.IsSuccess }, JsonRequestBehavior.AllowGet);
 		}
 
 		public ActionResult Register()

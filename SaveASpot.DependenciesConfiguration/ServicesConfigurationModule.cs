@@ -1,3 +1,4 @@
+using SaveASpot.Core.Security;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Implementations;
 using SaveASpot.Services.Implementations.Controllers;

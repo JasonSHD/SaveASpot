@@ -21,11 +21,11 @@
 		</div>
 
 		<ul class="nav pull-right">
-			<li class="settings hidden-phone" id="loginButton">
-				<a href="#" role="button">
-					<i class="icon-envelope-alt"></i>
-					<span>Login</span>
-				</a>
+			<li class="settings hidden-phone" id="loginButton" style="display: none;">
+				@{Html.RenderPartial(SiteConstants.LogOnContainerView);}
+			</li>
+			<li id="userInfoButton" class="notification-dropdown" style="display: none;">
+				@{Html.RenderPartial(SiteConstants.UserInfoContainerView);}
 			</li>
 		</ul>
 	</div>
@@ -40,6 +40,7 @@
 
 <script>
 	q.pageConfig = {
-		loginUrl: "@Url.Action("Logon", "Account")"
+		loginUrl: "@Url.Action("Logon", "Account")",
+		logoutUrl: "@Url.Action("LogOff", "Account")",
 	};
 </script>

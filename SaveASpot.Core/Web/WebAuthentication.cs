@@ -8,5 +8,10 @@ namespace SaveASpot.Core.Web
 		{
 			FormsAuthentication.SetAuthCookie(username, createPersistentCookie);
 		}
+
+		public void LogOff()
+		{
+			FormsAuthentication.SignOut();
+		}
 	}
 }

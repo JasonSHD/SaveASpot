@@ -639,3 +639,8 @@ input.search {
 			height: 100%;
 		}
 }
+
+
+.field-validation-error {
+	background-color: rgb(230, 203, 203) !important;
+}

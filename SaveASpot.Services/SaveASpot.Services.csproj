@@ -57,7 +57,7 @@
     <Compile Include="Implementations\Validators\Security\UserValidateFactory.cs" />
     <Compile Include="Interfaces\Controllers\IAccountControllerService.cs" />
     <Compile Include="Interfaces\Controllers\ISetupUsersControllerService.cs" />
-    <Compile Include="Interfaces\ICurrentUser.cs" />
+    <Compile Include="Interfaces\Controllers\UserResult.cs" />
     <Compile Include="Interfaces\ITextService.cs" />
     <Compile Include="Interfaces\Security\IRoleHarvester.cs" />
     <Compile Include="Interfaces\Security\IUserValidateFactory.cs" />

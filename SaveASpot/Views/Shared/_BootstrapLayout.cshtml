@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Newtonsoft.Json
+@using SaveASpot.Core.Security
+@{
 	Layout = null;
 }
 
@@ -83,5 +85,18 @@
 	<!-- end this page scripts -->
 
 	@RenderSection("Footer", false)
+
+	<script>
+		q(function () {
+			@if (ViewConfiguration.User.IsExists())
+	 {
+		 @Html.Raw("q.security.user().login(" + JsonConvert.SerializeObject(ViewConfiguration.User.AsUserJson()) + ");")
+	 }
+	 else
+	 {
+		 @Html.Raw("q.security.user().logout();")
+	 }
+		});
+	</script>
 </body>
 </html>

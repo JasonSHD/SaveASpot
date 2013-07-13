@@ -52,6 +52,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\mongocsharpdriver.1.8.1\lib\net35\MongoDB.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
     </Reference>
@@ -398,6 +401,8 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Areas\Setup\Views\SetupUsers\Index.cshtml" />
     <Content Include="Areas\Setup\Views\Shared\_SetupLayout.cshtml" />
+    <Content Include="Views\Shared\Controls\LogOnContainer.cshtml" />
+    <Content Include="Views\Shared\Controls\UserInfoContainer.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

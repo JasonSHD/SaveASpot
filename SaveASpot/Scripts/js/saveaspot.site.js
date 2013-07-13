@@ -15,5 +15,23 @@ q("adminTabController", function () {
 });
 
 q("homePage", function () {
-	q.controls.login($("#loginButton"), q.pageConfig.loginUrl);
+	var loginControl = q.controls.
+		login($("#loginButton"), q.pageConfig.loginUrl).
+		login(function (user) {
+			q.security.user().login(user);
+		});
+
+	var userInfo = q.controls.
+		userInfo($("#userInfoButton"), $("[data-userinfo-popover]"), q.pageConfig.logoutUrl).
+		logout(function () {
+			q.security.user().logout();
+		});
+
+	q.security.user().login(function (user) {
+		loginControl.hide();
+		userInfo.show(user.arg);
+	}).logout(function () {
+		loginControl.show();
+		userInfo.hide();
+	});
 });

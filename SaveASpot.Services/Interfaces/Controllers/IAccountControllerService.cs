@@ -5,8 +5,9 @@ namespace SaveASpot.Services.Interfaces.Controllers
 {
 	public interface IAccountControllerService
 	{
-		IMethodResult<MessageResult> LogOn(LogOnViewModel logOnViewModel);
+		IMethodResult<UserResult> LogOn(LogOnViewModel logOnViewModel);
 		IMethodResult<MessageResult> RegisterUser(RegisterViewModel registerViewModel);
 		IMethodResult<MessageResult> ChangePassword(ChangePasswordViewModel changePasswordViewModel);
+		IMethodResult<MessageResult> LogOff();
 	}
 }
