@@ -4,6 +4,7 @@
 	{
 		public const string QFilter = "qFilter";
 		public const string ModalDialogContentView = @"~\Views\Shared\Controls\ModalDialog.cshtml";
+		public const string DefaultMvcLayout = "~/Views/Shared/_Layout.cshtml";
 		public const string MapControllerAlias = "mapTab";
 		public const string CustomersControllerAlias = "customerTab";
 		public const string PhasesControllerAlias = "phasesTab";
