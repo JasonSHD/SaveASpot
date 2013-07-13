@@ -21,6 +21,8 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<IRoleHarvester>().To<RoleHarvester>();
 			Bind<ITextService>().To<TextService>();
 			Bind<IAuthorizeManager>().To<AuthorizeManager>();
+
+			Bind<ISetupUsersControllerService>().To<SetupUsersControllerService>();
 		}
 	}
 }

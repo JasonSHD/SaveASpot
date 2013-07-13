@@ -1,4 +1,5 @@
 ﻿using SaveASpot.Core;
+using SaveASpot.Core.Security;
 using SaveASpot.Core.Web;
 using SaveASpot.Services.Interfaces;
 using SaveASpot.Services.Interfaces.Controllers;
@@ -36,7 +37,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 
 		public IMethodResult<MessageResult> RegisterUser(RegisterViewModel registerViewModel)
 		{
-			var createUserResult = _userService.CreateUser(new UserArg { Email = registerViewModel.Email, Password = registerViewModel.Password, Username = registerViewModel.UserName });
+			var createUserResult = _userService.CreateUser(new UserArg { Email = registerViewModel.Email, Password = registerViewModel.Password, Username = registerViewModel.UserName }, new[] { new CreatorRole(), });
 
 			return new MessageMethodResult(createUserResult.IsSuccess, _textService.ResolveTest(createUserResult.Status.MessageKet));
 		}
@@ -56,7 +57,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 				}
 			}
 
-			return new MessageMethodResult(false, "InvalidOldOrNewPassword");
+			return new MessageMethodResult(false, _textService.ResolveTest("InvalidOldOrNewPassword"));
 		}
 	}
 }

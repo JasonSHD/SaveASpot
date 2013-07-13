@@ -1,22 +1,16 @@
-using System;
-using System.Linq;
+using MongoDB.Driver;
 using SaveASpot.Repositories.Interfaces.Security;
-using SaveASpot.Repositories.Models.Security;
 
 namespace SaveASpot.Repositories.Implementations.Security
 {
 	public sealed class UserFilter : IUserFilter
 	{
-		private readonly Func<IQueryable<UserEntity>, IQueryable<UserEntity>> _filter;
+		private readonly IMongoQuery _mongoQuery;
+		public IMongoQuery MongoQuery { get { return _mongoQuery; } }
 
-		public UserFilter(Func<IQueryable<UserEntity>, IQueryable<UserEntity>> filter)
+		public UserFilter(IMongoQuery mongoQuery)
 		{
-			_filter = filter;
-		}
-
-		public IQueryable<UserEntity> Filter(IQueryable<UserEntity> queryable)
-		{
-			return _filter(queryable);
+			_mongoQuery = mongoQuery;
 		}
 	}
 }

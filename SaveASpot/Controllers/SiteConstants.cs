@@ -10,6 +10,7 @@
 		public const string PhasesControllerAlias = "phasesTab";
 		public const string AdminTabMasterName = @"~\Views\Shared\_LayoutTabDetailAdmin.cshtml";
 		public const string BootstrapLayout = @"~\Views\Shared\_BootstrapLayout.cshtml";
+		public const string SetupAreaLayout = @"~\Areas\Setup\Views\Shared\_SetupLayout.cshtml";
 		public const string AdminTabControlHeader = "AdminTabControlHeader";
 		public const string TabSpecificReadyAlias = "tabSpecificReadyAlias";
 	}

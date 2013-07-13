@@ -79,6 +79,11 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Setup\Controllers\Artifacts\ISetupConfiguration.cs" />
+    <Compile Include="Areas\Setup\Controllers\Artifacts\SetupAreaConfigurationModule.cs" />
+    <Compile Include="Areas\Setup\Controllers\Artifacts\SetupConfiguration.cs" />
+    <Compile Include="Areas\Setup\Controllers\Artifacts\SetupController.cs" />
+    <Compile Include="Areas\Setup\SetupAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminTabController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
@@ -86,6 +91,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\PhasesController.cs" />
+    <Compile Include="Areas\Setup\Controllers\SetupUsersController.cs" />
     <Compile Include="Controllers\SiteConstants.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -298,7 +304,7 @@
     <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
-    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Account\_ViewStart.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
     <Content Include="Views\Account\LogOn.cshtml" />
@@ -311,6 +317,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Setup\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -343,6 +350,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\data\GreatWestern.zip" />
+    <Content Include="Areas\Setup\Views\Web.config" />
+    <Content Include="Areas\Setup\Views\_ViewStart.cshtml" />
     <None Include="Content\css\scss\calendar.scss" />
     <None Include="Content\css\scss\chart-showcase.scss" />
     <None Include="Content\css\scss\elements.scss" />
@@ -386,6 +395,9 @@
     <Content Include="Views\Phases\Index.cshtml" />
     <Content Include="Views\Shared\_BootstrapLayout.cshtml" />
     <Content Include="Views\Shared\Controls\ModalDialog.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Setup\Views\SetupUsers\Index.cshtml" />
+    <Content Include="Areas\Setup\Views\Shared\_SetupLayout.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

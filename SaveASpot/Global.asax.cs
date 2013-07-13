@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
 using Ninject;
+using SaveASpot.Areas.Setup.Controllers.Artifacts;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.DependenciesConfiguration;
 
@@ -24,12 +25,11 @@ namespace SaveASpot
 					"{controller}/{action}/{id}", // URL with parameters
 					new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
 			);
-
 		}
 
 		protected void Application_Start()
 		{
-			var kernel = new StandardKernel(new CoreConfigurationModule(), new ServicesConfigurationModule(), new RepositoriesConfigurationModule());
+			var kernel = new StandardKernel(new CoreConfigurationModule(), new ServicesConfigurationModule(), new RepositoriesConfigurationModule(), new SetupAreaConfigurationModule());
 			GlobalFilters.Filters.Add(kernel.Get<MvcAuthorizeFilter>());
 			GlobalFilters.Filters.Add(kernel.Get<ViewPageInitializerFilter>());
 

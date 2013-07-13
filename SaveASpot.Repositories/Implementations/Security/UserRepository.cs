@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Driver.Builders;
-using MongoDB.Driver.Linq;
 using SaveASpot.Repositories.Interfaces.Security;
 using SaveASpot.Repositories.Models.Security;
 
