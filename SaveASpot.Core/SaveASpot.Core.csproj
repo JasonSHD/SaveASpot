@@ -34,6 +34,9 @@
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="SaveASpot.Repositories">
+      <HintPath>..\SaveASpot.Repositories\bin\Debug\SaveASpot.Repositories.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -50,9 +53,17 @@
     <Compile Include="AndValidator.cs" />
     <Compile Include="Configuration\ConfigurationManager.cs" />
     <Compile Include="Configuration\IConfigurationManager.cs" />
+    <Compile Include="Configuration\ILogConfiguration.cs" />
+    <Compile Include="Configuration\LogConfiguration.cs" />
     <Compile Include="IMethodResult.cs" />
     <Compile Include="IValidationResult.cs" />
     <Compile Include="IValidator.cs" />
+    <Compile Include="Logging\ErrorLogEntry.cs" />
+    <Compile Include="Logging\ILogEntry.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\InfoLogEntry.cs" />
+    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Logging\LoggerExtensions.cs" />
     <Compile Include="MessageMethodResult.cs" />
     <Compile Include="MessageResult.cs" />
     <Compile Include="MethodResult.cs" />
