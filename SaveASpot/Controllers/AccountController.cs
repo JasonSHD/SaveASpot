@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using System.Web.Security;
 using SaveASpot.Core.Security;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Interfaces.Controllers;
@@ -32,7 +31,10 @@ namespace SaveASpot.Controllers
 				{
 					return Json(logOnResult.Status.User.AsUserJson());
 				}
-				ModelState.AddModelError("", logOnResult.Status.Message);
+
+				return Json(new { status = false, message = logOnResult.Status.Message });
+
+				//ModelState.AddModelError("", logOnResult.Status.Message);
 			}
 
 			// If we got this far, something failed, redisplay form
@@ -41,7 +43,6 @@ namespace SaveASpot.Controllers
 
 		public ActionResult LogOff()
 		{
-			//FormsAuthentication.SignOut();
 			var logOffResult = _accountControllerService.LogOff();
 
 			return Json(new { result = logOffResult.IsSuccess }, JsonRequestBehavior.AllowGet);

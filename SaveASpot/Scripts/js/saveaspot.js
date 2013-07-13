@@ -165,10 +165,15 @@ q.controls = q.controls || {};
 						var data = q.serialize(modal.body());
 						var logonUrl = modal.body().find("[data-logon-url]").attr("data-logon-url");
 
-						$.ajax({ type: "POST", url: logonUrl, data: data }).done(function (user) {
+						$.ajax({ type: "POST", url: logonUrl, data: data }).done(function (logonResult) {
+							if (logonResult.status == false && logonResult.message != undefined) {
+								modal.body().find("[data-error-message]").show().find("[data-error-message-content]").text(logonResult.message	);
+								return;
+							}
+
 							modal.hide();
 							(result._data.loginHandler || function () {
-							})(user);
+							})(logonResult);
 						});
 					}
 				}).show();

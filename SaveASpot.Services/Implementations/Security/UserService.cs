@@ -35,7 +35,7 @@ namespace SaveASpot.Services.Implementations.Security
 				return new MethodResult<UserExistsResult>(true, new UserExistsResult { UserId = users.First().Identity });
 			}
 
-			return new MethodResult<UserExistsResult>(false, new UserExistsResult { MessageKey = string.Empty });
+			return new MethodResult<UserExistsResult>(false, new UserExistsResult { MessageKey = "InvalidUsernameOrPassword" });
 		}
 
 		public IMethodResult<CreateUserResult> CreateUser(UserArg userArg, IEnumerable<Role> roles)

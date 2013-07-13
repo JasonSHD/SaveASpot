@@ -4,16 +4,15 @@
 	Layout = null;
 	ViewContext.FormContext = new FormContext();
 }
-<p>
-	Please enter your user name and password. @Html.ActionLink("Register", "Register") if you don't have an account.
-</p>
-
-
-@Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.")
 
 <div data-logon-url="@Url.Action("LogOn")">
 	<fieldset>
 		<legend>Account Information</legend>
+
+		<div style="display: none;" data-error-message="" class="alert alert-error">
+			<button type="button" class="close" data-dismiss="alert">×</button>
+			<span data-error-message-content=""></span>
+		</div>
 
 		<div class="editor-label">
 			@Html.LabelFor(m => m.UserName)
