@@ -167,7 +167,7 @@ q.controls = q.controls || {};
 
 						$.ajax({ type: "POST", url: logonUrl, data: data }).done(function (logonResult) {
 							if (logonResult.status == false && logonResult.message != undefined) {
-								modal.body().find("[data-error-message]").show().find("[data-error-message-content]").text(logonResult.message	);
+								modal.body().find("[data-error-message]").show().find("[data-error-message-content]").text(logonResult.message);
 								return;
 							}
 
@@ -286,7 +286,7 @@ q.validation = q.validation || {};
 
 	namespace.attrValidator.required = function (element, message) {
 		var result = { _data: {}, message: function () { return message; } };
-		var $element = result._data.element = element;
+		var $element = result._data.element = $(element);
 
 		result.validate = function () {
 			var value = $element.val();
@@ -296,6 +296,18 @@ q.validation = q.validation || {};
 		return result;
 	};
 
+	namespace.attrValidator.lengthValidator = function (element, options) {
+		var result = { _data: { options: options } };
+		var $element = result._data.element = $(element);
+
+		result.validate = function () {
+			var value = $element.val();
+
+			return result._data.options.min < value.length && value.length < result._data.options.max;
+		};
+
+		return result;
+	};
 
 	namespace.attrValidator.factory = function () {
 		var result = {};
@@ -306,7 +318,15 @@ q.validation = q.validation || {};
 			attr: "data-val-required",
 			factory: function (element) {
 				return namespace.attrValidator.required(element, $(element).attr("data-val-required"));
-			}
+			},
+		});
+
+		mappings.push({
+			attr: "data-val-length",
+			factory: function (element) {
+				var $element = $(element);
+				return namespace.attrValidator.lengthValidator(element, { message: $element.attr("data-val-length"), min: $element.attr("data-val-length-min"), max: $element.attr("data-val-length-max") });
+			},
 		});
 
 		result.parseElement = function (element) {
