@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using System;
+using MongoDB.Bson;
 
 namespace SaveASpot.Repositories.Models
 {
@@ -9,5 +10,6 @@ namespace SaveASpot.Repositories.Models
 		public string LogLevel { get; set; }
 		public string StackTrace { get; set; }
 		public string InnerException { get; set; }
+		public DateTime Time { get; set; }
 	}
 }

@@ -16,7 +16,7 @@ namespace SaveASpot.Repositories.Implementations.Logging
 
 		public void Log(string level, string message)
 		{
-			var logEntity = new LogEntity() { Id = ObjectId.GenerateNewId(), LogLevel = level, Message = message };
+			var logEntity = new LogEntity() { Id = ObjectId.GenerateNewId(), LogLevel = level, Message = message,Time = DateTime.Now};
 			_mongoDbCollectionFactory.Collection<LogEntity>().Insert(logEntity);
 		}
 
@@ -24,7 +24,7 @@ namespace SaveASpot.Repositories.Implementations.Logging
 		{
 			var innerEx = exception.InnerException == null ? "" : exception.InnerException.ToString();
 
-			var logEntity = new LogEntity() { Id = ObjectId.GenerateNewId(), LogLevel = level, Message = exception.Message, StackTrace = exception.StackTrace, InnerException = innerEx };
+			var logEntity = new LogEntity() { Id = ObjectId.GenerateNewId(), LogLevel = level, Message = exception.Message, StackTrace = exception.StackTrace, InnerException = innerEx, Time = DateTime.Now};
 			_mongoDbCollectionFactory.Collection<LogEntity>().Insert(logEntity);
 		}
 	}
