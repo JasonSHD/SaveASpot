@@ -50,13 +50,23 @@
     <Compile Include="Implementations\IMongoDBConfiguration.cs" />
     <Compile Include="Implementations\MongoDBConfiguration.cs" />
     <Compile Include="Implementations\MongoDBProvider.cs" />
+    <Compile Include="Implementations\ParcelRepository.cs" />
+    <Compile Include="Implementations\PhaseRepository.cs" />
     <Compile Include="Implementations\Security\UserFilter.cs" />
     <Compile Include="Implementations\Security\UserQueryable.cs" />
     <Compile Include="Implementations\Security\UserRepository.cs" />
+    <Compile Include="Implementations\SpotRepository.cs" />
+    <Compile Include="Interfaces\IParcelRepository.cs" />
+    <Compile Include="Interfaces\IPhaseRepository.cs" />
+    <Compile Include="Interfaces\ISpotRepository.cs" />
     <Compile Include="Interfaces\Security\IUserFilter.cs" />
     <Compile Include="Interfaces\Security\IUserQueryable.cs" />
     <Compile Include="Interfaces\Security\IUserRepository.cs" />
+    <Compile Include="Models\Parcel.cs" />
+    <Compile Include="Models\Phase.cs" />
+    <Compile Include="Models\Point.cs" />
     <Compile Include="Models\Security\UserEntity.cs" />
+    <Compile Include="Models\Spot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
