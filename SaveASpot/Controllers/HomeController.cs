@@ -8,26 +8,26 @@ namespace SaveASpot.Controllers
 {
 	public class HomeController : BaseController
 	{
-		private readonly ILogger _logger;
+		//private readonly ILogger _logger;
 
-		public HomeController(ILogger logger)
-		{
-			_logger = logger;
-		}
+		//public HomeController(ILogger logger)
+		//{
+		//	_logger = logger;
+		//}
 
 		public ActionResult Index()
 		{
-			Exception exception = null;
-			try
-			{
-				throw new NotImplementedException("Not Implement!", new Exception("My Inner"));
-			}
-			catch (Exception ex)
-			{
-				exception = ex;
-			}
+			//Exception exception = null;
+			//try
+			//{
+			//	throw new NotImplementedException("Not Implement!", new Exception("My Inner"));
+			//}
+			//catch (Exception ex)
+			//{
+			//	exception = ex;
+			//}
 
-			_logger.Log(new ErrorLogEntry(exception, "Test error"));
+			//_logger.Log(new ErrorLogEntry(exception, "Test error"));
 
 			ViewBag.Message = "Welcome to ASP.NET MVC!";
 
