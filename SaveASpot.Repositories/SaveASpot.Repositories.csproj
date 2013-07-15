@@ -72,7 +72,6 @@
     <Compile Include="Models\Security\SiteUser.cs" />
     <Compile Include="Models\Spot.cs" />
     <Compile Include="Models\Log.cs" />
-    <Compile Include="Models\Security\UserEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
