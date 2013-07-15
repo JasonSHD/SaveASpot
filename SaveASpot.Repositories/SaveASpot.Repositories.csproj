@@ -58,7 +58,8 @@
     <Compile Include="Interfaces\Security\IUserFilter.cs" />
     <Compile Include="Interfaces\Security\IUserQueryable.cs" />
     <Compile Include="Interfaces\Security\IUserRepository.cs" />
-    <Compile Include="Models\LogEntity.cs" />
+    <Compile Include="Models\ExceptionData.cs" />
+    <Compile Include="Models\Log.cs" />
     <Compile Include="Models\Security\UserEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

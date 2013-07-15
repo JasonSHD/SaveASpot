@@ -25,15 +25,7 @@ namespace SaveASpot.Core.Logging
 				var loglevel = logEntry.GetType().Name.Replace("LogEntry", string.Empty);
 				foreach (var logAppender in _logAppenders)
 				{
-					switch (loglevel)
-					{
-						case "Info":
-							logAppender.Log(loglevel,logEntry.Message);
-							break;
-						case "Error":
-							logAppender.Log(loglevel, logEntry.Exception);
-							break;
-					}
+					logAppender.Log(loglevel, logEntry.Message, logEntry.Exception);
 				}
 			}
 		}

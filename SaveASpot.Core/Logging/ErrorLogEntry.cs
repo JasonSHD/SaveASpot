@@ -7,9 +7,9 @@ namespace SaveASpot.Core.Logging
 		private readonly string _message;
 		private readonly Exception _exception;
 
-		public ErrorLogEntry(Exception exception)
+		public ErrorLogEntry(Exception exception, string message)
 		{
-			_message = exception.Message;
+			_message = message == string.Empty ? exception.Message : message;
 			_exception = exception;
 		}
 		public string Message

@@ -14,18 +14,33 @@ namespace SaveASpot.Repositories.Implementations.Logging
 			_mongoDbCollectionFactory = mongoDBCollectionFactory;
 		}
 
-		public void Log(string level, string message)
+		public void Log(string level, string message, Exception exception)
 		{
-			var logEntity = new LogEntity() { Id = ObjectId.GenerateNewId(), LogLevel = level, Message = message,Time = DateTime.Now};
-			_mongoDbCollectionFactory.Collection<LogEntity>().Insert(logEntity);
-		}
+			var realerror = exception;
+			var exceptionEntity = new ExceptionData {Message = realerror.Message, StackTrace = realerror.StackTrace};
+			var exceptionForDb = exceptionEntity;
 
-		public void Log(string level, Exception exception)
-		{
-			var innerEx = exception.InnerException == null ? "" : exception.InnerException.ToString();
+			while (realerror.InnerException != null)
+			{
+				realerror = realerror.InnerException;
+				exceptionEntity.InnerException = new ExceptionData
+					{
+						Message = realerror.Message,
+						StackTrace = realerror.StackTrace
+					};
+				exceptionEntity = exceptionEntity.InnerException;
+			}
 
-			var logEntity = new LogEntity() { Id = ObjectId.GenerateNewId(), LogLevel = level, Message = exception.Message, StackTrace = exception.StackTrace, InnerException = innerEx, Time = DateTime.Now};
-			_mongoDbCollectionFactory.Collection<LogEntity>().Insert(logEntity);
+			var logEntity = new Log()
+				{
+					Id = ObjectId.GenerateNewId(),
+					LogLevel = level,
+					Message = message,
+					Time = DateTime.Now,
+					Exception = exceptionForDb
+				};
+
+			_mongoDbCollectionFactory.Collection<Log>().Insert(logEntity);
 		}
 	}
 }
