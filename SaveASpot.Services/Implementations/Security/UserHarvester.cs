@@ -15,9 +15,9 @@ namespace SaveASpot.Services.Implementations.Security
 			_roles = new Role[] { new AdministratorRole(), new CreatorRole() };
 		}
 
-		public User Convert(UserEntity userEntity)
+		public User Convert(SiteUser siteUser)
 		{
-			return new User(userEntity.Identity, userEntity.Username, userEntity.Email, userEntity.Roles.Select(e => _roles.First(r => r.Identity == e)));
+			return new User(siteUser.Identity, siteUser.Username, siteUser.Email, siteUser.Roles.Select(e => _roles.First(r => r.Identity == e)));
 		}
 
 		public User NotExists()
