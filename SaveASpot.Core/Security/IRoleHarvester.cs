@@ -1,7 +1,6 @@
 using System;
-using SaveASpot.Core.Security;
 
-namespace SaveASpot.Services.Interfaces.Security
+namespace SaveASpot.Core.Security
 {
 	public interface IRoleHarvester
 	{

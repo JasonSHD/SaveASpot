@@ -64,7 +64,6 @@
     <Compile Include="Interfaces\Controllers\UserResult.cs" />
     <Compile Include="Interfaces\IArcgisService.cs" />
     <Compile Include="Interfaces\ITextService.cs" />
-    <Compile Include="Interfaces\Security\IRoleHarvester.cs" />
     <Compile Include="Interfaces\Security\IUserValidateFactory.cs" />
     <Compile Include="Interfaces\Security\UserArg.cs" />
     <Compile Include="Interfaces\Security\CreateUserResult.cs" />

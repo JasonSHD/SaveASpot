@@ -14,6 +14,8 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<IWebAuthentication>().To<WebAuthentication>();
 			Bind<IConfigurationManager>().To<ConfigurationManager>();
 			Bind<IPasswordHash>().To<PasswordHash>();
+			Bind<IActionFilter>().To<ViewPageInitializerFilter>();
+			Bind<IActionFilter>().To<TabDescriptionActionFilter>();
 		}
 	}
 }

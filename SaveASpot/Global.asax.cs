@@ -2,6 +2,8 @@
 using System.Web.Routing;
 using Ninject;
 using SaveASpot.Areas.Setup.Controllers.Artifacts;
+using SaveASpot.Controllers;
+using SaveASpot.Controllers.Artifacts;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.DependenciesConfiguration;
 
@@ -30,8 +32,12 @@ namespace SaveASpot
 		protected void Application_Start()
 		{
 			var kernel = new StandardKernel(new CoreConfigurationModule(), new ServicesConfigurationModule(), new RepositoriesConfigurationModule(), new SetupAreaConfigurationModule());
+			kernel.Bind<ITabDescriptionControllerTypes>().ToMethod(c => new TabDescriptionControllerTypes(typeof(MapController).Assembly));
 			GlobalFilters.Filters.Add(kernel.Get<MvcAuthorizeFilter>());
-			GlobalFilters.Filters.Add(kernel.Get<ViewPageInitializerFilter>());
+			foreach (var actionFilter in kernel.GetAll<IActionFilter>())
+			{
+				GlobalFilters.Filters.Add(actionFilter);
+			}
 
 			ControllerBuilder.Current.SetControllerFactory(kernel.Get<IControllerFactory>());
 
