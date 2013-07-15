@@ -3,7 +3,6 @@ using System.Web.Routing;
 using Ninject;
 using SaveASpot.Areas.Setup.Controllers.Artifacts;
 using SaveASpot.Controllers;
-using SaveASpot.Controllers.Artifacts;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.DependenciesConfiguration;
 
@@ -19,8 +18,6 @@ namespace SaveASpot
 		public static void RegisterRoutes(RouteCollection routes)
 		{
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
-			routes.MapRoute("LogOn", "logon", new { controller = "Account", action = "LogOn" });
 
 			routes.MapRoute(
 					"Default", // Route name
