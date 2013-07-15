@@ -2,6 +2,7 @@
 
 namespace SaveASpot.Repositories.Models.Security
 {
+	[CollectionName("UsersCollection")]
 	public sealed class UserEntity
 	{
 		public ObjectId Id { get; set; }
