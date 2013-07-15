@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using MongoDB.Driver;
 
 namespace SaveASpot.Repositories.Implementations
@@ -20,6 +21,12 @@ namespace SaveASpot.Repositories.Implementations
 
 		private string GetCollectionName(Type type)
 		{
+			var collectionNameAttribute = type.GetCustomAttributes(false).Where(e => e is CollectionNameAttribute).Cast<CollectionNameAttribute>().ToList();
+			if (collectionNameAttribute.Any())
+			{
+				return collectionNameAttribute.First().CollectionName;
+			}
+
 			return type.Name;
 		}
 	}

@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -41,7 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementations\ArcgisService.cs" />
     <Compile Include="Implementations\Controllers\AccountControllerService.cs" />
+    <Compile Include="Implementations\Controllers\SetupUsersControllerService.cs" />
     <Compile Include="Implementations\CurrentUser.cs" />
     <Compile Include="Implementations\Security\AuthorizeManager.cs" />
     <Compile Include="Implementations\Security\RoleHarvester.cs" />
@@ -55,9 +60,10 @@
     <Compile Include="Implementations\Validators\Security\UsernameValidator.cs" />
     <Compile Include="Implementations\Validators\Security\UserValidateFactory.cs" />
     <Compile Include="Interfaces\Controllers\IAccountControllerService.cs" />
-    <Compile Include="Interfaces\ICurrentUser.cs" />
+    <Compile Include="Interfaces\Controllers\ISetupUsersControllerService.cs" />
+    <Compile Include="Interfaces\Controllers\UserResult.cs" />
+    <Compile Include="Interfaces\IArcgisService.cs" />
     <Compile Include="Interfaces\ITextService.cs" />
-    <Compile Include="Interfaces\Security\IRoleHarvester.cs" />
     <Compile Include="Interfaces\Security\IUserValidateFactory.cs" />
     <Compile Include="Interfaces\Security\UserArg.cs" />
     <Compile Include="Interfaces\Security\CreateUserResult.cs" />

@@ -17,10 +17,11 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<IWebAuthentication>().To<WebAuthentication>();
 			Bind<IConfigurationManager>().To<ConfigurationManager>();
 			Bind<IPasswordHash>().To<PasswordHash>();
+			Bind<IActionFilter>().To<ViewPageInitializerFilter>();
 			Bind<ILogConfiguration>().To<LogConfiguration>();
+			Bind<IActionFilter>().To<TabDescriptionActionFilter>();
 			Bind<ILogger>().To<Logger>();
 			Bind<ILogAppender>().To<LogAppender>();
-
 		}
 	}
 }

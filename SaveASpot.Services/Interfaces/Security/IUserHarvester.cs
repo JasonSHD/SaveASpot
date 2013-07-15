@@ -5,7 +5,7 @@ namespace SaveASpot.Services.Interfaces.Security
 {
 	public interface IUserHarvester
 	{
-		User Convert(UserEntity userEntity);
+		User Convert(SiteUser siteUser);
 		User NotExists();
 	}
 }

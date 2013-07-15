@@ -1,0 +1,74 @@
+﻿@model SaveASpot.ViewModels.RegisterViewModel
+@{
+	ViewBag.Title = "Index";
+}
+
+<style type="text/css">
+	.form-signin {
+		max-width: 300px;
+		padding: 19px 29px 29px;
+		margin: 0 auto 20px;
+		background-color: #fff;
+		border: 1px solid #e5e5e5;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+		-moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+		box-shadow: 0 1px 2px rgba(0,0,0,.05);
+	}
+
+		.form-signin .form-signin-heading,
+		.form-signin .checkbox {
+			margin-bottom: 10px;
+		}
+
+		.form-signin input[type="text"],
+		.form-signin input[type="password"] {
+			font-size: 16px;
+			height: auto;
+			margin-bottom: 15px;
+			padding: 7px 9px;
+		}
+</style>
+
+@using (Html.BeginForm("AddAdmin", "SetupUsers", FormMethod.Post, new { @class = "form-signin" }))
+{
+	<div>
+		<fieldset>
+			<h2 class="form-signin-heading">Specified admin:</h2>
+
+			<div class="editor-label">
+				@Html.LabelFor(m => m.UserName)
+			</div>
+			<div class="editor-field">
+				@Html.TextBoxFor(m => m.UserName)
+			</div>
+
+			<div class="editor-label">
+				@Html.LabelFor(m => m.Email)
+			</div>
+			<div class="editor-field">
+				@Html.TextBoxFor(m => m.Email)
+			</div>
+
+			<div class="editor-label">
+				@Html.LabelFor(m => m.Password)
+			</div>
+			<div class="editor-field">
+				@Html.PasswordFor(m => m.Password)
+			</div>
+
+			<div class="editor-label">
+				@Html.LabelFor(m => m.ConfirmPassword)
+			</div>
+			<div class="editor-field">
+				@Html.PasswordFor(m => m.ConfirmPassword)
+			</div>
+
+			<p>
+				<input type="submit" class="btn btn-primary btn-large" value="Register" />
+			</p>
+		</fieldset>
+	</div>
+}

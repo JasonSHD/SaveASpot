@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Driver.Builders;
-using MongoDB.Driver.Linq;
 using SaveASpot.Repositories.Interfaces.Security;
 using SaveASpot.Repositories.Models.Security;
 
@@ -16,19 +14,19 @@ namespace SaveASpot.Repositories.Implementations.Security
 			_mongoDBCollectionFactory = mongoDBCollectionFactory;
 		}
 
-		public UserEntity CreateUser(UserEntity userEntity)
+		public SiteUser CreateUser(SiteUser siteUser)
 		{
-			userEntity.Id = ObjectId.GenerateNewId();
-			_mongoDBCollectionFactory.Collection<UserEntity>().Insert(userEntity);
+			siteUser.Id = ObjectId.GenerateNewId();
+			_mongoDBCollectionFactory.Collection<SiteUser>().Insert(siteUser);
 
-			return userEntity;
+			return siteUser;
 		}
 
 		public bool UpdateUserPassword(string username, string password)
 		{
-			var result = _mongoDBCollectionFactory.Collection<UserEntity>()
-															 .Update(Query<UserEntity>.EQ(e => e.Username, username),
-																			 Update<UserEntity>.Set(e => e.Password, password));
+			var result = _mongoDBCollectionFactory.Collection<SiteUser>()
+															 .Update(Query<SiteUser>.EQ(e => e.Username, username),
+																			 Update<SiteUser>.Set(e => e.Password, password));
 
 			return result.DocumentsAffected == 1;
 		}

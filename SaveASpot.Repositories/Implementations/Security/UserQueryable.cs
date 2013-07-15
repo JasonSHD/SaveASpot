@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using MongoDB.Bson;
-using MongoDB.Driver.Linq;
+using MongoDB.Driver.Builders;
+using SaveASpot.Core.Security;
 using SaveASpot.Repositories.Interfaces.Security;
 using SaveASpot.Repositories.Models.Security;
 
@@ -23,9 +23,16 @@ namespace SaveASpot.Repositories.Implementations.Security
 			return ToFilter(e => e.Username == name);
 		}
 
-		public IUserFilter FiltreByPassword(string password)
+		public IUserFilter FilterByPassword(string password)
 		{
 			return ToFilter(e => e.Password == password);
+		}
+
+		public IUserFilter FilterByRole(Role roleFilter)
+		{
+			var roleIdentity = roleFilter.Identity;
+			var query = Query<SiteUser>.EQ(e => e.Roles, new[] { roleIdentity });
+			return new UserFilter(query);
 		}
 
 		public IUserFilter FilterById(string identity)
@@ -41,17 +48,17 @@ namespace SaveASpot.Repositories.Implementations.Security
 
 		public IUserFilter And(IUserFilter first, IUserFilter second)
 		{
-			return new UserFilter(e => ToFilter(second).Filter(ToFilter(first).Filter(e)));
+			return new UserFilter(Query.And(new[] { ToFilter(first).MongoQuery, ToFilter(second).MongoQuery }));
 		}
 
-		public IEnumerable<UserEntity> FindUsers(IUserFilter userFilter)
+		public IEnumerable<SiteUser> FindUsers(IUserFilter userFilter)
 		{
-			return ToFilter(userFilter).Filter(_mongoDBCollectionFactory.Collection<UserEntity>().AsQueryable());
+			return _mongoDBCollectionFactory.Collection<SiteUser>().Find(ToFilter(userFilter).MongoQuery);
 		}
 
-		private IUserFilter ToFilter(Expression<Func<UserEntity, bool>> expression)
+		private IUserFilter ToFilter(Expression<Func<SiteUser, bool>> expression)
 		{
-			return new UserFilter(e => e.Where(expression));
+			return new UserFilter(Query<SiteUser>.Where(expression));
 		}
 
 		private UserFilter ToFilter(IUserFilter userFilter)

@@ -1,3 +1,4 @@
+using SaveASpot.Core.Security;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Implementations;
 using SaveASpot.Services.Implementations.Controllers;
@@ -21,6 +22,8 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<IRoleHarvester>().To<RoleHarvester>();
 			Bind<ITextService>().To<TextService>();
 			Bind<IAuthorizeManager>().To<AuthorizeManager>();
+
+			Bind<ISetupUsersControllerService>().To<SetupUsersControllerService>();
 		}
 	}
 }

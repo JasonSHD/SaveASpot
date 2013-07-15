@@ -52,6 +52,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\mongocsharpdriver.1.8.1\lib\net35\MongoDB.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
     </Reference>
@@ -79,14 +83,22 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Setup\Controllers\Artifacts\ISetupConfiguration.cs" />
+    <Compile Include="Areas\Setup\Controllers\Artifacts\SetupAreaConfigurationModule.cs" />
+    <Compile Include="Areas\Setup\Controllers\Artifacts\SetupConfiguration.cs" />
+    <Compile Include="Areas\Setup\Controllers\Artifacts\SetupController.cs" />
+    <Compile Include="Areas\Setup\SetupAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\Artifacts\AdminTabController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MapController.cs" />
+    <Compile Include="Controllers\PhasesController.cs" />
+    <Compile Include="Areas\Setup\Controllers\SetupUsersController.cs" />
+    <Compile Include="Controllers\SiteConstants.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\IConfigurationManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -273,7 +285,9 @@
     <Content Include="Scripts\js\wysihtml5-0.3.0.js" />
     <Content Include="Scripts\modernizr-1.7.js" />
     <Content Include="Scripts\modernizr-1.7.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -291,12 +305,8 @@
     <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Account\ChangePassword.cshtml" />
-    <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
+    <Content Include="Views\Account\_ViewStart.cshtml" />
     <Content Include="Views\Account\LogOn.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
@@ -305,6 +315,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Setup\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -317,10 +328,6 @@
     <ProjectReference Include="..\SaveASpot.Core\SaveASpot.Core.csproj">
       <Project>{3689bdf8-2cbc-4583-b109-1b5163c97b53}</Project>
       <Name>SaveASpot.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SaveASpot.Data\SaveASpot.Data.csproj">
-      <Project>{1154793E-59E7-4AB8-AD84-2B5640321584}</Project>
-      <Name>SaveASpot.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\SaveASpot.DependenciesConfiguration\SaveASpot.DependenciesConfiguration.csproj">
       <Project>{aceb4518-171f-4fe4-ae03-1c11e638e639}</Project>
@@ -337,6 +344,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\data\GreatWestern.zip" />
+    <Content Include="Areas\Setup\Views\Web.config" />
+    <Content Include="Areas\Setup\Views\_ViewStart.cshtml" />
     <None Include="Content\css\scss\calendar.scss" />
     <None Include="Content\css\scss\chart-showcase.scss" />
     <None Include="Content\css\scss\elements.scss" />
@@ -374,6 +383,17 @@
     <None Include="Content\img\Thumbs.db" />
     <Content Include="Views\Shared\_LayoutDetailAdmin.cshtml" />
     <Content Include="Views\Home\Test.cshtml" />
+    <Content Include="Views\Shared\_LayoutTabDetailAdmin.cshtml" />
+    <Content Include="Views\Map\Index.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\Phases\Index.cshtml" />
+    <Content Include="Views\Shared\_BootstrapLayout.cshtml" />
+    <Content Include="Views\Shared\Controls\ModalDialog.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Setup\Views\SetupUsers\Index.cshtml" />
+    <Content Include="Areas\Setup\Views\Shared\_SetupLayout.cshtml" />
+    <Content Include="Views\Shared\Controls\LogOnContainer.cshtml" />
+    <Content Include="Views\Shared\Controls\UserInfoContainer.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

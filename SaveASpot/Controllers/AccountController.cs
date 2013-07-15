@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using System.Web.Security;
+using SaveASpot.Core.Security;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.ViewModels;
@@ -29,9 +29,10 @@ namespace SaveASpot.Controllers
 
 				if (logOnResult.IsSuccess)
 				{
-					return RedirectToAction("Index", "Home");
+					return Json(logOnResult.Status.User.AsUserJson());
 				}
-				ModelState.AddModelError("", logOnResult.Status.Message);
+
+				return Json(new { status = false, message = logOnResult.Status.Message });
 			}
 
 			// If we got this far, something failed, redisplay form
@@ -40,73 +41,9 @@ namespace SaveASpot.Controllers
 
 		public ActionResult LogOff()
 		{
-			FormsAuthentication.SignOut();
+			var logOffResult = _accountControllerService.LogOff();
 
-			return RedirectToAction("Index", "Home");
-		}
-
-		public ActionResult Register()
-		{
-			return View();
-		}
-
-		[HttpPost]
-		public ActionResult Register(RegisterViewModel viewModel)
-		{
-			if (ModelState.IsValid)
-			{
-				var registerResult = _accountControllerService.RegisterUser(viewModel);
-
-				if (registerResult.IsSuccess)
-				{
-					return RedirectToAction("Index", "Home");
-				}
-
-				ModelState.AddModelError("", registerResult.Status.Message);
-			}
-
-			// If we got this far, something failed, redisplay form
-			return View(viewModel);
-		}
-
-		[Authorize]
-		public ActionResult ChangePassword()
-		{
-			return View();
-		}
-
-		[Authorize]
-		[HttpPost]
-		public ActionResult ChangePassword(ChangePasswordViewModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				var changePasswordResult = _accountControllerService.ChangePassword(model);
-
-				if (changePasswordResult.IsSuccess)
-				{
-					return RedirectToAction("ChangePasswordSuccess");
-				}
-
-				ModelState.AddModelError("", changePasswordResult.Status.Message);
-			}
-
-			// If we got this far, something failed, redisplay form
-			return View(model);
-		}
-
-		public ActionResult ChangePasswordSuccess()
-		{
-			return View();
-		}
-	}
-
-	[AdministratorAuthorize]
-	public sealed class TestController : BaseController
-	{
-		public ActionResult Index()
-		{
-			return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+			return Json(new { result = logOffResult.IsSuccess }, JsonRequestBehavior.AllowGet);
 		}
 	}
 }

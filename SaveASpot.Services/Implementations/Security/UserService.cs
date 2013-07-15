@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using SaveASpot.Core;
 using SaveASpot.Core.Security;
 using SaveASpot.Repositories.Interfaces.Security;
@@ -26,7 +27,7 @@ namespace SaveASpot.Services.Implementations.Security
 
 		public IMethodResult<UserExistsResult> UserExists(string username, string password)
 		{
-			var userFilter = _userQueryable.And(_userQueryable.FilterByName(username), _userQueryable.FiltreByPassword(_passwordHash.GetHash(password, username)));
+			var userFilter = _userQueryable.And(_userQueryable.FilterByName(username), _userQueryable.FilterByPassword(_passwordHash.GetHash(password, username)));
 			var users = _userQueryable.FindUsers(userFilter).ToList();
 
 			if (users.Any())
@@ -34,10 +35,10 @@ namespace SaveASpot.Services.Implementations.Security
 				return new MethodResult<UserExistsResult>(true, new UserExistsResult { UserId = users.First().Identity });
 			}
 
-			return new MethodResult<UserExistsResult>(false, new UserExistsResult { MessageKey = string.Empty });
+			return new MethodResult<UserExistsResult>(false, new UserExistsResult { MessageKey = "InvalidUsernameOrPassword" });
 		}
 
-		public IMethodResult<CreateUserResult> CreateUser(UserArg userArg)
+		public IMethodResult<CreateUserResult> CreateUser(UserArg userArg, IEnumerable<Role> roles)
 		{
 			var validator = _userValidateFactory.UserNameValidator().
 				And(_userValidateFactory.EmailValidator()).
@@ -49,12 +50,12 @@ namespace SaveASpot.Services.Implementations.Security
 			if (validationResult.IsValid)
 			{
 				var user =
-					_userRepository.CreateUser(new UserEntity
+					_userRepository.CreateUser(new SiteUser
 																			 {
 																				 Email = userArg.Email,
 																				 Password = _passwordHash.GetHash(userArg.Password, userArg.Username),
 																				 Username = userArg.Username,
-																				 Roles = new string[0]
+																				 Roles = roles.Select(e => e.Identity).ToArray()
 																			 });
 
 				return new MethodResult<CreateUserResult>(true, new CreateUserResult { UserId = user.Identity });
@@ -98,6 +99,11 @@ namespace SaveASpot.Services.Implementations.Security
 			var users = _userQueryable.FindUsers(_userQueryable.FilterByName(username)).ToList();
 
 			return users.Any() ? _userHarvester.Convert(users.First()) : _userHarvester.NotExists();
+		}
+
+		public IEnumerable<User> GetByRole(Role role)
+		{
+			return _userQueryable.FindUsers(_userQueryable.FilterByRole(role)).Select(e => _userHarvester.Convert(e)).ToList();
 		}
 	}
 }
