@@ -3,7 +3,7 @@ using SaveASpot.Core.Security;
 
 namespace SaveASpot.Core.Web.Mvc
 {
-	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
+	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
 	public class RoleAuthorizeAttribute : Attribute
 	{
 		private readonly Type _roleType;

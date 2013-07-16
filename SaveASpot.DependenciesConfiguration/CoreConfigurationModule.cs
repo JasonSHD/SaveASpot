@@ -1,4 +1,4 @@
-﻿using System.Web.Mvc;
+using System.Web.Mvc;
 using SaveASpot.Core.Configuration;
 using SaveASpot.Core.Logging;
 using SaveASpot.Core.Security;
@@ -18,8 +18,9 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<IConfigurationManager>().To<ConfigurationManager>();
 			Bind<IPasswordHash>().To<PasswordHash>();
 			Bind<IActionFilter>().To<ViewPageInitializerFilter>();
-			Bind<ILogConfiguration>().To<LogConfiguration>();
 			Bind<IActionFilter>().To<TabDescriptionActionFilter>();
+			Bind<ITabDescriptionFilter>().To<RoleTabDescriptionFilter>();
+			Bind<ILogConfiguration>().To<LogConfiguration>();
 			Bind<ILogger>().To<Logger>();
 			Bind<ILogAppender>().To<LogAppender>();
 		}
