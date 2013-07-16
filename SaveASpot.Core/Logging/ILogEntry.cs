@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace SaveASpot.Core.Logging.Interfaces
+namespace SaveASpot.Core.Logging
 {
 	public interface ILogEntry
 	{

@@ -1,5 +1,4 @@
 using System;
-using SaveASpot.Core.Logging.Interfaces;
 
 namespace SaveASpot.Core.Logging.Implementation
 {

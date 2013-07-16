@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SaveASpot.Core.Configuration;
-using SaveASpot.Core.Logging.Interfaces;
 
 namespace SaveASpot.Core.Logging.Implementation
 {
