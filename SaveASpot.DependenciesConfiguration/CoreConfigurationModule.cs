@@ -1,6 +1,5 @@
 ﻿using System.Web.Mvc;
 using SaveASpot.Core.Configuration;
-using SaveASpot.Core.Logging;
 using SaveASpot.Core.Logging.Implementation;
 using SaveASpot.Core.Logging.Interfaces;
 using SaveASpot.Core.Security;
