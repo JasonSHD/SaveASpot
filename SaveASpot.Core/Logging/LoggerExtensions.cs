@@ -1,7 +1,7 @@
 using System;
-using SaveASpot.Core.Logging.Interfaces;
+using SaveASpot.Core.Logging.Implementation;
 
-namespace SaveASpot.Core.Logging.Implementation
+namespace SaveASpot.Core.Logging
 {
 	public static class LoggerExtensions
 	{

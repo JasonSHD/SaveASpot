@@ -1,4 +1,4 @@
-﻿namespace SaveASpot.Core.Logging.Interfaces
+namespace SaveASpot.Core.Logging
 {
 	public interface ILogger
 	{
