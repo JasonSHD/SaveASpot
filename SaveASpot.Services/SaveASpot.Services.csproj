@@ -46,10 +46,11 @@
   <ItemGroup>
     <Compile Include="Implementations\ArcgisService.cs" />
     <Compile Include="Implementations\Controllers\AccountControllerService.cs" />
+    <Compile Include="Implementations\Controllers\CustomersControllerService.cs" />
     <Compile Include="Implementations\Controllers\SetupUsersControllerService.cs" />
     <Compile Include="Implementations\CurrentUser.cs" />
     <Compile Include="Implementations\Security\AuthorizeManager.cs" />
-    <Compile Include="Implementations\Security\RoleHarvester.cs" />
+    <Compile Include="Implementations\Security\RoleFactory.cs" />
     <Compile Include="Implementations\Security\UserHarvester.cs" />
     <Compile Include="Implementations\Security\UserService.cs" />
     <Compile Include="Implementations\TextService.cs" />
@@ -59,11 +60,12 @@
     <Compile Include="Implementations\Validators\Security\UserExistsValidator.cs" />
     <Compile Include="Implementations\Validators\Security\UsernameValidator.cs" />
     <Compile Include="Implementations\Validators\Security\UserValidateFactory.cs" />
+    <Compile Include="Interfaces\Controllers\CustomerResult.cs" />
     <Compile Include="Interfaces\Controllers\IAccountControllerService.cs" />
+    <Compile Include="Interfaces\Controllers\ICustomersControllerService.cs" />
     <Compile Include="Interfaces\Controllers\ISetupUsersControllerService.cs" />
     <Compile Include="Interfaces\Controllers\UserResult.cs" />
     <Compile Include="Interfaces\IArcgisService.cs" />
-    <Compile Include="Interfaces\ITextService.cs" />
     <Compile Include="Interfaces\Security\IUserValidateFactory.cs" />
     <Compile Include="Interfaces\Security\UserArg.cs" />
     <Compile Include="Interfaces\Security\CreateUserResult.cs" />

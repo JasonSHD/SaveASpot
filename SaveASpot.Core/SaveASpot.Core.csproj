@@ -53,6 +53,7 @@
     <Compile Include="Configuration\ILogConfiguration.cs" />
     <Compile Include="Configuration\LogConfiguration.cs" />
     <Compile Include="IMethodResult.cs" />
+    <Compile Include="ITextService.cs" />
     <Compile Include="IValidationResult.cs" />
     <Compile Include="IValidator.cs" />
     <Compile Include="Logging\ILogAppender.cs" />
@@ -67,10 +68,11 @@
     <Compile Include="MethodResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\AdministratorRole.cs" />
-    <Compile Include="Security\ClientRole.cs" />
+    <Compile Include="Security\Customer.cs" />
+    <Compile Include="Security\CustomerRole.cs" />
     <Compile Include="Security\ICurrentUser.cs" />
     <Compile Include="Security\IPasswordHash.cs" />
-    <Compile Include="Security\IRoleHarvester.cs" />
+    <Compile Include="Security\IRoleFactory.cs" />
     <Compile Include="Security\PasswordHash.cs" />
     <Compile Include="Security\Role.cs" />
     <Compile Include="Security\User.cs" />
@@ -84,7 +86,7 @@
     <Compile Include="Web\Mvc\BaseController.cs" />
     <Compile Include="Web\Mvc\BaseViewPage.cs" />
     <Compile Include="Web\Mvc\ControllerFactory.cs" />
-    <Compile Include="Web\Mvc\ClientAuthorizeAttribute.cs" />
+    <Compile Include="Web\Mvc\CustomerAuthorizeAttribute.cs" />
     <Compile Include="Web\Mvc\IAuthorizeManager.cs" />
     <Compile Include="Web\Mvc\ITabDescriptionControllerTypes.cs" />
     <Compile Include="Web\Mvc\ITabDescriptionFilter.cs" />

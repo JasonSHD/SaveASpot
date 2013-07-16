@@ -4,7 +4,7 @@ using SaveASpot.Core.Web.Mvc;
 
 namespace SaveASpot.Controllers
 {
-	[TabDescriptions(SiteConstants.PhasesControllerAlias, "Phases")]
+	[TabDescriptions(SiteConstants.PhasesControllerAlias, "PhasesTabTitle")]
 	[AdministratorAuthorize]
 	public sealed class PhasesController : AdminTabController
 	{

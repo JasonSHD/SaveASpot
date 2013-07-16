@@ -7,16 +7,18 @@ namespace SaveASpot.Core.Web.Mvc
 {
 	public sealed class TabDescriptionActionFilter : IActionFilter
 	{
-		private readonly IRoleHarvester _roleHarvester;
+		private readonly IRoleFactory _roleFactory;
 		private readonly ITabDescriptionControllerTypes _tabDescriptionControllerTypes;
 		private readonly ITabDescriptionFilter _tabDescriptionFilter;
+		private readonly ITextService _textService;
 		private readonly IList<TabDescription> _tabDescriptions = new List<TabDescription>();
 
-		public TabDescriptionActionFilter(IRoleHarvester roleHarvester, ITabDescriptionControllerTypes tabDescriptionControllerTypes, ITabDescriptionFilter tabDescriptionFilter)
+		public TabDescriptionActionFilter(IRoleFactory roleFactory, ITabDescriptionControllerTypes tabDescriptionControllerTypes, ITabDescriptionFilter tabDescriptionFilter, ITextService textService)
 		{
-			_roleHarvester = roleHarvester;
+			_roleFactory = roleFactory;
 			_tabDescriptionControllerTypes = tabDescriptionControllerTypes;
 			_tabDescriptionFilter = tabDescriptionFilter;
+			_textService = textService;
 		}
 
 		private IEnumerable<TabDescription> GetTabDescriptions()
@@ -30,7 +32,7 @@ namespace SaveASpot.Core.Web.Mvc
 						var tabDescriptionAttributes =
 							type.GetCustomAttributes(false).Where(e => e is TabDescriptionsAttribute).Cast<TabDescriptionsAttribute>();
 						var roleAuthorizeAttributes =
-							type.GetCustomAttributes(false).Where(e => TypeHelper.IsDerivedFromType(e.GetType(), typeof(RoleAuthorizeAttribute))).Cast<RoleAuthorizeAttribute>().Select(e => _roleHarvester.Convert(e.RoleType)).ToList();
+							type.GetCustomAttributes(false).Where(e => TypeHelper.IsDerivedFromType(e.GetType(), typeof(RoleAuthorizeAttribute))).Cast<RoleAuthorizeAttribute>().Select(e => _roleFactory.Convert(e.RoleType)).ToList();
 
 						foreach (var tabDescriptionsAttribute in tabDescriptionAttributes)
 						{
@@ -43,7 +45,7 @@ namespace SaveASpot.Core.Web.Mvc
 																			 Alias = tabDescriptionsAttribute.Alias,
 																			 ControllerType = tabDescriptionsAttribute.ControllerType,
 																			 Roles = roleAuthorizeAttributes.ToList(),
-																			 Title = tabDescriptionsAttribute.Title
+																			 Title = _textService.ResolveTest(tabDescriptionsAttribute.Title)
 																		 });
 						}
 					}

@@ -2,7 +2,7 @@ using System;
 
 namespace SaveASpot.Core.Security
 {
-	public interface IRoleHarvester
+	public interface IRoleFactory
 	{
 		Role Convert(string identity);
 		Role Convert(Type role);

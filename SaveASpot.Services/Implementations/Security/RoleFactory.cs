@@ -5,13 +5,13 @@ using SaveASpot.Services.Interfaces.Security;
 
 namespace SaveASpot.Services.Implementations.Security
 {
-	public sealed class RoleHarvester : IRoleHarvester
+	public sealed class RoleFactory : IRoleFactory
 	{
 		private readonly Role[] _roles;
 
-		public RoleHarvester()
+		public RoleFactory()
 		{
-			_roles = new Role[] { new AdministratorRole(), new ClientRole(), };
+			_roles = new Role[] { new AdministratorRole(), new CustomerRole(), };
 		}
 
 		public Role Convert(string identity)

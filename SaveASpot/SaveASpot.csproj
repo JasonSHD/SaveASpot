@@ -394,6 +394,7 @@
     <Content Include="Areas\Setup\Views\Shared\_SetupLayout.cshtml" />
     <Content Include="Views\Shared\Controls\LogOnContainer.cshtml" />
     <Content Include="Views\Shared\Controls\UserInfoContainer.cshtml" />
+    <Content Include="Views\Customers\CreateCustomer.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

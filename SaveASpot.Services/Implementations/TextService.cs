@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using System.Resources;
-using SaveASpot.Services.Interfaces;
+using SaveASpot.Core;
 
 namespace SaveASpot.Services.Implementations
 {
