@@ -167,7 +167,7 @@ q.controls = q.controls || {};
 
 						$.ajax({ type: "POST", url: logonUrl, data: data }).done(function (logonResult) {
 							if (logonResult.status == false && logonResult.message != undefined) {
-								modal.body().find("[data-error-message]").show().find("[data-error-message-content]").text(logonResult.message	);
+								modal.body().find("[data-error-message]").show().find("[data-error-message-content]").text(logonResult.message);
 								return;
 							}
 
@@ -234,8 +234,12 @@ q.controls = q.controls || {};
 
 q.validation = q.validation || {};
 (function (namespace, $) {
+	var extendConfig = function (config) {
+		return $.extend(config, { invalidClass: "field-validation-error", validClass: "field-validation-valid" });
+	};
+
 	namespace.validator = function (form, config) {
-		var result = { _data: { config: $.extend(config, { invalidClass: "field-validation-error", validClass: "field-validation-valid" }) } };
+		var result = { _data: { config: extendConfig(config) } };
 		var $form = result._data.form = $(form);
 
 		result.validate = function () {
@@ -292,6 +296,21 @@ q.validation = q.validation || {};
 			var value = $element.val();
 			return value != undefined && value != "";
 		};
+
+		return result;
+	};
+
+	namespace.dynamicValidator = function (form, config) {
+		var result = { _data: { config: extendConfig(config) } };
+
+		var $buttons = $("form button[data-submit='true']");
+		$buttons.click(function () {
+			var $form = $(this).parents("form");
+			var validator = q.validation.validator($form, result._data.config);
+			if (validator.validate()) {
+				$form.submit();
+			}
+		});
 
 		return result;
 	};

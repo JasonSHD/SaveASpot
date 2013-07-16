@@ -1,4 +1,8 @@
-﻿q("mapTab", function () {
+﻿q(function () {
+	q.validation.dynamicValidator();
+});
+
+q("mapTab", function () {
 	console.log("for mapTab");
 });
 
