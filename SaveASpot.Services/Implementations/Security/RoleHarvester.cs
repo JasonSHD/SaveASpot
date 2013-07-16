@@ -11,7 +11,7 @@ namespace SaveASpot.Services.Implementations.Security
 
 		public RoleHarvester()
 		{
-			_roles = new Role[] { new AdministratorRole(), new CreatorRole(), };
+			_roles = new Role[] { new AdministratorRole(), new ClientRole(), };
 		}
 
 		public Role Convert(string identity)

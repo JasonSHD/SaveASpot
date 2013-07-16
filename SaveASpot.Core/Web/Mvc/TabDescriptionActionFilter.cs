@@ -9,12 +9,14 @@ namespace SaveASpot.Core.Web.Mvc
 	{
 		private readonly IRoleHarvester _roleHarvester;
 		private readonly ITabDescriptionControllerTypes _tabDescriptionControllerTypes;
+		private readonly ITabDescriptionFilter _tabDescriptionFilter;
 		private readonly IList<TabDescription> _tabDescriptions = new List<TabDescription>();
 
-		public TabDescriptionActionFilter(IRoleHarvester roleHarvester, ITabDescriptionControllerTypes tabDescriptionControllerTypes)
+		public TabDescriptionActionFilter(IRoleHarvester roleHarvester, ITabDescriptionControllerTypes tabDescriptionControllerTypes, ITabDescriptionFilter tabDescriptionFilter)
 		{
 			_roleHarvester = roleHarvester;
 			_tabDescriptionControllerTypes = tabDescriptionControllerTypes;
+			_tabDescriptionFilter = tabDescriptionFilter;
 		}
 
 		private IEnumerable<TabDescription> GetTabDescriptions()
@@ -27,6 +29,8 @@ namespace SaveASpot.Core.Web.Mvc
 					{
 						var tabDescriptionAttributes =
 							type.GetCustomAttributes(false).Where(e => e is TabDescriptionsAttribute).Cast<TabDescriptionsAttribute>();
+						var roleAuthorizeAttributes =
+							type.GetCustomAttributes(false).Where(e => TypeHelper.IsDerivedFromType(e.GetType(), typeof(RoleAuthorizeAttribute))).Cast<RoleAuthorizeAttribute>().Select(e => _roleHarvester.Convert(e.RoleType)).ToList();
 
 						foreach (var tabDescriptionsAttribute in tabDescriptionAttributes)
 						{
@@ -38,9 +42,7 @@ namespace SaveASpot.Core.Web.Mvc
 																		 {
 																			 Alias = tabDescriptionsAttribute.Alias,
 																			 ControllerType = tabDescriptionsAttribute.ControllerType,
-																			 Roles =
-																				 tabDescriptionsAttribute.Roles.Select(e => _roleHarvester.Convert(e))
-																																 .ToList(),
+																			 Roles = roleAuthorizeAttributes.ToList(),
 																			 Title = tabDescriptionsAttribute.Title
 																		 });
 						}
@@ -59,7 +61,7 @@ namespace SaveASpot.Core.Web.Mvc
 		{
 			if (TypeHelper.IsDerivedFromType(filterContext.Controller.GetType(), typeof(BaseController)))
 			{
-				TabDescription.SetDescriptions(GetTabDescriptions(), filterContext.Controller.ViewBag);
+				TabDescription.SetDescriptions(_tabDescriptionFilter.Filter(GetTabDescriptions()), filterContext.Controller.ViewBag);
 			}
 		}
 	}

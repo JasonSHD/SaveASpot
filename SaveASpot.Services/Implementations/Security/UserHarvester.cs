@@ -12,7 +12,7 @@ namespace SaveASpot.Services.Implementations.Security
 
 		public UserHarvester()
 		{
-			_roles = new Role[] { new AdministratorRole(), new CreatorRole() };
+			_roles = new Role[] { new AdministratorRole(), new ClientRole() };
 		}
 
 		public User Convert(SiteUser siteUser)
