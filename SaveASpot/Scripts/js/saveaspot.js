@@ -288,18 +288,6 @@ q.validation = q.validation || {};
 
 	namespace.attrValidator = namespace.attrValidator || {};
 
-	namespace.attrValidator.required = function (element, message) {
-		var result = { _data: {}, message: function () { return message; } };
-		var $element = result._data.element = element;
-
-		result.validate = function () {
-			var value = $element.val();
-			return value != undefined && value != "";
-		};
-
-		return result;
-	};
-
 	namespace.dynamicValidator = function (form, config) {
 		var result = { _data: { config: extendConfig(config) } };
 
@@ -315,6 +303,29 @@ q.validation = q.validation || {};
 		return result;
 	};
 
+	namespace.attrValidator.required = function (element, message) {
+		var result = { _data: {}, message: function () { return message; } };
+		var $element = result._data.element = element;
+
+		result.validate = function () {
+			var value = $element.val();
+			return value != undefined && value != "";
+		};
+
+		return result;
+	};
+
+	namespace.attrValidator.equalTo = function (element, message) {
+		var result = { _data: {}, message: function () { return message; } };
+		var $element = result._data.element = $(element);
+		var $elementToEqual = result._data.elementToEqual = $($element.attr("data-val-equalTo-selector"));
+
+		result.validate = function () {
+			return $element.val() == $elementToEqual.val();
+		};
+
+		return result;
+	};
 
 	namespace.attrValidator.factory = function () {
 		var result = {};
@@ -325,6 +336,13 @@ q.validation = q.validation || {};
 			attr: "data-val-required",
 			factory: function (element) {
 				return namespace.attrValidator.required(element, $(element).attr("data-val-required"));
+			}
+		});
+		
+		mappings.push({
+			attr: "data-val-equalto",
+			factory: function (element) {
+				return namespace.attrValidator.equalTo(element, $(element).attr("data-val-equalto"));
 			}
 		});
 
