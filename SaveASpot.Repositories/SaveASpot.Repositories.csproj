@@ -58,7 +58,6 @@
     <Compile Include="Implementations\Security\UserQueryable.cs" />
     <Compile Include="Implementations\Security\UserRepository.cs" />
     <Compile Include="Implementations\SpotRepository.cs" />
-    <Compile Include="Interfaces\Logging\ILogAppender.cs" />
     <Compile Include="Interfaces\IParcelRepository.cs" />
     <Compile Include="Interfaces\IPhaseRepository.cs" />
     <Compile Include="Interfaces\ISpotRepository.cs" />

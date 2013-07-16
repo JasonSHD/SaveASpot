@@ -1,7 +1,7 @@
-﻿using System;
-using SaveASpot.Repositories.Interfaces.Logging;
-using SaveASpot.Repositories.Models;
+using System;
 using MongoDB.Bson;
+using SaveASpot.Core.Logging.Interfaces;
+using SaveASpot.Repositories.Models;
 
 namespace SaveASpot.Repositories.Implementations.Logging
 {

@@ -1,11 +1,12 @@
 ﻿using System.Web.Mvc;
 using SaveASpot.Core.Configuration;
 using SaveASpot.Core.Logging;
+using SaveASpot.Core.Logging.Implementation;
+using SaveASpot.Core.Logging.Interfaces;
 using SaveASpot.Core.Security;
 using SaveASpot.Core.Web;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Repositories.Implementations.Logging;
-using SaveASpot.Repositories.Interfaces.Logging;
 
 namespace SaveASpot.DependenciesConfiguration
 {
