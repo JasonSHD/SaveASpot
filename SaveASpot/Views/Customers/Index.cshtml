@@ -1,4 +1,5 @@
-﻿@using SaveASpot.Controllers
+﻿@model IEnumerable<SaveASpot.ViewModels.CustomerViewModel>
+@using SaveASpot.Controllers
 @{
 	ViewBag.Title = "Index";
 }
@@ -6,5 +7,26 @@
 <input id="@SiteConstants.TabSpecificReadyAlias" value="@SiteConstants.CustomersControllerAlias" type="hidden" />
 
 <div class="content wide-content">
-	<h2>Customers</h2>
+	<div class="navbar">
+		<div class="navbar-inner">
+			<button type="button" id="createCustomer" class="btn btn-primary">Create customer</button>
+		</div>
+	</div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>User name</th>
+				<th>Email</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var customer in Model)
+	 {
+				<tr>
+					<td>@customer.Username</td>
+					<td>@customer.Email</td>
+				</tr>
+	 }
+		</tbody>
+	</table>
 </div>

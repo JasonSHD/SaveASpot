@@ -3,11 +3,15 @@ using System.Web.Mvc;
 
 namespace SaveASpot.ViewModels
 {
-	public sealed class RegisterViewModel
+	public sealed class CreateCustomerViewModel
 	{
 		[Required]
 		[Display(Name = Constants.Display.Username)]
 		public string UserName { get; set; }
+
+		[Required]
+		[Display(Name = Constants.Display.CustomerName)]
+		public string CustomerName { get; set; }
 
 		[Required]
 		[DataType(DataType.EmailAddress)]

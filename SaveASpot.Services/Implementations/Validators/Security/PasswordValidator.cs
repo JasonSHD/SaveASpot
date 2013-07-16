@@ -8,11 +8,13 @@ namespace SaveASpot.Services.Implementations.Validators.Security
 	{
 		public IValidationResult Validate(UserArg input)
 		{
+			int passwordMinLength = Constants.PasswordMinLength;
+			int passwordMaxLength = Constants.PasswordMaxLength;
 			var passwordValid = !string.IsNullOrWhiteSpace(input.Password) &&
-			                    input.Password.Length >= RegisterViewModel.PasswordMinLength &&
-			                    input.Password.Length <= RegisterViewModel.PasswordMaxLength;
+			                    input.Password.Length >= passwordMinLength &&
+			                    input.Password.Length <= passwordMaxLength;
 
-			return passwordValid ? new ValidationResult(true, string.Empty) : new ValidationResult(false, string.Format("InvalidUserPasswordPassword", RegisterViewModel.PasswordMinLength, RegisterViewModel.PasswordMaxLength));
+			return passwordValid ? new ValidationResult(true, string.Empty) : new ValidationResult(false, string.Format("InvalidUserPasswordPassword", passwordMinLength, passwordMaxLength));
 		}
 	}
 }

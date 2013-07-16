@@ -1,3 +1,4 @@
+using SaveASpot.Core;
 using SaveASpot.Core.Security;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Implementations;
@@ -18,12 +19,13 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<IUserService>().To<UserService>();
 			Bind<IUserHarvester>().To<UserHarvester>();
 			Bind<IUserValidateFactory>().To<UserValidateFactory>();
+			Bind<ICustomersControllerService>().To<CustomersControllerService>();
 			Bind<ICurrentUser>().To<CurrentUser>();
-			Bind<IRoleHarvester>().To<RoleHarvester>();
+			Bind<IRoleFactory>().To<RoleFactory>();
 			Bind<ITextService>().To<TextService>();
 			Bind<IAuthorizeManager>().To<AuthorizeManager>();
-		    Bind<IArcgisService>().To<ArcgisService>();
-		    Bind<ISetupUsersControllerService>().To<SetupUsersControllerService>();
+			Bind<IArcgisService>().To<ArcgisService>();
+			Bind<ISetupUsersControllerService>().To<SetupUsersControllerService>();
 		}
 	}
 }

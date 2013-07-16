@@ -141,4 +141,13 @@
   <data name="AdminExists" xml:space="preserve">
     <value>Admin in current application is exists.</value>
   </data>
+  <data name="CustomersTabTitle" xml:space="preserve">
+    <value>Customers</value>
+  </data>
+  <data name="MapTabTitle" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="PhasesTabTitle" xml:space="preserve">
+    <value>Parcels &amp; spots</value>
+  </data>
 </root>

@@ -7,7 +7,24 @@ q("mapTab", function () {
 });
 
 q("customerTab", function () {
-	console.log("for customerTab");
+	var modal = q.controls.modal();
+
+	$("#createCustomer").click(function () {
+		$.ajax({ url: q.pageConfig.createCustomerView, type: "GET" }).done(function (createCustomerView) {
+			modal.
+				title("Create customer").
+				body(createCustomerView).
+				ok("Create", function () {
+					var validator = q.validation.validator(modal.body());
+					if (validator.validate()) {
+
+						$.ajax({ url: q.pageConfig.createCustomerView, type: "POST", data: q.serialize(modal.body()) }).done(function (result) {
+						});
+					}
+				}).
+				show();
+		});
+	});
 });
 
 q("phasesTab", function () {

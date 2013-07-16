@@ -1,4 +1,4 @@
-﻿namespace SaveASpot.Services.Interfaces
+﻿namespace SaveASpot.Core
 {
 	public interface ITextService
 	{

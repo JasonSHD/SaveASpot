@@ -81,4 +81,10 @@
 
 <div id="tabContent">
 	@RenderBody()
+
+	<script>
+		q.pageConfig = {
+			createCustomerView: "@Url.Action("CreateCustomer", "Customers")"
+		};
+	</script>
 </div>

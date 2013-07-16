@@ -4,9 +4,8 @@ using SaveASpot.Core.Web.Mvc;
 
 namespace SaveASpot.Controllers
 {
-	[TabDescriptions(SiteConstants.MapControllerAlias, "Map")]
-	[AdministratorAuthorize]
-	[ClientAuthorize]
+	[TabDescriptions(SiteConstants.MapControllerAlias, "MapTabTitle")]
+	[CustomerAuthorize]
 	public sealed class MapController : AdminTabController
 	{
 		public ActionResult Index()
