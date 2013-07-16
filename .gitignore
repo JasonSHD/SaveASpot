@@ -9,3 +9,4 @@ bin/
 # Resharper folders #
 ###################
 _ReSharper.SaveASpot
+*.ncrunchsolution
