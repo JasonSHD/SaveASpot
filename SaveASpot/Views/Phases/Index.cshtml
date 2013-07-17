@@ -50,7 +50,7 @@
                 <div><h3>Select Spots files to upload</h3></div><br/>
             </th>
             <tr>
-                <td style="width: 50%; text-align: center;">           
+                <td style="width: 50%; text-align: center; vertical-align: top;">           
                     <fieldset>
                         @using (Html.BeginForm("UploadParcels", "Phases", FormMethod.Post, new { @id = "parcels", enctype = "multipart/form-data" }))
                         {
@@ -64,7 +64,7 @@
                         }
                     </fieldset>
                 </td>
-                <td style="width: 50%; text-align: center;">
+                <td style="width: 50%; text-align: center; vertical-align: top;">
                     <fieldset>
                         @using (Html.BeginForm("UploadSpots", "Phases", FormMethod.Post, new { @id = "spots", enctype = "multipart/form-data" }))
                         {
