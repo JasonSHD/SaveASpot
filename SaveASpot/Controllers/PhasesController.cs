@@ -65,7 +65,7 @@ namespace SaveASpot.Controllers
                   
                 }
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Map");
         }
 
         [HttpPost]
@@ -90,7 +90,7 @@ namespace SaveASpot.Controllers
                    
                 }
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Map");
         }
     }
 }
