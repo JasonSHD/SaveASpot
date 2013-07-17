@@ -3,22 +3,11 @@
     ViewBag.Title = "Index";
 }
 
-<link rel="stylesheet" href="@Url.Content("~/Content/css/spotPage.css")" type="text/css" media="screen" />
+<link rel="stylesheet" href="@Url.Content("~/Content/css/phases-page.css")" type="text/css" media="screen" />
 
 <script type="text/javascript">
     var parcelPage = {};
     (function (ns) {
-        ns.addNewPhasesDoc = function () {
-            $('form#phases #new-item-link').click(function () {
-                var lastInput = $('form#phases input[type!=submit]:last');
-                var id = $(lastInput).attr('id');
-                var idToInt = parseInt(id, 10);
-                var nextId = idToInt + 1;
-                $(lastInput).after('<input type="file" name="postedPhases" id="' + nextId + '" width="30px" height="10px;"/>')
-                            .after('<br/><br/>');
-            });
-        };
-
         ns.addNewParcelsDoc = function () {
             $('form#parcels #new-item-link').click(function () {
                 var lastInput = $('form#parcels input[type!=submit]:last');
@@ -29,56 +18,69 @@
                             .after('<br/><br/>');
             });
         };
+
+        ns.addNewSpotsDoc = function () {
+            $('form#spots #new-item-link').click(function () {
+                var lastInput = $('form#spots input[type!=submit]:last');
+                var id = $(lastInput).attr('id');
+                var idToInt = parseInt(id, 10);
+                var nextId = idToInt + 1;
+                $(lastInput).after('<input type="file" name="postedSpots" id="' + nextId + '" width="30px" height="10px;"/>')
+                            .after('<br/><br/>');
+            });
+        };
     })(parcelPage);
 
 
     $(function () {
-        parcelPage.addNewPhasesDoc();
         parcelPage.addNewParcelsDoc();
+        parcelPage.addNewSpotsDoc();
     });
 </script>
 
 <input id="@SiteConstants.TabSpecificReadyAlias" value="@SiteConstants.PhasesControllerAlias" type="hidden" />
 <div class="content wide-content">
-<table>
-    <tbody>
-        <tr>
-            <td>
-            
-                <h2>Phases</h2>
-                <br/>
-                <div><h3>Select Phases files to upload</h3></div><br/>
-                <fieldset>
-                    @using (Html.BeginForm("UploadPhases", "Phases", FormMethod.Post, new { @id = "phases", enctype = "multipart/form-data" }))
-                    {
-                        <input type="file" name="postedPhases" id="1" width="30px" height="10px;"/><br /><br />
-                        <input type="file" name="postedPhases" id="2" width="30px" height="10px;"/><br /><br />
-                        <input type="file" name="postedPhases" id="3" width="30px" height="10px;"/><br /><br />
-            
-                        <a id="new-item-link" href="javascript:void(0)">Add new file</a><br /><br />
-            
-                        <input type="submit" name="Submit" value="Upload" id="submit"/>
-                    }
-                </fieldset>
-              </td>
-              <td>
+     <h2>Phases & Parcels</h2><br/><br/>
+    <table id="phases-and-parcels-uploader-table">
+        <tbody>
+            <th>
                 <div><h3>Select Parcels files to upload</h3></div><br/>
-                <fieldset>
-                    @using (Html.BeginForm("UploadParcels", "Phases", FormMethod.Post, new { @id = "parcels", enctype = "multipart/form-data" }))
-                    {
-                        <input type="file" name="postedParcels" id="1" width="30px" height="10px;"/><br /><br />
-                        <input type="file" name="postedParcels" id="2" width="30px" height="10px;"/><br /><br />
-                        <input type="file" name="postedParcels" id="3" width="30px" height="10px;"/><br /><br />
+            </th>
+            <th>
+                <div><h3>Select Spots files to upload</h3></div><br/>
+            </th>
+            <tr>
+                <td style="width: 50%; text-align: center;">           
+                    <fieldset>
+                        @using (Html.BeginForm("UploadParcels", "Phases", FormMethod.Post, new { @id = "parcels", enctype = "multipart/form-data" }))
+                        {
+                            <input type="file" name="postedParcels" id="1" width="30px" height="10px;"/><br /><br />
+                            <input type="file" name="postedParcels" id="2" width="30px" height="10px;"/><br /><br />
+                            <input type="file" name="postedParcels" id="3" width="30px" height="10px;"/><br /><br />
             
-                        <a id="new-item-link" href="javascript:void(0)">Add new file</a><br /><br />
+                            <a id="new-item-link" href="javascript:void(0)">Add new file</a><br /><br />
             
-                        <input type="submit" name="Submit" value="Upload" id="submit"/>
-                    }
-                </fieldset>
-            </td>
-        </tr>
-    </tbody>
-</table>
+                            <input type="submit" name="Submit" value="Upload" id="submit"/>
+                        }
+                    </fieldset>
+                </td>
+                <td style="width: 50%; text-align: center;">
+                    <fieldset>
+                        @using (Html.BeginForm("UploadSpots", "Phases", FormMethod.Post, new { @id = "spots", enctype = "multipart/form-data" }))
+                        {
+                            <input type="file" name="postedSpots" id="1" width="30px" height="10px;"/><br /><br />
+                            <input type="file" name="postedSpots" id="2" width="30px" height="10px;"/><br /><br />
+                            <input type="file" name="postedSpots" id="3" width="30px" height="10px;"/><br /><br />
+            
+                            <a id="new-item-link" href="javascript:void(0)">Add new file</a><br /><br />
+            
+                            <input type="submit" name="Submit" value="Upload" id="submit"/>
+                        }
+                    </fieldset>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 
