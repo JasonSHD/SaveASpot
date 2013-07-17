@@ -23,6 +23,7 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ILogConfiguration>().To<LogConfiguration>();
 			Bind<ILogger>().To<Logger>();
 			Bind<ILogAppender>().To<LogAppender>();
+			Bind<ModelMetadataProvider>().To<ResourceDataAnnotationsModelMetadataProvider>();
 		}
 	}
 }

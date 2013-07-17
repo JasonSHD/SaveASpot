@@ -37,6 +37,7 @@ namespace SaveASpot
 			}
 
 			ControllerBuilder.Current.SetControllerFactory(kernel.Get<IControllerFactory>());
+			ModelMetadataProviders.Current = kernel.Get<ModelMetadataProvider>();
 
 			AreaRegistration.RegisterAllAreas();
 

@@ -5,15 +5,15 @@ namespace SaveASpot.ViewModels
 	public sealed class LogOnViewModel
 	{
 		[Required]
-		[Display(Name = "User name")]
+		[Display(Name = Constants.Display.Username)]
 		public string UserName { get; set; }
 
 		[Required]
 		[DataType(DataType.Password)]
-		[Display(Name = "Password")]
+		[Display(Name = Constants.Display.Password)]
 		public string Password { get; set; }
 
-		[Display(Name = "Remember me?")]
+		[Display(Name = Constants.Display.RememberMe)]
 		public bool RememberMe { get; set; }
 	}
 }

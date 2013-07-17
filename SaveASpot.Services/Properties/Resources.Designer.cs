@@ -70,11 +70,47 @@ namespace SaveASpot.Services.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm password.
+        /// </summary>
+        internal static string ConfirmPasswordDisplay {
+            get {
+                return ResourceManager.GetString("ConfirmPasswordDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The password and confirmation password do not match..
+        /// </summary>
+        internal static string ConfirmPasswordErrorMessageDisplay {
+            get {
+                return ResourceManager.GetString("ConfirmPasswordErrorMessageDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer name.
+        /// </summary>
+        internal static string CustomerNameDisplay {
+            get {
+                return ResourceManager.GetString("CustomerNameDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Customers.
         /// </summary>
         internal static string CustomersTabTitle {
             get {
                 return ResourceManager.GetString("CustomersTabTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email address.
+        /// </summary>
+        internal static string EmailDisplay {
+            get {
+                return ResourceManager.GetString("EmailDisplay", resourceCulture);
             }
         }
         
@@ -133,6 +169,15 @@ namespace SaveASpot.Services.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        internal static string PasswordDisplay {
+            get {
+                return ResourceManager.GetString("PasswordDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parcels &amp; spots.
         /// </summary>
         internal static string PhasesTabTitle {
@@ -142,11 +187,29 @@ namespace SaveASpot.Services.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remember me?.
+        /// </summary>
+        internal static string RememberMeDisplay {
+            get {
+                return ResourceManager.GetString("RememberMeDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User with same name exists..
         /// </summary>
         internal static string UserExistsError {
             get {
                 return ResourceManager.GetString("UserExistsError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User name.
+        /// </summary>
+        internal static string UserNameDisplay {
+            get {
+                return ResourceManager.GetString("UserNameDisplay", resourceCulture);
             }
         }
         

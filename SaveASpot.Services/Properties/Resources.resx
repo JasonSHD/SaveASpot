@@ -150,4 +150,25 @@
   <data name="PhasesTabTitle" xml:space="preserve">
     <value>Parcels &amp; spots</value>
   </data>
+  <data name="ConfirmPasswordDisplay" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
+  <data name="ConfirmPasswordErrorMessageDisplay" xml:space="preserve">
+    <value>The password and confirmation password do not match.</value>
+  </data>
+  <data name="CustomerNameDisplay" xml:space="preserve">
+    <value>Customer name</value>
+  </data>
+  <data name="EmailDisplay" xml:space="preserve">
+    <value>Email address</value>
+  </data>
+  <data name="PasswordDisplay" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="UserNameDisplay" xml:space="preserve">
+    <value>User name</value>
+  </data>
+  <data name="RememberMeDisplay" xml:space="preserve">
+    <value>Remember me?</value>
+  </data>
 </root>
