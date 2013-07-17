@@ -20,7 +20,7 @@
 		</div>
 
 		<ul class="nav pull-right">
-			@foreach (var tabElement in TabDescriptions)
+			@foreach (var tabElement in TabDescriptions.OrderBy(e => e.IndexOfOrder))
 	 {
 				<li>
 					<a href="#" data-ajaxtab="@Url.Action(tabElement.ActionName, tabElement.ControllerName)" data-ajaxtab-ready="@tabElement.Alias">@tabElement.Title</a>

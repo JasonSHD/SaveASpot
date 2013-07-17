@@ -45,7 +45,8 @@ namespace SaveASpot.Core.Web.Mvc
 																			 Alias = tabDescriptionsAttribute.Alias,
 																			 ControllerType = tabDescriptionsAttribute.ControllerType,
 																			 Roles = roleAuthorizeAttributes.ToList(),
-																			 Title = _textService.ResolveTest(tabDescriptionsAttribute.Title)
+																			 Title = _textService.ResolveTest(tabDescriptionsAttribute.Title),
+																			 IndexOfOrder = tabDescriptionsAttribute.IndexOfOrder
 																		 });
 						}
 					}

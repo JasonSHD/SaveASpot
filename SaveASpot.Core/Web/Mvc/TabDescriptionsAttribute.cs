@@ -9,6 +9,7 @@ namespace SaveASpot.Core.Web.Mvc
 		private readonly string _title;
 
 		public Type ControllerType { get; set; }
+		public int IndexOfOrder { get; set; }
 		public string Alias { get { return _alias; } }
 		public string Title { get { return _title; } }
 

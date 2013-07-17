@@ -11,6 +11,7 @@ namespace SaveASpot.Core.Web.Mvc
 		public string ActionName { get { return "Index"; } }
 		public string Title { get; set; }
 		public string Alias { get; set; }
+		public int IndexOfOrder { get; set; }
 		public IEnumerable<Role> Roles { get; set; }
 
 		public static void SetDescriptions(IEnumerable<TabDescription> tabDescriptions, dynamic viewBag)

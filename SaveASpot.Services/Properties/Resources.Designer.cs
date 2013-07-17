@@ -178,7 +178,7 @@ namespace SaveASpot.Services.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parcels &amp; spots.
+        ///   Looks up a localized string similar to Parcels &amp; Spots.
         /// </summary>
         internal static string PhasesTabTitle {
             get {
