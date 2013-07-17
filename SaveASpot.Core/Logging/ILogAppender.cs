@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace SaveASpot.Repositories.Interfaces.Logging
+namespace SaveASpot.Core.Logging
 {
 	public interface ILogAppender
 	{

@@ -1,11 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using SaveASpot.Core.Configuration;
-using SaveASpot.Repositories.Interfaces.Logging;
 
-
-namespace SaveASpot.Core.Logging
+namespace SaveASpot.Core.Logging.Implementation
 {
 	public class Logger : ILogger
 	{

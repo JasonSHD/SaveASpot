@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace SaveASpot.Core.Logging
+namespace SaveASpot.Core.Logging.Implementation
 {
 	public class InfoLogEntry : ILogEntry
 	{

@@ -1,4 +1,3 @@
-﻿
 namespace SaveASpot.Core.Logging
 {
 	public interface ILogger

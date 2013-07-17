@@ -167,7 +167,7 @@ q.controls = q.controls || {};
 
 						$.ajax({ type: "POST", url: logonUrl, data: data }).done(function (logonResult) {
 							if (logonResult.status == false && logonResult.message != undefined) {
-								modal.body().find("[data-error-message]").show().find("[data-error-message-content]").text(logonResult.message	);
+								modal.body().find("[data-error-message]").show().find("[data-error-message-content]").text(logonResult.message);
 								return;
 							}
 
@@ -234,8 +234,12 @@ q.controls = q.controls || {};
 
 q.validation = q.validation || {};
 (function (namespace, $) {
+	var extendConfig = function (config) {
+		return $.extend(config, { invalidClass: "field-validation-error", validClass: "field-validation-valid" });
+	};
+
 	namespace.validator = function (form, config) {
-		var result = { _data: { config: $.extend(config, { invalidClass: "field-validation-error", validClass: "field-validation-valid" }) } };
+		var result = { _data: { config: extendConfig(config) } };
 		var $form = result._data.form = $(form);
 
 		result.validate = function () {
@@ -284,6 +288,21 @@ q.validation = q.validation || {};
 
 	namespace.attrValidator = namespace.attrValidator || {};
 
+	namespace.dynamicValidator = function (form, config) {
+		var result = { _data: { config: extendConfig(config) } };
+
+		var $buttons = $("form button[data-submit='true']");
+		$buttons.click(function () {
+			var $form = $(this).parents("form");
+			var validator = q.validation.validator($form, result._data.config);
+			if (validator.validate()) {
+				$form.submit();
+			}
+		});
+
+		return result;
+	};
+
 	namespace.attrValidator.required = function (element, message) {
 		var result = { _data: {}, message: function () { return message; } };
 		var $element = result._data.element = element;
@@ -296,6 +315,17 @@ q.validation = q.validation || {};
 		return result;
 	};
 
+	namespace.attrValidator.equalTo = function (element, message) {
+		var result = { _data: {}, message: function () { return message; } };
+		var $element = result._data.element = $(element);
+		var $elementToEqual = result._data.elementToEqual = $($element.attr("data-val-equalTo-selector"));
+
+		result.validate = function () {
+			return $element.val() == $elementToEqual.val();
+		};
+
+		return result;
+	};
 
 	namespace.attrValidator.factory = function () {
 		var result = {};
@@ -306,6 +336,13 @@ q.validation = q.validation || {};
 			attr: "data-val-required",
 			factory: function (element) {
 				return namespace.attrValidator.required(element, $(element).attr("data-val-required"));
+			}
+		});
+		
+		mappings.push({
+			attr: "data-val-equalto",
+			factory: function (element) {
+				return namespace.attrValidator.equalTo(element, $(element).attr("data-val-equalto"));
 			}
 		});
 
