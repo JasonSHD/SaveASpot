@@ -18,10 +18,7 @@ namespace SaveASpot.Core.Web.Mvc
 
 		private bool IsDerivedFromRole(Type type)
 		{
-			if (type == typeof(Role)) return true;
-			if (type == null) return false;
-
-			return IsDerivedFromRole(type.BaseType);
+			return TypeHelper.IsDerivedFromType(type, typeof(Role));
 		}
 
 		#region sealed members

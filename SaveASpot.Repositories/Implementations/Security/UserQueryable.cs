@@ -31,7 +31,7 @@ namespace SaveASpot.Repositories.Implementations.Security
 		public IUserFilter FilterByRole(Role roleFilter)
 		{
 			var roleIdentity = roleFilter.Identity;
-			var query = Query<UserEntity>.EQ(e => e.Roles, new[] { roleIdentity });
+			var query = Query<SiteUser>.EQ(e => e.Roles, new[] { roleIdentity });
 			return new UserFilter(query);
 		}
 
@@ -51,14 +51,14 @@ namespace SaveASpot.Repositories.Implementations.Security
 			return new UserFilter(Query.And(new[] { ToFilter(first).MongoQuery, ToFilter(second).MongoQuery }));
 		}
 
-		public IEnumerable<UserEntity> FindUsers(IUserFilter userFilter)
+		public IEnumerable<SiteUser> FindUsers(IUserFilter userFilter)
 		{
-			return _mongoDBCollectionFactory.Collection<UserEntity>().Find(ToFilter(userFilter).MongoQuery);
+			return _mongoDBCollectionFactory.Collection<SiteUser>().Find(ToFilter(userFilter).MongoQuery);
 		}
 
-		private IUserFilter ToFilter(Expression<Func<UserEntity, bool>> expression)
+		private IUserFilter ToFilter(Expression<Func<SiteUser, bool>> expression)
 		{
-			return new UserFilter(Query<UserEntity>.Where(expression));
+			return new UserFilter(Query<SiteUser>.Where(expression));
 		}
 
 		private UserFilter ToFilter(IUserFilter userFilter)

@@ -46,8 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionNameAttribute.cs" />
     <Compile Include="Implementations\IMongoDBCollectionFactory.cs" />
     <Compile Include="Implementations\IMongoDBConfiguration.cs" />
+    <Compile Include="Implementations\Logging\LogAppender.cs" />
     <Compile Include="Implementations\MongoDBConfiguration.cs" />
     <Compile Include="Implementations\MongoDBProvider.cs" />
     <Compile Include="Implementations\ParcelRepository.cs" />
@@ -56,6 +58,7 @@
     <Compile Include="Implementations\Security\UserQueryable.cs" />
     <Compile Include="Implementations\Security\UserRepository.cs" />
     <Compile Include="Implementations\SpotRepository.cs" />
+    <Compile Include="Interfaces\Logging\ILogAppender.cs" />
     <Compile Include="Interfaces\IParcelRepository.cs" />
     <Compile Include="Interfaces\IPhaseRepository.cs" />
     <Compile Include="Interfaces\ISpotRepository.cs" />
@@ -63,10 +66,12 @@
     <Compile Include="Interfaces\Security\IUserQueryable.cs" />
     <Compile Include="Interfaces\Security\IUserRepository.cs" />
     <Compile Include="Models\Parcel.cs" />
+    <Compile Include="Models\ExceptionData.cs" />
     <Compile Include="Models\Phase.cs" />
     <Compile Include="Models\Point.cs" />
-    <Compile Include="Models\Security\UserEntity.cs" />
+    <Compile Include="Models\Security\SiteUser.cs" />
     <Compile Include="Models\Spot.cs" />
+    <Compile Include="Models\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +83,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

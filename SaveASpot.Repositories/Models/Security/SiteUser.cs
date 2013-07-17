@@ -2,7 +2,7 @@
 
 namespace SaveASpot.Repositories.Models.Security
 {
-	public sealed class UserEntity
+	public sealed class SiteUser
 	{
 		public ObjectId Id { get; set; }
 		public string Identity { get { return Id.ToString(); } }

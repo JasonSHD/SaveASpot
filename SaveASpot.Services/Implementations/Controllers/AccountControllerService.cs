@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using SaveASpot.Core;
-using SaveASpot.Core.Security;
 using SaveASpot.Core.Web;
 using SaveASpot.Repositories.Interfaces.Security;
 using SaveASpot.Services.Interfaces;
@@ -15,16 +14,14 @@ namespace SaveASpot.Services.Implementations.Controllers
 		private readonly IUserService _userService;
 		private readonly IWebAuthentication _webAuthentication;
 		private readonly ITextService _textService;
-		private readonly ICurrentUser _currentUser;
 		private readonly IUserHarvester _userHarvester;
 		private readonly IUserQueryable _userQueryable;
 
-		public AccountControllerService(IUserService userService, IWebAuthentication webAuthentication, ITextService textService, ICurrentUser currentUser, IUserHarvester userHarvester, IUserQueryable userQueryable)
+		public AccountControllerService(IUserService userService, IWebAuthentication webAuthentication, ITextService textService, IUserHarvester userHarvester, IUserQueryable userQueryable)
 		{
 			_userService = userService;
 			_webAuthentication = webAuthentication;
 			_textService = textService;
-			_currentUser = currentUser;
 			_userHarvester = userHarvester;
 			_userQueryable = userQueryable;
 		}
@@ -43,31 +40,6 @@ namespace SaveASpot.Services.Implementations.Controllers
 			}
 
 			return new MethodResult<UserResult>(false, new UserResult(_userHarvester.NotExists(), _textService.ResolveTest(userExistsResult.Status.MessageKey)));
-		}
-
-		public IMethodResult<MessageResult> RegisterUser(RegisterViewModel registerViewModel)
-		{
-			var createUserResult = _userService.CreateUser(new UserArg { Email = registerViewModel.Email, Password = registerViewModel.Password, Username = registerViewModel.UserName }, new[] { new CreatorRole(), });
-
-			return new MessageMethodResult(createUserResult.IsSuccess, _textService.ResolveTest(createUserResult.Status.MessageKet));
-		}
-
-		public IMethodResult<MessageResult> ChangePassword(ChangePasswordViewModel changePasswordViewModel)
-		{
-			var userExists = _userService.UserExists(_currentUser.User.Name, changePasswordViewModel.OldPassword);
-
-			if (userExists.IsSuccess)
-			{
-				var changePasswordResult = _userService.ChangePassword(_currentUser.User.Name,
-																															 changePasswordViewModel.NewPassword);
-
-				if (changePasswordResult.IsSuccess)
-				{
-					return new MessageMethodResult(true, string.Empty);
-				}
-			}
-
-			return new MessageMethodResult(false, _textService.ResolveTest("InvalidOldOrNewPassword"));
 		}
 
 		public IMethodResult<MessageResult> LogOff()
