@@ -16,7 +16,7 @@ namespace SaveASpot.Repositories.Implementations
 		public Spot AddSpot(Spot spot)
 		{
 			spot.Id = ObjectId.GenerateNewId();
-			_mongoDbCollectionFactory.Collection<Phase>().Insert(spot);
+			_mongoDbCollectionFactory.Collection<Spot>().Insert(spot);
 
 			return spot;
 		}
