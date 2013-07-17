@@ -1,7 +1,6 @@
 using System.Linq;
 using SaveASpot.Core;
 using SaveASpot.Core.Security;
-using SaveASpot.Services.Interfaces;
 using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.Services.Interfaces.Security;
 using SaveASpot.ViewModels;
@@ -12,11 +11,13 @@ namespace SaveASpot.Services.Implementations.Controllers
 	{
 		private readonly IUserService _userService;
 		private readonly ITextService _textService;
+		private readonly IRoleFactory _roleFactory;
 
-		public SetupUsersControllerService(IUserService userService, ITextService textService)
+		public SetupUsersControllerService(IUserService userService, ITextService textService, IRoleFactory roleFactory)
 		{
 			_userService = userService;
 			_textService = textService;
+			_roleFactory = roleFactory;
 		}
 
 		public IMethodResult<MessageResult> AdminExists()
@@ -37,7 +38,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 																		Email = registerViewModel.Email,
 																		Password = registerViewModel.Password,
 																		Username = registerViewModel.UserName
-																	}, new[] { new AdministratorRole() });
+																	}, new[] { _roleFactory.Convert(typeof(AdministratorRole)), _roleFactory.Convert(typeof(CustomerRole)) });
 
 			return new MessageMethodResult(createUserResult.IsSuccess, _textService.ResolveTest(createUserResult.Status.MessageKet));
 		}

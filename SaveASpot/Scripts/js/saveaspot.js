@@ -58,6 +58,33 @@
 	};
 })(q);
 
+(function (namespace) {
+	namespace.setConfig = function (name, value) {
+		var names = name.split(".");
+		var currentConfig = q;
+		for (var nameElementIndex in names) {
+			var nameElement = names[nameElementIndex];
+			if (nameElement == "q") continue;
+
+			var memberDescription = Object.getOwnPropertyDescriptor(currentConfig, nameElement);
+			var propertyValue = {};
+			if (memberDescription != undefined && memberDescription.writable) {
+				propertyValue = currentConfig[nameElement];
+				delete currentConfig[nameElement];
+			}
+
+			if (nameElementIndex == (names.length - 1)) {
+				propertyValue = value;
+			}
+
+			Object.defineProperty(currentConfig, nameElement, { writable: false, configurable: false, value: propertyValue, enumerable: true });
+			currentConfig = currentConfig[nameElement];
+		}
+
+		return namespace;
+	};
+})(q);
+
 q.controls = q.controls || {};
 (function (namespace, $) {
 	namespace.ajaxTab = function ($container) {
@@ -359,7 +386,7 @@ q.validation = q.validation || {};
 				return namespace.attrValidator.lengthValidator(element, { message: $element.attr("data-val-length"), min: $element.attr("data-val-length-min"), max: $element.attr("data-val-length-max") });
 			},
 		});
-		
+
 		mappings.push({
 			attr: "data-val-equalto",
 			factory: function (element) {

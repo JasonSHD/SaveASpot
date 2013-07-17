@@ -26,6 +26,7 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<IAuthorizeManager>().To<AuthorizeManager>();
 			Bind<IArcgisService>().To<ArcgisService>();
 			Bind<ISetupUsersControllerService>().To<SetupUsersControllerService>();
+			Bind<IPhasesControllerService>().To<PhasesControllerService>();
 		}
 	}
 }
