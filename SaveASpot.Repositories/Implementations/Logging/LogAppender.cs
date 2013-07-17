@@ -17,18 +17,23 @@ namespace SaveASpot.Repositories.Implementations.Logging
 		public void Log(string level, string message, Exception exception)
 		{
 			var realerror = exception;
-			var exceptionEntity = new ExceptionData {Message = realerror.Message, StackTrace = realerror.StackTrace};
-			var exceptionForDb = exceptionEntity;
+			ExceptionData exceptionForDb = null;
 
-			while (realerror.InnerException != null)
+			if (realerror != null)
 			{
-				realerror = realerror.InnerException;
-				exceptionEntity.InnerException = new ExceptionData
-					{
-						Message = realerror.Message,
-						StackTrace = realerror.StackTrace
-					};
-				exceptionEntity = exceptionEntity.InnerException;
+				var exceptionEntity = new ExceptionData { Message = realerror.Message, StackTrace = realerror.StackTrace };
+				exceptionForDb = exceptionEntity;
+
+				while (realerror.InnerException != null)
+				{
+					realerror = realerror.InnerException;
+					exceptionEntity.InnerException = new ExceptionData
+																						 {
+																							 Message = realerror.Message,
+																							 StackTrace = realerror.StackTrace
+																						 };
+					exceptionEntity = exceptionEntity.InnerException;
+				}
 			}
 
 			var logEntity = new Log()

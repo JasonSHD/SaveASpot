@@ -10,6 +10,11 @@ namespace SaveASpot.Core.Logging
 			logger.Log(new InfoLogEntry(message));
 		}
 
+		public static void Info(this ILogger logger, string message, params object[] args)
+		{
+			logger.Log(new InfoLogEntry(string.Format(message, args)));
+		}
+
 		public static void Error(this ILogger logger, string message, Exception exception)
 		{
 			logger.Log(new ErrorLogEntry(exception, message));

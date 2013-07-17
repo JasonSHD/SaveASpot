@@ -8,13 +8,14 @@
 
 		public static class Display
 		{
-			public const string Username = "User name";
-			public const string Email = "Email address";
-			public const string Password = "Password";
-			public const string ConfirmPassword = "Confirm password";
-			public const string CustomerName = "Customer name";
+			public const string Username = "UserNameDisplay";
+			public const string Email = "EmailDisplay";
+			public const string Password = "PasswordDisplay";
+			public const string ConfirmPassword = "ConfirmPasswordDisplay";
+			public const string CustomerName = "CustomerNameDisplay";
 			public const string ConfirmPasswordErrorMessage = "The password and confirmation password do not match.";
 			public const string PasswordStringLengthErrorMessage = "The {0} must be at least {2} characters long.";
+			public const string RememberMe = "RememberMeDisplay";
 		}
 	}
 }
