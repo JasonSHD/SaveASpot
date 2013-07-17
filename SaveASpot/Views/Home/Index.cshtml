@@ -37,8 +37,8 @@
 </div>
 
 <script>
-	q.pageConfig = {
-		loginUrl: "@Url.Action("Logon", "Account")",
-		logoutUrl: "@Url.Action("LogOff", "Account")",
-	};
+	Object.defineProperty(q, "pageConfig", { writable: false, value: {}, configurable: false });
+
+	Object.defineProperty(q.pageConfig, "loginUrl", { writable: false, value: "@Url.Action("Logon", "Account")", configurable: false });
+	Object.defineProperty(q.pageConfig, "logoutUrl", { writable: false, value: "@Url.Action("LogOff", "Account")", configurable: false });
 </script>
