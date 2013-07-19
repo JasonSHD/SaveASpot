@@ -30,6 +30,7 @@ namespace SaveASpot
 		{
 			var kernel = new StandardKernel(new CoreConfigurationModule(), new ServicesConfigurationModule(), new RepositoriesConfigurationModule(), new SetupAreaConfigurationModule());
 			kernel.Bind<ITabDescriptionControllerTypes>().ToMethod(c => new TabDescriptionControllerTypes(typeof(MapController).Assembly));
+			kernel.Bind<IControllerTypesFinder>().ToMethod(c => new ControllerTypesFinder(typeof(MapController).Assembly));
 			GlobalFilters.Filters.Add(kernel.Get<MvcAuthorizeFilter>());
 			foreach (var actionFilter in kernel.GetAll<IActionFilter>())
 			{

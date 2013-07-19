@@ -1,10 +1,11 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using SaveASpot.Controllers.Artifacts;
 using SaveASpot.Core.Web.Mvc;
 
 namespace SaveASpot.Controllers
 {
-	[TabDescriptions(SiteConstants.MapControllerAlias, "MapTabTitle", IndexOfOrder = 10)]
+	[MainMenuTab(Alias = SiteConstants.MapControllerAlias, Area = "", IndexOfOrder = 10, Title = "MapTabTitle")]
 	[CustomerAuthorize]
 	public sealed class MapController : AdminTabController
 	{
@@ -13,4 +14,16 @@ namespace SaveASpot.Controllers
 			return TabView(new { });
 		}
 	}
+
+	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+	public sealed class MainMenuTabAttribute : TabAttribute
+	{
+		public MainMenuTabAttribute()
+			: base(typeof(MainMenuTabActionAttribute))
+		{
+		}
+	}
+
+	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+	public sealed class MainMenuTabActionAttribute : DefaultTabActionAttribute { }
 }

@@ -180,9 +180,9 @@ namespace SaveASpot.Services.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Parcels &amp; Spots.
         /// </summary>
-        internal static string PhasesTabTitle {
+        internal static string PhasesAndParcelsTabTitle {
             get {
-                return ResourceManager.GetString("PhasesTabTitle", resourceCulture);
+                return ResourceManager.GetString("PhasesAndParcelsTabTitle", resourceCulture);
             }
         }
         

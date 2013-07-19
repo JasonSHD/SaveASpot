@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using SaveASpot.Services.Interfaces.Controllers;
 
 namespace SaveASpot.Services.Implementations.Controllers
 {
-	public sealed class PhasesControllerService : IPhasesControllerService
+	public sealed class PhasesAndParcelsControllerService : IPhasesAndParcelsControllerService
 	{
 		public IEnumerable<PhaseViewModel> GetPhases()
 		{
@@ -16,6 +17,14 @@ namespace SaveASpot.Services.Implementations.Controllers
 			}
 
 			return result;
+		}
+	}
+
+	public sealed class ParcelsControllerService : IParcelsControllerService
+	{
+		public IEnumerable<ParcelViewModel> GetParcels()
+		{
+			return Enumerable.Empty<ParcelViewModel>();
 		}
 	}
 }

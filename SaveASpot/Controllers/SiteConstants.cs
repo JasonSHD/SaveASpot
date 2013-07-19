@@ -9,7 +9,7 @@
 		public const string DefaultMvcLayout = "~/Views/Shared/_Layout.cshtml";
 		public const string MapControllerAlias = "mapTab";
 		public const string CustomersControllerAlias = "customerTab";
-		public const string PhasesControllerAlias = "phasesTab";
+		public const string PhasesAndParcelsControllerAlias = "phasesTab";
 		public const string AdminTabMasterName = @"~\Views\Shared\_LayoutTabDetailAdmin.cshtml";
 		public const string BootstrapLayout = @"~\Views\Shared\_BootstrapLayout.cshtml";
 		public const string SetupAreaLayout = @"~\Areas\Setup\Views\Shared\_SetupLayout.cshtml";
