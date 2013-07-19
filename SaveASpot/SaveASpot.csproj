@@ -89,14 +89,19 @@
     <Compile Include="Areas\Setup\Controllers\Artifacts\SetupController.cs" />
     <Compile Include="Areas\Setup\SetupAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\Artifacts\AdminTabController.cs" />
+    <Compile Include="Controllers\Artifacts\MainMenuTabActionAttribute.cs" />
+    <Compile Include="Controllers\Artifacts\MainMenuTabAttribute.cs" />
+    <Compile Include="Controllers\Artifacts\PhasePageDefaultTabActionAttribute.cs" />
+    <Compile Include="Controllers\Artifacts\PhasePageTabAttribute.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\ParcelsController.cs" />
     <Compile Include="Controllers\PhasesAndParcelsController.cs" />
     <Compile Include="Areas\Setup\Controllers\SetupUsersController.cs" />
+    <Compile Include="Controllers\PhasesController.cs" />
     <Compile Include="Controllers\SiteConstants.cs" />
+    <Compile Include="Controllers\SpotsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -397,6 +402,9 @@
     <Content Include="Views\Shared\Controls\LogOnContainer.cshtml" />
     <Content Include="Views\Shared\Controls\UserInfoContainer.cshtml" />
     <Content Include="Views\Customers\CreateCustomer.cshtml" />
+    <Content Include="Views\Parcels\Index.cshtml" />
+    <Content Include="Views\Phases\Index.cshtml" />
+    <Content Include="Views\Spots\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

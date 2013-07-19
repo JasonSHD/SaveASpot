@@ -11,9 +11,8 @@ using SaveASpot.Services.Interfaces;
 
 namespace SaveASpot.Controllers
 {
-    [TabDescriptions(SiteConstants.PhasesControllerAlias, "Phases")]
     [AdministratorAuthorize]
-    public sealed class PhasesController : AdminTabController
+    public sealed class PhasesController : TabController
     {
         private readonly IArcgisService _arcgisService;
         private readonly ILogger _logger;

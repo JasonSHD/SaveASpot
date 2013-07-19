@@ -7,7 +7,7 @@ namespace SaveASpot.Controllers
 {
 	[MainMenuTab(Alias = SiteConstants.PhasesAndParcelsControllerAlias, Area = "", IndexOfOrder = 20, Title = "PhasesAndParcelsTabTitle")]
 	[AdministratorAuthorize]
-	public sealed class PhasesAndParcelsController : AdminTabController
+	public sealed class PhasesAndParcelsController : TabController
 	{
 		private readonly IPhasesAndParcelsControllerService _phasesControllerService;
 
