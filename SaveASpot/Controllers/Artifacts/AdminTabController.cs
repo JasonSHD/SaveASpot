@@ -4,9 +4,9 @@ using SaveASpot.Core.Web.Mvc;
 
 namespace SaveASpot.Controllers.Artifacts
 {
-	public abstract class AdminTabController : BaseController
+	public abstract class AdminTabController : TabController
 	{
-		protected virtual ViewResult TabView(object model)
+		protected override ViewResult TabView(object model)
 		{
 			var specifiedMasterName = Request.Headers.AllKeys.All(e => e != SiteConstants.AdminTabControlHeader);
 

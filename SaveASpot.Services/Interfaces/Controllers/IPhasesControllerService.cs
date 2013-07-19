@@ -2,7 +2,7 @@
 
 namespace SaveASpot.Services.Interfaces.Controllers
 {
-	public interface IPhasesControllerService
+	public interface IPhasesAndParcelsControllerService
 	{
 		IEnumerable<PhaseViewModel> GetPhases();
 	}

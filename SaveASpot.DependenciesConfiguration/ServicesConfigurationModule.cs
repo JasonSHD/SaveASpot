@@ -25,7 +25,8 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<IAuthorizeManager>().To<AuthorizeManager>();
 
 			Bind<ISetupUsersControllerService>().To<SetupUsersControllerService>();
-			Bind<IPhasesControllerService>().To<PhasesControllerService>();
+			Bind<IPhasesAndParcelsControllerService>().To<PhasesAndParcelsControllerService>();
+			Bind<IParcelsControllerService>().To<ParcelsControllerService>();
 		}
 	}
 }

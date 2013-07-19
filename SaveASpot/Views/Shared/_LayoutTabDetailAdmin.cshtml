@@ -1,4 +1,5 @@
 ﻿@using SaveASpot.Controllers
+@using SaveASpot.Core.Web.Mvc.Extensions
 @inherits SaveASpot.Core.Web.Mvc.AdminTabViewPage<dynamic>
 @{
 	Layout = SiteConstants.BootstrapLayout;
@@ -20,7 +21,7 @@
 		</div>
 
 		<ul class="nav pull-right">
-			@foreach (var tabElement in TabDescriptions.OrderBy(e => e.IndexOfOrder))
+			@foreach (var tabElement in Html.For<MainMenuTabAttribute>().OrderBy(e => e.IndexOfOrder))
 	 {
 				<li>
 					<a href="#" data-ajaxtab="@Url.Action(tabElement.ActionName, tabElement.ControllerName)" data-ajaxtab-ready="@tabElement.Alias">@tabElement.Title</a>

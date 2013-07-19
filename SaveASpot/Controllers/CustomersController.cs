@@ -6,7 +6,7 @@ using SaveASpot.ViewModels;
 
 namespace SaveASpot.Controllers
 {
-	[TabDescriptions(SiteConstants.CustomersControllerAlias, "CustomersTabTitle", IndexOfOrder = 30)]
+	[MainMenuTab(Alias = SiteConstants.CustomersControllerAlias, Area = "", IndexOfOrder = 30, Title = "CustomersTabTitle")]
 	[AdministratorAuthorize]
 	public sealed class CustomersController : AdminTabController
 	{

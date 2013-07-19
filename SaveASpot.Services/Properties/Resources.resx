@@ -147,7 +147,7 @@
   <data name="MapTabTitle" xml:space="preserve">
     <value>Map</value>
   </data>
-  <data name="PhasesTabTitle" xml:space="preserve">
+  <data name="PhasesAndParcelsTabTitle" xml:space="preserve">
     <value>Parcels &amp; Spots</value>
   </data>
   <data name="ConfirmPasswordDisplay" xml:space="preserve">

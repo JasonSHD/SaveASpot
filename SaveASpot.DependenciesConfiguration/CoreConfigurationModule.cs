@@ -18,8 +18,8 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<IConfigurationManager>().To<ConfigurationManager>();
 			Bind<IPasswordHash>().To<PasswordHash>();
 			Bind<IActionFilter>().To<ViewPageInitializerFilter>();
-			Bind<IActionFilter>().To<TabDescriptionActionFilter>();
-			Bind<ITabDescriptionFilter>().To<RoleTabDescriptionFilter>();
+			Bind<IActionFilter>().To<TabActionFilter>();
+			Bind<ITabElementFilter>().To<RoleTabElementFilter>();
 			Bind<ILogConfiguration>().To<LogConfiguration>();
 			Bind<ILogger>().To<Logger>();
 			Bind<ILogAppender>().To<LogAppender>();
