@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Web.Mvc;
 using SaveASpot.Core.Security;
 
@@ -84,46 +83,6 @@ namespace SaveASpot.Core.Web.Mvc
 
 				TabElement.SetDescriptions(result, filterContext.Controller.ViewBag);
 			}
-		}
-	}
-
-	public interface ITabElementFilter
-	{
-		IEnumerable<TabElement> Filter(IEnumerable<TabElement> filter);
-	}
-
-	public sealed class RoleTabElementFilter : ITabElementFilter
-	{
-		private readonly IAuthorizeManager _authorizeManager;
-
-		public RoleTabElementFilter(IAuthorizeManager authorizeManager)
-		{
-			_authorizeManager = authorizeManager;
-		}
-
-		public IEnumerable<TabElement> Filter(IEnumerable<TabElement> filter)
-		{
-			return filter.Where(e => _authorizeManager.AllowAccess(e.Roles.Select(r => r.GetType())).IsAllow).ToList();
-		}
-	}
-
-	public interface IControllerTypesFinder
-	{
-		IEnumerable<Type> GetTypes();
-	}
-
-	public sealed class ControllerTypesFinder : IControllerTypesFinder
-	{
-		private readonly Assembly _assembly;
-
-		public ControllerTypesFinder(Assembly assembly)
-		{
-			_assembly = assembly;
-		}
-
-		public IEnumerable<Type> GetTypes()
-		{
-			return _assembly.GetTypes().Where(e => TypeHelper.IsDerivedFromType(e, typeof(BaseController)));
 		}
 	}
 }

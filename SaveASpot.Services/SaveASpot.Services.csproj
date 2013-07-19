@@ -47,6 +47,7 @@
     <Compile Include="Implementations\ArcgisService.cs" />
     <Compile Include="Implementations\Controllers\AccountControllerService.cs" />
     <Compile Include="Implementations\Controllers\CustomersControllerService.cs" />
+    <Compile Include="Implementations\Controllers\ParcelsControllerService.cs" />
     <Compile Include="Implementations\Controllers\PhasesControllerService.cs" />
     <Compile Include="Implementations\Controllers\SetupUsersControllerService.cs" />
     <Compile Include="Implementations\CurrentUser.cs" />

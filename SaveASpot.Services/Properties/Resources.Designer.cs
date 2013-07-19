@@ -169,11 +169,29 @@ namespace SaveASpot.Services.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Parcels.
+        /// </summary>
+        internal static string ParcelsAccordionGroupTitle {
+            get {
+                return ResourceManager.GetString("ParcelsAccordionGroupTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         internal static string PasswordDisplay {
             get {
                 return ResourceManager.GetString("PasswordDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phases.
+        /// </summary>
+        internal static string PhasesAccordionGroupTitle {
+            get {
+                return ResourceManager.GetString("PhasesAccordionGroupTitle", resourceCulture);
             }
         }
         
@@ -192,6 +210,15 @@ namespace SaveASpot.Services.Properties {
         internal static string RememberMeDisplay {
             get {
                 return ResourceManager.GetString("RememberMeDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spots.
+        /// </summary>
+        internal static string SpotsAccordingGroupTitle {
+            get {
+                return ResourceManager.GetString("SpotsAccordingGroupTitle", resourceCulture);
             }
         }
         

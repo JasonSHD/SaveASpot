@@ -87,34 +87,33 @@
 
 q.controls = q.controls || {};
 (function (namespace, $) {
-	namespace.ajaxTab = function ($container) {
-		var result = { _data: { container: $($container) } };
+	namespace.ajaxForm = function (formAlias) {
+		var result = { _data: { alias: formAlias } };
 
-		$("[data-ajaxtab]").each(function () {
-			$(this).click(function (event) {
-				event.stopPropagation();
-				result.update(this);
-			});
+		$("[data-ajaxform='" + formAlias + "']").click(function () {
+			result.update(this);
 		});
 
 		result.update = function (contextElement) {
-			var $context = $(contextElement);
-			var url = $context.attr("data-ajaxtab");
+			var $contextElement = $(contextElement);
+			var url = $contextElement.attr("data-ajaxform-url");
 
 			$.ajax({
 				type: "GET", url: url, beforeSend: function (jqXHR) {
-					jqXHR.setRequestHeader("AdminTabControlHeader", "true");
+					jqXHR.setRequestHeader(formAlias, "true");
 				}
 			}).done(function (content) {
-				var readyHandlersAlias = $context.attr("data-ajaxtab-ready");
-				$container.html(content);
-				q.runReadyHandlers(readyHandlersAlias);
+				var readyHandlerAlias = $contextElement.attr("data-ajaxform-alias");
+				var $ajaxForm = $("[data-ajaxform-container-" + readyHandlerAlias + "]");
+				if ($ajaxForm.length == 0) {
+					$ajaxForm = $("[data-ajaxform-container-" + formAlias + "]");
+				}
+				$ajaxForm.html(content);
+				q.runReadyHandlers(readyHandlerAlias);
 			});
 
 			return result;
 		};
-
-		q.runReadyHandlers($("#tabSpecificReadyAlias").val());
 
 		return result;
 	};

@@ -29,10 +29,12 @@ q("customerTab", function () {
 
 q("phasesTab", function () {
 	console.log("for phasesTab");
+
+	q.controls.ajaxForm("PhasePageTabAttribute");
 });
 
 q("adminTabController", function () {
-	q.controls.ajaxTab($("#tabContent"));
+	q.controls.ajaxForm("MainMenuTabAttribute");
 });
 
 q("homePage", function () {

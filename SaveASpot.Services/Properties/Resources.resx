@@ -171,4 +171,13 @@
   <data name="RememberMeDisplay" xml:space="preserve">
     <value>Remember me?</value>
   </data>
+  <data name="ParcelsAccordionGroupTitle" xml:space="preserve">
+    <value>Parcels</value>
+  </data>
+  <data name="PhasesAccordionGroupTitle" xml:space="preserve">
+    <value>Phases</value>
+  </data>
+  <data name="SpotsAccordingGroupTitle" xml:space="preserve">
+    <value>Spots</value>
+  </data>
 </root>

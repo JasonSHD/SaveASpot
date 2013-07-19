@@ -8,7 +8,7 @@ namespace SaveASpot.Controllers
 {
 	[MainMenuTab(Alias = SiteConstants.CustomersControllerAlias, Area = "", IndexOfOrder = 30, Title = "CustomersTabTitle")]
 	[AdministratorAuthorize]
-	public sealed class CustomersController : AdminTabController
+	public sealed class CustomersController : TabController
 	{
 		private readonly ICustomersControllerService _customersControllerService;
 
