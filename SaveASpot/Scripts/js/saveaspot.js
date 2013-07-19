@@ -90,9 +90,13 @@ q.controls = q.controls || {};
 	namespace.ajaxForm = function (formAlias) {
 		var result = { _data: { alias: formAlias } };
 
-		$("[data-ajaxform='" + formAlias + "']").click(function () {
+		var onButtonClick = function () {
 			result.update(this);
-		});
+		};
+
+		var $updateButtons = $("[data-ajaxform='" + formAlias + "']");
+
+		$updateButtons.bind("click", onButtonClick);
 
 		result.update = function (contextElement) {
 			var $contextElement = $(contextElement);
@@ -113,6 +117,11 @@ q.controls = q.controls || {};
 			});
 
 			return result;
+		};
+
+		result.destroy = function () {
+			$updateButtons.unbind("click", onButtonClick);
+			$updateButtons = undefined;
 		};
 
 		return result;
