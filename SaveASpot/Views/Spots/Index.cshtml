@@ -9,7 +9,7 @@
 <table class="table table-striped">
 	<thead>
 		<tr>
-			<th>Name</th>
+			<th>Area</th>
 			<th></th>
 		</tr>
 	</thead>
@@ -17,9 +17,9 @@
 		@foreach (var spotViewModel in Model.Spots)
 	{
 			<tr>
-				<td>@spotViewModel.Name</td>
+				<td>@spotViewModel.Area</td>
 				<td>
-					<button class="btn btn-danger" data-spot-delete-identity="@spotViewModel.Identity" data-spot-delete-name="@spotViewModel.Name">Delete</button></td>
+					<button class="btn btn-danger" data-spot-delete-identity="@spotViewModel.Identity" data-spot-delete-name="@spotViewModel.Area">Delete</button></td>
 			</tr>
 	}
 	</tbody>

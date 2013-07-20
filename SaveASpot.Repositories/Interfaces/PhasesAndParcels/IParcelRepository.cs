@@ -5,5 +5,6 @@ namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
 	public interface IParcelRepository
 	{
 		Parcel AddParcel(Parcel parcel);
+		bool Remove(string identity);
 	}
 }

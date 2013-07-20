@@ -17,6 +17,9 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<IPhaseRepository>().To<PhaseRepository>();
 			Bind<IParcelRepository>().To<ParcelRepository>();
 			Bind<IPhaseQueryable>().To<PhaseQueryable>();
+			Bind<ISpotRepository>().To<SpotRepository>();
+			Bind<IParcelQueryable>().To<ParcelQueryable>();
+			Bind<ISpotQueryable>().To<SpotQueryable>();
 		}
 	}
 }

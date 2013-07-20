@@ -5,5 +5,6 @@ namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
 	public interface ISpotRepository
 	{
 		Spot AddSpot(Spot spot);
+		bool Remove(string identity);
 	}
 }
