@@ -147,6 +147,8 @@ q.controls = q.controls || {};
 		};
 
 		result.destroy = function () {
+
+			result._data.currentEvents.unload();
 			$updateButtons.unbind("click", onButtonClick);
 			$updateButtons = undefined;
 		};

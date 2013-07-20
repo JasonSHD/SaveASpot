@@ -54,9 +54,9 @@ q("parcelsAndSpotsTab", function (arg) {
 	arg = arg || {};
 
 	arg.unload = function () {
-		console.log("parcels & spots tab unload");
-
 		ajaxForm.destroy();
+		
+		console.log("parcels & spots tab unload");
 	};
 });
 

@@ -405,7 +405,9 @@
     <Content Include="Views\Phases\Index.cshtml" />
     <Content Include="Views\Spots\Index.cshtml" />
     <Content Include="Views\UploadPhasesAndParcels\Index.cshtml" />
-    <Content Include="Views\Shared\_LayoutParcelsAndSpots.cshtml" />
+    <Content Include="Views\Shared\ParcelsAndSpots\_LayoutParcelsAndSpots.cshtml" />
+    <Content Include="Views\Shared\ParcelsAndSpots\_LayoutAjaxParcelsAndSpots.cshtml" />
+    <Content Include="Views\Shared\ParcelsAndSpots\ParcelsAndSpotsMenuTabs.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

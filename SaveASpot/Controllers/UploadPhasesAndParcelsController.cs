@@ -12,7 +12,7 @@ using SaveASpot.Services.Interfaces;
 namespace SaveASpot.Controllers
 {
 	[AdministratorAuthorize]
-	[PhasePageTab(Alias = "uploadPhasesAndParcelsAccordionGroup", IndexOfOrder = 40, Title = "UploadPhasesAndParcelsAccordionGroupTitle")]
+	[PhasePageTab(Alias = SiteConstants.UploadPhasesAndParcelsControllerAlias, IndexOfOrder = 40, Title = "UploadPhasesAndParcelsAccordionGroupTitle")]
 	public sealed class UploadPhasesAndParcelsController : TabController
 	{
 		private readonly IArcgisService _arcgisService;

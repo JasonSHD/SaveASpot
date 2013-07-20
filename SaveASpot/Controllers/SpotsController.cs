@@ -5,7 +5,7 @@ using SaveASpot.Core.Web.Mvc;
 namespace SaveASpot.Controllers
 {
 	[AdministratorAuthorize]
-	[PhasePageTab(Alias = "spotsAccordionGroup", IndexOfOrder = 30, Title = "SpotsAccordingGroupTitle")]
+	[PhasePageTab(Alias = SiteConstants.SpotsControllerAlias, IndexOfOrder = 30, Title = "SpotsAccordingGroupTitle")]
 	public sealed class SpotsController : TabController
 	{
 		public ViewResult Index()
