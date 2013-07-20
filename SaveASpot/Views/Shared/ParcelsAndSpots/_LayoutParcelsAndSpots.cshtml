@@ -1,0 +1,15 @@
+﻿@using SaveASpot.Controllers
+@using SaveASpot.Controllers.Artifacts
+@using SaveASpot.Core.Web.Mvc.Extensions
+@{
+	Layout = SiteConstants.Layouts.MainMenuTabs;
+}
+
+<input id="@SiteConstants.MainMenuTabSpecificReadyAlias" value="@SiteConstants.PhasesAndParcelsControllerAlias" type="hidden" />
+
+@{Html.RenderPartial(SiteConstants.Controls.ParcelsAndSpotsMenuTabsView);}
+
+@using (Html.BeginContainerForElement<PhasePageTabAttribute>("div", htmlAttributes: new { id = "phasesAndParcelsTabContent", @class = "content wide-content" }, forAll: true))
+{
+	@RenderBody()
+}
