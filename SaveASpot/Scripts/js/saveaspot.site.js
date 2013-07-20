@@ -98,7 +98,8 @@ q("uploadPhasesAndParcelsTab", function (arg) {
 	arg = arg || {};
 
 	$('form#parcels .new-uploader-link, form#spots .new-uploader-link').click(function () {
-		$("<div>").append("<input type='file'>").attr("name", "").attr("width", "30px").attr("height", "10px").append("<br/><br/>").insertBefore(this);
+		var $form = $(this).parents("form");
+		$("<div>").append($("<input type='file'>").attr("name", $form.attr("data-arg-name")).attr("width", "30px").attr("height", "10px")).append("<br/><br/>").insertBefore(this);
 	});
 
 	$("#phases-and-parcels-uploader-table [data-upload-button]").click(function () {
