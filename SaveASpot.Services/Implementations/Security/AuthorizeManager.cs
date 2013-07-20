@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using SaveASpot.Core.Security;
 using SaveASpot.Core.Web.Mvc;
-using SaveASpot.Services.Interfaces.Security;
 
 namespace SaveASpot.Services.Implementations.Security
 {

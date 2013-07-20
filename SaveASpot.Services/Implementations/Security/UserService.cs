@@ -50,7 +50,7 @@ namespace SaveASpot.Services.Implementations.Security
 			if (validationResult.IsValid)
 			{
 				var user =
-					_userRepository.CreateUser(new UserEntity
+					_userRepository.CreateUser(new SiteUser
 																			 {
 																				 Email = userArg.Email,
 																				 Password = _passwordHash.GetHash(userArg.Password, userArg.Username),

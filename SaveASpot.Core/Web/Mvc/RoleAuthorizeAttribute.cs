@@ -3,7 +3,7 @@ using SaveASpot.Core.Security;
 
 namespace SaveASpot.Core.Web.Mvc
 {
-	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
+	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
 	public class RoleAuthorizeAttribute : Attribute
 	{
 		private readonly Type _roleType;
@@ -18,10 +18,7 @@ namespace SaveASpot.Core.Web.Mvc
 
 		private bool IsDerivedFromRole(Type type)
 		{
-			if (type == typeof(Role)) return true;
-			if (type == null) return false;
-
-			return IsDerivedFromRole(type.BaseType);
+			return TypeHelper.IsDerivedFromType(type, typeof(Role));
 		}
 
 		#region sealed members

@@ -33,8 +33,6 @@ namespace SaveASpot.Controllers
 				}
 
 				return Json(new { status = false, message = logOnResult.Status.Message });
-
-				//ModelState.AddModelError("", logOnResult.Status.Message);
 			}
 
 			// If we got this far, something failed, redisplay form
@@ -46,61 +44,6 @@ namespace SaveASpot.Controllers
 			var logOffResult = _accountControllerService.LogOff();
 
 			return Json(new { result = logOffResult.IsSuccess }, JsonRequestBehavior.AllowGet);
-		}
-
-		public ActionResult Register()
-		{
-			return View();
-		}
-
-		[HttpPost]
-		public ActionResult Register(RegisterViewModel viewModel)
-		{
-			if (ModelState.IsValid)
-			{
-				var registerResult = _accountControllerService.RegisterUser(viewModel);
-
-				if (registerResult.IsSuccess)
-				{
-					return RedirectToAction("Index", "Home");
-				}
-
-				ModelState.AddModelError("", registerResult.Status.Message);
-			}
-
-			// If we got this far, something failed, redisplay form
-			return View(viewModel);
-		}
-
-		[Authorize]
-		public ActionResult ChangePassword()
-		{
-			return View();
-		}
-
-		[Authorize]
-		[HttpPost]
-		public ActionResult ChangePassword(ChangePasswordViewModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				var changePasswordResult = _accountControllerService.ChangePassword(model);
-
-				if (changePasswordResult.IsSuccess)
-				{
-					return RedirectToAction("ChangePasswordSuccess");
-				}
-
-				ModelState.AddModelError("", changePasswordResult.Status.Message);
-			}
-
-			// If we got this far, something failed, redisplay form
-			return View(model);
-		}
-
-		public ActionResult ChangePasswordSuccess()
-		{
-			return View();
 		}
 	}
 }

@@ -234,8 +234,12 @@ q.controls = q.controls || {};
 
 q.validation = q.validation || {};
 (function (namespace, $) {
+	var extendConfig = function (config) {
+		return $.extend(config, { invalidClass: "field-validation-error", validClass: "field-validation-valid" });
+	};
+
 	namespace.validator = function (form, config) {
-		var result = { _data: { config: $.extend(config, { invalidClass: "field-validation-error", validClass: "field-validation-valid" }) } };
+		var result = { _data: { config: extendConfig(config) } };
 		var $form = result._data.form = $(form);
 
 		result.validate = function () {
@@ -284,6 +288,21 @@ q.validation = q.validation || {};
 
 	namespace.attrValidator = namespace.attrValidator || {};
 
+	namespace.dynamicValidator = function (form, config) {
+		var result = { _data: { config: extendConfig(config) } };
+
+		var $buttons = $("form button[data-submit='true']");
+		$buttons.click(function () {
+			var $form = $(this).parents("form");
+			var validator = q.validation.validator($form, result._data.config);
+			if (validator.validate()) {
+				$form.submit();
+			}
+		});
+
+		return result;
+	};
+
 	namespace.attrValidator.required = function (element, message) {
 		var result = { _data: {}, message: function () { return message; } };
 		var $element = result._data.element = $(element);
@@ -304,6 +323,18 @@ q.validation = q.validation || {};
 			var value = $element.val();
 
 			return result._data.options.min < value.length && value.length < result._data.options.max;
+		}
+		
+		return result;
+	}
+
+	namespace.attrValidator.equalTo = function (element, message) {
+		var result = { _data: {}, message: function () { return message; } };
+		var $element = result._data.element = $(element);
+		var $elementToEqual = result._data.elementToEqual = $($element.attr("data-val-equalTo-selector"));
+
+		result.validate = function () {
+			return $element.val() == $elementToEqual.val();
 		};
 
 		return result;
@@ -327,6 +358,13 @@ q.validation = q.validation || {};
 				var $element = $(element);
 				return namespace.attrValidator.lengthValidator(element, { message: $element.attr("data-val-length"), min: $element.attr("data-val-length-min"), max: $element.attr("data-val-length-max") });
 			},
+		});
+		
+		mappings.push({
+			attr: "data-val-equalto",
+			factory: function (element) {
+				return namespace.attrValidator.equalTo(element, $(element).attr("data-val-equalto"));
+			}
 		});
 
 		result.parseElement = function (element) {

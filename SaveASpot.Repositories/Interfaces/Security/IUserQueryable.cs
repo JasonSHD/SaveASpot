@@ -11,6 +11,6 @@ namespace SaveASpot.Repositories.Interfaces.Security
 		IUserFilter FilterByRole(Role role);
 		IUserFilter FilterById(string identity);
 		IUserFilter And(IUserFilter first, IUserFilter second);
-		IEnumerable<UserEntity> FindUsers(IUserFilter userFilter);
+		IEnumerable<SiteUser> FindUsers(IUserFilter userFilter);
 	}
 }

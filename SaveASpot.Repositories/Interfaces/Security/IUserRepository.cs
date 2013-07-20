@@ -4,7 +4,7 @@ namespace SaveASpot.Repositories.Interfaces.Security
 {
 	public interface IUserRepository
 	{
-		UserEntity CreateUser(UserEntity userEntity);
+		SiteUser CreateUser(SiteUser siteUser);
 		bool UpdateUserPassword(string username, string password);
 	}
 }
