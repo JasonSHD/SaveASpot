@@ -28,6 +28,7 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ISetupUsersControllerService>().To<SetupUsersControllerService>();
 			Bind<IParcelsControllerService>().To<ParcelsControllerService>();
 			Bind<IPhasesControllerService>().To<PhasesControllerService>();
+			Bind<ISpotsControllerService>().To<SpotsControllerService>();
 		}
 	}
 }

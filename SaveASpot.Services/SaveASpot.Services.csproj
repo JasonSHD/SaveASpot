@@ -50,6 +50,7 @@
     <Compile Include="Implementations\Controllers\ParcelsControllerService.cs" />
     <Compile Include="Implementations\Controllers\PhasesControllerService.cs" />
     <Compile Include="Implementations\Controllers\SetupUsersControllerService.cs" />
+    <Compile Include="Implementations\Controllers\SpotsControllerService.cs" />
     <Compile Include="Implementations\CurrentUser.cs" />
     <Compile Include="Implementations\Security\AuthorizeManager.cs" />
     <Compile Include="Implementations\Security\RoleFactory.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Interfaces\Controllers\IParcelsControllerService.cs" />
     <Compile Include="Interfaces\Controllers\IPhasesControllerService.cs" />
     <Compile Include="Interfaces\Controllers\ISetupUsersControllerService.cs" />
+    <Compile Include="Interfaces\Controllers\ISpotsControllerService.cs" />
     <Compile Include="Interfaces\Controllers\UserResult.cs" />
     <Compile Include="Interfaces\IArcgisService.cs" />
     <Compile Include="Interfaces\Security\IUserValidateFactory.cs" />

@@ -1,8 +1,26 @@
 ﻿@using SaveASpot.Controllers
+@model SaveASpot.ViewModels.PhasesAndParcels.SpotsViewModel
 @{
 	ViewBag.Title = "Index";
 }
 
 <input id="@SiteConstants.ParcelsAndSpotsTabSpecificReadyAlias" value="@SiteConstants.SpotsControllerAlias" type="hidden" />
 
-<h2>Index 3 la la</h2>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var spotViewModel in Model.Spots)
+	{
+			<tr>
+				<td>@spotViewModel.Name</td>
+				<td>
+					<button class="btn btn-danger" data-spot-delete-identity="@spotViewModel.Identity" data-spot-delete-name="@spotViewModel.Name">Delete</button></td>
+			</tr>
+	}
+	</tbody>
+</table>

@@ -221,6 +221,26 @@ q("parcelsTab", function (arg) {
 
 q("spotsTab", function (arg) {
 	console.log("spots group load");
+	
+	var $searchPanel = $("#searchPhasesAndSpotsMenu");
+	$searchPanel.show();
+	var $searchInput = $searchPanel.find("input").val("");
+	
+	$("[data-spot-delete-identity]").click(function () {
+		var name = this.getAttribute("data-spot-delete-name");
+		if (confirm("Are you sure that remove spot with name '" + name + "'?") == true) {
+			var parcelIdentity = this.getAttribute("data-spot-delete-identity");
+			var removeArg = { identity: parcelIdentity };
+			q.controls.selector(removeArg, $searchInput.val());
+			q.controls.ajaxForm.fireUpdate({
+				arg: removeArg,
+				url: q.pageConfig.removeSpotUrl,
+				method: "POST",
+				alias: "spotsTab",
+				ajaxForm: phasePageTabAttributeValue
+			});
+		}
+	});
 
 	arg = arg || {};
 
