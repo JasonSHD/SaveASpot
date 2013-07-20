@@ -105,8 +105,10 @@ q.controls = q.controls || {};
 	namespace.ajaxForm = function (formAlias) {
 		var result = { _data: { alias: formAlias, currentEvents: { unload: function () { } } } };
 
-		var onButtonClick = function () {
+		$("[data-ajaxform='" + formAlias + "']").click(function () {
 			result.update(this);
+		});
+<<<<<<< HEAD
 		};
 
 		var tryUpdateEventHandler = function (arg) {
@@ -116,6 +118,9 @@ q.controls = q.controls || {};
 		var $updateButtons = $("[data-ajaxform='" + formAlias + "']");
 
 		$updateButtons.bind("click", onButtonClick);
+=======
+		
+>>>>>>> parent of 69c9ebf... Commit chnages
 
 		q.events().bind(namespace.ajaxForm.tryUpdate + "." + formAlias, tryUpdateEventHandler);
 
@@ -152,6 +157,7 @@ q.controls = q.controls || {};
 			return result;
 		};
 
+<<<<<<< HEAD
 		result.emulateUpdate = function (alias) {
 			result._data.currentEvents.unload();
 			var readyContext = { alias: alias };
@@ -167,6 +173,8 @@ q.controls = q.controls || {};
 			$updateButtons = undefined;
 		};
 
+=======
+>>>>>>> parent of 69c9ebf... Commit chnages
 		return result;
 	};
 
