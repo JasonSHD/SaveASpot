@@ -13,7 +13,7 @@ namespace SaveASpot.Core.Web.Mvc
 
 			if (Request.Headers.AllKeys.Any(e => tabAttributes.Select(atr => atr.GetType().Name).Contains(e)))
 			{
-				masterView = null;
+				masterView = tabDataAttribute == null ? null : tabDataAttribute.AjaxMaterPath;
 			}
 
 			var view = View(null, masterView, model);

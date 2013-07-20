@@ -2,11 +2,25 @@
 	q.validation.dynamicValidator();
 });
 
-q("mapTab", function () {
-	console.log("for mapTab");
+q("mapTab", function (arg) {
+	console.log("map tab load.");
+
+	arg = arg || {};
+
+	arg.unload = function () {
+		console.log("map tab unload.");
+	};
 });
 
-q("customerTab", function () {
+q("customersTab", function (arg) {
+	console.log("customers tab load.");
+
+	arg = arg || {};
+
+	arg.unload = function () {
+		console.log("customers tab unload");
+	};
+
 	var modal = q.controls.modal();
 
 	$("#createCustomer").click(function () {
@@ -27,14 +41,32 @@ q("customerTab", function () {
 	});
 });
 
-q("phasesTab", function () {
-	console.log("for phasesTab");
+q("parcelsAndSpotsTab", function (arg) {
+	console.log("parcels & spots tab load.");
 
-	q.controls.ajaxForm("PhasePageTabAttribute");
+	var ajaxForm = q.controls.ajaxForm("PhasePageTabAttribute");
+	var currectAlias = $("#PhasePageTabAttribute").val();
+
+	if (currectAlias != undefined && currectAlias != "") {
+		ajaxForm.emulateUpdate(currectAlias);
+	}
+	
+	arg = arg || {};
+
+	arg.unload = function () {
+		console.log("parcels & spots tab unload");
+
+		ajaxForm.destroy();
+	};
 });
 
 q("adminTabController", function () {
-	q.controls.ajaxForm("MainMenuTabAttribute");
+	var ajaxForm = q.controls.ajaxForm("MainMenuTabAttribute");
+	var currectAlias = $("#MainMenuTabAttribute").val();
+
+	if (currectAlias != undefined && currectAlias != "") {
+		ajaxForm.emulateUpdate(currectAlias);
+	}
 });
 
 q("homePage", function () {
@@ -57,4 +89,43 @@ q("homePage", function () {
 		loginControl.show();
 		userInfo.hide();
 	});
+});
+
+q("uploadPhasesAndParcelsTab", function (arg) {
+	console.log("upload phases group load.");
+	arg = arg || {};
+
+	arg.unload = function () {
+		console.log("upload phases group unload");
+	};
+});
+
+q("phasesTab", function (arg) {
+	console.log("phases group load");
+
+	arg = arg || {};
+
+	arg.unload = function () {
+		console.log("phases group unload.");
+	};
+});
+
+q("parcelsTab", function (arg) {
+	console.log("parcels group load");
+
+	arg = arg || {};
+
+	arg.unload = function () {
+		console.log("parcels group unload");
+	};
+});
+
+q("spotsTab", function (arg) {
+	console.log("spots group load");
+
+	arg = arg || {};
+
+	arg.unload = function () {
+		console.log("spots group unload");
+	};
 });

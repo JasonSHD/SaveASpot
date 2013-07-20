@@ -3,12 +3,21 @@
 
 	window.q.runReadyHandlers = function (filter, runEmpty) {
 		var readyHandlers = oldQ.readyCollection();
+		var config = undefined;
+		var args = {};
+
+		if (typeof filter == "object") {
+			config = filter;
+			filter = config.filter;
+			runEmpty = config.runEmpty;
+			args = config.args || {};
+		}
 
 		for (var readyHandlerIndex in readyHandlers) {
 			var readyHandler = readyHandlers[readyHandlerIndex];
 
 			if (readyHandler.filter == filter || (readyHandler.filter === undefined && runEmpty)) {
-				readyHandler.handler();
+				readyHandler.handler(args);
 			}
 		}
 	};
@@ -54,6 +63,12 @@
 			return result;
 		};
 
+		result.unbind = function (event, handler) {
+			$(document).unbind(event, handler);
+
+			return result;
+		};
+
 		return namespace._data.events = result;
 	};
 })(q);
@@ -88,7 +103,7 @@
 q.controls = q.controls || {};
 (function (namespace, $) {
 	namespace.ajaxForm = function (formAlias) {
-		var result = { _data: { alias: formAlias } };
+		var result = { _data: { alias: formAlias, currentEvents: { unload: function () { } } } };
 
 		var onButtonClick = function () {
 			result.update(this);
@@ -112,11 +127,23 @@ q.controls = q.controls || {};
 				if ($ajaxForm.length == 0) {
 					$ajaxForm = $("[data-ajaxform-container-" + formAlias + "]");
 				}
+				result._data.currentEvents.unload();
+
 				$ajaxForm.html(content);
-				q.runReadyHandlers(readyHandlerAlias);
+
+				var readyContext = { alias: readyHandlerAlias };
+				q.runReadyHandlers({ filter: readyHandlerAlias, args: readyContext });
+				result._data.currentEvents.unload = readyContext.unload || function () { };
 			});
 
 			return result;
+		};
+
+		result.emulateUpdate = function (alias) {
+			result._data.currentEvents.unload();
+			var readyContext = { alias: alias };
+			q.runReadyHandlers({ filter: alias, args: readyContext });
+			result._data.currentEvents.unload = readyContext.unload || function () { };
 		};
 
 		result.destroy = function () {
@@ -126,6 +153,8 @@ q.controls = q.controls || {};
 
 		return result;
 	};
+
+	namespace.ajaxForm.unloadEvent = ".unload";
 })(q.controls, jQuery);
 
 (function (namespace, $) {
@@ -359,7 +388,7 @@ q.validation = q.validation || {};
 
 			return result._data.options.min < value.length && value.length < result._data.options.max;
 		}
-		
+
 		return result;
 	}
 

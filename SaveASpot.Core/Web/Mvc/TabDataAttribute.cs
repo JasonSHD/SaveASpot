@@ -9,9 +9,11 @@ namespace SaveASpot.Core.Web.Mvc
 		{
 			MasterPath = string.Empty;
 			RequestHeader = string.Empty;
+			AjaxMaterPath = string.Empty;
 		}
 
 		public string MasterPath { get; set; }
 		public string RequestHeader { get; set; }
+		public string AjaxMaterPath { get; set; }
 	}
 }
