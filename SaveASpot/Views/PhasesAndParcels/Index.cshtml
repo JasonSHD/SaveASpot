@@ -1,0 +1,27 @@
+﻿@using SaveASpot.Controllers
+@using SaveASpot.Controllers.Artifacts
+@using SaveASpot.Core.Web.Mvc.Extensions
+@{
+	ViewBag.Title = "Index";
+}
+
+<input id="@SiteConstants.TabSpecificReadyAlias" value="@SiteConstants.PhasesAndParcelsControllerAlias" type="hidden" />
+
+<div class="content wide-content">
+	<div class="accordion" id="accordion">
+		@foreach (var tabElement in Html.For<PhasePageTabAttribute>())
+	{
+			<div class="accordion-group">
+				<div class="accordion-heading">
+					@(Html.ButtonForElement<PhasePageTabAttribute>("a", tabElement.Alias, new { @class = "accordion-toggle", href = "#" }))
+				</div>
+				<div class="accordion-body collapse in">
+					@using (Html.BeginContainerForElement<PhasePageTabAttribute>("div", tabElement.Alias, htmlAttributes: new { @class = "accordion-inner" }))
+		 {
+						@tabElement.Title
+		 }
+				</div>
+			</div>
+	}
+	</div>
+</div>

@@ -38,7 +38,11 @@ namespace SaveASpot.Services.Implementations.Controllers
 																		Email = registerViewModel.Email,
 																		Password = registerViewModel.Password,
 																		Username = registerViewModel.UserName
+<<<<<<< HEAD
 																	}, new[] { _roleFactory.Convert(typeof(AdministratorRole)) });
+=======
+																	}, new[] { _roleFactory.Convert(typeof(AdministratorRole)), _roleFactory.Convert(typeof(CustomerRole)) });
+>>>>>>> 69c9ebf3750dc4ebe298d09f86679f1667ba5937
 
 			return new MessageMethodResult(createUserResult.IsSuccess, _textService.ResolveTest(createUserResult.Status.MessageKet));
 		}

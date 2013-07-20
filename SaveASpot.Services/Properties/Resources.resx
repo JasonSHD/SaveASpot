@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
+	<!-- 
     Microsoft ResX Schema 
     
     Version 2.0
@@ -59,128 +59,128 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="InvalidOldOrNewPassword" xml:space="preserve">
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="metadata">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" />
+							</xsd:sequence>
+							<xsd:attribute name="name" use="required" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="assembly">
+						<xsd:complexType>
+							<xsd:attribute name="alias" type="xsd:string" />
+							<xsd:attribute name="name" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>2.0</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="InvalidOldOrNewPassword" xml:space="preserve">
     <value>The current password is incorrect or the new password is invalid.</value>
   </data>
-  <data name="InvalidUserEmail" xml:space="preserve">
+	<data name="InvalidUserEmail" xml:space="preserve">
     <value>Invalid spedified user email.</value>
   </data>
-  <data name="InvalidUserName" xml:space="preserve">
+	<data name="InvalidUserName" xml:space="preserve">
     <value>Invalid specified username.</value>
   </data>
-  <data name="InvalidUsernameOrPassword" xml:space="preserve">
+	<data name="InvalidUsernameOrPassword" xml:space="preserve">
     <value>The user name or password provided is incorrect.</value>
   </data>
-  <data name="InvalidUserPassword" xml:space="preserve">
+	<data name="InvalidUserPassword" xml:space="preserve">
     <value>Invalid specified user password. Password should be greater than {0} and less than {1}.</value>
   </data>
-  <data name="UserExistsError" xml:space="preserve">
+	<data name="UserExistsError" xml:space="preserve">
     <value>User with same name exists.</value>
   </data>
-  <data name="UserNotExistsError" xml:space="preserve">
+	<data name="UserNotExistsError" xml:space="preserve">
     <value>User is not exists.</value>
   </data>
-  <data name="AdminExists" xml:space="preserve">
+	<data name="AdminExists" xml:space="preserve">
     <value>Admin in current application is exists.</value>
   </data>
-  <data name="CustomersTabTitle" xml:space="preserve">
+	<data name="CustomersTabTitle" xml:space="preserve">
     <value>Customers</value>
   </data>
-  <data name="MapTabTitle" xml:space="preserve">
+	<data name="MapTabTitle" xml:space="preserve">
     <value>Map</value>
   </data>
-  <data name="PhasesAndParcelsTabTitle" xml:space="preserve">
+	<data name="PhasesAndParcelsTabTitle" xml:space="preserve">
     <value>Parcels &amp; Spots</value>
   </data>
-  <data name="ConfirmPasswordDisplay" xml:space="preserve">
+	<data name="ConfirmPasswordDisplay" xml:space="preserve">
     <value>Confirm password</value>
   </data>
-  <data name="ConfirmPasswordErrorMessageDisplay" xml:space="preserve">
+	<data name="ConfirmPasswordErrorMessageDisplay" xml:space="preserve">
     <value>The password and confirmation password do not match.</value>
   </data>
-  <data name="CustomerNameDisplay" xml:space="preserve">
+	<data name="CustomerNameDisplay" xml:space="preserve">
     <value>Customer name</value>
   </data>
-  <data name="EmailDisplay" xml:space="preserve">
+	<data name="EmailDisplay" xml:space="preserve">
     <value>Email address</value>
   </data>
-  <data name="PasswordDisplay" xml:space="preserve">
+	<data name="PasswordDisplay" xml:space="preserve">
     <value>Password</value>
   </data>
-  <data name="UserNameDisplay" xml:space="preserve">
+	<data name="UserNameDisplay" xml:space="preserve">
     <value>User name</value>
   </data>
-  <data name="RememberMeDisplay" xml:space="preserve">
+	<data name="RememberMeDisplay" xml:space="preserve">
     <value>Remember me?</value>
   </data>
-  <data name="ParcelsAccordionGroupTitle" xml:space="preserve">
+	<data name="ParcelsAccordionGroupTitle" xml:space="preserve">
     <value>Parcels</value>
   </data>
-  <data name="PhasesAccordionGroupTitle" xml:space="preserve">
+	<data name="PhasesAccordionGroupTitle" xml:space="preserve">
     <value>Phases</value>
   </data>
-  <data name="SpotsAccordingGroupTitle" xml:space="preserve">
+	<data name="SpotsAccordingGroupTitle" xml:space="preserve">
     <value>Spots</value>
   </data>
-  <data name="UploadPhasesAndParcelsAccordionGroupTitle" xml:space="preserve">
+	<data name="UploadPhasesAndParcelsAccordionGroupTitle" xml:space="preserve">
     <value>Upload Phases &amp; Parcels</value>
   </data>
 </root>

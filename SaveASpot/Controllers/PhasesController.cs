@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿using System.Linq;
 using System.Web.Mvc;
 using SaveASpot.Controllers.Artifacts;
@@ -51,4 +52,21 @@ namespace SaveASpot.Controllers
 			return TabView("Index", model);
 		}
 	}
+=======
+﻿using System.Web.Mvc;
+using SaveASpot.Controllers.Artifacts;
+using SaveASpot.Core.Web.Mvc;
+
+namespace SaveASpot.Controllers
+{
+	[AdministratorAuthorize]
+	[PhasePageTab(Alias = "phaseAccordionGroup", IndexOfOrder = 10, Title = "PhasesAccordionGroupTitle")]
+	public sealed class PhasesController : TabController
+	{
+		public ViewResult Index()
+		{
+			return View();
+		}
+	}
+>>>>>>> 69c9ebf3750dc4ebe298d09f86679f1667ba5937
 }

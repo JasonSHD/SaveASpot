@@ -74,6 +74,39 @@ namespace SaveASpot.Core.Web.Mvc
 					});
 				}
 			}
+
+			foreach (Type type in _controllerTypesFinder.GetTypes())
+			{
+				if (!TypeHelper.IsDerivedFromType(type, typeof(BaseController))) continue;
+
+				var tabAttributes = type.GetCustomAttributes(false).OfType<TabAttribute>().ToList();
+				var roles = type.GetCustomAttributes(false).OfType<RoleAuthorizeAttribute>().Select(e => _roleFactory.Convert(e.RoleType)).ToList();
+
+				foreach (TabAttribute tabAttribute in tabAttributes)
+				{
+					IList<TabElement> tabElements;
+					if (_tabElements.ContainsKey(tabAttribute.GetType()))
+					{
+						tabElements = _tabElements[tabAttribute.GetType()];
+					}
+					else
+					{
+						tabElements = new List<TabElement>();
+						_tabElements.Add(tabAttribute.GetType(), tabElements);
+					}
+
+					tabElements.Add(new TabElement
+														{
+															ActionName = "Index",
+															Alias = tabAttribute.Alias,
+															Area = tabAttribute.Area,
+															ControllerType = type,
+															IndexOfOrder = tabAttribute.IndexOfOrder,
+															Roles = roles,
+															Title = _textService.ResolveTest(tabAttribute.Title)
+														});
+				}
+			}
 		}
 
 		public void OnActionExecuting(ActionExecutingContext filterContext)

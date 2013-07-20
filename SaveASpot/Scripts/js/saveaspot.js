@@ -103,12 +103,17 @@
 q.controls = q.controls || {};
 (function (namespace, $) {
 	namespace.ajaxForm = function (formAlias) {
+<<<<<<< HEAD
 		var result = { _data: { alias: formAlias, currentEvents: { unload: function () { } } } };
+=======
+		var result = { _data: { alias: formAlias } };
+>>>>>>> 69c9ebf3750dc4ebe298d09f86679f1667ba5937
 
 		var onButtonClick = function () {
 			result.update(this);
 		};
 
+<<<<<<< HEAD
 		var tryUpdateEventHandler = function (arg) {
 			result.updateForm(arg.arg);
 		};
@@ -118,10 +123,16 @@ q.controls = q.controls || {};
 		$updateButtons.bind("click", onButtonClick);
 
 		q.events().bind(namespace.ajaxForm.tryUpdate + "." + formAlias, tryUpdateEventHandler);
+=======
+		var $updateButtons = $("[data-ajaxform='" + formAlias + "']");
+
+		$updateButtons.bind("click", onButtonClick);
+>>>>>>> 69c9ebf3750dc4ebe298d09f86679f1667ba5937
 
 		result.update = function (contextElement) {
 			var $contextElement = $(contextElement);
 			var url = $contextElement.attr("data-ajaxform-url");
+<<<<<<< HEAD
 			var arg = { type: "GET", url: url, arg: {}, alias: $contextElement.attr("data-ajaxform-alias") };
 
 			return result.updateForm(arg);
@@ -136,10 +147,20 @@ q.controls = q.controls || {};
 				}
 			}).done(function (content) {
 				var readyHandlerAlias = arg.alias;
+=======
+
+			$.ajax({
+				type: "GET", url: url, beforeSend: function (jqXHR) {
+					jqXHR.setRequestHeader(formAlias, "true");
+				}
+			}).done(function (content) {
+				var readyHandlerAlias = $contextElement.attr("data-ajaxform-alias");
+>>>>>>> 69c9ebf3750dc4ebe298d09f86679f1667ba5937
 				var $ajaxForm = $("[data-ajaxform-container-" + readyHandlerAlias + "]");
 				if ($ajaxForm.length == 0) {
 					$ajaxForm = $("[data-ajaxform-container-" + formAlias + "]");
 				}
+<<<<<<< HEAD
 				result._data.currentEvents.unload();
 
 				$ajaxForm.html(content);
@@ -147,11 +168,16 @@ q.controls = q.controls || {};
 				var readyContext = { alias: readyHandlerAlias };
 				q.runReadyHandlers({ filter: readyHandlerAlias, args: readyContext });
 				result._data.currentEvents.unload = readyContext.unload || function () { };
+=======
+				$ajaxForm.html(content);
+				q.runReadyHandlers(readyHandlerAlias);
+>>>>>>> 69c9ebf3750dc4ebe298d09f86679f1667ba5937
 			});
 
 			return result;
 		};
 
+<<<<<<< HEAD
 		result.emulateUpdate = function (alias) {
 			result._data.currentEvents.unload();
 			var readyContext = { alias: alias };
@@ -163,6 +189,9 @@ q.controls = q.controls || {};
 
 			result._data.currentEvents.unload();
 			q.events().unbind(namespace.ajaxForm.tryUpdate + "." + formAlias, tryUpdateEventHandler);
+=======
+		result.destroy = function () {
+>>>>>>> 69c9ebf3750dc4ebe298d09f86679f1667ba5937
 			$updateButtons.unbind("click", onButtonClick);
 			$updateButtons = undefined;
 		};

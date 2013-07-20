@@ -97,6 +97,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\ParcelsController.cs" />
+    <Compile Include="Controllers\PhasesAndParcelsController.cs" />
     <Compile Include="Areas\Setup\Controllers\SetupUsersController.cs" />
     <Compile Include="Controllers\PhasesController.cs" />
     <Compile Include="Controllers\SiteConstants.cs" />
@@ -393,6 +394,7 @@
     <Content Include="Views\Shared\_LayoutMainMenuTabs.cshtml" />
     <Content Include="Views\Map\Index.cshtml" />
     <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\PhasesAndParcels\Index.cshtml" />
     <Content Include="Views\Shared\_BootstrapLayout.cshtml" />
     <Content Include="Views\Shared\Controls\ModalDialog.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />

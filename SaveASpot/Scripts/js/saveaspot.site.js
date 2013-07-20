@@ -12,6 +12,7 @@ q("mapTab", function (arg) {
 	};
 });
 
+<<<<<<< HEAD
 q("customersTab", function (arg) {
 	console.log("customers tab load.");
 
@@ -21,6 +22,9 @@ q("customersTab", function (arg) {
 		console.log("customers tab unload");
 	};
 
+=======
+q("customerTab", function () {
+>>>>>>> 69c9ebf3750dc4ebe298d09f86679f1667ba5937
 	var modal = q.controls.modal();
 
 	$("#createCustomer").click(function () {
@@ -41,6 +45,7 @@ q("customersTab", function (arg) {
 	});
 });
 
+<<<<<<< HEAD
 var phasePageTabAttributeValue = "PhasePageTabAttribute";
 q("parcelsAndSpotsTab", function (arg) {
 	console.log("parcels & spots tab load.");
@@ -68,6 +73,16 @@ q("adminTabController", function () {
 	if (currectAlias != undefined && currectAlias != "") {
 		ajaxForm.emulateUpdate(currectAlias);
 	}
+=======
+q("phasesTab", function () {
+	console.log("for phasesTab");
+
+	q.controls.ajaxForm("PhasePageTabAttribute");
+});
+
+q("adminTabController", function () {
+	q.controls.ajaxForm("MainMenuTabAttribute");
+>>>>>>> 69c9ebf3750dc4ebe298d09f86679f1667ba5937
 });
 
 q("homePage", function () {
