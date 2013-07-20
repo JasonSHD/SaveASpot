@@ -2,6 +2,7 @@
 using SaveASpot.Controllers.Artifacts;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Interfaces.Controllers;
+using SaveASpot.ViewModels.PhasesAndParcels;
 
 namespace SaveASpot.Controllers
 {
@@ -16,9 +17,31 @@ namespace SaveASpot.Controllers
 			_parcelsControllerService = parcelsControllerService;
 		}
 
-		public ViewResult Index()
+		public ViewResult Index(SelectorViewModel selectorViewModel)
 		{
-			return TabView(_parcelsControllerService.GetParcels());
+			if (!ModelState.IsValid)
+			{
+				selectorViewModel.Erase();
+			}
+
+			var model = _parcelsControllerService.GetParcels(selectorViewModel);
+
+			return TabView(model);
+		}
+
+		[HttpPost]
+		public ViewResult Remove(string identity, SelectorViewModel selectorViewModel)
+		{
+			_parcelsControllerService.Remove(identity);
+
+			if (!ModelState.IsValid)
+			{
+				selectorViewModel.Erase();
+			}
+
+			var model = _parcelsControllerService.GetParcels(selectorViewModel);
+
+			return TabView("Index", model);
 		}
 	}
 }

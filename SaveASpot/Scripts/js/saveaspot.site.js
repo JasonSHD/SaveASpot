@@ -146,6 +146,8 @@ q("uploadPhasesAndParcelsTab", function (arg) {
 				} else {
 					q.controls.alert($form, "Next file is not uploaded: " + fileName, "error").show();
 				}
+
+				return true;
 			});
 
 		});
@@ -189,6 +191,26 @@ q("phasesTab", function (arg) {
 
 q("parcelsTab", function (arg) {
 	console.log("parcels group load");
+
+	var $searchPanel = $("#searchPhasesAndSpotsMenu");
+	$searchPanel.show();
+	var $searchInput = $searchPanel.find("input").val("");
+	
+	$("[data-parcel-delete-identity]").click(function () {
+		var name = this.getAttribute("data-parcel-delete-name");
+		if (confirm("Are you sure that remove parcel with name '" + name + "'?") == true) {
+			var parcelIdentity = this.getAttribute("data-parcel-delete-identity");
+			var removeArg = { identity: parcelIdentity };
+			q.controls.selector(removeArg, $searchInput.val());
+			q.controls.ajaxForm.fireUpdate({
+				arg: removeArg,
+				url: q.pageConfig.removeParcelUrl,
+				method: "POST",
+				alias: "parcelsTab",
+				ajaxForm: phasePageTabAttributeValue
+			});
+		}
+	});
 
 	arg = arg || {};
 

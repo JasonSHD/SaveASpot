@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using SaveASpot.Core;
 using SaveASpot.ViewModels.PhasesAndParcels;
 
 namespace SaveASpot.Services.Interfaces.Controllers
 {
 	public interface IParcelsControllerService
 	{
-		IEnumerable<ParcelViewModel> GetParcels();
+		ParcelsViewModel GetParcels(SelectorViewModel selectorViewModel);
+		IMethodResult Remove(string identity);
 	}
 }
