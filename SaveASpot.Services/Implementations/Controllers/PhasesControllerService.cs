@@ -20,7 +20,12 @@ namespace SaveASpot.Services.Implementations.Controllers
 				}
 			}
 
-			return new PhasesViewModel { Phases = PhaseViewModels.Where(e => e.Name.Contains(selectorViewModel.Search)), SelectorViewModel = selectorViewModel };
+			IEnumerable<PhaseViewModel> phases = PhaseViewModels;
+			if (!string.IsNullOrWhiteSpace(selectorViewModel.Search))
+			{
+				phases = phases.Where(e => e.Name.Contains(selectorViewModel.Search));
+			}
+			return new PhasesViewModel { Phases = phases, SelectorViewModel = selectorViewModel };
 		}
 
 		public IMethodResult RemovePhases(string identity)
