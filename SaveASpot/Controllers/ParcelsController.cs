@@ -6,7 +6,7 @@ using SaveASpot.Services.Interfaces.Controllers;
 namespace SaveASpot.Controllers
 {
 	[AdministratorAuthorize]
-	[PhasePageTab(Alias = "parcelsAccordionGroup", IndexOfOrder = 20, Title = "ParcelsAccordionGroupTitle")]
+	[PhasePageTab(Alias = "parcelsAccordionGroup", IndexOfOrder = 30, Title = "ParcelsAccordionGroupTitle")]
 	public sealed class ParcelsController : TabController
 	{
 		private readonly IParcelsControllerService _parcelsControllerService;

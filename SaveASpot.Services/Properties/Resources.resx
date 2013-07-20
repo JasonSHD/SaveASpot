@@ -180,4 +180,7 @@
   <data name="SpotsAccordingGroupTitle" xml:space="preserve">
     <value>Spots</value>
   </data>
+  <data name="UploadPhasesAndParcelsAccordionGroupTitle" xml:space="preserve">
+    <value>Upload Phases &amp; Parcels</value>
+  </data>
 </root>

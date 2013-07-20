@@ -1,0 +1,93 @@
+﻿@{
+	ViewBag.Title = "Index";
+}
+<link rel="stylesheet" href="@Url.Content("~/Content/css/phases-page.css")" type="text/css" media="screen" />
+
+<script type="text/javascript">
+	var parcelPage = {};
+	(function (ns) {
+		ns.addNewParcelsDoc = function () {
+			$('form#parcels #new-item-link').click(function () {
+				var lastInput = $('form#parcels input[type!=submit]:last');
+				var id = $(lastInput).attr('id');
+				var idToInt = parseInt(id, 10);
+				var nextId = idToInt + 1;
+				$(lastInput).after('<input type="file" name="postedParcels" id="' + nextId + '" width="30px" height="10px;"/>')
+										.after('<br/><br/>');
+			});
+		};
+
+		ns.addNewSpotsDoc = function () {
+			$('form#spots #new-item-link').click(function () {
+				var lastInput = $('form#spots input[type!=submit]:last');
+				var id = $(lastInput).attr('id');
+				var idToInt = parseInt(id, 10);
+				var nextId = idToInt + 1;
+				$(lastInput).after('<input type="file" name="postedSpots" id="' + nextId + '" width="30px" height="10px;"/>')
+										.after('<br/><br/>');
+			});
+		};
+	})(parcelPage);
+
+
+	$(function () {
+		parcelPage.addNewParcelsDoc();
+		parcelPage.addNewSpotsDoc();
+	});
+</script>
+
+<table id="phases-and-parcels-uploader-table">
+	<thead>
+		<tr>
+			<th>
+				<div>
+					<h3>Select Parcels files to upload</h3>
+				</div>
+				<br />
+			</th>
+			<th>
+				<div>
+					<h3>Select Spots files to upload</h3>
+				</div>
+				<br />
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+
+		<tr>
+			<td style="width: 50%; text-align: center; vertical-align: top;">
+				<fieldset>
+					@using (Html.BeginForm("UploadParcels", "Phases", FormMethod.Post, new { @id = "parcels", enctype = "multipart/form-data" }))
+		 {
+						<input type="file" name="postedParcels" id="1" width="30px" height="10px;" /><br />
+						<br />
+						<input type="file" name="postedParcels" id="2" width="30px" height="10px;" /><br />
+						<br />
+						<input type="file" name="postedParcels" id="3" width="30px" height="10px;" /><br />
+						<br />
+						<a id="new-item-link" href="javascript:void(0)">Add new file</a><br />
+						<br />
+						<input type="submit" name="Submit" value="Upload" id="submit" />
+		 }
+				</fieldset>
+			</td>
+			<td style="width: 50%; text-align: center; vertical-align: top;">
+				<fieldset>
+					@using (Html.BeginForm("UploadSpots", "Phases", FormMethod.Post, new { @id = "spots", enctype = "multipart/form-data" }))
+		 {
+						<input type="file" name="postedSpots" id="1" width="30px" height="10px;" /><br />
+						<br />
+						<input type="file" name="postedSpots" id="2" width="30px" height="10px;" /><br />
+						<br />
+						<input type="file" name="postedSpots" id="3" width="30px" height="10px;" /><br />
+						<br />
+						<a id="new-item-link" href="javascript:void(0)">Add new file</a><br />
+						<br />
+						<input type="submit" name="Submit" value="Upload" id="submit" />
+		 }
+				</fieldset>
+			</td>
+		</tr>
+	</tbody>
+</table>
