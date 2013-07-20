@@ -56,8 +56,6 @@
     <Compile Include="Providers\WebEvent.cs" />
     <Compile Include="Providers\MongoDBWebEventProvider.cs" />
     <Compile Include="Providers\MongoDBProfileProvider.cs" />
-    <Compile Include="Providers\MongoDBMembershipProvider.cs" />
-    <Compile Include="Providers\MongoDBRoleProvider.cs" />
     <Compile Include="Providers\MongoDBSessionStateProvider.cs" />
   </ItemGroup>
   <ItemGroup>
