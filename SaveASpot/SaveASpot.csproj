@@ -97,7 +97,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\ParcelsController.cs" />
-    <Compile Include="Controllers\PhasesAndParcelsController.cs" />
     <Compile Include="Areas\Setup\Controllers\SetupUsersController.cs" />
     <Compile Include="Controllers\PhasesController.cs" />
     <Compile Include="Controllers\SiteConstants.cs" />

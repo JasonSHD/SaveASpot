@@ -2,19 +2,12 @@
 using SaveASpot.Controllers.Artifacts;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Interfaces.Controllers;
-<<<<<<< HEAD
 using SaveASpot.ViewModels.PhasesAndParcels;
-=======
->>>>>>> 69c9ebf3750dc4ebe298d09f86679f1667ba5937
 
 namespace SaveASpot.Controllers
 {
 	[AdministratorAuthorize]
-<<<<<<< HEAD
 	[PhasePageTab(Alias = SiteConstants.ParcelsControllerAlias, IndexOfOrder = 20, Title = "ParcelsAccordionGroupTitle")]
-=======
-	[PhasePageTab(Alias = "parcelsAccordionGroup", IndexOfOrder = 20, Title = "ParcelsAccordionGroupTitle")]
->>>>>>> 69c9ebf3750dc4ebe298d09f86679f1667ba5937
 	public sealed class ParcelsController : TabController
 	{
 		private readonly IParcelsControllerService _parcelsControllerService;
@@ -24,7 +17,6 @@ namespace SaveASpot.Controllers
 			_parcelsControllerService = parcelsControllerService;
 		}
 
-<<<<<<< HEAD
 		public ViewResult Index(SelectorViewModel selectorViewModel)
 		{
 			if (!ModelState.IsValid)
@@ -50,11 +42,6 @@ namespace SaveASpot.Controllers
 			var model = _parcelsControllerService.GetParcels(selectorViewModel);
 
 			return TabView("Index", model);
-=======
-		public ViewResult Index()
-		{
-			return TabView(_parcelsControllerService.GetParcels());
->>>>>>> 69c9ebf3750dc4ebe298d09f86679f1667ba5937
 		}
 	}
 }
