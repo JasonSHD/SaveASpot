@@ -148,6 +148,7 @@
     <Content Include="Content\css\map.css" />
     <Content Include="Content\css\new-user.css" />
     <Content Include="Content\css\personal-info.css" />
+    <Content Include="Content\css\phases-page.css" />
     <Content Include="Content\css\signin.css" />
     <Content Include="Content\css\signup.css" />
     <Content Include="Content\css\skins\dark.css" />
@@ -415,17 +416,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>10800</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>
