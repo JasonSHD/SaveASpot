@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Core\MethodResultTests.cs" />
     <Compile Include="Core\Web\Mvc\RoleAuthorizeAttributeTests.cs" />
+    <Compile Include="Implementations\ArcgisServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -59,6 +60,10 @@
     <ProjectReference Include="..\..\SaveASpot.Core\SaveASpot.Core.csproj">
       <Project>{3689bdf8-2cbc-4583-b109-1b5163c97b53}</Project>
       <Name>SaveASpot.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SaveASpot.Repositories\SaveASpot.Repositories.csproj">
+      <Project>{7575380f-c10b-45f0-9fa5-5bc4db6c1340}</Project>
+      <Name>SaveASpot.Repositories</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SaveASpot.Services\SaveASpot.Services.csproj">
       <Project>{eb67b128-7362-4c82-9116-faada938ed64}</Project>
