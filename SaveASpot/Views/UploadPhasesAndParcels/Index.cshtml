@@ -29,17 +29,18 @@
 				<fieldset>
 					@using (Html.BeginForm("UploadParcels", "UploadPhasesAndParcels", FormMethod.Post, new { @id = "parcels", enctype = "multipart/form-data" }))
 		 {
-						<div class="alert alert-error" data-error="" style="display: none;">
-							<button type="button" class="close" data-dismiss="alert">×</button>
-							Next of your files is not uploaded.
+						<div>
+							<input type="file" name="postedParcels" width="30px" height="10px;" /><br />
+							<br />
 						</div>
-			 
-						<input type="file" name="postedParcels" width="30px" height="10px;" /><br />
-						<br />
-						<input type="file" name="postedParcels" width="30px" height="10px;" /><br />
-						<br />
-						<input type="file" name="postedParcels" width="30px" height="10px;" /><br />
-						<br />
+						<div>
+							<input type="file" name="postedParcels" width="30px" height="10px;" /><br />
+							<br />
+						</div>
+						<div>
+							<input type="file" name="postedParcels" width="30px" height="10px;" /><br />
+							<br />
+						</div>
 						<a class="new-uploader-link" href="javascript:void(0)">Add new file</a><br />
 						<br />
 			 
@@ -51,16 +52,18 @@
 				<fieldset>
 					@using (Html.BeginForm("UploadSpots", "UploadPhasesAndParcels", FormMethod.Post, new { @id = "spots", enctype = "multipart/form-data" }))
 		 {
-						<div class="alert alert-error" data-error="" style="display: none;">
-							Next of your files is not uploaded.
+						<div>
+							<input type="file" name="postedParcels" width="30px" height="10px;" /><br />
+							<br />
 						</div>
-			 
-						<input type="file" name="postedSpots" width="30px" height="10px;" /><br />
-						<br />
-						<input type="file" name="postedSpots" width="30px" height="10px;" /><br />
-						<br />
-						<input type="file" name="postedSpots" width="30px" height="10px;" /><br />
-						<br />
+						<div>
+							<input type="file" name="postedParcels" width="30px" height="10px;" /><br />
+							<br />
+						</div>
+						<div>
+							<input type="file" name="postedParcels" width="30px" height="10px;" /><br />
+							<br />
+						</div>
 						<a class="new-uploader-link" href="javascript:void(0)">Add new file</a><br />
 						<br />
 			 

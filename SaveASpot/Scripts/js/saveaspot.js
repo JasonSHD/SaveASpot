@@ -329,11 +329,20 @@ q.controls = q.controls || {};
 })(q.controls, q, jQuery);
 
 (function (namespace, $) {
-	namespace.alert = function (container, text) {
+	namespace.alert = function (container, html, type) {
 		var result = {};
 		var $container = $(container);
+		var $content = $("<div>").addClass("alert alert-" + type).html(html);
 
-		$container.prepend($("<div>").addClass("alert alert-error").text(text).prepend($("<button type='button'>").attr("data-dismiss", "alert").addClass("close").text("x")));
+		result.show = function () {
+			$container.prepend($content.prepend($("<button type='button'>").attr("data-dismiss", "alert").addClass("close").text("x")))
+
+			return result;
+		};
+
+		result.content = function () {
+			return $content;
+		};
 
 		return result;
 	};

@@ -97,15 +97,14 @@ q("uploadPhasesAndParcelsTab", function (arg) {
 
 	arg = arg || {};
 
-	$('form#parcels .new-uploader-link, form#spots .new-upload-link').click(function () {
-		var $lastInput = $(this).parent().find("input[type='file']:last");
-		$lastInput.
-			after($("<input type='file'/>").attr("name", $lastInput.attr("name")).attr("width", "30px").attr("height", "10px")).
-			after("<br/><br/>");
+	$('form#parcels .new-uploader-link, form#spots .new-uploader-link').click(function () {
+		$("<div>").append("<input type='file'>").attr("name", "").attr("width", "30px").attr("height", "10px").append("<br/><br/>").insertBefore(this);
 	});
 
 	$("#phases-and-parcels-uploader-table [data-upload-button]").click(function () {
 		var $form = $(this).parents("form");
+		$form.find(".alert").remove();
+		var uploadType = this.getAttribute("data-upload-button");
 		var url = $form.attr("action");
 		var formData = new FormData($form[0]);
 		$.ajax({
@@ -117,33 +116,38 @@ q("uploadPhasesAndParcelsTab", function (arg) {
 			processData: false
 		}).done(function (result) {
 			if (result.status == true) {
-				q.controls.ajaxForm.fireUpdate({
-					arg: {},
-					url: q.pageConfig.afterUploadParcelsUrl,
-					method: "GET",
-					alias: "phasesTab",
-					ajaxForm: phasePageTabAttributeValue
-				});
-			} else {
-				$form.find("input[type='file']").each(function () {
-					if (this.files.length == 0) {
-						$(this).remove();
-						return true;
-					}
-
-					var fileName = this.files[0].name;
-					var uploadError = false;
-					$(result.files).each(function () {
-						return !(uploadError = (this == fileName));
+				var alert = q.controls.alert($form, "All files uploaded, you can see result on <a data-link='' href='javascript:void(0)'>page</a> result.", "success").show();
+				alert.content().find("[data-link]").click(function () {
+					var urlAfterUpload = q.pageConfig[uploadType + "AfterUploadUrl"];
+					q.controls.ajaxForm.fireUpdate({
+						arg: {},
+						url: urlAfterUpload,
+						method: "GET",
+						alias: "phasesTab",
+						ajaxForm: phasePageTabAttributeValue
 					});
-
-					if (!uploadError) {
-						$(this).remove();
-					} else {
-						q.controls.alert($form, "Next file is not uploaded: " + fileName);
-					}
 				});
 			}
+
+			$form.find("input[type='file']").each(function () {
+				if (this.files.length == 0) {
+					$(this).parent().remove();
+					return true;
+				}
+
+				var fileName = this.files[0].name;
+				var uploadError = false;
+				$(result.files).each(function () {
+					return !(uploadError = (this == fileName));
+				});
+
+				if (!uploadError) {
+					$(this).parent().remove();
+				} else {
+					q.controls.alert($form, "Next file is not uploaded: " + fileName, "error").show();
+				}
+			});
+
 		});
 	});
 

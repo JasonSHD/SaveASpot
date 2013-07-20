@@ -46,6 +46,8 @@ namespace SaveASpot.Controllers
 		[HttpPost]
 		public ActionResult UploadSpots(IEnumerable<HttpPostedFileBase> postedSpots)
 		{
+			var result = new List<string>();
+
 			foreach (var file in postedSpots)
 			{
 				if (file != null && file.ContentLength > 0)
@@ -59,13 +61,15 @@ namespace SaveASpot.Controllers
 					}
 					catch (Exception ex)
 					{
+						result.Add(file.FileName);
 						if (_logger == null) throw;
 						_logger.Error(string.Format("Class: {0}; Method: {1}; ex.message:{2}", this.GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message), ex);
 					}
 
 				}
 			}
-			return RedirectToAction("Index", "Map");
+
+			return Json(new { status = result.Count == 0, files = result.ToArray() });
 		}
 
 		[HttpPost]
