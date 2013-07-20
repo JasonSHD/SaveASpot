@@ -328,6 +328,17 @@ q.controls = q.controls || {};
 	};
 })(q.controls, q, jQuery);
 
+(function (namespace, $) {
+	namespace.alert = function (container, text) {
+		var result = {};
+		var $container = $(container);
+
+		$container.prepend($("<div>").addClass("alert alert-error").text(text).prepend($("<button type='button'>").attr("data-dismiss", "alert").addClass("close").text("x")));
+
+		return result;
+	};
+})(q.controls, jQuery);
+
 q.validation = q.validation || {};
 (function (namespace, $) {
 	var extendConfig = function (config) {

@@ -94,10 +94,61 @@ q("homePage", function () {
 
 q("uploadPhasesAndParcelsTab", function (arg) {
 	console.log("upload phases group load.");
+
 	arg = arg || {};
 
+	$('form#parcels .new-uploader-link, form#spots .new-upload-link').click(function () {
+		var $lastInput = $(this).parent().find("input[type='file']:last");
+		$lastInput.
+			after($("<input type='file'/>").attr("name", $lastInput.attr("name")).attr("width", "30px").attr("height", "10px")).
+			after("<br/><br/>");
+	});
+
+	$("#phases-and-parcels-uploader-table [data-upload-button]").click(function () {
+		var $form = $(this).parents("form");
+		var url = $form.attr("action");
+		var formData = new FormData($form[0]);
+		$.ajax({
+			url: url,
+			type: 'POST',
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false
+		}).done(function (result) {
+			if (result.status == true) {
+				q.controls.ajaxForm.fireUpdate({
+					arg: {},
+					url: q.pageConfig.afterUploadParcelsUrl,
+					method: "GET",
+					alias: "phasesTab",
+					ajaxForm: phasePageTabAttributeValue
+				});
+			} else {
+				$form.find("input[type='file']").each(function () {
+					if (this.files.length == 0) {
+						$(this).remove();
+						return true;
+					}
+
+					var fileName = this.files[0].name;
+					var uploadError = false;
+					$(result.files).each(function () {
+						return !(uploadError = (this == fileName));
+					});
+
+					if (!uploadError) {
+						$(this).remove();
+					} else {
+						q.controls.alert($form, "Next file is not uploaded: " + fileName);
+					}
+				});
+			}
+		});
+	});
+
 	arg.unload = function () {
-		console.log("upload phases group unload");
+		//console.log("upload phases group unload");
 	};
 });
 

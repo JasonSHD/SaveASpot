@@ -10,7 +10,7 @@
 			@foreach (var tabElement in Html.For<PhasePageTabAttribute>().OrderBy(e => e.IndexOfOrder))
 	 {
 				<li>
-					@(Html.ButtonForElement<PhasePageTabAttribute>("a", tabElement.Alias, new { href = "#" }))
+					@(Html.ButtonForElement<PhasePageTabAttribute>("a", tabElement.Alias, new { href = "javascript:void(0)" }))
 				</li>
 	 }
 		</ul>
