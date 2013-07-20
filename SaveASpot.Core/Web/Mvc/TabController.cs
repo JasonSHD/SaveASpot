@@ -7,6 +7,11 @@ namespace SaveASpot.Core.Web.Mvc
 	{
 		protected virtual ViewResult TabView(object model)
 		{
+			return TabView(null, model);
+		}
+
+		protected virtual ViewResult TabView(string viewName, object model)
+		{
 			var tabAttributes = GetType().GetCustomAttributes(false).OfType<TabAttribute>().ToList();
 			var tabDataAttribute = tabAttributes.SelectMany(e => e.GetType().GetCustomAttributes(false)).OfType<TabDataAttribute>().FirstOrDefault();
 			var masterView = tabDataAttribute == null ? null : tabDataAttribute.MasterPath;
@@ -16,7 +21,7 @@ namespace SaveASpot.Core.Web.Mvc
 				masterView = tabDataAttribute == null ? null : tabDataAttribute.AjaxMaterPath;
 			}
 
-			var view = View(null, masterView, model);
+			var view = View(viewName, masterView, model);
 
 			return view;
 		}

@@ -109,20 +109,33 @@ q.controls = q.controls || {};
 			result.update(this);
 		};
 
+		var tryUpdateEventHandler = function (arg) {
+			result.updateForm(arg.arg);
+		};
+
 		var $updateButtons = $("[data-ajaxform='" + formAlias + "']");
 
 		$updateButtons.bind("click", onButtonClick);
 
+		q.events().bind(namespace.ajaxForm.tryUpdate + "." + formAlias, tryUpdateEventHandler);
+
 		result.update = function (contextElement) {
 			var $contextElement = $(contextElement);
 			var url = $contextElement.attr("data-ajaxform-url");
+			var arg = { type: "GET", url: url, arg: {}, alias: $contextElement.attr("data-ajaxform-alias") };
+
+			return result.updateForm(arg);
+		};
+
+		result.updateForm = function (arg) {
+			var url = arg.url;
 
 			$.ajax({
-				type: "GET", url: url, beforeSend: function (jqXHR) {
+				type: arg.method || "GET", url: url, data: arg.arg, beforeSend: function (jqXHR) {
 					jqXHR.setRequestHeader(formAlias, "true");
 				}
 			}).done(function (content) {
-				var readyHandlerAlias = $contextElement.attr("data-ajaxform-alias");
+				var readyHandlerAlias = arg.alias;
 				var $ajaxForm = $("[data-ajaxform-container-" + readyHandlerAlias + "]");
 				if ($ajaxForm.length == 0) {
 					$ajaxForm = $("[data-ajaxform-container-" + formAlias + "]");
@@ -149,6 +162,7 @@ q.controls = q.controls || {};
 		result.destroy = function () {
 
 			result._data.currentEvents.unload();
+			q.events().unbind(namespace.ajaxForm.tryUpdate + "." + formAlias, tryUpdateEventHandler);
 			$updateButtons.unbind("click", onButtonClick);
 			$updateButtons = undefined;
 		};
@@ -156,8 +170,24 @@ q.controls = q.controls || {};
 		return result;
 	};
 
+	namespace.ajaxForm.fireUpdate = function (arg) {
+		q.events().fire(namespace.ajaxForm.tryUpdate + "." + arg.ajaxForm, arg);
+	};
+
 	namespace.ajaxForm.unloadEvent = ".unload";
+	namespace.ajaxForm.tryUpdate = "ajaxFormTryUpdateEvent";
 })(q.controls, jQuery);
+
+(function (namespace) {
+	namespace.selector = function (arg, searchValue) {
+		arg.Search = searchValue;
+
+		arg.PageNumber = 1;
+		arg.ElementsPerPage = 10;
+
+		return arg;
+	};
+})(q.controls);
 
 (function (namespace, $) {
 	namespace.modal = function () {

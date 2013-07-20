@@ -2,7 +2,7 @@
 {
 	public sealed class PhaseViewModel
 	{
+		public string Identity { get; set; }
 		public string Name { get; set; }
-		//public IEnumerable<ParcelViewModel> Parcels { get; set; }
 	}
 }

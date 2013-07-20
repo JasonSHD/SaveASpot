@@ -1,8 +1,26 @@
 ﻿@using SaveASpot.Controllers
+@model SaveASpot.ViewModels.PhasesAndParcels.PhasesViewModel
 @{
 	ViewBag.Title = "Index";
 }
 
 <input id="@SiteConstants.ParcelsAndSpotsTabSpecificReadyAlias" value="@SiteConstants.PhasesControllerAlias" type="hidden" />
 
-<h2>Index 2 lala</h2>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var phaseViewModel in Model.Phases)
+	{
+			<tr>
+				<td>@phaseViewModel.Name</td>
+				<td>
+					<button class="btn btn-danger" data-phase-delete-identity="@phaseViewModel.Identity" data-phase-delete-name="@phaseViewModel.Name">Delete</button></td>
+			</tr>
+	}
+	</tbody>
+</table>

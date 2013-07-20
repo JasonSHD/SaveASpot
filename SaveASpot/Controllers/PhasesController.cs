@@ -2,6 +2,8 @@
 using System.Web.Mvc;
 using SaveASpot.Controllers.Artifacts;
 using SaveASpot.Core.Web.Mvc;
+using SaveASpot.Services.Interfaces.Controllers;
+using SaveASpot.ViewModels.PhasesAndParcels;
 
 namespace SaveASpot.Controllers
 {
@@ -10,14 +12,43 @@ namespace SaveASpot.Controllers
 	[AdministratorAuthorize]
 	public sealed class PhasesController : TabController
 	{
-		public ActionResult Index()
+		private readonly IPhasesControllerService _phasesControllerService;
+
+		public PhasesController(IPhasesControllerService phasesControllerService)
 		{
-			if (Request.Headers.AllKeys.Any(e => e == SiteConstants.MainMenuTabSpecificReadyAlias))
+			_phasesControllerService = phasesControllerService;
+		}
+
+		public ViewResult Index(SelectorViewModel selectorViewModel)
+		{
+			if (!ModelState.IsValid)
 			{
-				return View(null, SiteConstants.Layouts.ParcelsAndSpotsAjaxLayout);
+				selectorViewModel.Erase();
 			}
 
-			return TabView(new { });
+			var model = _phasesControllerService.GetPhases(selectorViewModel);
+
+			if (Request.Headers.AllKeys.Any(e => e == SiteConstants.MainMenuTabSpecificReadyAlias))
+			{
+				return View(null, SiteConstants.Layouts.ParcelsAndSpotsAjaxLayout, model);
+			}
+
+			return TabView(model);
+		}
+
+		[HttpPost]
+		public ViewResult Remove(string identity, SelectorViewModel selectorViewModel)
+		{
+			_phasesControllerService.RemovePhases(identity);
+
+			if (!ModelState.IsValid)
+			{
+				selectorViewModel.Erase();
+			}
+
+			var model = _phasesControllerService.GetPhases(selectorViewModel);
+
+			return TabView("Index", model);
 		}
 	}
 }

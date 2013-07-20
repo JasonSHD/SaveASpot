@@ -27,6 +27,7 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<IArcgisService>().To<ArcgisService>();
 			Bind<ISetupUsersControllerService>().To<SetupUsersControllerService>();
 			Bind<IParcelsControllerService>().To<ParcelsControllerService>();
+			Bind<IPhasesControllerService>().To<PhasesControllerService>();
 		}
 	}
 }

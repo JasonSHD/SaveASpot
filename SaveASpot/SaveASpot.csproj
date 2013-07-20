@@ -408,6 +408,7 @@
     <Content Include="Views\Shared\ParcelsAndSpots\_LayoutParcelsAndSpots.cshtml" />
     <Content Include="Views\Shared\ParcelsAndSpots\_LayoutAjaxParcelsAndSpots.cshtml" />
     <Content Include="Views\Shared\ParcelsAndSpots\ParcelsAndSpotsMenuTabs.cshtml" />
+    <Content Include="Views\Shared\Controls\PaginationControl.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

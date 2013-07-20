@@ -41,21 +41,22 @@ q("customersTab", function (arg) {
 	});
 });
 
+var phasePageTabAttributeValue = "PhasePageTabAttribute";
 q("parcelsAndSpotsTab", function (arg) {
 	console.log("parcels & spots tab load.");
 
-	var ajaxForm = q.controls.ajaxForm("PhasePageTabAttribute");
-	var currectAlias = $("#PhasePageTabAttribute").val();
+	var ajaxForm = q.controls.ajaxForm(phasePageTabAttributeValue);
+	var currectAlias = $("#" + phasePageTabAttributeValue).val();
 
 	if (currectAlias != undefined && currectAlias != "") {
 		ajaxForm.emulateUpdate(currectAlias);
 	}
-	
+
 	arg = arg || {};
 
 	arg.unload = function () {
 		ajaxForm.destroy();
-		
+
 		console.log("parcels & spots tab unload");
 	};
 });
@@ -103,9 +104,30 @@ q("uploadPhasesAndParcelsTab", function (arg) {
 q("phasesTab", function (arg) {
 	console.log("phases group load");
 
+	var $searchPanel = $("#searchPhasesAndSpotsMenu");
+	$searchPanel.show();
+	var $searchInput = $searchPanel.find("input").val("");
+
+	$("[data-phase-delete-identity]").click(function () {
+		var name = this.getAttribute("data-phase-delete-name");
+		if (confirm("Are you sure that remove phase with name '" + name + "'?") == true) {
+			var phaseIdentity = this.getAttribute("data-phase-delete-identity");
+			var removeArg = { identity: phaseIdentity };
+			q.controls.selector(removeArg, $searchInput.val());
+			q.controls.ajaxForm.fireUpdate({
+				arg: removeArg,
+				url: q.pageConfig.removePhaseUrl,
+				method: "POST",
+				alias: "phasesTab",
+				ajaxForm: phasePageTabAttributeValue
+			});
+		}
+	});
+
 	arg = arg || {};
 
 	arg.unload = function () {
+		$searchPanel.hide();
 		console.log("phases group unload.");
 	};
 });
