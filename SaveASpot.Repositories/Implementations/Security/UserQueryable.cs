@@ -48,12 +48,12 @@ namespace SaveASpot.Repositories.Implementations.Security
 
 		public IUserFilter And(IUserFilter first, IUserFilter second)
 		{
-			return new UserFilter(Query.And(new[] { ToFilter(first).MongoQuery, ToFilter(second).MongoQuery }));
+			return new UserFilter(Query.And(new[] { MongoQueryFilter.Convert(first).MongoQuery, MongoQueryFilter.Convert(second).MongoQuery }));
 		}
 
 		public IEnumerable<SiteUser> FindUsers(IUserFilter userFilter)
 		{
-			return _mongoDBCollectionFactory.Collection<SiteUser>().Find(ToFilter(userFilter).MongoQuery);
+			return _mongoDBCollectionFactory.Collection<SiteUser>().Find(MongoQueryFilter.Convert(userFilter).MongoQuery);
 		}
 
 		private IUserFilter ToFilter(Expression<Func<SiteUser, bool>> expression)
@@ -61,12 +61,12 @@ namespace SaveASpot.Repositories.Implementations.Security
 			return new UserFilter(Query<SiteUser>.Where(expression));
 		}
 
-		private UserFilter ToFilter(IUserFilter userFilter)
-		{
-			if (userFilter == null || userFilter.GetType() != typeof(UserFilter))
-				throw new ArgumentException();
+		//private UserFilter ToFilter(IUserFilter userFilter)
+		//{
+		//	if (userFilter == null || userFilter.GetType() != typeof(UserFilter))
+		//		throw new ArgumentException();
 
-			return (UserFilter)userFilter;
-		}
+		//	return (UserFilter)userFilter;
+		//}
 	}
 }

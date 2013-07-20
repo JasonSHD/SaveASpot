@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using System.Linq;
 using SaveASpot.Core;
+using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.ViewModels.PhasesAndParcels;
 
@@ -8,31 +8,27 @@ namespace SaveASpot.Services.Implementations.Controllers
 {
 	public sealed class PhasesControllerService : IPhasesControllerService
 	{
-		private static readonly IList<PhaseViewModel> PhaseViewModels = new List<PhaseViewModel>();
+		private readonly IPhaseRepository _phaseRepository;
+		private readonly IPhaseQueryable _phaseQueryable;
+
+		public PhasesControllerService(IPhaseRepository phaseRepository, IPhaseQueryable phaseQueryable)
+		{
+			_phaseRepository = phaseRepository;
+			_phaseQueryable = phaseQueryable;
+		}
 
 		public PhasesViewModel GetPhases(SelectorViewModel selectorViewModel)
 		{
-			if (PhaseViewModels.Count == 0)
-			{
-				for (var index = 0; index < 10; index++)
-				{
-					PhaseViewModels.Add(new PhaseViewModel { Name = "phase name #" + index, Identity = "phase_identity_" + index });
-				}
-			}
-
-			IEnumerable<PhaseViewModel> phases = PhaseViewModels;
-			if (!string.IsNullOrWhiteSpace(selectorViewModel.Search))
-			{
-				phases = phases.Where(e => e.Name.Contains(selectorViewModel.Search));
-			}
-			return new PhasesViewModel { Phases = phases, SelectorViewModel = selectorViewModel };
+			return new PhasesViewModel
+							 {
+								 Phases = _phaseQueryable.Find(_phaseQueryable.All()).Select(e => new PhaseViewModel { Identity = e.Identity, Name = e.PhaseName }),
+								 SelectorViewModel = selectorViewModel
+							 };
 		}
 
 		public IMethodResult RemovePhases(string identity)
 		{
-			PhaseViewModels.Remove(PhaseViewModels.First(e => e.Identity == identity));
-
-			return new MessageMethodResult(true, string.Empty);
+			return new MessageMethodResult(_phaseRepository.RemovePhase(identity), string.Empty);
 		}
 	}
 }

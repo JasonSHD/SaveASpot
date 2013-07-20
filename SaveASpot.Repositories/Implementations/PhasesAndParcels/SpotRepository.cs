@@ -1,8 +1,8 @@
-﻿using MongoDB.Bson;
-using SaveASpot.Repositories.Interfaces;
+using MongoDB.Bson;
+using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
 
-namespace SaveASpot.Repositories.Implementations
+namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 {
 	public sealed class SpotRepository : ISpotRepository
 	{
@@ -22,3 +22,4 @@ namespace SaveASpot.Repositories.Implementations
 		}
 	}
 }
+
