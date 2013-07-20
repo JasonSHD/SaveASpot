@@ -11,11 +11,13 @@ namespace SaveASpot.Services.Implementations
 	{
 		private readonly IPhaseRepository _phaseRepository;
 		private readonly IParcelRepository _parcelRepository;
+		private readonly ISpotRepository _spotRepository;
 
-		public ArcgisService (IParcelRepository parcelRepository, IPhaseRepository phaseRepository)
+		public ArcgisService (IParcelRepository parcelRepository, IPhaseRepository phaseRepository, ISpotRepository spotRepository)
 		{
 			_parcelRepository = parcelRepository;
 			_phaseRepository = phaseRepository;
+			_spotRepository = spotRepository;
 		}
 
 		public void AddParcels(string jsonParcels)
@@ -55,7 +57,27 @@ namespace SaveASpot.Services.Implementations
 
 		public void AddSpots(string jsonSpots)
 		{
-			throw new System.NotImplementedException();
+			dynamic array = JsonConvert.DeserializeObject(string.Format("[{0}]", jsonSpots));
+			foreach (var col in array)
+			{
+				foreach (var featuresCol in col.features)
+				{
+					var points = new List<Point>();
+
+					foreach (var el in featuresCol.geometry.coordinates[0])
+					{
+						points.Add(new Point { Latitude = el[0], Longitude = el[1] });
+					}
+
+					_spotRepository.AddSpot(new Spot
+					{
+						SpotLength = featuresCol.properties.Shape_Leng,
+						SpotArea = featuresCol.properties.Shape_Area,
+						SpotShape = points
+					});
+				}
+
+			}
 		}
 	}
 }
