@@ -52,10 +52,12 @@
     <Compile Include="Implementations\Controllers\SetupUsersControllerService.cs" />
     <Compile Include="Implementations\Controllers\SpotsControllerService.cs" />
     <Compile Include="Implementations\CurrentUser.cs" />
+    <Compile Include="Implementations\TextParserCases\DecimalTextParserCase.cs" />
     <Compile Include="Implementations\Security\AuthorizeManager.cs" />
     <Compile Include="Implementations\Security\RoleFactory.cs" />
     <Compile Include="Implementations\Security\UserHarvester.cs" />
     <Compile Include="Implementations\Security\UserService.cs" />
+    <Compile Include="Implementations\TextParserEngine.cs" />
     <Compile Include="Implementations\TextService.cs" />
     <Compile Include="Implementations\Validators\Security\PasswordValidator.cs" />
     <Compile Include="Implementations\Validators\Security\UseNotExistsValidator.cs" />
@@ -72,6 +74,8 @@
     <Compile Include="Interfaces\Controllers\ISpotsControllerService.cs" />
     <Compile Include="Interfaces\Controllers\UserResult.cs" />
     <Compile Include="Interfaces\IArcgisService.cs" />
+    <Compile Include="Interfaces\ITextParserCase.cs" />
+    <Compile Include="Interfaces\ITextParserEngine.cs" />
     <Compile Include="Interfaces\Security\IUserValidateFactory.cs" />
     <Compile Include="Interfaces\Security\UserArg.cs" />
     <Compile Include="Interfaces\Security\CreateUserResult.cs" />
@@ -79,6 +83,8 @@
     <Compile Include="Interfaces\Security\IUserService.cs" />
     <Compile Include="Interfaces\Security\UserExistsResult.cs" />
     <Compile Include="Interfaces\Security\UserValidatorResult.cs" />
+    <Compile Include="Interfaces\TextParserBuilder.cs" />
+    <Compile Include="Interfaces\TextParserEngineExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

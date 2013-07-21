@@ -29,6 +29,7 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<IParcelsControllerService>().To<ParcelsControllerService>();
 			Bind<IPhasesControllerService>().To<PhasesControllerService>();
 			Bind<ISpotsControllerService>().To<SpotsControllerService>();
+			Bind<ITextParserEngine>().To<TextParserEngine>();
 		}
 	}
 }

@@ -216,6 +216,7 @@ q("parcelsTab", function (arg) {
 	arg = arg || {};
 
 	arg.unload = function () {
+		$searchPanel.hide();
 		console.log("parcels group unload");
 	};
 });
@@ -246,6 +247,7 @@ q("spotsTab", function (arg) {
 	arg = arg || {};
 
 	arg.unload = function () {
+		$searchPanel.hide();
 		console.log("spots group unload");
 	};
 });

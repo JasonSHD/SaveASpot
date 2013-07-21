@@ -51,6 +51,7 @@
     <Compile Include="Core\MethodResultTests.cs" />
     <Compile Include="Core\Web\Mvc\RoleAuthorizeAttributeTests.cs" />
     <Compile Include="Implementations\ArcgisServiceTests.cs" />
+    <Compile Include="Implementations\TextParserCases\DecimalTextParserCaseTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

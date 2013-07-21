@@ -20,6 +20,18 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			return new SpotFilter(Query<Spot>.Where(e => true));
 		}
 
+		public ISpotFilter ByArea(decimal area)
+		{
+			var areaPlusOne = area + (decimal)0.01;
+
+			return new SpotFilter(Query.And(Query<Spot>.Where(e => e.SpotArea >= area), Query<Spot>.Where(e => e.SpotArea <= areaPlusOne)));
+		}
+
+		public ISpotFilter And(ISpotFilter left, ISpotFilter right)
+		{
+			return new SpotFilter(Query.And(MongoQueryFilter.Convert(left).MongoQuery, MongoQueryFilter.Convert(right).MongoQuery));
+		}
+
 		public IEnumerable<Spot> Find(ISpotFilter spotFilter)
 		{
 			return _mongoDbCollectionFactory.Collection<Spot>().Find(MongoQueryFilter.Convert(spotFilter).MongoQuery);
