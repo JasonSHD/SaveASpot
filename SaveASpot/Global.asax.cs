@@ -1,15 +1,37 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using Ninject;
 using SaveASpot.Areas.Setup.Controllers.Artifacts;
 using SaveASpot.Controllers;
+using SaveASpot.Core.Configuration;
+using SaveASpot.Core.Logging;
+using SaveASpot.Core.Logging.Implementation;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.DependenciesConfiguration;
+using SaveASpot.Repositories.Implementations;
+using SaveASpot.Repositories.Implementations.Logging;
 
 namespace SaveASpot
 {
 	public class MvcApplication : System.Web.HttpApplication
 	{
+		private readonly ILogger _logger;
+		private readonly IEnumerable<ILogAppender> _logAppenders;
+		private readonly ILogConfiguration _logConfiguration;
+		private readonly IConfigurationManager _configurationManager;
+
+		public MvcApplication()
+		{
+			_configurationManager = new ConfigurationManager();
+			_logAppenders = new List<ILogAppender>(){new LogAppender(new MongoDBProvider(new MongoDBConfiguration(_configurationManager)))};
+			_logConfiguration = new LogConfiguration(_configurationManager);
+			_logger = new Logger(_logAppenders, _logConfiguration);
+		}
+
+	
+
 		public static void RegisterGlobalFilters(GlobalFilterCollection filters)
 		{
 			filters.Add(new HandleErrorAttribute());
@@ -18,12 +40,30 @@ namespace SaveASpot
 		public static void RegisterRoutes(RouteCollection routes)
 		{
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+			routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" }); 
 
 			routes.MapRoute(
 					"Default", // Route name
 					"{controller}/{action}/{id}", // URL with parameters
 					new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
 			);
+		}
+
+		protected void Application_Error()
+		{
+			var lastError = Server.GetLastError();
+
+			_logger.Error("An unhandled exception has occured!", lastError);
+			
+			Response.Clear();
+			Server.ClearError();
+
+			var routeData = new RouteData();
+			routeData.Values["controller"] = "ErrorPage";
+			routeData.Values["action"] = "Index";
+			IController controller = new ErrorPageController();
+			var rc = new RequestContext(new HttpContextWrapper(Context), routeData);
+			controller.Execute(rc);
 		}
 
 		protected void Application_Start()
