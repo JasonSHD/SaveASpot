@@ -59,8 +59,6 @@ namespace SaveASpot.Controllers
 
                     IMethodResult<MessageResult> resultStatus = _arcgisService.AddSpots(spotsResult);
 
-                    result.Add(file.FileName);
-
                     //if file wasn't writed log message about it
                     if (!resultStatus.IsSuccess && _logger != null)
                     {
