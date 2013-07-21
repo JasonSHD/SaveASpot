@@ -1,8 +1,10 @@
-﻿namespace SaveASpot.Services.Interfaces
+﻿using SaveASpot.Core;
+
+namespace SaveASpot.Services.Interfaces
 {
 	public interface IArcgisService
 	{
-		void AddParcels(string jsonParcels);
-		void AddSpots(string jsonSpots);
+        IMethodResult<MessageResult> AddParcels(string jsonParcels);
+        IMethodResult<MessageResult> AddSpots(string jsonSpots);
 	}
 }
