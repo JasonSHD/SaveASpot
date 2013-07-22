@@ -1,4 +1,5 @@
-﻿using NSubstitute;
+﻿using System.IO;
+using NSubstitute;
 using NUnit.Framework;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
@@ -24,15 +25,44 @@ namespace TestsSaveASpot.Implementations
 			ArcgisService = new ArcgisService(ParcelRepository, PhaseRepository, SpotRepository);
 		}
 
-		private static string ParcelsResource1 { get { return ""; } }
-		private static string ParcelsResource2 { get { return ""; } }
-		private static string ParcelsResource3 { get { return ""; } }
+		private static string ParcelsResource1 { 
+			get
+			{
+				using (var r = new StreamReader(@"..\..\..\..\SaveASpot\Content\data\Phase1.json"))
+				{
+					var json = r.ReadToEnd();
+					return json;
+				}
+			} 
+		}
+		private static string ParcelsResource2
+		{
+			get
+			{
+				using (var r = new StreamReader(@"..\..\..\..\SaveASpot\Content\data\Phase3.json"))
+				{
+					var json = r.ReadToEnd();
+					return json;
+				}
+			}
+		}
+		private static string ParcelsResource3
+		{
+			get
+			{
+				using (var r = new StreamReader(@"..\..\..\..\SaveASpot\Content\data\Phase4.json"))
+				{
+					var json = r.ReadToEnd();
+					return json;
+				}
+			}
+		}
 
 		public static object[] AddParcelsForParcels_TestCaseSource = new object[]
 		{
-			new object[]{ParcelsResource1, 10},
-			new object[]{ParcelsResource2, 2},
-			new object[]{ParcelsResource3, 12},
+			new object[]{ParcelsResource1, 4},
+			new object[]{ParcelsResource2, 6},
+			new object[]{ParcelsResource3, 8},
 		};
 
 		[Test, TestCaseSource("AddParcelsForParcels_TestCaseSource")]
@@ -42,14 +72,14 @@ namespace TestsSaveASpot.Implementations
 			//act
 			ArcgisService.AddParcels(input);
 			//assert
-			ParcelRepository.Received().AddParcel(Arg.Any<Parcel>());
+			ParcelRepository.Received(count).AddParcel(Arg.Any<Parcel>());
 		}
 
 		public static object[] AddParcelsForPhases_TestCaseSource = new object[]
 		{
-			new object[]{ParcelsResource1, 3},
-			new object[]{ParcelsResource2, 4},
-			new object[]{ParcelsResource3, 5},
+			new object[]{ParcelsResource1, 4},
+			new object[]{ParcelsResource2, 6},
+			new object[]{ParcelsResource3, 8},
 		};
 
 		[Test, TestCaseSource("AddParcelsForPhases_TestCaseSource")]
@@ -62,15 +92,45 @@ namespace TestsSaveASpot.Implementations
 			PhaseRepository.Received(count).AddPhase(Arg.Any<Phase>());
 		}
 
-		private static string ParcelsResource4 { get { return ""; } }
-		private static string ParcelsResource5 { get { return ""; } }
-		private static string ParcelsResource6 { get { return ""; } }
+		private static string SpotsResource1
+		{
+			get
+			{
+				using (var r = new StreamReader(@"..\..\..\..\SaveASpot\Content\data\Phase1_Grid.json"))
+				{
+					var json = r.ReadToEnd();
+					return json;
+				}
+			}
+		}
+		private static string SpotsResource2
+		{
+			get
+			{
+				using (var r = new StreamReader(@"..\..\..\..\SaveASpot\Content\data\Phase3_Grid.json"))
+				{
+					var json = r.ReadToEnd();
+					return json;
+				}
+			}
+		}
+		private static string SpotsResource3
+		{
+			get
+			{
+				using (var r = new StreamReader(@"..\..\..\..\SaveASpot\Content\data\Phase4_Grid.json"))
+				{
+					var json = r.ReadToEnd();
+					return json;
+				}
+			}
+		}
 
 		public static object[] AddSpots_TestCaseSource = new object[]
 		{
-			new object[]{ParcelsResource4, 3},
-			new object[]{ParcelsResource5, 4},
-			new object[]{ParcelsResource6, 3},
+			new object[]{SpotsResource1, 324},
+			new object[]{SpotsResource2, 272},
+			new object[]{SpotsResource3, 405},
 		};
 
 		[Test, TestCaseSource("AddSpots_TestCaseSource")]
