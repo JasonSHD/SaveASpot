@@ -4,6 +4,7 @@
 	Layout = null;
 }
 <input id="@SiteConstants.MainMenuTabSpecificReadyAlias" value="@SiteConstants.MapControllerAlias" type="hidden" />
+<input type="hidden" data-gmap-api-key="AIzaSyCw9fP5c4kc5MiZBvUzLiMc8tY00BU4_i4" />
 <div id="sidebar-nav">
 	<ul id="dashboard-menu">
 		<li>
@@ -27,7 +28,23 @@
 	</ul>
 </div>
 <div class="content">
-	<h2>Map</h2>
+	<style type="text/css">
+		#map-container
+		{
+			width: 100%;
+			height: 100%;
+		}
+
+		#map-canvas
+		{
+			width: 94%;
+			padding: 17%;
+		}
+	</style>
+	<div id="map-container" class="container">
+		<div id="map-canvas" class="mini-layout-body">
+		</div>
+	</div>
 </div>
 
 

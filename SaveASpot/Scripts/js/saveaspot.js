@@ -42,6 +42,33 @@
 	};
 })(q);
 
+(function (namespace, $) {
+	namespace.addScript = function (url, ready) {
+		if ($("script[src='" + url + "']").length > 0) {
+			ready();
+
+			return;
+		}
+
+		var el = document.createElement("script");
+		var loaded = false;
+		el.onload = el.onreadystatechange = function () {
+			if ((el.readyState && el.readyState !== "complete" && el.readyState !== "loaded") || loaded) {
+				return false;
+			}
+
+			el.onload = el.onreadystatechange = null;
+			loaded = true;
+			ready();
+		};
+
+		el.async = true;
+		el.src = url;
+		var lastScript = $("script[src]").last()[0];
+		lastScript.parentNode.insertBefore(el, lastScript.nextSibling);
+	};
+})(q, jQuery);
+
 (function (namespace) {
 	namespace._data = namespace._data || {};
 	namespace.events = function () {
@@ -347,6 +374,29 @@ q.controls = q.controls || {};
 		return result;
 	};
 })(q.controls, jQuery);
+
+(function (namespace) {
+	namespace.gmap = function (key, readyHandler) {
+		var result = {};
+
+		if (window.google != undefined) {
+			readyHandler();
+			return result;
+		}
+
+		var gmapGlobalCallbackName = "_____________gmapCallback_____________";
+		window[gmapGlobalCallbackName] = function () {
+			readyHandler();
+			delete window[gmapGlobalCallbackName];
+		};
+
+		var gmapScriptUrl = "https://maps.googleapis.com/maps/api/js?key=" + key + "&sensor=true&callback=" + gmapGlobalCallbackName;
+		q.addScript(gmapScriptUrl, function () {
+		});
+
+		return result;
+	};
+})(q.controls);
 
 q.validation = q.validation || {};
 (function (namespace, $) {
