@@ -155,7 +155,6 @@
     <Content Include="Content\css\map.css" />
     <Content Include="Content\css\new-user.css" />
     <Content Include="Content\css\personal-info.css" />
-    <Content Include="Content\css\phases-page.css" />
     <Content Include="Content\css\signin.css" />
     <Content Include="Content\css\signup.css" />
     <Content Include="Content\css\skins\dark.css" />

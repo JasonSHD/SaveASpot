@@ -5,6 +5,32 @@
 q("mapTab", function (arg) {
 	console.log("map tab load.");
 
+	//window.mapCallback = function () {
+	//	readyRun();
+	//};
+
+
+	//q.addScript($("[data-gmap-api-url]").attr("data-gmap-api-url") + "&callback=mapCallback", function () {
+	//});
+
+	//function readyRun() {
+	//	var mapOptions = {
+	//		zoom: 8,
+	//		center: new google.maps.LatLng(-34.397, 150.644),
+	//		mapTypeId: google.maps.MapTypeId.ROADMAP
+	//	};
+	//	var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+	//}
+
+	q.controls.gmap($("[data-gmap-api-key]").attr("data-gmap-api-key"), function () {
+		var mapOptions = {
+			zoom: 8,
+			center: new google.maps.LatLng(-34.397, 150.644),
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+	});
+
 	arg = arg || {};
 
 	arg.unload = function () {
@@ -196,7 +222,7 @@ q("parcelsTab", function (arg) {
 	var $searchPanel = $("#searchPhasesAndSpotsMenu");
 	$searchPanel.show();
 	var $searchInput = $searchPanel.find("input").val("");
-	
+
 	$("[data-parcel-delete-identity]").click(function () {
 		var name = this.getAttribute("data-parcel-delete-name");
 		if (confirm("Are you sure that remove parcel with name '" + name + "'?") == true) {
@@ -223,11 +249,11 @@ q("parcelsTab", function (arg) {
 
 q("spotsTab", function (arg) {
 	console.log("spots group load");
-	
+
 	var $searchPanel = $("#searchPhasesAndSpotsMenu");
 	$searchPanel.show();
 	var $searchInput = $searchPanel.find("input").val("");
-	
+
 	$("[data-spot-delete-identity]").click(function () {
 		var name = this.getAttribute("data-spot-delete-name");
 		if (confirm("Are you sure that remove spot with name '" + name + "'?") == true) {
