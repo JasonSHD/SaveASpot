@@ -186,6 +186,7 @@
     <Content Include="Content\img\contact-img.png" />
     <Content Include="Content\img\contact-img2.png" />
     <Content Include="Content\img\contact-profile.png" />
+    <Content Include="Content\img\favicon.ico" />
     <Content Include="Content\img\gallery-preview.jpg" />
     <Content Include="Content\img\gallery1.jpg" />
     <Content Include="Content\img\gallery2.jpg" />
@@ -435,7 +436,6 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>35304</DevelopmentServerPort>
