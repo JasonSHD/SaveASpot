@@ -18,19 +18,14 @@ namespace SaveASpot
 	public class MvcApplication : System.Web.HttpApplication
 	{
 		private readonly ILogger _logger;
-		private readonly IEnumerable<ILogAppender> _logAppenders;
-		private readonly ILogConfiguration _logConfiguration;
-		private readonly IConfigurationManager _configurationManager;
+		private readonly StandardKernel kernel;
 
 		public MvcApplication()
 		{
-			_configurationManager = new ConfigurationManager();
-			_logAppenders = new List<ILogAppender>(){new LogAppender(new MongoDBProvider(new MongoDBConfiguration(_configurationManager)))};
-			_logConfiguration = new LogConfiguration(_configurationManager);
-			_logger = new Logger(_logAppenders, _logConfiguration);
+			kernel = new StandardKernel(new CoreConfigurationModule(), new ServicesConfigurationModule(), new RepositoriesConfigurationModule(), new SetupAreaConfigurationModule());
+			_logger = kernel.Get<ILogger>();
 		}
 
-	
 
 		public static void RegisterGlobalFilters(GlobalFilterCollection filters)
 		{
@@ -40,7 +35,7 @@ namespace SaveASpot
 		public static void RegisterRoutes(RouteCollection routes)
 		{
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-			routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" }); 
+			routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
 
 			routes.MapRoute(
 					"Default", // Route name
@@ -54,21 +49,20 @@ namespace SaveASpot
 			var lastError = Server.GetLastError();
 
 			_logger.Error("An unhandled exception has occured!", lastError);
-			
+
 			Response.Clear();
 			Server.ClearError();
 
 			var routeData = new RouteData();
 			routeData.Values["controller"] = "ErrorPage";
 			routeData.Values["action"] = "Index";
-			IController controller = new ErrorPageController();
+			IController controller = kernel.Get<ErrorPageController>();
 			var rc = new RequestContext(new HttpContextWrapper(Context), routeData);
 			controller.Execute(rc);
 		}
 
 		protected void Application_Start()
 		{
-			var kernel = new StandardKernel(new CoreConfigurationModule(), new ServicesConfigurationModule(), new RepositoriesConfigurationModule(), new SetupAreaConfigurationModule());
 			kernel.Bind<ITabDescriptionControllerTypes>().ToMethod(c => new TabDescriptionControllerTypes(typeof(MapController).Assembly));
 			kernel.Bind<IControllerTypesFinder>().ToMethod(c => new ControllerTypesFinder(typeof(MapController).Assembly));
 			GlobalFilters.Filters.Add(kernel.Get<MvcAuthorizeFilter>());
