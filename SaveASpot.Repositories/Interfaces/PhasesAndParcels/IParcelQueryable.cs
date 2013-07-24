@@ -6,6 +6,7 @@ namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
 	public interface IParcelQueryable
 	{
 		IParcelFilter All();
+		IParcelFilter ByPhase(string identity);
 		IEnumerable<Parcel> Find(IParcelFilter filter);
 	}
 }

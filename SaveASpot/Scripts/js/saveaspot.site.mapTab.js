@@ -3,7 +3,7 @@
 
 	var mvc = { _controllers: {}, _views: {}, _models: {} };
 
-	mvc._controllers.context = {};
+	mvc._controllers.context = {};//controller context
 	Object.defineProperty(mvc._controllers.context, "gmapKey", {
 		configurable: false,
 		get: function () {
@@ -27,8 +27,7 @@
 	});
 
 	mvc._controllers.context.execute = function (name, argExec) {
-		(mvc._controllers[name] || function () {
-		})(argExec);
+		mvc._controllers[name](argExec);
 	};
 
 	mvc._controllers.phases = function () {
@@ -44,11 +43,16 @@
 		});
 	};
 	mvc._controllers.parcels = function (controllerArg) {
-		alert(controllerArg.identity);
+		var context = this.context;
+		context.models.parcels(controllerArg.identity, function (result) {
+			context.views.navMenu(result, function (argSelect) {
+				alert(argSelect.identity);
+			});
+		});
 	};
 	mvc._controllers.spots = function () {
 	};
-	
+
 	mvc._views.context = {//view context
 		navMenu: $("#dashboard-menu"),
 		mapCanvas: document.getElementById("map-canvas"),
@@ -94,6 +98,7 @@
 			});
 		}
 		navMenuContext.onSelect = onSelect;
+		context.navMenu.html("");
 
 		$(elements).each(function () {
 			context.navMenu.append(
@@ -116,7 +121,7 @@
 		});
 	};
 
-	mvc._models.context = {
+	mvc._models.context = {//model context
 		phasesUrl: q.pageConfig.phasesUrl,
 		parcelsUrl: q.pageConfig.parcelsUrl
 	};
@@ -126,7 +131,10 @@
 			callback(result);
 		});
 	};
-	mvc._models.parcels = function (phaseIdentity) {
+	mvc._models.parcels = function (phaseIdentity, callback) {
+		q.ajax({ url: this.context.parcelsUrl + "?identity=" + phaseIdentity }).done(function (result) {
+			callback(result);
+		});
 	};
 	mvc._models.spots = function (parcelsIdentity) {
 	};
