@@ -43,6 +43,44 @@
 })(q);
 
 (function (namespace, $) {
+	namespace.ajax = function (arg, ajaxIndicator) {
+		var result = {};
+		var handlers = {};
+
+		if (ajaxIndicator != undefined)
+			ajaxIndicator.show();
+
+		$.ajax(arg).done(function (successResult) {
+			(handlers.done || function () {
+			})(successResult);
+		}).fail(function (failResult) {
+			(handlers.fail || function () {
+			})(failResult);
+		}).always(function () {
+			if (ajaxIndicator != undefined)
+				ajaxIndicator.hide();
+
+			(handlers.always || function () {
+			})();
+		});
+
+		result.done = function (handler) {
+			handlers.done = handler;
+
+			return result;
+		};
+
+		result.fail = function (handler) {
+			handler.fail = handler;
+
+			return result;
+		};
+
+		return result;
+	};
+})(q, jQuery);
+
+(function (namespace, $) {
 	namespace.addScript = function (url, ready) {
 		if ($("script[src='" + url + "']").length > 0) {
 			ready();
@@ -215,6 +253,25 @@ q.controls = q.controls || {};
 		return arg;
 	};
 })(q.controls);
+
+(function (namespace, $) {
+	namespace.ajaxIndicator = function (container, url) {
+		var result = { _data: { url: url || "/Content/img/select2/spinner.gif" } };
+		var $img = $("<img/>").attr("src", result._data.url);
+
+		result.show = function () {
+			$(container).append($img);
+
+			return result;
+		};
+
+		result.hide = function () {
+			$img.hide();
+		};
+
+		return result;
+	};
+})(q.controls, jQuery);
 
 (function (namespace, $) {
 	namespace.modal = function () {
