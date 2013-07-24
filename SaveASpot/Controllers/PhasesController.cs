@@ -19,7 +19,7 @@ namespace SaveASpot.Controllers
 			_phasesControllerService = phasesControllerService;
 		}
 
-		public ViewResult Index(SelectorViewModel selectorViewModel)
+		public ActionResult Index(SelectorViewModel selectorViewModel, bool isJson = false)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -33,7 +33,7 @@ namespace SaveASpot.Controllers
 				return View(null, SiteConstants.Layouts.ParcelsAndSpotsAjaxLayout, model);
 			}
 
-			return TabView(model);
+			return isJson ? (ActionResult)Json(model.Phases.Select(e => e.ToJson()), JsonRequestBehavior.AllowGet) : TabView(model);
 		}
 
 		[HttpPost]
