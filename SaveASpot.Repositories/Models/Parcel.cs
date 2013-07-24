@@ -12,5 +12,6 @@ namespace SaveASpot.Repositories.Models
 		public decimal ParcelAcres { get; set; }
 		public decimal ParcelArea { get; set; }
 		public List<Point> ParcelShape { get; set; }
+		public string PhaseId { get; set; }
 	}
 }

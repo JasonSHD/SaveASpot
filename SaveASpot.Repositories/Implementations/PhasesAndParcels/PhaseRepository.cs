@@ -31,6 +31,22 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			return res != null;
 		}
 
+		public Phase GetPhaseByName(string phaseName)
+		{
+			var query = Query<Phase>.EQ(e => e.PhaseName, phaseName);
+			var fields = Fields.Include("PhaseName");
+			var res = _mongoDBCollectionFactory.Collection<Phase>().Find(query).SetFields(fields).SetLimit(1).FirstOrDefault();
+			return res;
+		}
+
+		public Phase GetPhaseById(string id)
+		{
+			var query = Query<Phase>.EQ(e => e.Identity, id);
+			var fields = Fields.Include("Identity");
+			var res = _mongoDBCollectionFactory.Collection<Phase>().Find(query).SetFields(fields).SetLimit(1).FirstOrDefault();
+			return res;
+		}
+
 		public bool RemovePhase(string identity)
 		{
 			ObjectId phaseId;
