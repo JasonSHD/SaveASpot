@@ -288,6 +288,7 @@
     <Content Include="Scripts\js\saveaspot.initscript.js" />
     <Content Include="Scripts\js\saveaspot.js" />
     <Content Include="Scripts\js\saveaspot.site.js" />
+    <Content Include="Scripts\js\saveaspot.site.mapTab.js" />
     <Content Include="Scripts\js\select2.min.js" />
     <Content Include="Scripts\js\theme.js" />
     <Content Include="Scripts\js\wysihtml5-0.3.0.js" />
