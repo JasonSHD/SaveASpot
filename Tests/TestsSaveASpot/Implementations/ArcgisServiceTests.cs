@@ -141,6 +141,104 @@ namespace TestsSaveASpot.Implementations
 			ArcgisService.AddSpots(input);
 			//assert
 			SpotRepository.Received(count).AddSpot(Arg.Any<Spot>());
-		}
-	}
+        }
+
+        #region [CheckIfSpotBelongsToParcel]
+        [Test]
+        public void PointInPolygon_InnerPoint_ContainedWithinPolygon()
+        {
+//            Point[] vertices = new Point[4]  
+//                                {  
+//                                    new Point(){ Longitude = 1, Latitude = 3 },  
+//                                    new Point(){ Longitude = 1, Latitude = 1 },  
+//                                    new Point(){ Longitude = 4, Latitude = 1 },  
+//                                    new Point(){ Longitude = 4, Latitude = 3 }  
+//                                };
+
+            Point[] vertices = new Point[4]  
+                                {  
+                                    new Point(){ Longitude = (decimal)40.584791 , Latitude = (decimal)-111.593694 },  
+                                    new Point(){ Longitude = (decimal)40.584958 , Latitude = (decimal)-111.593408 },  
+                                    new Point(){ Longitude = (decimal)40.584740 , Latitude = (decimal)-111.593189 },  
+                                    new Point(){ Longitude = (decimal)40.584573 , Latitude = (decimal)-111.593475 }
+                                };
+
+            var p = new Polygon(vertices);
+
+            Assert.AreEqual(true, p.PointInPolygon(new Point() { Longitude = (decimal)40.584691, Latitude = (decimal)-111.593394 }));
+          //Assert.AreEqual(true, p.PointInPolygon(new Point() { Longitude = 2, Latitude = 2 }));
+        }
+
+        [Test]
+        public void PointInPolygon_OuterPoint_NotContainedWithinPolygon()
+        {
+            Point[] vertices = new Point[4]  
+                                {  
+                                    new Point() { Longitude = 1, Latitude = 3 },  
+                                    new Point() { Longitude = 1, Latitude = 1 },  
+                                    new Point() { Longitude = 4, Latitude = 1 },  
+                                    new Point() { Longitude = 4, Latitude = 3 }
+                                };
+
+            Polygon p = new Polygon(vertices);
+
+            Assert.AreEqual(false, p.PointInPolygon(new Point() { Longitude = 5, Latitude = 3 }));
+        }
+
+//        [Test]
+//        public void PointInPolygon_DiagonalPointWithin()
+//        {
+//            var vertices = new PointF[3]  
+//                                {  
+//                                    new PointF(1, 3),  
+//                                    new PointF(1, 1),  
+//                                    new PointF(4, 1)  
+//                                };
+//
+//            var p = new Polygon(vertices);
+//
+//            Assert.AreEqual(true, p.PointInPolygon(new PointF(2, 2)));
+//        }
+//
+//        [Test]
+//        public void PointInPolygon_DiagonalPointOut()
+//        {
+//            var vertices = new PointF[3]  
+//                                {  
+//                                    new PointF(1, 3),  
+//                                    new PointF(1, 1),  
+//                                    new PointF(4, 1)  
+//                                };
+//
+//            var p = new Polygon(vertices);
+//
+//            Assert.AreEqual(false, p.PointInPolygon(new PointF(3, 3)));
+//        }
+//
+//        [Test]
+//        public void PointInPolygon_PerformanceTest()
+//        {
+//            var vertices = new PointF[4]  
+//                                {  
+//                                    new PointF(1, 3),  
+//                                    new PointF(1, 1),  
+//                                    new PointF(4, 1),  
+//                                    new PointF(4, 3)  
+//                                };
+//
+//            var p = new Polygon(vertices);
+//
+//            var sw = new Stopwatch();
+//            sw.Start();
+//
+//            for (var i = 0; i < 200000; i++)
+//                p.PointInPolygon(new PointF(2, 2));
+//
+//            sw.Stop();
+//
+//            Assert.IsTrue(sw.Elapsed.TotalSeconds < 1);
+//        }  
+        #endregion
+
+    }
 }
