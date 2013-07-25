@@ -116,7 +116,7 @@ namespace SaveASpot.Services.Implementations
                     {
                         foreach (var featuresCol in col.features)
                         {
-                            List<Point> spotPoints = new List<Point>();
+                            List<Point> spotPoints = new List<Point>(); 
 
                             foreach (var el in featuresCol.geometry.coordinates[0])
                             {
