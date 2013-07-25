@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using NSubstitute;
 using NUnit.Framework;
+using SaveASpot.Core.Logging;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
 using SaveASpot.Services.Implementations;
@@ -14,6 +15,8 @@ namespace TestsSaveASpot.Implementations
 		private IParcelRepository ParcelRepository { get; set; }
 		private IPhaseRepository PhaseRepository { get; set; }
 		private ISpotRepository SpotRepository { get; set; }
+        private IParcelQueryable _parcelQueryable;
+        private ILogger _logger;
 
 		[SetUp]
 		public void SetUp()
@@ -21,8 +24,10 @@ namespace TestsSaveASpot.Implementations
 			ParcelRepository = Substitute.For<IParcelRepository>();
 			PhaseRepository = Substitute.For<IPhaseRepository>();
 			SpotRepository = Substitute.For<ISpotRepository>();
+		    _parcelQueryable = Substitute.For<IParcelQueryable>();
+            _logger = Substitute.For<ILogger>();
 
-			ArcgisService = new ArcgisService(ParcelRepository, PhaseRepository, SpotRepository);
+            ArcgisService = new ArcgisService(ParcelRepository, PhaseRepository, SpotRepository, _parcelQueryable, _logger);
 		}
 
 		private static string ParcelsResource1 { 
@@ -145,32 +150,32 @@ namespace TestsSaveASpot.Implementations
 
         #region [CheckIfSpotBelongsToParcel]
         [Test]
-        public void PointInPolygon_InnerPoint_ContainedWithinPolygon()
+        public void PointInPolygon_innerPoint_containedWithinPolygon()
         {
-//            Point[] vertices = new Point[4]  
-//                                {  
-//                                    new Point(){ Longitude = 1, Latitude = 3 },  
-//                                    new Point(){ Longitude = 1, Latitude = 1 },  
-//                                    new Point(){ Longitude = 4, Latitude = 1 },  
-//                                    new Point(){ Longitude = 4, Latitude = 3 }  
-//                                };
-
             Point[] vertices = new Point[4]  
                                 {  
-                                    new Point(){ Longitude = (decimal)40.584791 , Latitude = (decimal)-111.593694 },  
-                                    new Point(){ Longitude = (decimal)40.584958 , Latitude = (decimal)-111.593408 },  
-                                    new Point(){ Longitude = (decimal)40.584740 , Latitude = (decimal)-111.593189 },  
-                                    new Point(){ Longitude = (decimal)40.584573 , Latitude = (decimal)-111.593475 }
+                                    new Point(){ Longitude = 1, Latitude = 3 },  
+                                    new Point(){ Longitude = 1, Latitude = 1 },  
+                                    new Point(){ Longitude = 4, Latitude = 1 },  
+                                    new Point(){ Longitude = 4, Latitude = 3 }  
                                 };
+
+//            Point[] vertices = new Point[4]  
+//                                {  
+//                                    new Point(){ Longitude = (decimal)40.584791 , Latitude = (decimal)-111.593694 },  
+//                                    new Point(){ Longitude = (decimal)40.584958 , Latitude = (decimal)-111.593408 },  
+//                                    new Point(){ Longitude = (decimal)40.584740 , Latitude = (decimal)-111.593189 },  
+//                                    new Point(){ Longitude = (decimal)40.584573 , Latitude = (decimal)-111.593475 }
+//                                };
 
             var p = new Polygon(vertices);
 
-            Assert.AreEqual(true, p.PointInPolygon(new Point() { Longitude = (decimal)40.584691, Latitude = (decimal)-111.593394 }));
-          //Assert.AreEqual(true, p.PointInPolygon(new Point() { Longitude = 2, Latitude = 2 }));
+           //Assert.AreEqual(true, p.PointInPolygon(new Point() { Longitude = (decimal)40.584691, Latitude = (decimal)-111.593394 }));
+          Assert.AreEqual(true, p.PointInPolygon(new Point() { Longitude = 2, Latitude = 2 }));
         }
 
         [Test]
-        public void PointInPolygon_OuterPoint_NotContainedWithinPolygon()
+        public void PointInPolygon_outerPoint_notContainedWithinPolygon()
         {
             Point[] vertices = new Point[4]  
                                 {  
