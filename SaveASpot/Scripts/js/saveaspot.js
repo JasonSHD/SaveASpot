@@ -297,8 +297,9 @@ q.controls = q.controls || {};
 
 		result._handlers = {};
 		result._handlers.onOk = function () {
-			(result._handlers.onOkPublic || function () {
-			})();
+			if (result._handlers.onOkPublic != undefined) {
+				result._handlers.onOkPublic.call(result);
+			}
 		};
 
 		result.show = function () {
