@@ -65,13 +65,12 @@
 
 	mvc._views.context = {//view context
 		navMenu: $("#dashboard-menu"),
-		mapCanvas: document.getElementById("map-canvas"),
 		destroy: function (handler) {
 			mvc._destroy.handlers.push(handler);
 		},
-		gmap: undefined,
 		gmapContext: {
 			existsPolygons: [],
+			mapCanvas: document.getElementById("map-canvas"),
 			clearPolygons: function () {
 				var existsPolygons = this.existsPolygons;
 
@@ -145,76 +144,46 @@
 		});
 	};
 	mvc._views.parcels = function (parcels, onSelect) {
-		this.context.gmapContext.clearPolygons();
-
-		var isFirst = false;
-		var center = undefined;
-		for (var parcelIndex in parcels) {
-			var parcel = parcels[parcelIndex];
-			var parcelPolygonCoords = [];
-
-			for (var pointIndex in parcel.points) {
-				var point = parcel.points[pointIndex];
-
-				if (!isFirst) {
-					center = new google.maps.LatLng(point.lng, point.lat);
-					isFirst = true;
-				}
-
-				parcelPolygonCoords.push(new google.maps.LatLng(point.lng, point.lat));
-			}
-
-			var parcelColor = "#FF0000";
-			var parcelPolygon = new google.maps.Polygon({
-				paths: parcelPolygonCoords,
-				strokeColor: parcelColor,
-				strokeOpacity: 0.8,
-				strokeWeight: 2,
-				fillColor: parcelColor,
-				fillOpacity: 0.35
-			});
-
-			parcelPolygon.setMap(this.context.gmapContext.gmap);
-			this.context.gmapContext.existsPolygons.push(parcelPolygon);
-		}
-
-		this.context.gmap.setCenter(center);
+		this.gmapPolygons(parcels, { onSelect: onSelect, color: "#FF0000" });
 	};
 	mvc._views.spots = function (spots, onSelect) {
+		this.gmapPolygons(spots, { onSelect: onSelect, color: "#00FF00" });
+	};
+	mvc._views.gmapPolygons = function (elements, args) {
 		this.context.gmapContext.clearPolygons();
-		
+
 		var isFirst = false;
 		var center = undefined;
-		for (var spotIndex in spots) {
-			var spot = spots[spotIndex];
-			var spotPolygonCoords = [];
+		for (var elementIndex in elements) {
+			var element = elements[elementIndex];
+			var elementPolygonCoords = [];
 
-			for (var pointIndex in spot.points) {
-				var point = spot.points[pointIndex];
+			for (var pointIndex in element.points) {
+				var point = element.points[pointIndex];
 
 				if (!isFirst) {
 					center = new google.maps.LatLng(point.lng, point.lat);
 					isFirst = true;
 				}
 
-				spotPolygonCoords.push(new google.maps.LatLng(point.lng, point.lat));
+				elementPolygonCoords.push(new google.maps.LatLng(point.lng, point.lat));
 			}
 
-			var spotColor = "#FF0000";
-			var spotPolygon = new google.maps.Polygon({
-				paths: spotPolygonCoords,
-				strokeColor: spotColor,
+			var color = args.color;
+			var elementPolygon = new google.maps.Polygon({
+				paths: elementPolygonCoords,
+				strokeColor: color,
 				strokeOpacity: 0.8,
 				strokeWeight: 2,
-				fillColor: spotColor,
+				fillColor: color,
 				fillOpacity: 0.35
 			});
 
-			spotPolygon.setMap(this.context.gmapContext.gmap);
-			this.context.gmapContext.existsPolygons.push(spotPolygon);
+			elementPolygon.setMap(this.context.gmapContext.gmap);
+			this.context.gmapContext.existsPolygons.push(elementPolygon);
 		}
 
-		this.context.gmap.setCenter(center);
+		this.context.gmapContext.gmap.setCenter(center);
 	};
 
 	mvc._models.context = {//model context
