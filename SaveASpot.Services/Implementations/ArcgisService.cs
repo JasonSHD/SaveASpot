@@ -173,7 +173,6 @@ namespace SaveASpot.Services.Implementations
                if (!currentSpotVerticeInside)
                {
                    wholeSpotIsInside = false;
-                   break;
                }
             }
 
