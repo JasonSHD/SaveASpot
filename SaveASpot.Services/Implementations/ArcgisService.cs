@@ -174,6 +174,10 @@ namespace SaveASpot.Services.Implementations
                {
                    wholeSpotIsInside = false;
                }
+               if (!wholeSpotIsInside)
+               {
+                   break;
+               }
             }
 
             return wholeSpotIsInside;
