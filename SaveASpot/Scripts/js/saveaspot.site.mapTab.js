@@ -45,12 +45,22 @@
 	mvc._controllers.parcels = function (controllerArg) {
 		var context = this.context;
 		context.models.parcels(controllerArg.identity, function (result) {
-			context.views.navMenu(result, function (argSelect) {
-				alert(argSelect.identity);
+			context.views.navMenu(result, function (parcelArg) {
+				context.execute("spots", parcelArg);
 			});
+			context.views.parcels(result);
 		});
 	};
-	mvc._controllers.spots = function () {
+	mvc._controllers.spots = function (controllerArg) {
+		var context = this.context;
+		context.models.spots(controllerArg.identity, function (result) {
+			$(result).each(function (index) {
+				this.name = "Spot " + (index + 1);
+			});
+			context.views.navMenu(result, function (spotArg) {
+			});
+			context.views.spots(result);
+		});
 	};
 
 	mvc._views.context = {//view context
@@ -58,6 +68,20 @@
 		mapCanvas: document.getElementById("map-canvas"),
 		destroy: function (handler) {
 			mvc._destroy.handlers.push(handler);
+		},
+		gmap: undefined,
+		gmapContext: {
+			existsPolygons: [],
+			clearPolygons: function () {
+				var existsPolygons = this.existsPolygons;
+
+				for (var polIndex in existsPolygons) {
+					var pol = existsPolygons[polIndex];
+					pol.setMap(undefined);
+				}
+
+				this.existsPolygons = [];
+			}
 		}
 	};
 
@@ -117,13 +141,86 @@
 				center: new google.maps.LatLng(-34.397, 150.644),
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
-			var map = new google.maps.Map(context.mapCanvas, mapOptions);
+			context.gmapContext.gmap = new google.maps.Map(context.gmapContext.mapCanvas, mapOptions);
 		});
+	};
+	mvc._views.parcels = function (parcels, onSelect) {
+		this.context.gmapContext.clearPolygons();
+
+		var isFirst = false;
+		var center = undefined;
+		for (var parcelIndex in parcels) {
+			var parcel = parcels[parcelIndex];
+			var parcelPolygonCoords = [];
+
+			for (var pointIndex in parcel.points) {
+				var point = parcel.points[pointIndex];
+
+				if (!isFirst) {
+					center = new google.maps.LatLng(point.lng, point.lat);
+					isFirst = true;
+				}
+
+				parcelPolygonCoords.push(new google.maps.LatLng(point.lng, point.lat));
+			}
+
+			var parcelColor = "#FF0000";
+			var parcelPolygon = new google.maps.Polygon({
+				paths: parcelPolygonCoords,
+				strokeColor: parcelColor,
+				strokeOpacity: 0.8,
+				strokeWeight: 2,
+				fillColor: parcelColor,
+				fillOpacity: 0.35
+			});
+
+			parcelPolygon.setMap(this.context.gmapContext.gmap);
+			this.context.gmapContext.existsPolygons.push(parcelPolygon);
+		}
+
+		this.context.gmap.setCenter(center);
+	};
+	mvc._views.spots = function (spots, onSelect) {
+		this.context.gmapContext.clearPolygons();
+		
+		var isFirst = false;
+		var center = undefined;
+		for (var spotIndex in spots) {
+			var spot = spots[spotIndex];
+			var spotPolygonCoords = [];
+
+			for (var pointIndex in spot.points) {
+				var point = spot.points[pointIndex];
+
+				if (!isFirst) {
+					center = new google.maps.LatLng(point.lng, point.lat);
+					isFirst = true;
+				}
+
+				spotPolygonCoords.push(new google.maps.LatLng(point.lng, point.lat));
+			}
+
+			var spotColor = "#FF0000";
+			var spotPolygon = new google.maps.Polygon({
+				paths: spotPolygonCoords,
+				strokeColor: spotColor,
+				strokeOpacity: 0.8,
+				strokeWeight: 2,
+				fillColor: spotColor,
+				fillOpacity: 0.35
+			});
+
+			spotPolygon.setMap(this.context.gmapContext.gmap);
+			this.context.gmapContext.existsPolygons.push(spotPolygon);
+		}
+
+		this.context.gmap.setCenter(center);
 	};
 
 	mvc._models.context = {//model context
 		phasesUrl: q.pageConfig.phasesUrl,
-		parcelsUrl: q.pageConfig.parcelsUrl
+		parcelsUrl: q.pageConfig.parcelsUrl,
+		spotsUrl: q.pageConfig.spotsUrl
 	};
 
 	mvc._models.phases = function (callback) {
@@ -136,10 +233,12 @@
 			callback(result);
 		});
 	};
-	mvc._models.spots = function (parcelsIdentity) {
+	mvc._models.spots = function (parcelsIdentity, callback) {
+		q.ajax({ url: this.context.spotsUrl + "?identity=" + parcelsIdentity }).done(function (result) {
+			callback(result);
+		});
 	};
 
-	mvc._controllers.phases();
 	mvc._destroy = { handlers: [] };
 	mvc.destroy = function () {
 		for (var destoryIndex in mvc._destroy.handlers) {
@@ -148,6 +247,7 @@
 		}
 	};
 
+	mvc._controllers.phases();
 
 	arg = arg || {};
 

@@ -43,7 +43,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 
 		private ParcelViewModel ToParcelViewModel(Parcel parcel)
 		{
-			return new ParcelViewModel { Name = parcel.ParcelName, Identity = parcel.Identity };
+			return new ParcelViewModel { Name = parcel.ParcelName, Identity = parcel.Identity, Length = parcel.ParcelLength, Points = parcel.ParcelShape.Select(e => new ViewModels.PhasesAndParcels.Point { Latitude = e.Latitude, Longitude = e.Longitude }) };
 		}
 	}
 }

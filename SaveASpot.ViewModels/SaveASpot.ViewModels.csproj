@@ -50,6 +50,7 @@
     <Compile Include="PhasesAndParcels\ParcelViewModel.cs" />
     <Compile Include="PhasesAndParcels\PhasesViewModel.cs" />
     <Compile Include="PhasesAndParcels\PhaseViewModel.cs" />
+    <Compile Include="PhasesAndParcels\Point.cs" />
     <Compile Include="PhasesAndParcels\SelectorViewModel.cs" />
     <Compile Include="PhasesAndParcels\SpotsViewModel.cs" />
     <Compile Include="PhasesAndParcels\SpotViewModel.cs" />
