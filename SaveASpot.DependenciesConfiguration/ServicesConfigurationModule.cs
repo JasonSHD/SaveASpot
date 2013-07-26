@@ -24,7 +24,6 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<IRoleFactory>().To<RoleFactory>();
 			Bind<ITextService>().To<TextService>();
 			Bind<IAuthorizeManager>().To<AuthorizeManager>();
-			Bind<IArcgisService>().To<ArcgisService>();
 			Bind<ISetupUsersControllerService>().To<SetupUsersControllerService>();
 			Bind<IParcelsControllerService>().To<ParcelsControllerService>();
 			Bind<IPhasesControllerService>().To<PhasesControllerService>();

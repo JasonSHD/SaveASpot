@@ -48,14 +48,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implementations\ArcgisService.cs" />
+    <Compile Include="Implementations\ArcgisParcelsService.cs" />
+    <Compile Include="Implementations\ArcgisSpotsService.cs" />
     <Compile Include="Implementations\Controllers\AccountControllerService.cs" />
     <Compile Include="Implementations\Controllers\CustomersControllerService.cs" />
     <Compile Include="Implementations\Controllers\ParcelsControllerService.cs" />
     <Compile Include="Implementations\Controllers\PhasesControllerService.cs" />
     <Compile Include="Implementations\Controllers\SetupUsersControllerService.cs" />
     <Compile Include="Implementations\Controllers\SpotsControllerService.cs" />
+    <Compile Include="Implementations\Controllers\UploadPhasesAndParcelsControllerService.cs" />
     <Compile Include="Implementations\CurrentUser.cs" />
+    <Compile Include="Implementations\Polygon.cs" />
     <Compile Include="Implementations\TextParserCases\DecimalTextParserCase.cs" />
     <Compile Include="Implementations\Security\AuthorizeManager.cs" />
     <Compile Include="Implementations\Security\RoleFactory.cs" />
@@ -76,8 +79,10 @@
     <Compile Include="Interfaces\Controllers\IPhasesControllerService.cs" />
     <Compile Include="Interfaces\Controllers\ISetupUsersControllerService.cs" />
     <Compile Include="Interfaces\Controllers\ISpotsControllerService.cs" />
+    <Compile Include="Interfaces\Controllers\IUploadPhasesAndParcelsControllerService.cs" />
     <Compile Include="Interfaces\Controllers\UserResult.cs" />
-    <Compile Include="Interfaces\IArcgisService.cs" />
+    <Compile Include="Interfaces\IParcelsService.cs" />
+    <Compile Include="Interfaces\ISpotsService.cs" />
     <Compile Include="Interfaces\ITextParserCase.cs" />
     <Compile Include="Interfaces\ITextParserEngine.cs" />
     <Compile Include="Interfaces\Security\IUserValidateFactory.cs" />

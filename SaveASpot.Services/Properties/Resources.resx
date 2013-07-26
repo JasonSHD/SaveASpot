@@ -183,4 +183,10 @@
   <data name="UploadPhasesAndParcelsAccordionGroupTitle" xml:space="preserve">
     <value>Upload Phases &amp; Parcels</value>
   </data>
+  <data name="NotRecognizeJsonForSpot" xml:space="preserve">
+    <value>Can not recognize json format when loading Spot document</value>
+  </data>
+  <data name="NotRecognizeObjectForSpot" xml:space="preserve">
+    <value>Can not create object from loaded Spot document</value>
+  </data>
 </root>
