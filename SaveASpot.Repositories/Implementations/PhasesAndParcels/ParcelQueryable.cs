@@ -22,7 +22,7 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 
 		public IParcelFilter ByPhase(string identity)
 		{
-			return new ParcelFilter(Query<Parcel>.Where(e => true));
+			return new ParcelFilter(Query<Parcel>.Where(e => e.PhaseId == identity));
 		}
 
 		public IEnumerable<Parcel> Find(IParcelFilter filter)
