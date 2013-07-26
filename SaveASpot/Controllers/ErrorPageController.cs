@@ -17,6 +17,7 @@ namespace SaveASpot.Controllers
 			return View("Error");
 		}
 
+		[HttpPost]
 		public void LogJavascriptError(string message, string source, string lineNumber)
 		{
 			_logger.JavaScriptError(string.Format("An javascript error <{0}> has occurred in <{1}> on line number <{2}>", message, source, lineNumber));

@@ -38,32 +38,11 @@
 	<!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-<script type="text/javascript">
-	window.onerror = function (message, source, lineNumber) {
-
-		var dto = {};
-		dto.message = message;
-		dto.source = source;
-		dto.lineNumber = lineNumber;
-
-		$.ajax(
-			{
-				type: 'POST',
-				contentType: 'application/json; charset=utf-8',
-				data: JSON.stringify(dto),
-				url: 'ErrorPage/LogJavascriptError',
-				success: function (result) {
-				},
-				error: function (error) {
-				}
-			});
-	}
-	</script>
 </head>
 <body>
 	<script>
 		@*See "SaveASpot\SaveASpot\Scripts\js\saveaspot.initscript.js"*@
-		(function () { var a = []; window.q = function (c, b) { if (b === undefined && c === undefined) { return window.q } if (b == undefined && typeof c === "function") { b = c; c = undefined } if (window.q.init == undefined) { a.push({ filter: c, handler: b }) } return window.q }; window.q.ready = function (b) { window.q(b); return window.q }; window.q.readyCollection = function () { return a } })();
+		(function () { var a = []; window.q = function (c, b) { if (b === undefined && c === undefined) { return window.q } if (b == undefined && typeof c === "function") { b = c; c = undefined } if (window.q.init == undefined) { a.push({ filter: c, handler: b }) } return window.q }; window.q.ready = function (b) { window.q(b); return window.q }; window.q.readyCollection = function () { return a }; window.onerror = function (d, e, b) { var c = {}; c.message = d; c.source = e; c.lineNumber = b; $.ajax({ type: "POST", contentType: "application/json; charset=utf-8", data: JSON.stringify(c), url: "ErrorPage/LogJavascriptError" }) } })();
 	</script>
 
 	@RenderBody()
@@ -88,27 +67,27 @@
 		<script src="http://code.jquery.com/jquery.min.js" type="text/javascript"></script>
 		<script src="@Url.Content("~/Scripts/js/bootstrap.min.js")" type="text/javascript"></script>
 		<script src="@Url.Content("~/Scripts/js/theme.js")" type="text/javascript"></script>
-		@*<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCw9fP5c4kc5MiZBvUzLiMc8tY00BU4_i4&sensor=true" type="text/javascript"></script>*@
+@*<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCw9fP5c4kc5MiZBvUzLiMc8tY00BU4_i4&sensor=true" type="text/javascript"></script>*@
 		<script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
 @*<script src="@Url.Content("~/Scripts/js/map.js")" type="text/javascript"></script>*@
 		<script src="@Url.Content("~/Scripts/js/saveaspot.js")" type="text/javascript"></script>
-	 <script src="@Url.Content("~/Scripts/js/saveaspot.site.js")" type="text/javascript"></script>
-	 <script src="@Url.Content("~/Scripts/js/saveaspot.site.mapTab.js")" type="text/javascript"></script>
+		<script src="@Url.Content("~/Scripts/js/saveaspot.site.js")" type="text/javascript"></script>
+		<script src="@Url.Content("~/Scripts/js/saveaspot.site.mapTab.js")" type="text/javascript"></script>
  }
  else
  {
 		<script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
 		<script src="@Url.Content("~/Scripts/js/bootstrap.js")" type="text/javascript"></script>
 		<script src="@Url.Content("~/Scripts/js/theme.js")" type="text/javascript"></script>
-		@*<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCw9fP5c4kc5MiZBvUzLiMc8tY00BU4_i4&sensor=true" type="text/javascript"></script>*@
+@*<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCw9fP5c4kc5MiZBvUzLiMc8tY00BU4_i4&sensor=true" type="text/javascript"></script>*@
 		<script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
 @*<script src="@Url.Content("~/Scripts/js/map.js")" type="text/javascript"></script>*@
 		<script src="@Url.Content("~/Scripts/js/saveaspot.js")" type="text/javascript"></script>
-	 <script src="@Url.Content("~/Scripts/js/saveaspot.site.js")" type="text/javascript"></script>
-	 <script src="@Url.Content("~/Scripts/js/saveaspot.site.mapTab.js")" type="text/javascript"></script>
+		<script src="@Url.Content("~/Scripts/js/saveaspot.site.js")" type="text/javascript"></script>
+		<script src="@Url.Content("~/Scripts/js/saveaspot.site.mapTab.js")" type="text/javascript"></script>
  }
 	<!-- end this page scripts -->
-	
+
 	@{ Html.RenderPartial(SiteConstants.Controls.ModalDialogContentView);}
 
 	@RenderSection("Footer", false)
