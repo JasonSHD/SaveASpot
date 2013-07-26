@@ -31,12 +31,30 @@ namespace SaveASpot.Services.Implementations.Controllers
 
 				Build(selectorViewModel.Search);
 
-			return new SpotsViewModel { Spots = _spotQueryable.Find(filter).Select(e => new SpotViewModel { Identity = e.Identity, Area = e.SpotArea }).ToList(), Selector = selectorViewModel };
+			return new SpotsViewModel
+							 {
+								 Spots = _spotQueryable.Find(filter).Select(ToSpotViewModel).ToList(),
+								 Selector = selectorViewModel
+							 };
+		}
+
+		public SpotsViewModel ByParcel(string identity)
+		{
+			return new SpotsViewModel
+							 {
+								 Spots = _spotQueryable.Find(_spotQueryable.ByParcel(identity)).Select(ToSpotViewModel).ToList(),
+								 Selector = new SelectorViewModel()
+							 };
 		}
 
 		public IMethodResult Remove(string identity)
 		{
 			return new MessageMethodResult(_spotRepository.Remove(identity), string.Empty);
+		}
+
+		private SpotViewModel ToSpotViewModel(Spot spot)
+		{
+			return new SpotViewModel { Identity = spot.Identity, Area = spot.SpotArea, Points = spot.SpotShape.Select(e => new ViewModels.PhasesAndParcels.Point { Latitude = e.Latitude, Longitude = e.Longitude }) };
 		}
 	}
 }

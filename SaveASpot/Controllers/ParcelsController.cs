@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using SaveASpot.Controllers.Artifacts;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Interfaces.Controllers;
@@ -27,6 +28,11 @@ namespace SaveASpot.Controllers
 			var model = _parcelsControllerService.GetParcels(selectorViewModel);
 
 			return TabView(model);
+		}
+
+		public JsonResult ByPhase(string identity)
+		{
+			return Json(_parcelsControllerService.ByPhase(identity).Parcels.Select(e => e.ToJson()), JsonRequestBehavior.AllowGet);
 		}
 
 		[HttpPost]

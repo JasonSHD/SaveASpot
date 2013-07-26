@@ -2,42 +2,6 @@
 	q.validation.dynamicValidator();
 });
 
-q("mapTab", function (arg) {
-	console.log("map tab load.");
-
-	//window.mapCallback = function () {
-	//	readyRun();
-	//};
-
-
-	//q.addScript($("[data-gmap-api-url]").attr("data-gmap-api-url") + "&callback=mapCallback", function () {
-	//});
-
-	//function readyRun() {
-	//	var mapOptions = {
-	//		zoom: 8,
-	//		center: new google.maps.LatLng(-34.397, 150.644),
-	//		mapTypeId: google.maps.MapTypeId.ROADMAP
-	//	};
-	//	var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-	//}
-
-	q.controls.gmap($("[data-gmap-api-key]").attr("data-gmap-api-key"), function () {
-		var mapOptions = {
-			zoom: 8,
-			center: new google.maps.LatLng(-34.397, 150.644),
-			mapTypeId: google.maps.MapTypeId.ROADMAP
-		};
-		var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-	});
-
-	arg = arg || {};
-
-	arg.unload = function () {
-		console.log("map tab unload.");
-	};
-});
-
 q("customersTab", function (arg) {
 	console.log("customers tab load.");
 
@@ -50,15 +14,17 @@ q("customersTab", function (arg) {
 	var modal = q.controls.modal();
 
 	$("#createCustomer").click(function () {
-		$.ajax({ url: q.pageConfig.createCustomerView, type: "GET" }).done(function (createCustomerView) {
+		q.ajax({ url: q.pageConfig.createCustomerView, type: "GET" }).done(function (createCustomerView) {
 			modal.
 				title("Create customer").
 				body(createCustomerView).
 				ok("Create", function () {
+					var context = this;
 					var validator = q.validation.validator(modal.body());
 					if (validator.validate()) {
 
 						$.ajax({ url: q.pageConfig.createCustomerView, type: "POST", data: q.serialize(modal.body()) }).done(function (result) {
+							context.hide();
 						});
 					}
 				}).

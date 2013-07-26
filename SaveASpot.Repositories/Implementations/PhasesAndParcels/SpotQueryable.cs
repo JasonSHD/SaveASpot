@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
@@ -25,6 +26,17 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			var areaPlusOne = area + (decimal)0.01;
 
 			return new SpotFilter(Query.And(Query<Spot>.Where(e => e.SpotArea >= area), Query<Spot>.Where(e => e.SpotArea <= areaPlusOne)));
+		}
+
+		public ISpotFilter ByParcel(string identity)
+		{
+			ObjectId parcelIdentity;
+			if (ObjectId.TryParse(identity, out parcelIdentity))
+			{
+				return new SpotFilter(Query<Spot>.Where(e => true));
+			}
+
+			return new SpotFilter(Query.Null);
 		}
 
 		public ISpotFilter And(ISpotFilter left, ISpotFilter right)

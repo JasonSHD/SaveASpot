@@ -20,6 +20,11 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			return new ParcelFilter(Query<Parcel>.Where(e => true));
 		}
 
+		public IParcelFilter ByPhase(string identity)
+		{
+			return new ParcelFilter(Query<Parcel>.Where(e => true));
+		}
+
 		public IEnumerable<Parcel> Find(IParcelFilter filter)
 		{
 			return _mongoDbCollectionFactory.Collection<Parcel>().Find(MongoQueryFilter.Convert(filter).MongoQuery);
