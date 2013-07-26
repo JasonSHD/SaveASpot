@@ -755,3 +755,5 @@ input.search
 #phases-and-parcels-uploader-table {
     width: 100%;
 }
+
+#map-canvas img { max-width:none; }

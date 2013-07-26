@@ -33,7 +33,7 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			ObjectId parcelIdentity;
 			if (ObjectId.TryParse(identity, out parcelIdentity))
 			{
-				return new SpotFilter(Query<Spot>.Where(e => true));
+				return new SpotFilter(Query<Spot>.Where(e => e.ParcelId == parcelIdentity));
 			}
 
 			return new SpotFilter(Query.Null);

@@ -20,6 +20,11 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			return new PhaseFilter(Query<Phase>.Where(e => true));
 		}
 
+		public IPhaseFilter ByName(string name)
+		{
+			return new PhaseFilter(Query<Phase>.Where(e => e.PhaseName == name));
+		}
+
 		public IEnumerable<Phase> Find(IPhaseFilter phaseFilter)
 		{
 			return _mongoDbCollectionFactory.Collection<Phase>().Find(MongoQueryFilter.Convert(phaseFilter).MongoQuery);

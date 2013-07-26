@@ -37,16 +37,27 @@
 		context.views.ajaxIndicator("show");
 		this.context.models.phases(function (phases) {
 			context.views.ajaxIndicator("hide");
-			context.views.navMenu(phases, function (phaseArg) {
-				context.execute("parcels", phaseArg);
+			context.views.navMenu({
+				elements: phases,
+				onSelect: function (phaseArg) {
+					context.execute("parcels", phaseArg);
+				}
 			});
 		});
 	};
 	mvc._controllers.parcels = function (controllerArg) {
 		var context = this.context;
 		context.models.parcels(controllerArg.identity, function (result) {
-			context.views.navMenu(result, function (parcelArg) {
-				context.execute("spots", parcelArg);
+			context.views.navMenu({
+				elements: result,
+				onSelect: function (parcelArg) {
+					context.execute("spots", parcelArg);
+					context.parcelsContext = { identity: controllerArg.identity };
+				},
+				onBack: function () {
+					context.execute("phases", {});
+				},
+				showBack: true
 			});
 			context.views.parcels(result);
 		});
@@ -57,7 +68,14 @@
 			$(result).each(function (index) {
 				this.name = "Spot " + (index + 1);
 			});
-			context.views.navMenu(result, function (spotArg) {
+			context.views.navMenu({
+				elements: result,
+				onSelect: function () {
+				},
+				onBack: function () {
+					context.execute("parcels", {});
+				},
+				showBack: true
 			});
 			context.views.spots(result);
 		});
@@ -102,13 +120,20 @@
 		})();
 
 	};
-	mvc._views.navMenu = function (elements, onSelect) {
+	mvc._views.navMenu = function (navMenuArg) {
 		var context = this.context;
 		var navMenuContext = this.context.navMenuContext = this.context.navMenuContext || {};
+		navMenuContext.onSelect = navMenuArg.onSelect;
+		navMenuContext.onBack = navMenuArg.onBack;
 
 		if (navMenuContext.selectHandler == undefined) {
 			navMenuContext.selectHandler = function () {
-				navMenuContext.onSelect({ identity: this.getAttribute("data-identity") });
+				var dataIdentity = this.getAttribute("data-identity");
+				if (dataIdentity == "" && navMenuContext.onBack != undefined) {
+					navMenuContext.onBack(navMenuArg.onBackArg);
+				} else {
+					navMenuContext.onSelect({ identity: this.getAttribute("data-identity") });
+				}
 			};
 
 			this.context.navMenu.on("click", "[data-identity]", navMenuContext.selectHandler);
@@ -120,24 +145,27 @@
 				console.log("navMenu view destroyed");
 			});
 		}
-		navMenuContext.onSelect = onSelect;
 		context.navMenu.html("");
 
-		$(elements).each(function () {
-			context.navMenu.append(
-				$("<li/>").attr("data-identity", this.identity).append(
-					$("<a/>").attr("href", "javascript:void(0)").append(
-						$("<i/>").addClass("icon-map-marker")).append(
-							$("<span/>").text(this.name))
-				));
+		if (navMenuArg.showBack) {
+			this.addNavElement({ icon: "icon-arrow-left", text: "Back", identity: "" });
+		}
+
+		var thisContext = this;
+
+		$(navMenuArg.elements).each(function () {
+			thisContext.addNavElement({ icon: "icon-map-marker", text: this.name, identity: this.identity });
 		});
+	};
+	mvc._views.addNavElement = function (element) {
+		this.context.navMenu.append($("<li/>").attr("data-identity", element.identity).append($("<a/>").attr("href", "javascript:void(0)").append($("<i/>").addClass(element.icon)).append($("<span/>").text(element.text))));
 	};
 	mvc._views.gmap = function (key) {
 		var context = this.context;
 		q.controls.gmap(key, function () {
 			var mapOptions = {
 				zoom: 8,
-				center: new google.maps.LatLng(-34.397, 150.644),
+				center: new google.maps.LatLng(0, 0),
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
 			context.gmapContext.gmap = new google.maps.Map(context.gmapContext.mapCanvas, mapOptions);
