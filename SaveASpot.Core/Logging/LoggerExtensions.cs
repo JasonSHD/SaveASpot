@@ -19,5 +19,10 @@ namespace SaveASpot.Core.Logging
 		{
 			logger.Log(new ErrorLogEntry(exception, message));
 		}
+
+		public static void JavaScriptError(this ILogger logger, string message)
+		{
+			logger.Log(new ErrorLogEntry(null, message));
+		}
 	}
 }

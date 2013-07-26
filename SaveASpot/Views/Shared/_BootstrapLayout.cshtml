@@ -38,6 +38,27 @@
 	<!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
+<script type="text/javascript">
+	window.onerror = function (message, source, lineNumber) {
+
+		var dto = {};
+		dto.message = message;
+		dto.source = source;
+		dto.lineNumber = lineNumber;
+
+		$.ajax(
+			{
+				type: 'POST',
+				contentType: 'application/json; charset=utf-8',
+				data: JSON.stringify(dto),
+				url: 'ErrorPage/LogJavascriptError',
+				success: function (result) {
+				},
+				error: function (error) {
+				}
+			});
+	}
+	</script>
 </head>
 <body>
 	<script>
