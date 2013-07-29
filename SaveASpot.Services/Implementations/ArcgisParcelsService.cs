@@ -51,6 +51,8 @@ namespace SaveASpot.Services.Implementations
 						if (!_phaseQueryable.Find(_phaseQueryable.ByName(phase.PhaseName)).Any())
 							_phaseRepository.AddPhase(phase);
 
+						phase = _phaseQueryable.Find(_phaseQueryable.ByName(phase.PhaseName)).First();
+
 						var points = new List<Point>();
 
 						foreach (var el in featuresCol.geometry.coordinates[0])
@@ -64,7 +66,8 @@ namespace SaveASpot.Services.Implementations
 																						ParcelLength = featuresCol.properties.Shape_Leng,
 																						ParcelArea = featuresCol.properties.Shape_Area,
 																						ParcelAcres = featuresCol.properties.Acres,
-																						ParcelShape = points
+																						ParcelShape = points,
+																						PhaseId = phase.Identity
 																					});
 					}
 
