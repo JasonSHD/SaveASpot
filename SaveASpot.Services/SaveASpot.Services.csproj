@@ -55,6 +55,7 @@
     <Compile Include="Implementations\Controllers\ParcelsControllerService.cs" />
     <Compile Include="Implementations\Controllers\PhasesControllerService.cs" />
     <Compile Include="Implementations\Controllers\SetupUsersControllerService.cs" />
+    <Compile Include="Implementations\Controllers\SponsorsControllerService.cs" />
     <Compile Include="Implementations\Controllers\SpotsControllerService.cs" />
     <Compile Include="Implementations\Controllers\UploadPhasesAndParcelsControllerService.cs" />
     <Compile Include="Implementations\CurrentUser.cs" />
@@ -79,9 +80,12 @@
     <Compile Include="Interfaces\Controllers\IParcelsControllerService.cs" />
     <Compile Include="Interfaces\Controllers\IPhasesControllerService.cs" />
     <Compile Include="Interfaces\Controllers\ISetupUsersControllerService.cs" />
+    <Compile Include="Interfaces\Controllers\ISponsorsControllerService.cs" />
     <Compile Include="Interfaces\Controllers\ISpotsControllerService.cs" />
     <Compile Include="Interfaces\Controllers\IUploadPhasesAndParcelsControllerService.cs" />
+    <Compile Include="Interfaces\Controllers\SponsorResult.cs" />
     <Compile Include="Interfaces\Controllers\UserResult.cs" />
+    <Compile Include="Interfaces\CreateSponsorResult.cs" />
     <Compile Include="Interfaces\IParcelsService.cs" />
     <Compile Include="Interfaces\ISponsorsService.cs" />
     <Compile Include="Interfaces\ISpotsService.cs" />

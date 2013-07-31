@@ -1,0 +1,37 @@
+﻿@model IEnumerable<SaveASpot.ViewModels.SponsorViewModel>
+
+@using SaveASpot.Controllers
+@{
+	ViewBag.Title = "Index";
+}
+
+<input id="@SiteConstants.MainMenuTabSpecificReadyAlias" value="@SiteConstants.SponsorsControllerAlias" type="hidden" />
+
+<div class="content wide-content">
+	<div class="navbar">
+		<div class="navbar-inner">
+			<button type="button" id="createSponsor" class="btn btn-primary">Create Sponsor</button>
+		</div>
+	</div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Company name</th>
+				<th>Sentence</th>
+				<th>Url</th>
+				<th>Logo</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var sponsor in Model)
+	 {
+				<tr>
+					<td>@sponsor.CompanyName</td>
+					<td>@sponsor.Sentence</td>
+					<td>@sponsor.Url</td>
+					<td>@sponsor.Logo</td>
+				</tr>
+	 }
+		</tbody>
+	</table>
+</div>

@@ -1,8 +1,10 @@
 using SaveASpot.Repositories.Implementations;
 using SaveASpot.Repositories.Implementations.PhasesAndParcels;
 using SaveASpot.Repositories.Implementations.Security;
+using SaveASpot.Repositories.Implementations.Sponsors;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Interfaces.Security;
+using SaveASpot.Repositories.Interfaces.Sponsors;
 
 namespace SaveASpot.DependenciesConfiguration
 {
@@ -20,6 +22,8 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ISpotRepository>().To<SpotRepository>();
 			Bind<IParcelQueryable>().To<ParcelQueryable>();
 			Bind<ISpotQueryable>().To<SpotQueryable>();
+			Bind<ISponsorQueryable>().To<SponsorQueryable>();
+			Bind<ISponsorRepository>().To<SponsorRepository>();
 		}
 	}
 }

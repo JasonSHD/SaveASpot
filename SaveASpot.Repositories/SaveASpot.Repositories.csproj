@@ -62,6 +62,7 @@
     <Compile Include="Implementations\Security\UserQueryable.cs" />
     <Compile Include="Implementations\Security\UserRepository.cs" />
     <Compile Include="Implementations\PhasesAndParcels\SpotRepository.cs" />
+    <Compile Include="Implementations\Sponsors\SponsorQueryable.cs" />
     <Compile Include="Implementations\Sponsors\SponsorRepository.cs" />
     <Compile Include="Interfaces\PhasesAndParcels\IParcelFilter.cs" />
     <Compile Include="Interfaces\PhasesAndParcels\IParcelQueryable.cs" />
@@ -69,6 +70,8 @@
     <Compile Include="Interfaces\PhasesAndParcels\IPhaseFilter.cs" />
     <Compile Include="Interfaces\PhasesAndParcels\IPhaseQueryable.cs" />
     <Compile Include="Interfaces\PhasesAndParcels\IPhaseRepository.cs" />
+    <Compile Include="Interfaces\Sponsors\ISponsorFilter.cs" />
+    <Compile Include="Interfaces\Sponsors\ISponsorQueryable.cs" />
     <Compile Include="Interfaces\Sponsors\ISponsorRepository.cs" />
     <Compile Include="Interfaces\PhasesAndParcels\ISpotFilter.cs" />
     <Compile Include="Interfaces\PhasesAndParcels\ISpotQueryable.cs" />

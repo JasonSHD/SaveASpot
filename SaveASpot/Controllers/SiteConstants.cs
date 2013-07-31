@@ -7,6 +7,7 @@ namespace SaveASpot.Controllers
 		public const string QFilter = "qFilter";
 		public const string MapControllerAlias = "mapTab";
 		public const string CustomersControllerAlias = "customersTab";
+		public const string SponsorsControllerAlias = "sponsorsTab";
 		public const string PhasesAndParcelsControllerAlias = "parcelsAndSpotsTab";
 		public static string MainMenuTabSpecificReadyAlias { get { return typeof(MainMenuTabAttribute).Name; } }
 		public static string ParcelsAndSpotsTabSpecificReadyAlias { get { return typeof(PhasePageTabAttribute).Name; } }

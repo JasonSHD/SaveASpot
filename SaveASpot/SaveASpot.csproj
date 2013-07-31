@@ -101,6 +101,7 @@
     <Compile Include="Areas\Setup\Controllers\SetupUsersController.cs" />
     <Compile Include="Controllers\PhasesController.cs" />
     <Compile Include="Controllers\SiteConstants.cs" />
+    <Compile Include="Controllers\SponsorsController.cs" />
     <Compile Include="Controllers\SpotsController.cs" />
     <Compile Include="Controllers\UploadPhasesAndParcelsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -415,6 +416,8 @@
     <Content Include="Views\Shared\ParcelsAndSpots\_LayoutAjaxParcelsAndSpots.cshtml" />
     <Content Include="Views\Shared\ParcelsAndSpots\ParcelsAndSpotsMenuTabs.cshtml" />
     <Content Include="Views\Shared\Controls\PaginationControl.cshtml" />
+    <Content Include="Views\Sponsors\Index.cshtml" />
+    <Content Include="Views\Sponsors\CreateSponsor.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
