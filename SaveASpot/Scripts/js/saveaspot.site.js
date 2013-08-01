@@ -33,6 +33,37 @@ q("customersTab", function (arg) {
 	});
 });
 
+q("sponsorsTab", function (arg) {
+	console.log("sponsors tab load.");
+
+	arg = arg || {};
+
+	arg.unload = function () {
+		console.log("sponsors tab unload");
+	};
+
+	var modal = q.controls.modal();
+
+	$("#createSponsor").click(function () {
+		q.ajax({ url: q.pageConfig.createSponsorView, type: "GET" }).done(function (createSponsorView) {
+			modal.
+				title("Create sponsor").
+				body(createSponsorView).
+				ok("Create", function () {
+					var context = this;
+					var validator = q.validation.validator(modal.body());
+					if (validator.validate()) {
+
+						$.ajax({ url: q.pageConfig.createSponsorView, type: "POST", data: q.serialize(modal.body()) }).done(function (result) {
+							context.hide();
+						});
+					}
+				}).
+				show();
+		});
+	});
+});
+
 var phasePageTabAttributeValue = "PhasePageTabAttribute";
 q("parcelsAndSpotsTab", function (arg) {
 	console.log("parcels & spots tab load.");
