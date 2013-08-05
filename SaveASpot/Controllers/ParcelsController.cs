@@ -30,11 +30,6 @@ namespace SaveASpot.Controllers
 			return TabView(model);
 		}
 
-		public JsonResult ByPhase(string identity)
-		{
-			return Json(_parcelsControllerService.ByPhase(identity).Parcels.Select(e => e.ToJson()), JsonRequestBehavior.AllowGet);
-		}
-
 		[HttpPost]
 		public ViewResult Remove(string identity, SelectorViewModel selectorViewModel)
 		{

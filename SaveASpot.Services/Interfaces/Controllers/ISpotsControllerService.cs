@@ -6,7 +6,7 @@ namespace SaveASpot.Services.Interfaces.Controllers
 	public interface ISpotsControllerService
 	{
 		SpotsViewModel GetSpots(SelectorViewModel selectorViewModel);
-		SpotsViewModel ByParcel(string identity);
+		SpotsViewModel ByPhase(string identity);
 		IMethodResult Remove(string identity);
 	}
 }

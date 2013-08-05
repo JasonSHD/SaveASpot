@@ -40,26 +40,9 @@
 			context.views.navMenu({
 				elements: phases,
 				onSelect: function (phaseArg) {
-					context.execute("parcels", phaseArg);
+					context.execute("spots", phaseArg);
 				}
 			});
-		});
-	};
-	mvc._controllers.parcels = function (controllerArg) {
-		var context = this.context;
-		context.models.parcels(controllerArg.identity, function (result) {
-			context.views.navMenu({
-				elements: result,
-				onSelect: function (parcelArg) {
-					context.execute("spots", parcelArg);
-					context.parcelsContext = { identity: controllerArg.identity };
-				},
-				onBack: function () {
-					context.execute("phases", {});
-				},
-				showBack: true
-			});
-			context.views.parcels(result);
 		});
 	};
 	mvc._controllers.spots = function (controllerArg) {
@@ -73,7 +56,7 @@
 				onSelect: function () {
 				},
 				onBack: function () {
-					context.execute("parcels", {});
+					context.execute("phases", {});
 				},
 				showBack: true
 			});
@@ -171,9 +154,6 @@
 			context.gmapContext.gmap = new google.maps.Map(context.gmapContext.mapCanvas, mapOptions);
 		});
 	};
-	mvc._views.parcels = function (parcels, onSelect) {
-		this.gmapPolygons(parcels, { onSelect: onSelect, color: "#FF0000" });
-	};
 	mvc._views.spots = function (spots, onSelect) {
 		this.gmapPolygons(spots, { onSelect: onSelect, color: "#00FF00" });
 	};
@@ -216,17 +196,11 @@
 
 	mvc._models.context = {//model context
 		phasesUrl: q.pageConfig.phasesUrl,
-		parcelsUrl: q.pageConfig.parcelsUrl,
 		spotsUrl: q.pageConfig.spotsUrl
 	};
 
 	mvc._models.phases = function (callback) {
 		q.ajax({ url: this.context.phasesUrl + "?isJson=true", type: "GET" }).done(function (result) {
-			callback(result);
-		});
-	};
-	mvc._models.parcels = function (phaseIdentity, callback) {
-		q.ajax({ url: this.context.parcelsUrl + "?identity=" + phaseIdentity }).done(function (result) {
 			callback(result);
 		});
 	};

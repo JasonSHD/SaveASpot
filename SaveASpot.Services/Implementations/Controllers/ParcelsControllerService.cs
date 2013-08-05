@@ -27,15 +27,6 @@ namespace SaveASpot.Services.Implementations.Controllers
 							 };
 		}
 
-		public ParcelsViewModel ByPhase(string identity)
-		{
-			return new ParcelsViewModel
-							 {
-								 Parcels = _parcelQueryable.Find(_parcelQueryable.ByPhase(identity)).Select(ToParcelViewModel),
-								 SelectorViewModel = new SelectorViewModel()
-							 };
-		}
-
 		public IMethodResult Remove(string identity)
 		{
 			return new MessageMethodResult(_parcelRepository.Remove(identity), string.Empty);

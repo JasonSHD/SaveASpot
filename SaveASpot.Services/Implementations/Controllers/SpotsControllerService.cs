@@ -12,12 +12,14 @@ namespace SaveASpot.Services.Implementations.Controllers
 	{
 		private readonly ISpotRepository _spotRepository;
 		private readonly ISpotQueryable _spotQueryable;
+		private readonly IParcelQueryable _parcelQueryable;
 		private readonly ITextParserEngine _textParserEngine;
 
-		public SpotsControllerService(ISpotRepository spotRepository, ISpotQueryable spotQueryable, ITextParserEngine textParserEngine)
+		public SpotsControllerService(ISpotRepository spotRepository, ISpotQueryable spotQueryable, IParcelQueryable parcelQueryable, ITextParserEngine textParserEngine)
 		{
 			_spotRepository = spotRepository;
 			_spotQueryable = spotQueryable;
+			_parcelQueryable = parcelQueryable;
 			_textParserEngine = textParserEngine;
 		}
 
@@ -38,11 +40,13 @@ namespace SaveASpot.Services.Implementations.Controllers
 							 };
 		}
 
-		public SpotsViewModel ByParcel(string identity)
+		public SpotsViewModel ByPhase(string identity)
 		{
+			var parcelsForPhase = _parcelQueryable.Find(_parcelQueryable.ByPhase(identity));
+
 			return new SpotsViewModel
 							 {
-								 Spots = _spotQueryable.Find(_spotQueryable.ByParcel(identity)).Select(ToSpotViewModel).ToList(),
+								 Spots = _spotQueryable.Find(_spotQueryable.ByParcels(parcelsForPhase.Select(e => e.Identity))).Select(ToSpotViewModel).ToList(),
 								 Selector = new SelectorViewModel()
 							 };
 		}

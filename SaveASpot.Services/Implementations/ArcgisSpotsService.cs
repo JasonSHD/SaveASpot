@@ -52,13 +52,13 @@ namespace SaveASpot.Services.Implementations
 
 				foreach (var col in array)
 				{
-					foreach (var featuresCol in col.features)
+					foreach (var featuresCol in col["features"])
 					{
 						var spotPoints = new List<Point>();
 
-						foreach (var el in featuresCol.geometry.coordinates[0])
+						foreach (var el in featuresCol["geometry"]["coordinates"][0])
 						{
-							spotPoints.Add(new Point { Latitude = el[0], Longitude = el[1] });
+							spotPoints.Add(new Point { Latitude = (decimal)el[0], Longitude = (decimal)el[1] });
 						}
 
 						foreach (var parcel in parcels)
@@ -72,8 +72,8 @@ namespace SaveASpot.Services.Implementations
 
 						_spotRepository.AddSpot(new Spot
 																			{
-																				SpotLength = featuresCol.properties.Shape_Leng,
-																				SpotArea = featuresCol.properties.Shape_Area,
+																				SpotLength = (decimal)featuresCol["properties"]["Shape_Leng"],
+																				SpotArea = (decimal)featuresCol["properties"]["Shape_Area"],
 																				ParcelId = parcelId,
 																				SpotShape = spotPoints
 																			});

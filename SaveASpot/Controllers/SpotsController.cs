@@ -30,9 +30,9 @@ namespace SaveASpot.Controllers
 			return TabView(model);
 		}
 
-		public JsonResult ByParcel(string identity)
+		public JsonResult ByPhase(string identity)
 		{
-			return Json(_spotsControllerService.ByParcel(identity).Spots.Select(e => e.ToJson()), JsonRequestBehavior.AllowGet);
+			return Json(_spotsControllerService.ByPhase(identity).Spots.Select(e => e.ToJson()), JsonRequestBehavior.AllowGet);
 		}
 
 		[HttpPost]
