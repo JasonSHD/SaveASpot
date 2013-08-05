@@ -48,18 +48,6 @@
 	mvc._controllers.spots = function (controllerArg) {
 		var context = this.context;
 		context.models.spots(controllerArg.identity, function (result) {
-			$(result).each(function (index) {
-				this.name = "Spot " + (index + 1);
-			});
-			context.views.navMenu({
-				elements: result,
-				onSelect: function () {
-				},
-				onBack: function () {
-					context.execute("phases", {});
-				},
-				showBack: true
-			});
 			context.views.spots(result);
 		});
 	};
