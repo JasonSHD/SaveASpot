@@ -1,217 +1,278 @@
 ﻿q("mapTab", function (arg) {
 	console.log("map tab load.");
 
-	var mvc = { _controllers: {}, _views: {}, _models: {} };
+	var application = new MvcCompositeObject().
+		add(new PhasesMvcObject()).
+		add(new SpotsMvcObject()).
+		execute("phases");
 
-	mvc._controllers.context = {};//controller context
-	Object.defineProperty(mvc._controllers.context, "gmapKey", {
-		configurable: false,
-		get: function () {
-			return $("[data-gmap-api-key]").attr("data-gmap-api-key");
-		},
-		set: function () { }
-	});
-	Object.defineProperty(mvc._controllers.context, "models", {
-		configurable: false,
-		get: function () {
-			return mvc._models;
-		},
-		set: function () { }
-	});
-	Object.defineProperty(mvc._controllers.context, "views", {
-		configurable: false,
-		get: function () {
-			return mvc._views;
-		},
-		set: function () { }
-	});
 
-	mvc._controllers.context.execute = function (name, argExec) {
-		mvc._controllers[name](argExec);
-	};
+	function MvcCompositeObject() {
+		var result = { _mvcObjectCollection: [], _sharedViewData: {} };
 
-	mvc._controllers.phases = function () {
-		var context = this.context;
+		result.add = function (mvcObject) {
+			result._mvcObjectCollection.push(mvcObject);
 
-		context.views.gmap(context.gmapKey);
-		context.views.ajaxIndicator("show");
-		this.context.models.phases(function (phases) {
-			context.views.ajaxIndicator("hide");
-			context.views.navMenu({
-				elements: phases,
-				onSelect: function (phaseArg) {
-					context.execute("spots", phaseArg);
-				}
-			});
-		});
-	};
-	mvc._controllers.spots = function (controllerArg) {
-		var context = this.context;
-		context.models.spots(controllerArg.identity, function (result) {
-			context.views.spots(result);
-		});
-	};
+			return result;
+		};
 
-	mvc._views.context = {//view context
-		navMenu: $("#dashboard-menu"),
-		destroy: function (handler) {
-			mvc._destroy.handlers.push(handler);
-		},
-		gmapContext: {
-			existsPolygons: [],
-			mapCanvas: document.getElementById("map-canvas"),
-			clearPolygons: function () {
-				var existsPolygons = this.existsPolygons;
+		function buildControllerContext(mvcObject) {
+			var context = {};
 
-				for (var polIndex in existsPolygons) {
-					var pol = existsPolygons[polIndex];
-					pol.setMap(undefined);
-				}
-
-				this.existsPolygons = [];
+			for (var contextIndex in mvcObject._controllers.context) {
+				context[contextIndex] = mvcObject._controllers.context[contextIndex];
 			}
-		}
-	};
 
-	mvc._views.ajaxIndicator = function (state) {
-		var indicatorContext = this.context.ajaxIndicator = this.context.ajaxIndicator || {
-			hide: function () {
-				this.control.hide();
-			},
-			show: function () {
-				this.control.show();
+			context.view = function (name, model) {
+				var viewContext = mvcObject._views.context || {};
+				Object.defineProperty(viewContext, "shared", { configurable: false, writable: false, value: result._sharedViewData });
+				viewContext.view = context.view;
+				mvcObject._views[name].call(viewContext, model);
+
+				return context;
+			};
+
+			context.model = function (name, modelArg, callback) {
+				var modelContext = mvcObject._models.context;
+				mvcObject._models[name].call(modelContext, modelArg, callback);
+
+				return context;
+			};
+
+			context.execute = function (action, excArg) {
+				return result.execute(action, excArg);
+			};
+
+			return context;
+		}
+
+		result.execute = function (action, excArg) {
+			var targetMvcObject = undefined;
+
+			for (var objectIndex in result._mvcObjectCollection) {
+				var object = result._mvcObjectCollection[objectIndex];
+
+				if (object._controllers[action] != undefined) {
+					targetMvcObject = object;
+					break;
+				}
+			}
+
+			if (targetMvcObject == undefined) return result;
+
+			var controllerContext = buildControllerContext(targetMvcObject);
+			targetMvcObject._controllers[action].call(controllerContext, excArg);
+
+			return result;
+		};
+
+		result.destroy = function () {
+			for (var objectIndex in result._mvcObjectCollection) {
+				var object = result._mvcObjectCollection[objectIndex];
+				if (typeof object["destroy"] == "function") {
+					object.destroy();
+				}
+			}
+
+			return result;
+		};
+
+		return result;
+	}
+
+	function MvcObject() {
+		var result = {
+			_controllers: {},
+			_views: {},
+			_models: {},
+			_destroy: [],
+			destory: function () {
+				for (var destroyHandlerIndex in this._destroy) {
+					var destroyHandler = this._destroy[destroyHandlerIndex];
+
+					if (typeof destroyHandler == "function") {
+						destroyHandler.call(this);
+					}
+				}
 			}
 		};
-		indicatorContext.indicator = indicatorContext.indicator || {};
-		if (indicatorContext.indicator.control == undefined) {
-			indicatorContext.indicator.control = q.controls.ajaxIndicator(this.context.navMenu);
-		}
 
-		(indicatorContext.indicator[state] || function () {
-		})();
+		return result;
+	}
 
-	};
-	mvc._views.navMenu = function (navMenuArg) {
-		var context = this.context;
-		var navMenuContext = this.context.navMenuContext = this.context.navMenuContext || {};
-		navMenuContext.onSelect = navMenuArg.onSelect;
-		navMenuContext.onBack = navMenuArg.onBack;
+	function PhasesMvcObject() {
+		var result = new MvcObject();
 
-		if (navMenuContext.selectHandler == undefined) {
-			navMenuContext.selectHandler = function () {
-				var dataIdentity = this.getAttribute("data-identity");
-				if (dataIdentity == "" && navMenuContext.onBack != undefined) {
-					navMenuContext.onBack(navMenuArg.onBackArg);
-				} else {
-					navMenuContext.onSelect({ identity: this.getAttribute("data-identity") });
-				}
-			};
+		result._controllers.context = {
+			gmapKey: $("[data-gmap-api-key]").data("gmap-api-key")
+		};
+		result._controllers.phases = function () {
+			var context = this;
 
-			this.context.navMenu.on("click", "[data-identity]", navMenuContext.selectHandler);
-
-			this.context.destroy(function () {
-				context.navMenu.off("click", "[data-identity]", navMenuContext.selectHandler);
-				navMenuContext.selectHandler = undefined;
-
-				console.log("navMenu view destroyed");
+			context.view("gmap", context.gmapKey);
+			context.model("phases", function (phases) {
+				context.view("phasesMenu", {
+					phases: phases,
+					onSelect: function (phaseArg) {
+						context.execute("spots", phaseArg);
+					}
+				});
 			});
-		}
-		context.navMenu.html("");
+		};
 
-		if (navMenuArg.showBack) {
-			this.addNavElement({ icon: "icon-arrow-left", text: "Back", identity: "" });
-		}
+		result._views.context = {
+			navMenu: $("#dashboard-menu"),
+			destroy: function (handler) {
+				result._destroy.push(handler);
+			},
+			gmapContext: {
+				existsPolygons: [],
+				mapCanvas: document.getElementById("map-canvas"),
+				clearPolygons: function () {
+					var existsPolygons = this.existsPolygons;
 
-		var thisContext = this;
+					for (var polIndex in existsPolygons) {
+						var pol = existsPolygons[polIndex];
+						pol.setMap(undefined);
+					}
 
-		$(navMenuArg.elements).each(function () {
-			thisContext.addNavElement({ icon: "icon-map-marker", text: this.name, identity: this.identity });
-		});
-	};
-	mvc._views.addNavElement = function (element) {
-		this.context.navMenu.append($("<li/>").attr("data-identity", element.identity).append($("<a/>").attr("href", "javascript:void(0)").append($("<i/>").addClass(element.icon)).append($("<span/>").text(element.text))));
-	};
-	mvc._views.gmap = function (key) {
-		var context = this.context;
-		q.controls.gmap(key, function () {
-			var mapOptions = {
-				zoom: 8,
-				center: new google.maps.LatLng(0, 0),
-				mapTypeId: google.maps.MapTypeId.ROADMAP
-			};
-			context.gmapContext.gmap = new google.maps.Map(context.gmapContext.mapCanvas, mapOptions);
-		});
-	};
-	mvc._views.spots = function (spots, onSelect) {
-		this.gmapPolygons(spots, { onSelect: onSelect, color: "#00FF00" });
-	};
-	mvc._views.gmapPolygons = function (elements, args) {
-		this.context.gmapContext.clearPolygons();
+					this.existsPolygons = [];
+				}
+			}
+		};
+		result._views.phases = function () {
+		};
+		result._views.gmap = function (key) {
+			var context = this;
+			q.controls.gmap(key, function () {
+				var mapOptions = {
+					zoom: 8,
+					center: new google.maps.LatLng(0, 0),
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				};
+				context.shared.gmap = new google.maps.Map(context.gmapContext.mapCanvas, mapOptions);
+			});
+		};
+		result._views.phasesMenu = function (argPhases) {
+			var context = this;
+			var navMenuContext = context.navMenuContext = context.navMenuContext || {};
+			navMenuContext.onSelect = argPhases.onSelect;
 
-		var isFirst = false;
-		var center = undefined;
-		for (var elementIndex in elements) {
-			var element = elements[elementIndex];
-			var elementPolygonCoords = [];
+			if (navMenuContext.selectHandler == undefined) {
+				navMenuContext.selectHandler = function () {
+					if (navMenuContext.onSelect == undefined) {
+						return;
+					}
+					navMenuContext.onSelect({ identity: this.getAttribute("data-identity") });
+				};
 
-			for (var pointIndex in element.points) {
-				var point = element.points[pointIndex];
+				context.navMenu.on("click", "[data-identity]", navMenuContext.selectHandler);
 
-				if (!isFirst) {
-					center = new google.maps.LatLng(point.lng, point.lat);
-					isFirst = true;
+				context.destroy(function () {
+					context.navMenu.off("click", "[data-identity]", navMenuContext.selectHandler);
+					navMenuContext.selectHandler = undefined;
+
+					console.log("navMenu view destroyed");
+				});
+			}
+			context.navMenu.html("");
+
+			$(argPhases.phases).each(function () {
+				context.view("addPhaseElement", { icon: "icon-map-marker", text: this.name, identity: this.identity });
+			});
+		};
+		result._views.addPhaseElement = function (element) {
+			this.navMenu.append($("<li/>").attr("data-identity", element.identity).append($("<a/>").attr("href", "javascript:void(0)").append($("<i/>").addClass(element.icon)).append($("<span/>").text(element.text))));
+		};
+
+		result._models.context = {
+			phasesUrl: q.pageConfig.phasesUrl
+		};
+		result._models.phases = function (callback) {
+			q.ajax({ url: this.phasesUrl + "?isJson=true", type: "GET" }).done(function (result) {
+				callback(result);
+			});
+		};
+
+		return result;
+	}
+
+	function SpotsMvcObject() {
+		var result = new MvcObject();
+
+		result._controllers.spots = function (spotsArg) {
+			var context = this;
+			context.model("spots", spotsArg.identity, function (spotsResult) {
+				context.view("spots", spotsResult);
+			});
+		};
+
+		result._views.context = {
+			existsPolygons: []
+		};
+		result._views.spots = function (spots) {
+			var color = "#00FF00";
+
+			this.view("clearPolygons");
+
+			var isFirst = false;
+			var center = undefined;
+			var bounds = new google.maps.LatLngBounds();
+			for (var elementIndex in spots) {
+				var element = spots[elementIndex];
+				var elementPolygonCoords = [];
+
+				for (var pointIndex in element.points) {
+					var point = element.points[pointIndex];
+
+					if (!isFirst) {
+						center = new google.maps.LatLng(point.lng, point.lat);
+						isFirst = true;
+					}
+
+					elementPolygonCoords.push(new google.maps.LatLng(point.lng, point.lat));
 				}
 
-				elementPolygonCoords.push(new google.maps.LatLng(point.lng, point.lat));
+				var elementPolygon = new google.maps.Polygon({
+					paths: elementPolygonCoords,
+					strokeColor: color,
+					strokeOpacity: 0.8,
+					strokeWeight: 2,
+					fillColor: color,
+					fillOpacity: 0.35
+				});
+
+				elementPolygon.setMap(this.shared.gmap);
+				elementPolygon.getPath().forEach(function (pointArg) {
+					bounds.extend(pointArg);
+				});
+				this.existsPolygons.push(elementPolygon);
 			}
 
-			var color = args.color;
-			var elementPolygon = new google.maps.Polygon({
-				paths: elementPolygonCoords,
-				strokeColor: color,
-				strokeOpacity: 0.8,
-				strokeWeight: 2,
-				fillColor: color,
-				fillOpacity: 0.35
+			this.shared.gmap.fitBounds(bounds);
+		};
+		result._views.clearPolygons = function () {
+			q.each(this.existsPolygons, function () {
+				this.setMap(undefined);
 			});
+		};
 
-			elementPolygon.setMap(this.context.gmapContext.gmap);
-			this.context.gmapContext.existsPolygons.push(elementPolygon);
-		}
+		result._models.context = {
+			spotsUrl: q.pageConfig.spotsUrl
+		};
+		result._models.spots = function (identity, callback) {
+			q.ajax({ url: this.spotsUrl + "?identity=" + identity }).done(function (spotsResult) {
+				callback(spotsResult);
+			});
+		};
 
-		this.context.gmapContext.gmap.setCenter(center);
-	};
-
-	mvc._models.context = {//model context
-		phasesUrl: q.pageConfig.phasesUrl,
-		spotsUrl: q.pageConfig.spotsUrl
-	};
-
-	mvc._models.phases = function (callback) {
-		q.ajax({ url: this.context.phasesUrl + "?isJson=true", type: "GET" }).done(function (result) {
-			callback(result);
-		});
-	};
-	mvc._models.spots = function (parcelsIdentity, callback) {
-		q.ajax({ url: this.context.spotsUrl + "?identity=" + parcelsIdentity }).done(function (result) {
-			callback(result);
-		});
-	};
-
-	mvc._destroy = { handlers: [] };
-	mvc.destroy = function () {
-		for (var destoryIndex in mvc._destroy.handlers) {
-			var destroyHandler = mvc._destroy.handlers[destoryIndex];
-			destroyHandler();
-		}
-	};
-
-	mvc._controllers.phases();
+		return result;
+	}
 
 	arg = arg || {};
 
 	arg.unload = function () {
-		mvc.destroy();
+		application.destroy();
 		console.log("map tab unload.");
 	};
 });

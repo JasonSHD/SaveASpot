@@ -43,6 +43,12 @@
 })(q);
 
 (function (namespace, $) {
+	namespace.each = function (collection, handler) {
+		$(collection).each(handler);
+	}
+})(q, jQuery);
+
+(function (namespace, $) {
 	namespace.ajax = function (arg, ajaxIndicator) {
 		var result = {};
 		var handlers = {};
