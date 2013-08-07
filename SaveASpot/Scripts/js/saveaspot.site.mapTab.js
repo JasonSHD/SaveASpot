@@ -3,8 +3,13 @@
 
 	var application = new MvcCompositeObject().
 		add(new PhasesMvcObject()).
-		add(new SpotsMvcObject()).
-		execute("phases");
+		add(new SpotsMvcObject());
+
+	if ($("#isCustomer").val().toUpperCase() == "TRUE") {
+		application.add(new CustomerSpotHandlers());
+	}
+
+	application.execute("phases");
 
 
 	function MvcCompositeObject() {
@@ -203,20 +208,28 @@
 		result._controllers.spots = function (spotsArg) {
 			var context = this;
 			context.model("spots", spotsArg.identity, function (spotsResult) {
-				context.view("spots", spotsResult);
+				context.view("spots", {
+					spots: spotsResult,
+					onSelect: function (spot) {
+						context.execute("onSpotSelect", { spot: spot });
+					}
+				});
 			});
 		};
 
 		result._views.context = {
 			existsPolygons: []
 		};
-		result._views.spots = function (spots) {
-			var color = "#00FF00";
+		result._views.spots = function (spotsArg) {
+			var color = {
+				available: "#00FF00",
+				selected: "#FFFF00",
+				unavailable: "#FF0000"
+			};
+			var spots = spotsArg.spots;
 
 			this.view("clearPolygons");
 
-			var isFirst = false;
-			var center = undefined;
 			var bounds = new google.maps.LatLngBounds();
 			for (var elementIndex in spots) {
 				var element = spots[elementIndex];
@@ -225,31 +238,36 @@
 				for (var pointIndex in element.points) {
 					var point = element.points[pointIndex];
 
-					if (!isFirst) {
-						center = new google.maps.LatLng(point.lng, point.lat);
-						isFirst = true;
-					}
-
 					elementPolygonCoords.push(new google.maps.LatLng(point.lng, point.lat));
 				}
 
 				var elementPolygon = new google.maps.Polygon({
 					paths: elementPolygonCoords,
-					strokeColor: color,
+					strokeColor: element.isAvailable ? color.available : color.unavailable,
 					strokeOpacity: 0.8,
 					strokeWeight: 2,
-					fillColor: color,
+					fillColor: element.isAvailable ? color.available : color.unavailable,
 					fillOpacity: 0.35
 				});
 
-				elementPolygon.setMap(this.shared.gmap);
-				elementPolygon.getPath().forEach(function (pointArg) {
-					bounds.extend(pointArg);
-				});
-				this.existsPolygons.push(elementPolygon);
+				this.view("addSpotOnMap", { polygon: elementPolygon, spot: element, bounds: bounds, onSelect: spotsArg.onSelect });
 			}
 
 			this.shared.gmap.fitBounds(bounds);
+		};
+		result._views.addSpotOnMap = function (spotArg) {
+			var polygon = spotArg.polygon;
+			var spot = spotArg.spot;
+			var bounds = spotArg.bounds;
+
+			polygon.setMap(this.shared.gmap);
+			polygon.getPath().forEach(function (pointArg) {
+				bounds.extend(pointArg);
+			});
+			this.existsPolygons.push(polygon);
+			google.maps.event.addListener(polygon, 'click', function () {
+				spotArg.onSelect(spot);
+			});
 		};
 		result._views.clearPolygons = function () {
 			q.each(this.existsPolygons, function () {
@@ -264,6 +282,16 @@
 			q.ajax({ url: this.spotsUrl + "?identity=" + identity }).done(function (spotsResult) {
 				callback(spotsResult);
 			});
+		};
+
+		return result;
+	}
+
+	function CustomerSpotHandlers() {
+		var result = new MvcObject();
+
+		result._controllers.onSpotSelect = function (spotArg) {
+			alert("try to bron spot:" + spotArg.spot.identity);
 		};
 
 		return result;

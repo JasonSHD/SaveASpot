@@ -52,12 +52,14 @@
     <Compile Include="Implementations\Logging\LogAppender.cs" />
     <Compile Include="Implementations\MongoDBConfiguration.cs" />
     <Compile Include="Implementations\MongoDBProvider.cs" />
+    <Compile Include="Implementations\MongoObjectIdExtensions.cs" />
     <Compile Include="Implementations\MongoQueryFilter.cs" />
     <Compile Include="Implementations\PhasesAndParcels\ParcelQueryable.cs" />
     <Compile Include="Implementations\PhasesAndParcels\ParcelRepository.cs" />
     <Compile Include="Implementations\PhasesAndParcels\PhaseQueryable.cs" />
     <Compile Include="Implementations\PhasesAndParcels\PhaseRepository.cs" />
     <Compile Include="Implementations\PhasesAndParcels\SpotQueryable.cs" />
+    <Compile Include="Implementations\Security\CustomerQueryable.cs" />
     <Compile Include="Implementations\Security\UserFilter.cs" />
     <Compile Include="Implementations\Security\UserQueryable.cs" />
     <Compile Include="Implementations\Security\UserRepository.cs" />
@@ -70,6 +72,8 @@
     <Compile Include="Interfaces\PhasesAndParcels\IPhaseFilter.cs" />
     <Compile Include="Interfaces\PhasesAndParcels\IPhaseQueryable.cs" />
     <Compile Include="Interfaces\PhasesAndParcels\IPhaseRepository.cs" />
+    <Compile Include="Interfaces\Security\ICustomerFilter.cs" />
+    <Compile Include="Interfaces\Security\ICustomerQueryable.cs" />
     <Compile Include="Interfaces\Sponsors\ISponsorFilter.cs" />
     <Compile Include="Interfaces\Sponsors\ISponsorQueryable.cs" />
     <Compile Include="Interfaces\Sponsors\ISponsorRepository.cs" />
@@ -83,6 +87,7 @@
     <Compile Include="Models\ExceptionData.cs" />
     <Compile Include="Models\Phase.cs" />
     <Compile Include="Models\Point.cs" />
+    <Compile Include="Models\Security\SiteCustomer.cs" />
     <Compile Include="Models\Security\SiteUser.cs" />
     <Compile Include="Models\Sponsor.cs" />
     <Compile Include="Models\Spot.cs" />

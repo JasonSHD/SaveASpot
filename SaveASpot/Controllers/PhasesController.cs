@@ -9,6 +9,7 @@ namespace SaveASpot.Controllers
 {
 	[PhasePageTab(Alias = SiteConstants.PhasesControllerAlias, IndexOfOrder = 10, Title = "PhasesAccordionGroupTitle")]
 	[MainMenuTab(Alias = SiteConstants.PhasesAndParcelsControllerAlias, Area = "", IndexOfOrder = 20, Title = "PhasesAndParcelsTabTitle")]
+	[CustomerAuthorize]
 	[AdministratorAuthorize]
 	public sealed class PhasesController : TabController
 	{

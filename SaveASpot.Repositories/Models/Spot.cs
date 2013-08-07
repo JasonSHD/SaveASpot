@@ -11,6 +11,8 @@ namespace SaveASpot.Repositories.Models
 		public string Identity { get { return Id.ToString(); } }
 		public decimal SpotLength { get; set; }
 		public decimal SpotArea { get; set; }
+		public ObjectId CustomerId { get; set; }
+		public string CustomerIdentity { get { return CustomerId.ToString(); } }
 		public List<Point> SpotShape { get; set; }
 	}
 }

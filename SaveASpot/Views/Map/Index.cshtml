@@ -1,4 +1,5 @@
-﻿@using SaveASpot.Controllers
+﻿@model SaveASpot.ViewModels.MapViewModel
+@using SaveASpot.Controllers
 @{
 	ViewBag.Title = "Index";
 	Layout = null;
@@ -23,6 +24,7 @@
 			padding: 17%;
 		}
 	</style>
+	<input type="hidden" id="isCustomer" value="@Model.IsCustomer"/>
 	<div id="map-container" class="container">
 		<div id="map-canvas" class="mini-layout-body">
 		</div>

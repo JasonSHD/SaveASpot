@@ -70,6 +70,7 @@
     <Compile Include="Security\AdministratorRole.cs" />
     <Compile Include="Security\Customer.cs" />
     <Compile Include="Security\CustomerRole.cs" />
+    <Compile Include="Security\ICurrentCustomer.cs" />
     <Compile Include="Security\ICurrentUser.cs" />
     <Compile Include="Security\IPasswordHash.cs" />
     <Compile Include="Security\IRoleFactory.cs" />

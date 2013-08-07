@@ -47,6 +47,7 @@
     <Compile Include="CreateSponsorViewModel.cs" />
     <Compile Include="CustomerViewModel.cs" />
     <Compile Include="LogOnViewModel.cs" />
+    <Compile Include="MapViewModel.cs" />
     <Compile Include="PhasesAndParcels\ParcelsViewModel.cs" />
     <Compile Include="PhasesAndParcels\ParcelViewModel.cs" />
     <Compile Include="PhasesAndParcels\PhasesViewModel.cs" />

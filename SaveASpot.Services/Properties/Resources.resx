@@ -204,4 +204,7 @@
   <data name="SponsorsTabTitle" xml:space="preserve">
     <value>Sponsors</value>
   </data>
+  <data name="SpotNotFound" xml:space="preserve">
+    <value>Spot not found, please refresh spots and try again later.</value>
+  </data>
 </root>

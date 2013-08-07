@@ -52,12 +52,14 @@
     <Compile Include="Implementations\ArcgisSpotsService.cs" />
     <Compile Include="Implementations\Controllers\AccountControllerService.cs" />
     <Compile Include="Implementations\Controllers\CustomersControllerService.cs" />
+    <Compile Include="Implementations\Controllers\MapControllerService.cs" />
     <Compile Include="Implementations\Controllers\ParcelsControllerService.cs" />
     <Compile Include="Implementations\Controllers\PhasesControllerService.cs" />
     <Compile Include="Implementations\Controllers\SetupUsersControllerService.cs" />
     <Compile Include="Implementations\Controllers\SponsorsControllerService.cs" />
     <Compile Include="Implementations\Controllers\SpotsControllerService.cs" />
     <Compile Include="Implementations\Controllers\UploadPhasesAndParcelsControllerService.cs" />
+    <Compile Include="Implementations\CurrentCustomer.cs" />
     <Compile Include="Implementations\CurrentUser.cs" />
     <Compile Include="Implementations\Polygon.cs" />
     <Compile Include="Implementations\SponsorsService.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="Interfaces\Controllers\CustomerResult.cs" />
     <Compile Include="Interfaces\Controllers\IAccountControllerService.cs" />
     <Compile Include="Interfaces\Controllers\ICustomersControllerService.cs" />
+    <Compile Include="Interfaces\Controllers\IMapControllerService.cs" />
     <Compile Include="Interfaces\Controllers\IParcelsControllerService.cs" />
     <Compile Include="Interfaces\Controllers\IPhasesControllerService.cs" />
     <Compile Include="Interfaces\Controllers\ISetupUsersControllerService.cs" />

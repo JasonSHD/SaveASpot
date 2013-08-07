@@ -8,7 +8,7 @@ namespace SaveASpot.Controllers
 {
 	[MainMenuTab(Alias = SiteConstants.SponsorsControllerAlias, Area = "", IndexOfOrder = 40, Title = "SponsorsTabTitle")]
 	[AdministratorAuthorize]
-    public sealed class SponsorsController : TabController
+	public sealed class SponsorsController : TabController
 	{
 		private readonly ISponsorsControllerService _sponsorsControllerService;
 
@@ -35,5 +35,5 @@ namespace SaveASpot.Controllers
 
 			return Json(new { status = createSponsorResult.IsSuccess, message = createSponsorResult.Status.Message });
 		}
-    }
+	}
 }

@@ -24,6 +24,7 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ISpotQueryable>().To<SpotQueryable>();
 			Bind<ISponsorQueryable>().To<SponsorQueryable>();
 			Bind<ISponsorRepository>().To<SponsorRepository>();
+			Bind<ICustomerQueryable>().To<CustomerQueryable>();
 		}
 	}
 }

@@ -6,6 +6,7 @@ using SaveASpot.Core.Security;
 using SaveASpot.Core.Web;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Repositories.Implementations.Logging;
+using SaveASpot.Services.Implementations;
 
 namespace SaveASpot.DependenciesConfiguration
 {
@@ -23,6 +24,7 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ILogConfiguration>().To<LogConfiguration>();
 			Bind<ILogger>().To<Logger>();
 			Bind<ILogAppender>().To<LogAppender>();
+			Bind<ICurrentCustomer>().To<CurrentCustomer>();
 			Bind<ModelMetadataProvider>().To<ResourceDataAnnotationsModelMetadataProvider>();
 		}
 	}

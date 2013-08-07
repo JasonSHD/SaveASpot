@@ -35,5 +35,12 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 
 			return false;
 		}
+
+		public bool Update(Spot spot)
+		{
+			_mongoDbCollectionFactory.Collection<Spot>().Save(spot);
+
+			return true;
+		}
 	}
 }

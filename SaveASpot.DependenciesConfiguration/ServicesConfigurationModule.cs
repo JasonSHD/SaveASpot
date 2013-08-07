@@ -34,6 +34,7 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ITextParserEngine>().To<TextParserEngine>();
 			Bind<ISponsorsService>().To<SponsorsService>();
 			Bind<ISponsorsControllerService>().To<SponsorsControllerService>();
+			Bind<IMapControllerService>().To<MapControllerService>();
 		}
 	}
 }

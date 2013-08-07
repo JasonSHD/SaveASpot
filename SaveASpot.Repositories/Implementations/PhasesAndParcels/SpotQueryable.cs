@@ -50,6 +50,17 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			return new SpotFilter(Query.And(Query<Spot>.In(e => e.ParcelId, objectIdCollection)));
 		}
 
+		public ISpotFilter ByIdentity(string identity)
+		{
+			ObjectId objectId;
+			if (ObjectId.TryParse(identity, out objectId))
+			{
+				return new SpotFilter(Query<Spot>.Where(e => e.Id == objectId));
+			}
+
+			return new SpotFilter(Query.Null);
+		}
+
 		public IEnumerable<Spot> Find(ISpotFilter spotFilter)
 		{
 			return _mongoDbCollectionFactory.Collection<Spot>().Find(MongoQueryFilter.Convert(spotFilter).MongoQuery);

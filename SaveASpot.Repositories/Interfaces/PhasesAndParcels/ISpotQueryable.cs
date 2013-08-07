@@ -9,6 +9,7 @@ namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
 		ISpotFilter ByArea(decimal area);
 		ISpotFilter And(ISpotFilter left, ISpotFilter right);
 		ISpotFilter ByParcels(IEnumerable<string> identities);
+		ISpotFilter ByIdentity(string identity);
 		IEnumerable<Spot> Find(ISpotFilter spotFilter);
 	}
 }

@@ -60,13 +60,5 @@ namespace SaveASpot.Repositories.Implementations.Security
 		{
 			return new UserFilter(Query<SiteUser>.Where(expression));
 		}
-
-		//private UserFilter ToFilter(IUserFilter userFilter)
-		//{
-		//	if (userFilter == null || userFilter.GetType() != typeof(UserFilter))
-		//		throw new ArgumentException();
-
-		//	return (UserFilter)userFilter;
-		//}
 	}
 }

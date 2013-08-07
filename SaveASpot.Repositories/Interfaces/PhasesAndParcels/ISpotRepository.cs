@@ -6,5 +6,6 @@ namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
 	{
 		Spot AddSpot(Spot spot);
 		bool Remove(string identity);
+		bool Update(Spot spot);
 	}
 }
