@@ -216,10 +216,10 @@
 				});
 			});
 		};
+		result._controllers.updateSpot = function (spot) {
 
-		result._views.context = {
-			existsPolygons: []
 		};
+
 		result._views.spots = function (spotsArg) {
 			var color = {
 				available: "#00FF00",
@@ -264,15 +264,18 @@
 			polygon.getPath().forEach(function (pointArg) {
 				bounds.extend(pointArg);
 			});
-			this.existsPolygons.push(polygon);
+			this.shared.existsPolygons = this.shared.existsPolygons || [];
+			this.shared.existsPolygons.push({ polygon: polygon, identity: spot.identity });
 			google.maps.event.addListener(polygon, 'click', function () {
 				spotArg.onSelect(spot);
 			});
 		};
 		result._views.clearPolygons = function () {
-			q.each(this.existsPolygons, function () {
-				this.setMap(undefined);
+			q.each(this.shared.existsPolygons, function () {
+				this.polygon.setMap(undefined);
 			});
+
+			this.shared.existsPolygons = [];
 		};
 
 		result._models.context = {
@@ -291,7 +294,54 @@
 		var result = new MvcObject();
 
 		result._controllers.onSpotSelect = function (spotArg) {
-			alert("try to bron spot:" + spotArg.spot.identity);
+			if (spotArg.spot.isAvailable) {
+				if (spotArg.spot.isSelected) {
+					spotArg.spot.isSelected = false;
+					spotArg.val = "available";
+				} else {
+					spotArg.spot.isSelected = true;
+					spotArg.val = "selected";
+				}
+			} else {
+				return;
+			}
+
+			var context = this;
+			spotArg.onSelect = function (onSelectArg) {
+				context.execute("onSpotSelect", onSelectArg);
+			};
+			this.view("changeSpotState", spotArg);
+		};
+
+		result._views.changeSpotState = function (spotArg) {
+			var target;
+			q.each(this.shared.existsPolygons, function () {
+				if (spotArg.spot.identity == this.identity) {
+					target = this;
+				}
+			});
+
+			var colors = {
+				available: "#00FF00",
+				selected: "#FFFF00",
+				unavailable: "#FF0000"
+			};
+
+			target.polygon.setMap(undefined);
+			var newPolygon = new google.maps.Polygon({
+				paths: target.polygon.getPath(),
+				strokeColor: colors[spotArg.val],
+				strokeOpacity: 0.5,
+				strokeWeight: 1,
+				fillColor: colors[spotArg.val],
+				fillOpacity: 0.35
+			});
+			newPolygon.setMap(this.shared.gmap);
+			target.polygon = newPolygon;
+
+			google.maps.event.addListener(newPolygon, 'click', function () {
+				spotArg.onSelect(spotArg);
+			});
 		};
 
 		return result;

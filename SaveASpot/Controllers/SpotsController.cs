@@ -36,6 +36,7 @@ namespace SaveASpot.Controllers
 			return Json(_spotsControllerService.ByPhase(identity).Spots.Select(e => e.ToJson()), JsonRequestBehavior.AllowGet);
 		}
 
+		[HttpPost]
 		public JsonResult BookingSpot(string identity)
 		{
 			var methodResult = _spotsControllerService.BookingSpot(identity);
