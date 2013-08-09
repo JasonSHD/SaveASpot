@@ -3,7 +3,7 @@ using System.Security.Authentication;
 using SaveASpot.Core.Security;
 using SaveASpot.Repositories.Interfaces.Security;
 
-namespace SaveASpot.Services.Implementations
+namespace SaveASpot.Services.Implementations.Security
 {
 	public sealed class CurrentCustomer : ICurrentCustomer
 	{

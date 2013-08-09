@@ -6,10 +6,10 @@
 		add(new SpotsMvcObject());
 
 	if ($("#isCustomer").val().toUpperCase() == "TRUE") {
-		application.add(new CustomerSpotHandlers());
+		application.add(new CustomerSpotsPartialMvcObject());
 	}
 
-	application.execute("phases");
+	application.execute("initialize");
 
 
 	function MvcCompositeObject() {
@@ -52,21 +52,21 @@
 		}
 
 		result.execute = function (action, excArg) {
-			var targetMvcObject = undefined;
+			var targetMvcObjects = [];
 
 			for (var objectIndex in result._mvcObjectCollection) {
 				var object = result._mvcObjectCollection[objectIndex];
 
 				if (object._controllers[action] != undefined) {
-					targetMvcObject = object;
-					break;
+					targetMvcObjects.push(object);
 				}
 			}
 
-			if (targetMvcObject == undefined) return result;
-
-			var controllerContext = buildControllerContext(targetMvcObject);
-			targetMvcObject._controllers[action].call(controllerContext, excArg);
+			for (var targetObjectIndex in targetMvcObjects) {
+				var targetMvcObject = targetMvcObjects[targetObjectIndex];
+				var controllerContext = buildControllerContext(targetMvcObject);
+				targetMvcObject._controllers[action].call(controllerContext, excArg);
+			}
 
 			return result;
 		};
@@ -111,7 +111,7 @@
 		result._controllers.context = {
 			gmapKey: $("[data-gmap-api-key]").data("gmap-api-key")
 		};
-		result._controllers.phases = function () {
+		result._controllers.initialize = function () {
 			var context = this;
 
 			context.view("gmap", context.gmapKey);
@@ -211,64 +211,72 @@
 				context.view("spots", {
 					spots: spotsResult,
 					onSelect: function (spot) {
-						context.execute("onSpotSelect", { spot: spot });
+						context.execute("onSpotSelect", spot);
 					}
 				});
 			});
 		};
-		result._controllers.updateSpot = function (spot) {
+		result._controllers.onSpotSelect = function (arg) {
+			var spotDesc = arg;
+			var spot = spotDesc.spot;
+			if (spot.isAvailable) {
+				if (spot.selected) {
+					spot.selected = false;
+					spotDesc.val = "available";
+				} else {
+					spot.selected = true;
+					spotDesc.val = "selected";
+				}
+			} else {
+				return;
+			}
 
+			var context = this;
+			var spotArg = {
+				spotDesc: spotDesc
+			};
+			spotArg.onSelect = function (onSelectArg) {
+				context.execute("onSpotSelect", onSelectArg);
+			};
+			this.view("changeSpotState", spotArg);
+
+			this.execute("onSpotSelected", spotArg);
 		};
 
-		result._views.spots = function (spotsArg) {
-			var color = {
+		result._views.context = {
+			color: {
 				available: "#00FF00",
 				selected: "#FFFF00",
 				unavailable: "#FF0000"
-			};
+			}
+		};
+		result._views.spots = function (spotsArg) {
 			var spots = spotsArg.spots;
 
 			this.view("clearPolygons");
 
 			var bounds = new google.maps.LatLngBounds();
+			this.existsPolygons = this.shared.existsPolygons || [];
+
 			for (var elementIndex in spots) {
-				var element = spots[elementIndex];
+				var spot = spots[elementIndex];
 				var elementPolygonCoords = [];
 
-				for (var pointIndex in element.points) {
-					var point = element.points[pointIndex];
+				for (var pointIndex in spot.points) {
+					var point = spot.points[pointIndex];
 
 					elementPolygonCoords.push(new google.maps.LatLng(point.lng, point.lat));
 				}
 
-				var elementPolygon = new google.maps.Polygon({
-					paths: elementPolygonCoords,
-					strokeColor: element.isAvailable ? color.available : color.unavailable,
-					strokeOpacity: 0.8,
-					strokeWeight: 2,
-					fillColor: element.isAvailable ? color.available : color.unavailable,
-					fillOpacity: 0.35
+				var spotDesc = { spot: spot, val: spot.isAvailable ? "available" : "unavailable" };
+				this.view("createPolygonForSpot", { paths: elementPolygonCoords, spotDesc: spotDesc, onSelect: spotsArg.onSelect });
+				spotDesc.polygon.getPath().forEach(function (pointArg) {
+					bounds.extend(pointArg);
 				});
-
-				this.view("addSpotOnMap", { polygon: elementPolygon, spot: element, bounds: bounds, onSelect: spotsArg.onSelect });
+				this.existsPolygons.push(spotDesc);
 			}
 
 			this.shared.gmap.fitBounds(bounds);
-		};
-		result._views.addSpotOnMap = function (spotArg) {
-			var polygon = spotArg.polygon;
-			var spot = spotArg.spot;
-			var bounds = spotArg.bounds;
-
-			polygon.setMap(this.shared.gmap);
-			polygon.getPath().forEach(function (pointArg) {
-				bounds.extend(pointArg);
-			});
-			this.shared.existsPolygons = this.shared.existsPolygons || [];
-			this.shared.existsPolygons.push({ polygon: polygon, identity: spot.identity });
-			google.maps.event.addListener(polygon, 'click', function () {
-				spotArg.onSelect(spot);
-			});
 		};
 		result._views.clearPolygons = function () {
 			q.each(this.shared.existsPolygons, function () {
@@ -276,6 +284,28 @@
 			});
 
 			this.shared.existsPolygons = [];
+		};
+		result._views.changeSpotState = function (spotArg) {
+			spotArg.spotDesc.polygon.setMap(undefined);
+			this.view("createPolygonForSpot", { paths: spotArg.spotDesc.polygon.getPath(), spotDesc: spotArg.spotDesc, onSelect: spotArg.onSelect });
+		};
+		result._views.createPolygonForSpot = function (spotArg) {
+			var spotDesc = spotArg.spotDesc;
+			var colors = this.color;
+			var polygon = new google.maps.Polygon({
+				paths: spotArg.paths,
+				strokeColor: colors[spotDesc.val],
+				strokeOpacity: 0.8,
+				strokeWeight: 2,
+				fillColor: colors[spotDesc.val],
+				fillOpacity: 0.35
+			});
+			polygon.setMap(this.shared.gmap);
+			spotDesc.polygon = polygon;
+
+			google.maps.event.addListener(polygon, 'click', function () {
+				spotArg.onSelect(spotDesc);
+			});
 		};
 
 		result._models.context = {
@@ -290,58 +320,58 @@
 		return result;
 	}
 
-	function CustomerSpotHandlers() {
+	function CustomerSpotsPartialMvcObject() {
 		var result = new MvcObject();
 
-		result._controllers.onSpotSelect = function (spotArg) {
-			if (spotArg.spot.isAvailable) {
-				if (spotArg.spot.isSelected) {
-					spotArg.spot.isSelected = false;
-					spotArg.val = "available";
-				} else {
-					spotArg.spot.isSelected = true;
-					spotArg.val = "selected";
-				}
-			} else {
-				return;
-			}
-
+		result._controllers.context = {
+			selectedContext: { selectedSpots: 0 }
+		};
+		result._controllers.initialize = function () {
 			var context = this;
-			spotArg.onSelect = function (onSelectArg) {
-				context.execute("onSpotSelect", onSelectArg);
-			};
-			this.view("changeSpotState", spotArg);
+			this.view("showPanel", {
+				onBook: function () {
+					context.execute("booking");
+				}
+			});
+		};
+		result._controllers.booking = function () {
+			this.model("bookingSpots");
+		};
+		result._controllers.onSpotSelected = function (spot) {
+			if (spot.spotDesc.val == "selected") {
+				this.selectedContext.selectedSpots = this.selectedContext.selectedSpots + 1;
+				this.model("addSpot", spot);
+			} else {
+				this.selectedContext.selectedSpots = this.selectedContext.selectedSpots - 1;
+				this.model("removeSpot", spot);
+			}
+			this.view("updateSelectedSpots", this.selectedContext.selectedSpots);
 		};
 
-		result._views.changeSpotState = function (spotArg) {
-			var target;
-			q.each(this.shared.existsPolygons, function () {
-				if (spotArg.spot.identity == this.identity) {
-					target = this;
-				}
+		result._views.context = {
+			$panel: $("#customerSpotSelectPanel")
+		};
+		result._views.showPanel = function (panelArg) {
+			this.$panel.show();
+			this.$panel.find("button").click(function () {
+				panelArg.onBook();
 			});
+		};
+		result._views.updateSelectedSpots = function (model) {
+			this.$panel.find("input").val(model);
+		};
 
-			var colors = {
-				available: "#00FF00",
-				selected: "#FFFF00",
-				unavailable: "#FF0000"
-			};
-
-			target.polygon.setMap(undefined);
-			var newPolygon = new google.maps.Polygon({
-				paths: target.polygon.getPath(),
-				strokeColor: colors[spotArg.val],
-				strokeOpacity: 0.5,
-				strokeWeight: 1,
-				fillColor: colors[spotArg.val],
-				fillOpacity: 0.35
-			});
-			newPolygon.setMap(this.shared.gmap);
-			target.polygon = newPolygon;
-
-			google.maps.event.addListener(newPolygon, 'click', function () {
-				spotArg.onSelect(spotArg);
-			});
+		result._models.context = {
+			selectedSpots: {}
+		};
+		result._models.addSpot = function (spotDesc) {
+			this.selectedSpots[spotDesc.spotDesc.spot.identity] = spotDesc;
+		};
+		result._models.removeSpot = function (spotDesc) {
+			delete this.selectedSpots[spotDesc.spotDesc.spot.identity];
+		};
+		result._models.bookingSpots = function () {
+			alert(this.selectedSpots.length);
 		};
 
 		return result;

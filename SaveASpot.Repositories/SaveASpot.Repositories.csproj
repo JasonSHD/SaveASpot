@@ -74,6 +74,7 @@
     <Compile Include="Interfaces\PhasesAndParcels\IPhaseRepository.cs" />
     <Compile Include="Interfaces\Security\ICustomerFilter.cs" />
     <Compile Include="Interfaces\Security\ICustomerQueryable.cs" />
+    <Compile Include="Interfaces\Security\ICustomerRepository.cs" />
     <Compile Include="Interfaces\Sponsors\ISponsorFilter.cs" />
     <Compile Include="Interfaces\Sponsors\ISponsorQueryable.cs" />
     <Compile Include="Interfaces\Sponsors\ISponsorRepository.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Models\ExceptionData.cs" />
     <Compile Include="Models\Phase.cs" />
     <Compile Include="Models\Point.cs" />
+    <Compile Include="Models\Security\Cart.cs" />
     <Compile Include="Models\Security\SiteCustomer.cs" />
     <Compile Include="Models\Security\SiteUser.cs" />
     <Compile Include="Models\Sponsor.cs" />

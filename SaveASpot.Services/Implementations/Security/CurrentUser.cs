@@ -2,7 +2,7 @@ using System.Web;
 using SaveASpot.Core.Security;
 using SaveASpot.Services.Interfaces.Security;
 
-namespace SaveASpot.Services.Implementations
+namespace SaveASpot.Services.Implementations.Security
 {
 	public sealed class CurrentUser : ICurrentUser
 	{

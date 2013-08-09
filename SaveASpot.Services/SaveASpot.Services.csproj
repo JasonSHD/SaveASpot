@@ -51,6 +51,7 @@
     <Compile Include="Implementations\ArcgisParcelsService.cs" />
     <Compile Include="Implementations\ArcgisSpotsService.cs" />
     <Compile Include="Implementations\Controllers\AccountControllerService.cs" />
+    <Compile Include="Implementations\Controllers\CustomerActionsMapControllerService.cs" />
     <Compile Include="Implementations\Controllers\CustomersControllerService.cs" />
     <Compile Include="Implementations\Controllers\MapControllerService.cs" />
     <Compile Include="Implementations\Controllers\ParcelsControllerService.cs" />
@@ -59,8 +60,8 @@
     <Compile Include="Implementations\Controllers\SponsorsControllerService.cs" />
     <Compile Include="Implementations\Controllers\SpotsControllerService.cs" />
     <Compile Include="Implementations\Controllers\UploadPhasesAndParcelsControllerService.cs" />
-    <Compile Include="Implementations\CurrentCustomer.cs" />
-    <Compile Include="Implementations\CurrentUser.cs" />
+    <Compile Include="Implementations\Security\CurrentCustomer.cs" />
+    <Compile Include="Implementations\Security\CurrentUser.cs" />
     <Compile Include="Implementations\Polygon.cs" />
     <Compile Include="Implementations\SponsorsService.cs" />
     <Compile Include="Implementations\TextParserCases\DecimalTextParserCase.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Implementations\Validators\Security\UserValidateFactory.cs" />
     <Compile Include="Interfaces\Controllers\CustomerResult.cs" />
     <Compile Include="Interfaces\Controllers\IAccountControllerService.cs" />
+    <Compile Include="Interfaces\Controllers\ICustomerActionsMapControllerService.cs" />
     <Compile Include="Interfaces\Controllers\ICustomersControllerService.cs" />
     <Compile Include="Interfaces\Controllers\IMapControllerService.cs" />
     <Compile Include="Interfaces\Controllers\IParcelsControllerService.cs" />
@@ -91,6 +93,7 @@
     <Compile Include="Interfaces\CreateSponsorResult.cs" />
     <Compile Include="Interfaces\IParcelsService.cs" />
     <Compile Include="Interfaces\ISponsorsService.cs" />
+    <Compile Include="Interfaces\ISpotsBookingService.cs" />
     <Compile Include="Interfaces\ISpotsService.cs" />
     <Compile Include="Interfaces\ITextParserCase.cs" />
     <Compile Include="Interfaces\ITextParserEngine.cs" />

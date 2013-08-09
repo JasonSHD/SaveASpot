@@ -93,6 +93,7 @@
     <Compile Include="Controllers\Artifacts\MainMenuTabAttribute.cs" />
     <Compile Include="Controllers\Artifacts\PhasePageDefaultTabActionAttribute.cs" />
     <Compile Include="Controllers\Artifacts\PhasePageTabAttribute.cs" />
+    <Compile Include="Controllers\CustomerActionsMapController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -153,7 +154,6 @@
     <Content Include="Content\css\lib\morris.css" />
     <Content Include="Content\css\lib\select2.css" />
     <Content Include="Content\css\lib\uniform.default.css" />
-    <Content Include="Content\css\map.css" />
     <Content Include="Content\css\new-user.css" />
     <Content Include="Content\css\personal-info.css" />
     <Content Include="Content\css\signin.css" />

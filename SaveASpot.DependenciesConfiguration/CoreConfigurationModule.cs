@@ -6,7 +6,7 @@ using SaveASpot.Core.Security;
 using SaveASpot.Core.Web;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Repositories.Implementations.Logging;
-using SaveASpot.Services.Implementations;
+using SaveASpot.Services.Implementations.Security;
 
 namespace SaveASpot.DependenciesConfiguration
 {
