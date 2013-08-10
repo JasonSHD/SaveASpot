@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using SaveASpot.Repositories.Interfaces.Security;
@@ -6,13 +5,11 @@ using SaveASpot.Repositories.Models.Security;
 
 namespace SaveASpot.Repositories.Implementations.Security
 {
-	public sealed class CustomerQueryable : ICustomerQueryable
+	public sealed class CustomerQueryable : BasicMongoDBElementQueryable<SiteCustomer, ICustomerFilter>, ICustomerQueryable
 	{
-		private readonly IMongoDBCollectionFactory _mongoDBCollectionFactory;
-
 		public CustomerQueryable(IMongoDBCollectionFactory mongoDBCollectionFactory)
+			: base(mongoDBCollectionFactory)
 		{
-			_mongoDBCollectionFactory = mongoDBCollectionFactory;
 		}
 
 		public ICustomerFilter FilterByUserId(string identity)
@@ -22,9 +19,14 @@ namespace SaveASpot.Repositories.Implementations.Security
 			return new CustomerFilter(Query<SiteCustomer>.Where(e => e.UserId == id));
 		}
 
-		public IEnumerable<SiteCustomer> Find(ICustomerFilter customerFilter)
+		public ICustomerFilter All()
 		{
-			return _mongoDBCollectionFactory.Collection<SiteCustomer>().Find(MongoQueryFilter.Convert(customerFilter).MongoQuery);
+			return new CustomerFilter(Query<SiteCustomer>.Where(e => true));
+		}
+
+		protected override ICustomerFilter BuildFilter(IMongoQuery query)
+		{
+			return new CustomerFilter(query);
 		}
 
 		private sealed class CustomerFilter : MongoQueryFilter, ICustomerFilter

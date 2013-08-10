@@ -17,7 +17,7 @@ namespace SaveASpot.DependenciesConfiguration
 		{
 			Bind<IAccountControllerService>().To<AccountControllerService>();
 			Bind<IUserService>().To<UserService>();
-			Bind<IUserHarvester>().To<UserHarvester>();
+			Bind<IUserFactory>().To<UserFactory>();
 			Bind<IUserValidateFactory>().To<UserValidateFactory>();
 			Bind<ICustomersControllerService>().To<CustomersControllerService>();
 			Bind<ICurrentUser>().To<CurrentUser>();
@@ -35,6 +35,7 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ISponsorsService>().To<SponsorsService>();
 			Bind<ISponsorsControllerService>().To<SponsorsControllerService>();
 			Bind<IMapControllerService>().To<MapControllerService>();
+			Bind<ICustomerActionsMapControllerService>().To<CustomerActionsMapControllerService>();
 		}
 	}
 }

@@ -14,6 +14,7 @@ namespace SaveASpot.Controllers
 			_customerActionsMapControllerService = customerActionsMapControllerService;
 		}
 
+		[HttpPost]
 		public JsonResult BookingSpots(string[] identities)
 		{
 			_customerActionsMapControllerService.BookingSpots(identities);

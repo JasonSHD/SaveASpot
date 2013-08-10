@@ -3,5 +3,6 @@
 	public interface ICustomerRepository
 	{
 		bool AddSpot(string customerId, string spotId);
+		bool CreateCustomer(string userIdentity);
 	}
 }

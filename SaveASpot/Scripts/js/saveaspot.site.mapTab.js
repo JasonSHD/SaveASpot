@@ -320,10 +320,10 @@
 		};
 		result._views.selectSpot = function (selectArg) {
 			var spots = this.existsPolygons;
-			
+
 			for (var polgIndex in spots) {
 				var polg = spots[polgIndex];
-				
+
 				if (polg.spot.identity == selectArg.spot.identity) {
 					selectArg.callback(polg);
 					return;
@@ -426,7 +426,8 @@
 		};
 
 		result._models.context = {
-			selectedSpots: {}
+			selectedSpots: {},
+			bookingUrl: q.pageConfig.bookingForCustomerUrl
 		};
 		result._models.addSpot = function (spotDesc) {
 			this.selectedSpots[spotDesc.spotDesc.spot.identity] = spotDesc;
@@ -435,7 +436,14 @@
 			delete this.selectedSpots[spotDesc.spotDesc.spot.identity];
 		};
 		result._models.bookingSpots = function () {
-			alert(this.selectedSpots.length);
+			var data = {};
+			var index = 0;
+			for (var spotIdentity in this.selectedSpots) {
+				data["identities[" + index + "]"] = spotIdentity;
+				index++;
+			}
+			q.ajax({ url: this.bookingUrl, data: data, type: "POST" }).done(function () {
+			});
 		};
 		result._models.getFirst = function (callback) {
 			for (var spotIndex in this.selectedSpots) {

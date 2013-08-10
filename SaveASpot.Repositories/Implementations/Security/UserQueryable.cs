@@ -1,7 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using SaveASpot.Core.Security;
 using SaveASpot.Repositories.Interfaces.Security;
@@ -9,14 +9,9 @@ using SaveASpot.Repositories.Models.Security;
 
 namespace SaveASpot.Repositories.Implementations.Security
 {
-	public sealed class UserQueryable : IUserQueryable
+	public sealed class UserQueryable : BasicMongoDBElementQueryable<SiteUser, IUserFilter>, IUserQueryable
 	{
-		private readonly IMongoDBCollectionFactory _mongoDBCollectionFactory;
-
-		public UserQueryable(IMongoDBCollectionFactory mongoDBCollectionFactory)
-		{
-			_mongoDBCollectionFactory = mongoDBCollectionFactory;
-		}
+		public UserQueryable(IMongoDBCollectionFactory mongoDBCollectionFactory) : base(mongoDBCollectionFactory) { }
 
 		public IUserFilter FilterByName(string name)
 		{
@@ -46,14 +41,14 @@ namespace SaveASpot.Repositories.Implementations.Security
 			return ToFilter(e => false);
 		}
 
-		public IUserFilter And(IUserFilter first, IUserFilter second)
+		public IUserFilter FilterByIds(string[] identities)
 		{
-			return new UserFilter(Query.And(new[] { MongoQueryFilter.Convert(first).MongoQuery, MongoQueryFilter.Convert(second).MongoQuery }));
+			return new UserFilter(Query.Null);
 		}
 
-		public IEnumerable<SiteUser> FindUsers(IUserFilter userFilter)
+		protected override IUserFilter BuildFilter(IMongoQuery query)
 		{
-			return _mongoDBCollectionFactory.Collection<SiteUser>().Find(MongoQueryFilter.Convert(userFilter).MongoQuery);
+			return new UserFilter(query);
 		}
 
 		private IUserFilter ToFilter(Expression<Func<SiteUser, bool>> expression)

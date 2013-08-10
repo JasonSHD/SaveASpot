@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Security.Authentication;
 using SaveASpot.Core.Security;
+using SaveASpot.Repositories.Interfaces;
 using SaveASpot.Repositories.Interfaces.Security;
 
 namespace SaveASpot.Services.Implementations.Security
@@ -21,7 +22,7 @@ namespace SaveASpot.Services.Implementations.Security
 			get
 			{
 				var user = _currentUser.User;
-				var customers = _customerQueryable.Find(_customerQueryable.FilterByUserId(user.Identity)).ToList();
+				var customers = _customerQueryable.Filter(e => e.FilterByUserId(user.Identity)).ToList();
 
 				if (customers.Count < 1)
 				{
