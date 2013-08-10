@@ -242,6 +242,17 @@
 
 			this.execute("onSpotSelected", spotArg);
 		};
+		result._controllers.selectFirstAvailable = function () {
+			var context = this;
+			this.model("getFirstAvailable", function (spot) {
+				context.view("selectSpot", {
+					spot: spot,
+					callback: function (spotArg) {
+						context.execute("onSpotSelect", spotArg);
+					}
+				});
+			});
+		};
 
 		result._views.context = {
 			color: {
@@ -307,14 +318,38 @@
 				spotArg.onSelect(spotDesc);
 			});
 		};
+		result._views.selectSpot = function (selectArg) {
+			var spots = this.existsPolygons;
+			
+			for (var polgIndex in spots) {
+				var polg = spots[polgIndex];
+				
+				if (polg.spot.identity == selectArg.spot.identity) {
+					selectArg.callback(polg);
+					return;
+				}
+			}
+		};
 
 		result._models.context = {
 			spotsUrl: q.pageConfig.spotsUrl
 		};
 		result._models.spots = function (identity, callback) {
+			var context = this;
 			q.ajax({ url: this.spotsUrl + "?identity=" + identity }).done(function (spotsResult) {
+				context.spotsForPhase = spotsResult;
 				callback(spotsResult);
 			});
+		};
+		result._models.getFirstAvailable = function (callback) {
+			for (var spotIndex in this.spotsForPhase) {
+				var spot = this.spotsForPhase[spotIndex];
+
+				if (spot.isAvailable && !spot.selected) {
+					callback(spot);
+					return;
+				}
+			}
 		};
 
 		return result;
@@ -331,19 +366,42 @@
 			this.view("showPanel", {
 				onBook: function () {
 					context.execute("booking");
+				},
+				onUp: function () {
+					context.execute("selectUp");
+				},
+				onDown: function () {
+					context.execute("selectDown");
 				}
 			});
 		};
 		result._controllers.booking = function () {
 			this.model("bookingSpots");
 		};
+		result._controllers.selectUp = function () {
+			this.execute("selectFirstAvailable");
+		};
+		result._controllers.selectDown = function () {
+			var context = this;
+			this.model("getFirst", function (spot) {
+				context.execute("onSpotSelect", spot.spotDesc);
+			});
+		};
+		result._controllers.removeSpot = function (spot) {
+			this.selectedContext.selectedSpots = this.selectedContext.selectedSpots - 1;
+
+			spot.spotDesc.val = "available";
+			spot.spotDesc.spot.selected = false;
+
+			this.model("removeSpot", spot);
+			this.view("updateSelectedSpots", this.selectedContext.selectedSpots);
+		};
 		result._controllers.onSpotSelected = function (spot) {
 			if (spot.spotDesc.val == "selected") {
 				this.selectedContext.selectedSpots = this.selectedContext.selectedSpots + 1;
 				this.model("addSpot", spot);
 			} else {
-				this.selectedContext.selectedSpots = this.selectedContext.selectedSpots - 1;
-				this.model("removeSpot", spot);
+				this.execute("removeSpot", spot);
 			}
 			this.view("updateSelectedSpots", this.selectedContext.selectedSpots);
 		};
@@ -353,8 +411,14 @@
 		};
 		result._views.showPanel = function (panelArg) {
 			this.$panel.show();
-			this.$panel.find("button").click(function () {
+			this.$panel.find("button[data-booking]").click(function () {
 				panelArg.onBook();
+			});
+			this.$panel.find("button[data-up]").click(function () {
+				panelArg.onUp();
+			});
+			this.$panel.find("button[data-down]").click(function () {
+				panelArg.onDown();
 			});
 		};
 		result._views.updateSelectedSpots = function (model) {
@@ -372,6 +436,12 @@
 		};
 		result._models.bookingSpots = function () {
 			alert(this.selectedSpots.length);
+		};
+		result._models.getFirst = function (callback) {
+			for (var spotIndex in this.selectedSpots) {
+				callback(this.selectedSpots[spotIndex]);
+				return;
+			}
 		};
 
 		return result;
