@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using SaveASpot.Core;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
 
@@ -50,15 +51,11 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			return new SpotFilter(Query.And(Query<Spot>.In(e => e.ParcelId, objectIdCollection)));
 		}
 
-		public ISpotFilter ByIdentity(string identity)
+		public ISpotFilter ByIdentity(IElementIdentity identity)
 		{
-			ObjectId objectId;
-			if (ObjectId.TryParse(identity, out objectId))
-			{
-				return new SpotFilter(Query<Spot>.Where(e => e.Id == objectId));
-			}
+			ObjectId objectId = identity.ToIdentity();
 
-			return new SpotFilter(Query.Null);
+			return new SpotFilter(Query<Spot>.Where(e => e.Id == objectId));
 		}
 
 		public IEnumerable<Spot> Find(ISpotFilter spotFilter)

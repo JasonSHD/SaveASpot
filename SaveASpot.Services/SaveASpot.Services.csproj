@@ -65,6 +65,7 @@
     <Compile Include="Implementations\Polygon.cs" />
     <Compile Include="Implementations\Security\CustomersService.cs" />
     <Compile Include="Implementations\SponsorsService.cs" />
+    <Compile Include="Implementations\SpotsBookingService.cs" />
     <Compile Include="Implementations\TextParserCases\DecimalTextParserCase.cs" />
     <Compile Include="Implementations\Security\AuthorizeManager.cs" />
     <Compile Include="Implementations\Security\RoleFactory.cs" />

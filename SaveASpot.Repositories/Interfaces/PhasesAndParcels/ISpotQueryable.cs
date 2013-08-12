@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using SaveASpot.Core;
 using SaveASpot.Repositories.Models;
 
 namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
@@ -8,6 +9,6 @@ namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
 		ISpotFilter All();
 		ISpotFilter ByArea(decimal area);
 		ISpotFilter ByParcels(IEnumerable<string> identities);
-		ISpotFilter ByIdentity(string identity);
+		ISpotFilter ByIdentity(IElementIdentity identity);
 	}
 }

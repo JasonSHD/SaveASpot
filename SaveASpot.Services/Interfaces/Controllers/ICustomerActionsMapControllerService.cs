@@ -1,7 +1,9 @@
+using SaveASpot.Core;
+
 namespace SaveASpot.Services.Interfaces.Controllers
 {
 	public interface ICustomerActionsMapControllerService
 	{
-		bool BookingSpots(string[] identities);
+		bool BookingSpots(IElementIdentity[] identities);
 	}
 }

@@ -10,20 +10,18 @@ namespace SaveASpot.Services.Implementations.Controllers
 	{
 		private readonly ICurrentCustomer _currentCustomer;
 		private readonly ISpotsBookingService _spotsBookingService;
-		private readonly IElementIdentityConverter _elementIdentityConverter;
 
-		public CustomerActionsMapControllerService(ICurrentCustomer currentCustomer, ISpotsBookingService spotsBookingService, IElementIdentityConverter elementIdentityConverter)
+		public CustomerActionsMapControllerService(ICurrentCustomer currentCustomer, ISpotsBookingService spotsBookingService)
 		{
 			_currentCustomer = currentCustomer;
 			_spotsBookingService = spotsBookingService;
-			_elementIdentityConverter = elementIdentityConverter;
 		}
 
-		public bool BookingSpots(string[] identities)
+		public bool BookingSpots(IElementIdentity[] identities)
 		{
-			identities.ToList().ForEach(identity => _spotsBookingService.BookingForCustomer(_elementIdentityConverter.ToIdentity(identity), _elementIdentityConverter.ToIdentity(_currentCustomer.Customer.Identity)));
+			identities.ToList().ForEach(identity => _spotsBookingService.BookingForCustomer(identity, _currentCustomer.Customer.Identity));
 
-			return false;
+			return true;
 		}
 	}
 }

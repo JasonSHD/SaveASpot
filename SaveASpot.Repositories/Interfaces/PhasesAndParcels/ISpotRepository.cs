@@ -1,4 +1,5 @@
-﻿using SaveASpot.Repositories.Models;
+﻿using SaveASpot.Core;
+using SaveASpot.Repositories.Models;
 
 namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
 {
@@ -7,5 +8,6 @@ namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
 		Spot AddSpot(Spot spot);
 		bool Remove(string identity);
 		bool Update(Spot spot);
+		bool MapSpotToCustomer(Spot spot, IElementIdentity customerIdentity);
 	}
 }

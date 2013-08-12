@@ -1,5 +1,6 @@
 using MongoDB.Bson;
 using MongoDB.Driver.Builders;
+using SaveASpot.Core;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
 
@@ -38,6 +39,14 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 
 		public bool Update(Spot spot)
 		{
+			_mongoDbCollectionFactory.Collection<Spot>().Save(spot);
+
+			return true;
+		}
+
+		public bool MapSpotToCustomer(Spot spot, IElementIdentity customerIdentity)
+		{
+			spot.CustomerId = customerIdentity.ToIdentity();
 			_mongoDbCollectionFactory.Collection<Spot>().Save(spot);
 
 			return true;
