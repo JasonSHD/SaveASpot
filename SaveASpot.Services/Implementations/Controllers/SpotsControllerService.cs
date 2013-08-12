@@ -1,5 +1,4 @@
 using System.Linq;
-using MongoDB.Bson;
 using SaveASpot.Core;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
@@ -15,13 +14,15 @@ namespace SaveASpot.Services.Implementations.Controllers
 		private readonly ISpotQueryable _spotQueryable;
 		private readonly IParcelQueryable _parcelQueryable;
 		private readonly ITextParserEngine _textParserEngine;
+		private readonly IElementIdentityConverter _elementIdentityConverter;
 
-		public SpotsControllerService(ISpotRepository spotRepository, ISpotQueryable spotQueryable, IParcelQueryable parcelQueryable, ITextParserEngine textParserEngine)
+		public SpotsControllerService(ISpotRepository spotRepository, ISpotQueryable spotQueryable, IParcelQueryable parcelQueryable, ITextParserEngine textParserEngine, IElementIdentityConverter elementIdentityConverter)
 		{
 			_spotRepository = spotRepository;
 			_spotQueryable = spotQueryable;
 			_parcelQueryable = parcelQueryable;
 			_textParserEngine = textParserEngine;
+			_elementIdentityConverter = elementIdentityConverter;
 		}
 
 		public SpotsViewModel GetSpots(SelectorViewModel selectorViewModel)
@@ -61,10 +62,10 @@ namespace SaveASpot.Services.Implementations.Controllers
 		{
 			return new SpotViewModel
 			{
-				Identity = spot.Identity,
+				Identity = _elementIdentityConverter.ToIdentity(spot.Id),
 				Area = spot.SpotArea,
 				Points = spot.SpotShape.Select(e => new ViewModels.PhasesAndParcels.Point { Latitude = e.Latitude, Longitude = e.Longitude }),
-				CustomerId = spot.CustomerId == ObjectId.Empty ? string.Empty : spot.CustomerIdentity
+				CustomerId = _elementIdentityConverter.ToIdentity(spot.CustomerId)
 			};
 		}
 	}

@@ -52,6 +52,7 @@
     <Compile Include="Configuration\IConfigurationManager.cs" />
     <Compile Include="Configuration\ILogConfiguration.cs" />
     <Compile Include="Configuration\LogConfiguration.cs" />
+    <Compile Include="ElementIdentityExtensions.cs" />
     <Compile Include="IElementIdentity.cs" />
     <Compile Include="IElementIdentityConverter.cs" />
     <Compile Include="IMethodResult.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="MessageMethodResult.cs" />
     <Compile Include="MessageResult.cs" />
     <Compile Include="MethodResult.cs" />
+    <Compile Include="NullElementIdentity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\AdministratorRole.cs" />
     <Compile Include="Security\Customer.cs" />
