@@ -1,7 +1,9 @@
-﻿namespace SaveASpot.Services.Interfaces
+﻿using SaveASpot.Core;
+
+namespace SaveASpot.Services.Interfaces
 {
 	public interface ISpotsBookingService
 	{
-		bool Booking(string identity);
+		bool BookingForCustomer(IElementIdentity spotIdentity, IElementIdentity customerIdentity);
 	}
 }

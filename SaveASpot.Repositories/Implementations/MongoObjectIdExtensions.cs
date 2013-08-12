@@ -1,4 +1,5 @@
 using MongoDB.Bson;
+using SaveASpot.Core;
 
 namespace SaveASpot.Repositories.Implementations
 {
@@ -9,6 +10,21 @@ namespace SaveASpot.Repositories.Implementations
 			ObjectId objectId;
 			ObjectId.TryParse(source, out objectId);
 			return objectId;
+		}
+
+		public static ObjectId ToIdentity(this IElementIdentity elementIdentity)
+		{
+			var mongoDbIdentity = elementIdentity as MongoDBIdentity;
+			if (mongoDbIdentity != null)
+			{
+				return mongoDbIdentity.Identity;
+			}
+
+			var identityAsString = elementIdentity.ToString();
+			ObjectId identityResult;
+			ObjectId.TryParse(identityAsString, out identityResult);
+
+			return identityResult;
 		}
 	}
 }

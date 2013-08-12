@@ -2,14 +2,14 @@
 {
 	public sealed class Customer
 	{
-		private readonly string _customerId;
+		private readonly IElementIdentity _identity;
 		private readonly User _user;
 		public User User { get { return _user; } }
-		public string Identity { get { return _customerId; } }
+		public IElementIdentity Identity { get { return _identity; } }
 
-		public Customer(string customerId, User user)
+		public Customer(IElementIdentity identity, User user)
 		{
-			_customerId = customerId;
+			_identity = identity;
 			_user = user;
 		}
 	}

@@ -3,13 +3,11 @@ using SaveASpot.Repositories.Models;
 
 namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
 {
-	public interface ISpotQueryable
+	public interface ISpotQueryable : IElementQueryable<Spot, ISpotFilter>
 	{
 		ISpotFilter All();
 		ISpotFilter ByArea(decimal area);
-		ISpotFilter And(ISpotFilter left, ISpotFilter right);
 		ISpotFilter ByParcels(IEnumerable<string> identities);
 		ISpotFilter ByIdentity(string identity);
-		IEnumerable<Spot> Find(ISpotFilter spotFilter);
 	}
 }

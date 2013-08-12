@@ -53,6 +53,7 @@
     <Compile Include="Configuration\ILogConfiguration.cs" />
     <Compile Include="Configuration\LogConfiguration.cs" />
     <Compile Include="IElementIdentity.cs" />
+    <Compile Include="IElementIdentityConverter.cs" />
     <Compile Include="IMethodResult.cs" />
     <Compile Include="ITextService.cs" />
     <Compile Include="IValidationResult.cs" />

@@ -52,6 +52,8 @@
     <Compile Include="Implementations\IMongoDBConfiguration.cs" />
     <Compile Include="Implementations\Logging\LogAppender.cs" />
     <Compile Include="Implementations\MongoDBConfiguration.cs" />
+    <Compile Include="Implementations\MongoDBElementIdentityConverter.cs" />
+    <Compile Include="Implementations\MongoDBIdentity.cs" />
     <Compile Include="Implementations\MongoDBProvider.cs" />
     <Compile Include="Implementations\MongoObjectIdExtensions.cs" />
     <Compile Include="Implementations\MongoQueryFilter.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="Interfaces\PhasesAndParcels\IPhaseFilter.cs" />
     <Compile Include="Interfaces\PhasesAndParcels\IPhaseQueryable.cs" />
     <Compile Include="Interfaces\PhasesAndParcels\IPhaseRepository.cs" />
+    <Compile Include="Interfaces\PhasesAndParcels\SpotQueryableExtensions.cs" />
     <Compile Include="Interfaces\QueryableBuilder.cs" />
     <Compile Include="Interfaces\QueryableBuilderExtensions.cs" />
     <Compile Include="Interfaces\Security\CustomerQueryableExtensions.cs" />

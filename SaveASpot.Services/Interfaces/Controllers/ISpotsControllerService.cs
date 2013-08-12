@@ -7,7 +7,6 @@ namespace SaveASpot.Services.Interfaces.Controllers
 	{
 		SpotsViewModel GetSpots(SelectorViewModel selectorViewModel);
 		SpotsViewModel ByPhase(string identity);
-		IMethodResult<string> BookingSpot(string identity);
 		IMethodResult Remove(string identity);
 	}
 }

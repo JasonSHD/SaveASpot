@@ -1,7 +1,6 @@
 using System.Linq;
 using MongoDB.Bson;
 using SaveASpot.Core;
-using SaveASpot.Core.Security;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
 using SaveASpot.Services.Interfaces;
@@ -16,17 +15,13 @@ namespace SaveASpot.Services.Implementations.Controllers
 		private readonly ISpotQueryable _spotQueryable;
 		private readonly IParcelQueryable _parcelQueryable;
 		private readonly ITextParserEngine _textParserEngine;
-		private readonly ITextService _textService;
-		private readonly ICurrentCustomer _currentCustomer;
 
-		public SpotsControllerService(ISpotRepository spotRepository, ISpotQueryable spotQueryable, IParcelQueryable parcelQueryable, ITextParserEngine textParserEngine, ITextService textService, ICurrentCustomer currentCustomer)
+		public SpotsControllerService(ISpotRepository spotRepository, ISpotQueryable spotQueryable, IParcelQueryable parcelQueryable, ITextParserEngine textParserEngine)
 		{
 			_spotRepository = spotRepository;
 			_spotQueryable = spotQueryable;
 			_parcelQueryable = parcelQueryable;
 			_textParserEngine = textParserEngine;
-			_textService = textService;
-			_currentCustomer = currentCustomer;
 		}
 
 		public SpotsViewModel GetSpots(SelectorViewModel selectorViewModel)
@@ -55,26 +50,6 @@ namespace SaveASpot.Services.Implementations.Controllers
 								 Spots = _spotQueryable.Find(_spotQueryable.ByParcels(parcelsForPhase.Select(e => e.Identity))).Select(ToSpotViewModel).ToList(),
 								 Selector = new SelectorViewModel()
 							 };
-		}
-
-		public IMethodResult<string> BookingSpot(string identity)
-		{
-			var spots = _spotQueryable.Find(_spotQueryable.ByIdentity(identity)).ToList();
-
-			if (spots.Count > 0)
-			{
-				var spot = spots.First();
-				ObjectId customerId;
-				if (ObjectId.TryParse(_currentCustomer.Customer.Identity, out customerId))
-				{
-					spot.CustomerId = customerId;
-					var updateResult = _spotRepository.Update(spot);
-
-					return new MethodResult<string>(updateResult, string.Empty);
-				}
-			}
-
-			return new MethodResult<string>(false, _textService.ResolveTest("SpotNotFound"));
 		}
 
 		public IMethodResult Remove(string identity)

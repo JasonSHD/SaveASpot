@@ -37,14 +37,6 @@ namespace SaveASpot.Controllers
 		}
 
 		[HttpPost]
-		public JsonResult BookingSpot(string identity)
-		{
-			var methodResult = _spotsControllerService.BookingSpot(identity);
-
-			return Json(new { status = methodResult.IsSuccess, message = methodResult.Status });
-		}
-
-		[HttpPost]
 		public ViewResult Remove(string identity, SelectorViewModel selectorViewModel)
 		{
 			_spotsControllerService.Remove(identity);
