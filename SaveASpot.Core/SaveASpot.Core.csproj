@@ -48,7 +48,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AndValidator.cs" />
+    <Compile Include="Configuration\ApplicationConfiguration.cs" />
+    <Compile Include="Configuration\ApplicationMode.cs" />
     <Compile Include="Configuration\ConfigurationManager.cs" />
+    <Compile Include="Configuration\IApplicationConfiguration.cs" />
     <Compile Include="Configuration\IConfigurationManager.cs" />
     <Compile Include="Configuration\ILogConfiguration.cs" />
     <Compile Include="Configuration\LogConfiguration.cs" />
@@ -94,6 +97,7 @@
     <Compile Include="Web\Mvc\ControllerTypesFinder.cs" />
     <Compile Include="Web\Mvc\CustomerAuthorizeAttribute.cs" />
     <Compile Include="Web\Mvc\DefaultTabActionAttribute.cs" />
+    <Compile Include="Web\Mvc\ElementIdentityPropertyBinder.cs" />
     <Compile Include="Web\Mvc\Extensions\ContainerForElement.cs" />
     <Compile Include="Web\Mvc\Extensions\TabElementExtensions.cs" />
     <Compile Include="Web\Mvc\IControllerTypesFinder.cs" />

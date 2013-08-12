@@ -5,6 +5,7 @@ using System.Web.Routing;
 using Ninject;
 using SaveASpot.Areas.Setup.Controllers.Artifacts;
 using SaveASpot.Controllers;
+using SaveASpot.Core;
 using SaveASpot.Core.Configuration;
 using SaveASpot.Core.Logging;
 using SaveASpot.Core.Logging.Implementation;
@@ -46,19 +47,22 @@ namespace SaveASpot
 
 		protected void Application_Error()
 		{
+			var applicationConfiguration = kernel.Get<IApplicationConfiguration>();
+
 			var lastError = Server.GetLastError();
-
 			_logger.Error("An unhandled exception has occured!", lastError);
+			if (applicationConfiguration.Mode == ApplicationMode.Release)
+			{
+				Server.ClearError();
 
-			Response.Clear();
-			Server.ClearError();
-
-			var routeData = new RouteData();
-			routeData.Values["controller"] = "ErrorPage";
-			routeData.Values["action"] = "Index";
-			IController controller = kernel.Get<ErrorPageController>();
-			var rc = new RequestContext(new HttpContextWrapper(Context), routeData);
-			controller.Execute(rc);
+				Response.Clear();
+				var routeData = new RouteData();
+				routeData.Values["controller"] = "ErrorPage";
+				routeData.Values["action"] = "Index";
+				IController controller = kernel.Get<ErrorPageController>();
+				var rc = new RequestContext(new HttpContextWrapper(Context), routeData);
+				controller.Execute(rc);
+			}
 		}
 
 		protected void Application_Start()
@@ -70,6 +74,8 @@ namespace SaveASpot
 			{
 				GlobalFilters.Filters.Add(actionFilter);
 			}
+
+			ModelBinders.Binders.Add(typeof(IElementIdentity), kernel.Get<ElementIdentityPropertyBinder>());
 
 			ControllerBuilder.Current.SetControllerFactory(kernel.Get<IControllerFactory>());
 			ModelMetadataProviders.Current = kernel.Get<ModelMetadataProvider>();

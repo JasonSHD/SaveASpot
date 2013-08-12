@@ -1,3 +1,4 @@
+using SaveASpot.Core;
 using SaveASpot.Repositories.Implementations;
 using SaveASpot.Repositories.Implementations.PhasesAndParcels;
 using SaveASpot.Repositories.Implementations.Security;
@@ -25,6 +26,7 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ISponsorQueryable>().To<SponsorQueryable>();
 			Bind<ISponsorRepository>().To<SponsorRepository>();
 			Bind<ICustomerQueryable>().To<CustomerQueryable>();
+			Bind<IElementIdentityConverter>().To<MongoDBElementIdentityConverter>();
 		}
 	}
 }

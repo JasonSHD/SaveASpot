@@ -26,6 +26,7 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ILogAppender>().To<LogAppender>();
 			Bind<ICurrentCustomer>().To<CurrentCustomer>();
 			Bind<ModelMetadataProvider>().To<ResourceDataAnnotationsModelMetadataProvider>();
+			Bind<IApplicationConfiguration>().To<ApplicationConfiguration>();
 		}
 	}
 }
