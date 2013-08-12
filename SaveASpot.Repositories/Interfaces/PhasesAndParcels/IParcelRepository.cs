@@ -1,10 +1,11 @@
-﻿using SaveASpot.Repositories.Models;
+﻿using SaveASpot.Core;
+using SaveASpot.Repositories.Models;
 
 namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
 {
 	public interface IParcelRepository
 	{
 		Parcel AddParcel(Parcel parcel);
-		bool Remove(string identity);
+		bool Remove(IElementIdentity identity);
 	}
 }

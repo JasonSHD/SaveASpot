@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
@@ -34,19 +35,9 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			return new SpotFilter(Query.And(MongoQueryFilter.Convert(left).MongoQuery, MongoQueryFilter.Convert(right).MongoQuery));
 		}
 
-		public ISpotFilter ByParcels(IEnumerable<string> identities)
+		public ISpotFilter ByParcels(IEnumerable<IElementIdentity> identities)
 		{
-			var objectIdCollection = new List<ObjectId>();
-			foreach (string identity in identities)
-			{
-				ObjectId objectId;
-				if (!ObjectId.TryParse(identity, out objectId))
-				{
-					return new SpotFilter(Query.Null);
-				}
-
-				objectIdCollection.Add(objectId);
-			}
+			var objectIdCollection = identities.Select(identity => identity.ToIdentity()).ToList();
 
 			return new SpotFilter(Query.And(Query<Spot>.In(e => e.ParcelId, objectIdCollection)));
 		}

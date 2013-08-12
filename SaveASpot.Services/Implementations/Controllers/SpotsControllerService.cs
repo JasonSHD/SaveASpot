@@ -48,7 +48,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 
 			return new SpotsViewModel
 							 {
-								 Spots = _spotQueryable.Find(_spotQueryable.ByParcels(parcelsForPhase.Select(e => e.Identity))).Select(ToSpotViewModel).ToList(),
+								 Spots = _spotQueryable.Filter(s => s.ByParcels(parcelsForPhase.Select(e => _elementIdentityConverter.ToIdentity(e.Id)))).Find().Select(ToSpotViewModel).ToList(),
 								 Selector = new SelectorViewModel()
 							 };
 		}

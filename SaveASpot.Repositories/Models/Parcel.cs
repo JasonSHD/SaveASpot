@@ -6,7 +6,6 @@ namespace SaveASpot.Repositories.Models
 	public sealed class Parcel
 	{
 		public ObjectId Id { get; set; }
-		public string Identity { get { return Id.ToString(); } }
 		public string ParcelName { get; set; }
 		public decimal ParcelLength { get; set; }
 		public decimal ParcelAcres { get; set; }
