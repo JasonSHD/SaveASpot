@@ -10,18 +10,20 @@ namespace SaveASpot.Services.Implementations.Controllers
 	{
 		private readonly IPhaseRepository _phaseRepository;
 		private readonly IPhaseQueryable _phaseQueryable;
+		private readonly IElementIdentityConverter _elementIdentityConverter;
 
-		public PhasesControllerService(IPhaseRepository phaseRepository, IPhaseQueryable phaseQueryable)
+		public PhasesControllerService(IPhaseRepository phaseRepository, IPhaseQueryable phaseQueryable, IElementIdentityConverter elementIdentityConverter)
 		{
 			_phaseRepository = phaseRepository;
 			_phaseQueryable = phaseQueryable;
+			_elementIdentityConverter = elementIdentityConverter;
 		}
 
 		public PhasesViewModel GetPhases(SelectorViewModel selectorViewModel)
 		{
 			return new PhasesViewModel
 							 {
-								 Phases = _phaseQueryable.Find(_phaseQueryable.All()).Select(e => new PhaseViewModel { Identity = e.Identity, Name = e.PhaseName }),
+								 Phases = _phaseQueryable.Find(_phaseQueryable.All()).Select(e => new PhaseViewModel { Identity = _elementIdentityConverter.ToIdentity(e.Id), Name = e.PhaseName }),
 								 SelectorViewModel = selectorViewModel
 							 };
 		}

@@ -67,7 +67,7 @@ namespace SaveASpot.Services.Implementations
 																						ParcelArea = (decimal)featuresCol["properties"]["Shape_Area"],
 																						ParcelAcres = (decimal)featuresCol["properties"]["Acres"],
 																						ParcelShape = points,
-																						PhaseId = phase.Identity
+																						PhaseId = phase.Id
 																					});
 					}
 

@@ -1,13 +1,15 @@
-﻿namespace SaveASpot.ViewModels.PhasesAndParcels
+﻿using SaveASpot.Core;
+
+namespace SaveASpot.ViewModels.PhasesAndParcels
 {
 	public sealed class PhaseViewModel
 	{
-		public string Identity { get; set; }
+		public IElementIdentity Identity { get; set; }
 		public string Name { get; set; }
 
 		public object ToJson()
 		{
-			return new { name = Name, identity = Identity };
+			return new { name = Name, identity = Identity.ToString() };
 		}
 	}
 }

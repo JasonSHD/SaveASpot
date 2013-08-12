@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using SaveASpot.Core;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
 
@@ -20,9 +21,10 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			return new ParcelFilter(Query<Parcel>.Where(e => true));
 		}
 
-		public IParcelFilter ByPhase(string identity)
+		public IParcelFilter ByPhase(IElementIdentity identity)
 		{
-			return new ParcelFilter(Query<Parcel>.Where(e => e.PhaseId == identity));
+			var phaseId = identity.ToIdentity();
+			return new ParcelFilter(Query<Parcel>.Where(e => e.PhaseId == phaseId));
 		}
 
 		public IEnumerable<Parcel> Find(IParcelFilter filter)

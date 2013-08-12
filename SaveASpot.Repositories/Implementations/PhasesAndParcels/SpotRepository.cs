@@ -23,18 +23,13 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			return spot;
 		}
 
-		public bool Remove(string identity)
+		public bool Remove(IElementIdentity identity)
 		{
-			ObjectId id;
+			ObjectId id = identity.ToIdentity();
 
-			if (ObjectId.TryParse(identity, out id))
-			{
-				_mongoDbCollectionFactory.Collection<Spot>().Remove(Query<Spot>.Where(e => e.Id == id));
+			_mongoDbCollectionFactory.Collection<Spot>().Remove(Query<Spot>.Where(e => e.Id == id));
 
-				return true;
-			}
-
-			return false;
+			return true;
 		}
 
 		public bool Update(Spot spot)

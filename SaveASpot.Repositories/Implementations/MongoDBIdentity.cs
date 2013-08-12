@@ -12,5 +12,10 @@ namespace SaveASpot.Repositories.Implementations
 		{
 			_objectId = objectId;
 		}
+
+		string IElementIdentity.ToString()
+		{
+			return _objectId.ToString();
+		}
 	}
 }

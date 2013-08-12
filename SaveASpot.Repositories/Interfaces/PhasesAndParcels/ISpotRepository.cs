@@ -6,7 +6,7 @@ namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
 	public interface ISpotRepository
 	{
 		Spot AddSpot(Spot spot);
-		bool Remove(string identity);
+		bool Remove(IElementIdentity identity);
 		bool Update(Spot spot);
 		bool MapSpotToCustomer(Spot spot, IElementIdentity customerIdentity);
 	}

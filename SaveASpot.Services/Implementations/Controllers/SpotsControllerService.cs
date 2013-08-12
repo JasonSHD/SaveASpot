@@ -42,7 +42,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 							 };
 		}
 
-		public SpotsViewModel ByPhase(string identity)
+		public SpotsViewModel ByPhase(IElementIdentity identity)
 		{
 			var parcelsForPhase = _parcelQueryable.Find(_parcelQueryable.ByPhase(identity));
 
@@ -53,7 +53,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 							 };
 		}
 
-		public IMethodResult Remove(string identity)
+		public IMethodResult Remove(IElementIdentity identity)
 		{
 			return new MessageMethodResult(_spotRepository.Remove(identity), string.Empty);
 		}
