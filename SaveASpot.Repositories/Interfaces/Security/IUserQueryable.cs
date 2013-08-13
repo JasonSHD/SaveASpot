@@ -1,3 +1,4 @@
+using SaveASpot.Core;
 using SaveASpot.Core.Security;
 using SaveASpot.Repositories.Models.Security;
 
@@ -8,7 +9,7 @@ namespace SaveASpot.Repositories.Interfaces.Security
 		IUserFilter FilterByName(string name);
 		IUserFilter FilterByPassword(string password);
 		IUserFilter FilterByRole(Role role);
-		IUserFilter FilterById(string identity);
+		IUserFilter FilterById(IElementIdentity identity);
 		IUserFilter FilterByIds(string[] identities);
 	}
 }

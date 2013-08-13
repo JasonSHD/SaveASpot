@@ -27,6 +27,7 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ISponsorRepository>().To<SponsorRepository>();
 			Bind<ICustomerQueryable>().To<CustomerQueryable>();
 			Bind<IElementIdentityConverter>().To<MongoDBElementIdentityConverter>();
+			Bind<ICustomerRepository>().To<CustomerRepository>();
 		}
 	}
 }

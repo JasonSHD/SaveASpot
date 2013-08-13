@@ -16,14 +16,16 @@ namespace SaveASpot.Services.Implementations.Security
 		private readonly IUserFactory _userFactory;
 		private readonly IUserQueryable _userQueryable;
 		private readonly IPasswordHash _passwordHash;
+		private readonly IElementIdentityConverter _elementIdentityConverter;
 
-		public UserService(IUserValidateFactory userValidateFactory, IUserRepository userRepository, IUserFactory userFactory, IUserQueryable userQueryable, IPasswordHash passwordHash)
+		public UserService(IUserValidateFactory userValidateFactory, IUserRepository userRepository, IUserFactory userFactory, IUserQueryable userQueryable, IPasswordHash passwordHash, IElementIdentityConverter elementIdentityConverter)
 		{
 			_userValidateFactory = userValidateFactory;
 			_userRepository = userRepository;
 			_userFactory = userFactory;
 			_userQueryable = userQueryable;
 			_passwordHash = passwordHash;
+			_elementIdentityConverter = elementIdentityConverter;
 		}
 
 		public IMethodResult<UserExistsResult> UserExists(string username, string password)
@@ -34,7 +36,7 @@ namespace SaveASpot.Services.Implementations.Security
 
 			if (users.Any())
 			{
-				return new MethodResult<UserExistsResult>(true, new UserExistsResult { UserId = users.First().Identity });
+				return new MethodResult<UserExistsResult>(true, new UserExistsResult { UserId = _elementIdentityConverter.ToIdentity(users.First().Identity) });
 			}
 
 			return new MethodResult<UserExistsResult>(false, new UserExistsResult { MessageKey = "InvalidUsernameOrPassword" });
@@ -60,7 +62,7 @@ namespace SaveASpot.Services.Implementations.Security
 																				 Roles = roles.Select(e => e.Identity).ToArray()
 																			 });
 
-				return new MethodResult<CreateUserResult>(true, new CreateUserResult { UserId = user.Identity });
+				return new MethodResult<CreateUserResult>(true, new CreateUserResult { UserId = _elementIdentityConverter.ToIdentity(user.Identity) });
 			}
 
 			return new MethodResult<CreateUserResult>(validationResult.IsValid, new CreateUserResult { MessageKet = validationResult.Message });
@@ -83,7 +85,7 @@ namespace SaveASpot.Services.Implementations.Security
 			return new MessageMethodResult(false, validationResult.Message);
 		}
 
-		public User GetUserById(string id)
+		public User GetUserById(IElementIdentity id)
 		{
 			var users = _userQueryable.Filter(e => e.FilterById(id)).ToList();
 

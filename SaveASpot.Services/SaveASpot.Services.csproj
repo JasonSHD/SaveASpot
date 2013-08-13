@@ -53,6 +53,7 @@
     <Compile Include="Implementations\Controllers\AccountControllerService.cs" />
     <Compile Include="Implementations\Controllers\CustomerActionsMapControllerService.cs" />
     <Compile Include="Implementations\Controllers\CustomersControllerService.cs" />
+    <Compile Include="Implementations\Controllers\CustomerTypeConverter.cs" />
     <Compile Include="Implementations\Controllers\MapControllerService.cs" />
     <Compile Include="Implementations\Controllers\ParcelsControllerService.cs" />
     <Compile Include="Implementations\Controllers\PhasesControllerService.cs" />

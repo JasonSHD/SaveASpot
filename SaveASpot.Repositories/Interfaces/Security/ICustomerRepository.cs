@@ -1,8 +1,10 @@
-﻿namespace SaveASpot.Repositories.Interfaces.Security
+﻿using SaveASpot.Core;
+
+namespace SaveASpot.Repositories.Interfaces.Security
 {
 	public interface ICustomerRepository
 	{
-		bool AddSpot(string customerId, string spotId);
-		bool CreateCustomer(string userIdentity);
+		bool AddSpot(IElementIdentity customerId, IElementIdentity spotId);
+		bool CreateCustomer(IElementIdentity userIdentity);
 	}
 }

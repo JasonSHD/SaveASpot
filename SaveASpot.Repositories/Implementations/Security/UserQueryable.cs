@@ -3,6 +3,7 @@ using System.Linq.Expressions;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using SaveASpot.Core;
 using SaveASpot.Core.Security;
 using SaveASpot.Repositories.Interfaces.Security;
 using SaveASpot.Repositories.Models.Security;
@@ -30,15 +31,10 @@ namespace SaveASpot.Repositories.Implementations.Security
 			return new UserFilter(query);
 		}
 
-		public IUserFilter FilterById(string identity)
+		public IUserFilter FilterById(IElementIdentity identity)
 		{
-			ObjectId objectId;
-			if (ObjectId.TryParse(identity, out objectId))
-			{
-				return ToFilter(e => e.Id == objectId);
-			}
-
-			return ToFilter(e => false);
+			ObjectId objectId = identity.ToIdentity();
+			return new UserFilter(Query<SiteUser>.Where(e => e.Id == objectId));
 		}
 
 		public IUserFilter FilterByIds(string[] identities)

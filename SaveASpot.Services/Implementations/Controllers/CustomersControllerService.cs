@@ -16,13 +16,15 @@ namespace SaveASpot.Services.Implementations.Controllers
 		private readonly ICustomerQueryable _customerQueryable;
 		private readonly ITextService _textService;
 		private readonly ITypeConverter<SiteCustomer, CustomerViewModel> _typeConverter;
+		private readonly IElementIdentityConverter _elementIdentityConverter;
 
-		public CustomersControllerService(ICustomerService customerService, ICustomerQueryable customerQueryable, ITextService textService, ITypeConverter<SiteCustomer, CustomerViewModel> typeConverter)
+		public CustomersControllerService(ICustomerService customerService, ICustomerQueryable customerQueryable, ITextService textService, ITypeConverter<SiteCustomer, CustomerViewModel> typeConverter, IElementIdentityConverter elementIdentityConverter)
 		{
 			_customerService = customerService;
 			_customerQueryable = customerQueryable;
 			_textService = textService;
 			_typeConverter = typeConverter;
+			_elementIdentityConverter = elementIdentityConverter;
 		}
 
 		public IMethodResult<CustomerResult> AddCustomer(CreateCustomerViewModel createCustomerViewModel)
@@ -36,7 +38,12 @@ namespace SaveASpot.Services.Implementations.Controllers
 					});
 
 			return new MethodResult<CustomerResult>(createUserResult.IsSuccess,
-																							new CustomerResult(new CustomerViewModel { Email = createCustomerViewModel.Email, Username = createCustomerViewModel.UserName, Identity = createUserResult.Status.UserId }, _textService.ResolveTest(createUserResult.Status.MessageKey)));
+																							new CustomerResult(new CustomerViewModel
+																																	 {
+																																		 Email = createCustomerViewModel.Email,
+																																		 Username = createCustomerViewModel.UserName,
+																																		 Identity = _elementIdentityConverter.ToIdentity(createUserResult.Status.UserId)
+																																	 }, _textService.ResolveTest(createUserResult.Status.MessageKey)));
 		}
 
 		public IEnumerable<CustomerViewModel> GetCustomers()

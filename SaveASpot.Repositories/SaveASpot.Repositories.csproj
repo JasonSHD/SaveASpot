@@ -63,6 +63,7 @@
     <Compile Include="Implementations\PhasesAndParcels\PhaseRepository.cs" />
     <Compile Include="Implementations\PhasesAndParcels\SpotQueryable.cs" />
     <Compile Include="Implementations\Security\CustomerQueryable.cs" />
+    <Compile Include="Implementations\Security\CustomerRepository.cs" />
     <Compile Include="Implementations\Security\UserFilter.cs" />
     <Compile Include="Implementations\Security\UserQueryable.cs" />
     <Compile Include="Implementations\Security\UserRepository.cs" />

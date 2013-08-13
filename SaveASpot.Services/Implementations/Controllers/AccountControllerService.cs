@@ -31,7 +31,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 
 			if (userExistsResult.IsSuccess)
 			{
-				_webAuthentication.Authenticate(userExistsResult.Status.UserId, logOnViewModel.RememberMe);
+				_webAuthentication.Authenticate(userExistsResult.Status.UserId.ToString(), logOnViewModel.RememberMe);
 
 				var user =
 					_userFactory.Convert(_userQueryable.Filter(e => e.FilterById(userExistsResult.Status.UserId)).First());
