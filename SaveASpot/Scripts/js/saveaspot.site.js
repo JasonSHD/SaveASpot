@@ -33,6 +33,7 @@ q("customersTab", function (arg) {
 	});
 });
 
+
 q("sponsorsTab", function (arg) {
 	console.log("sponsors tab load.");
 
@@ -42,9 +43,10 @@ q("sponsorsTab", function (arg) {
 		console.log("sponsors tab unload");
 	};
 
-	var modal = q.controls.modal();
+
 
 	$("#createSponsor").click(function () {
+		var modal = q.controls.modal();
 		q.ajax({ url: q.pageConfig.createSponsorView, type: "GET" }).done(function (createSponsorView) {
 			modal.
 				title("Create sponsor").
@@ -55,16 +57,86 @@ q("sponsorsTab", function (arg) {
 					if (validator.validate()) {
 
 						$.ajax({ url: q.pageConfig.createSponsorView, type: "POST", data: q.serialize(modal.body()) }).done(function (result) {
+							modal.hide();
 							context.hide();
+							q.controls.ajaxForm.fireUpdate({
+								arg: null,
+								url: q.pageConfig.sponsorView,
+								method: "POST",
+								alias: "sponsorsTab",
+								ajaxForm: "MainMenuTabAttribute"
+							});
 						});
 					}
 				}).
 				show();
 		});
 	});
+
+	$("[data-sponsor-edit-identity]").click(function () {
+		var modal = q.controls.modal();
+		var companyIdentity = this.getAttribute("data-sponsor-edit-identity");
+		var companyName = $("tr[id='" + companyIdentity + "']").find('td[company-name]').text();
+		var companySentence = $("tr[id='" + companyIdentity + "']").find('td[company-sentence]').text();
+		var companyUrl = $("tr[id='" + companyIdentity + "']").find('td[company-url]').text();
+		var companyLogo = $("tr[id='" + companyIdentity + "']").find('td[company-logo]').text();
+		q.ajax({
+			url: q.pageConfig.editSponsorView,
+			type: "GET",
+			data: {
+				"SponsorViewModel.CompanyName": companyName,
+				"SponsorViewModel.Sentence": companySentence,
+				"SponsorViewModel.Url": companyUrl,
+				"SponsorViewModel.Logo": companyLogo
+			}
+		}).done(function (editSponsorView) {
+			modal.title("Edit sponsor").
+				body(editSponsorView).ok("Save", function () {
+					var itemFoUpdate = q.serialize(modal.body());
+					q.ajax({
+						url: q.pageConfig.editSponsorView,
+						type: "POST",
+						data: {
+							"identity": companyIdentity,
+							"SponsorViewModel.CompanyName": itemFoUpdate.CompanyName,
+							"SponsorViewModel.Sentence": itemFoUpdate.Sentence,
+							"SponsorViewModel.Url": itemFoUpdate.Url,
+							"SponsorViewModel.Logo": itemFoUpdate.Logo
+						},
+					}).done(function (result) {
+						modal.hide();
+						q.controls.ajaxForm.fireUpdate({
+							arg: null,
+							url: q.pageConfig.sponsorView,
+							method: "POST",
+							alias: "sponsorsTab",
+							ajaxForm: "MainMenuTabAttribute"
+						});
+					});
+				}).
+				show();
+		});
+	});
+
+	$("[data-sponsor-delete-identity]").click(function () {
+		var name = this.getAttribute("data-sponsor-delete-name");
+		if (confirm("Are you sure that remove phase with name '" + name + "'?") == true) {
+			var phaseIdentity = this.getAttribute("data-sponsor-delete-identity");
+			var removeArg = { identity: phaseIdentity };
+			q.controls.ajaxForm.fireUpdate({
+				arg: removeArg,
+				url: q.pageConfig.removeSponsorUrl,
+				method: "POST",
+				alias: "sponsorsTab",
+				ajaxForm: "MainMenuTabAttribute"
+			});
+		}
+	});
+
 });
 
 var phasePageTabAttributeValue = "PhasePageTabAttribute";
+
 q("parcelsAndSpotsTab", function (arg) {
 	console.log("parcels & spots tab load.");
 

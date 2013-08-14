@@ -32,9 +32,26 @@ namespace SaveASpot.Services.Implementations.Controllers
 																							new SponsorResult(new SponsorViewModel { Identity = createSponsorResult.Status.SponsorId, CompanyName = createSponsorViewModel.CompanyName, Sentence = createSponsorViewModel.Sentence, Logo = createSponsorViewModel.Logo, Url = createSponsorViewModel.Url}, "Sponsor created!"));
 		}
 
+		public IMethodResult<MessageResult> EditSponsor(string identity, SponsorViewModel sponsorViewModel)
+		{
+			var updateSponsorResult = _sponsorsService.EditSponsor(identity, new SponsorArg
+				                             {
+					                             CompanyName = sponsorViewModel.CompanyName,
+					                             Logo = sponsorViewModel.Logo,
+					                             Sentence = sponsorViewModel.Sentence,
+					                             Url = sponsorViewModel.Url
+				                             });
+			return new MethodResult<MessageResult>(updateSponsorResult.IsSuccess, new MessageResult("Sponsor created!"));
+		}
+
 		public IEnumerable<SponsorViewModel> GetSponsors()
 		{
 			return _sponsorsService.GetAllSponsors().Select(e => new SponsorViewModel { Identity = e.Identity, CompanyName = e.CompanyName, Sentence = e.Sentence, Logo =  e.Logo, Url =  e.Url });
+		}
+
+		public IMethodResult Remove(string identity)
+		{
+			return new MessageMethodResult(_sponsorsService.Remove(identity), string.Empty);
 		}
 	}
 }

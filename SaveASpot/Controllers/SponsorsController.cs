@@ -35,5 +35,29 @@ namespace SaveASpot.Controllers
 
 			return Json(new { status = createSponsorResult.IsSuccess, message = createSponsorResult.Status.Message });
 		}
+
+		[HttpGet]
+		public ViewResult EditSponsor(SponsorViewModel sponsorViewModel)
+		{
+			return View(sponsorViewModel);
+		}
+
+		[HttpPost]
+		public ActionResult EditSponsor(string identity, SponsorViewModel sponsorViewModel)
+		{
+			var updateSponsorResult = _sponsorsControllerService.EditSponsor(identity, sponsorViewModel);
+
+			return Json(new { status = updateSponsorResult.IsSuccess, message = updateSponsorResult.Status.Message });
+		}
+
+		[HttpPost]
+		public ViewResult Remove(string identity)
+		{
+			_sponsorsControllerService.Remove(identity);
+
+			var model = _sponsorsControllerService.GetSponsors();
+
+			return TabView("Index", model);
+		}
     }
 }
