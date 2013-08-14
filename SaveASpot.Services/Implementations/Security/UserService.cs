@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SaveASpot.Core;
+using SaveASpot.Core.Validation;
 using SaveASpot.Core.Security;
 using SaveASpot.Repositories.Interfaces;
 using SaveASpot.Repositories.Interfaces.Security;

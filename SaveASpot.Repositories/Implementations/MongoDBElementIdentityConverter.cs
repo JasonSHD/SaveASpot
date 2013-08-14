@@ -18,6 +18,13 @@ namespace SaveASpot.Repositories.Implementations
 			var isObjectId = identity is ObjectId;
 			if (isObjectId)
 			{
+
+				var objectIdentity = (ObjectId)identity;
+				if (objectIdentity == ObjectId.Empty)
+				{
+					return new NullElementIdentity();
+				}
+
 				return new MongoDBIdentity((ObjectId)identity);
 			}
 

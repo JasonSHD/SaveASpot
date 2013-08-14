@@ -1,20 +1,15 @@
-using SaveASpot.Core;
+using SaveASpot.Core.Validation;
 using SaveASpot.Services.Interfaces.Security;
 using SaveASpot.ViewModels;
 
 namespace SaveASpot.Services.Implementations.Validators.Security
 {
-	public sealed class PasswordValidator : IValidator<UserArg>
+	public sealed class PasswordValidator : CompositeValidator
 	{
-		public IValidationResult Validate(UserArg input)
+		public PasswordValidator()
+			: base(Validator.For<UserArg>().
+							For(e => e.Password, e => e.Lenght(Constants.PasswordMinLength, Constants.PasswordMaxLength, "InvalidUserPasswordPassword")))
 		{
-			int passwordMinLength = Constants.PasswordMinLength;
-			int passwordMaxLength = Constants.PasswordMaxLength;
-			var passwordValid = !string.IsNullOrWhiteSpace(input.Password) &&
-			                    input.Password.Length >= passwordMinLength &&
-			                    input.Password.Length <= passwordMaxLength;
-
-			return passwordValid ? new ValidationResult(true, string.Empty) : new ValidationResult(false, string.Format("InvalidUserPasswordPassword", passwordMinLength, passwordMaxLength));
 		}
 	}
 }

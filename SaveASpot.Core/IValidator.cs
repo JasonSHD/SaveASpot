@@ -1,3 +1,5 @@
+using SaveASpot.Core.Validation;
+
 namespace SaveASpot.Core
 {
 	public interface IValidator<in T>
@@ -11,5 +13,10 @@ namespace SaveASpot.Core
 		{
 			return new AndValidator<T>(validator, and);
 		}
+	}
+
+	public interface IValidator
+	{
+		IValidationResult Validate(object input);
 	}
 }

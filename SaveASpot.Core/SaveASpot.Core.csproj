@@ -47,7 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AndValidator.cs" />
+    <Compile Include="Validation\CompositeValidator.cs" />
+    <Compile Include="Validation\EntityValidator.cs" />
+    <Compile Include="Validation\NullValidator.cs" />
+    <Compile Include="Validation\AndValidator.cs" />
     <Compile Include="Configuration\ApplicationConfiguration.cs" />
     <Compile Include="Configuration\ApplicationMode.cs" />
     <Compile Include="Configuration\ConfigurationManager.cs" />
@@ -87,6 +90,17 @@
     <Compile Include="Security\UserExtensions.cs" />
     <Compile Include="TypeHelper.cs" />
     <Compile Include="ValidationResult.cs" />
+    <Compile Include="Validation\BaseValidator.cs" />
+    <Compile Include="Validation\RegexValidator.cs" />
+    <Compile Include="Validation\RequiredElementIdentityValidator.cs" />
+    <Compile Include="Validation\EntityValidatorBuilder.cs" />
+    <Compile Include="Validation\FluentValidatorExtensions.cs" />
+    <Compile Include="Validation\NotValidatorBuilder.cs" />
+    <Compile Include="Validation\NotValidatorBuilderExtensions.cs" />
+    <Compile Include="Validation\RequiredValidator.cs" />
+    <Compile Include="Validation\StringLenghtValidator.cs" />
+    <Compile Include="Validation\StringRequiredValidator.cs" />
+    <Compile Include="Validation\Validator.cs" />
     <Compile Include="Web\IWebAuthentication.cs" />
     <Compile Include="Web\Mvc\AdministratorAuthorizeAttribute.cs" />
     <Compile Include="Web\Mvc\AdminTabViewPage.cs" />

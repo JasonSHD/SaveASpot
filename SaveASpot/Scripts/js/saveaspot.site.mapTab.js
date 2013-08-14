@@ -376,7 +376,10 @@
 			});
 		};
 		result._controllers.booking = function () {
-			this.model("bookingSpots");
+			var context = this;
+			this.model("bookingSpots", function (bookedSpots) {
+
+			});
 		};
 		result._controllers.selectUp = function () {
 			this.execute("selectFirstAvailable");
@@ -435,14 +438,22 @@
 		result._models.removeSpot = function (spotDesc) {
 			delete this.selectedSpots[spotDesc.spotDesc.spot.identity];
 		};
-		result._models.bookingSpots = function () {
+		result._models.bookingSpots = function (callback) {
 			var data = {};
 			var index = 0;
 			for (var spotIdentity in this.selectedSpots) {
 				data["identities[" + index + "]"] = spotIdentity;
 				index++;
 			}
-			q.ajax({ url: this.bookingUrl, data: data, type: "POST" }).done(function () {
+			var context = this;
+			q.ajax({ url: this.bookingUrl, data: data, type: "POST" }).done(function (bookingResult) {
+				for (var bookingIndex in bookingResult.identities) {
+					var bookedId = bookingResult.identities[bookingIndex];
+
+					delete context.selectedSpots[bookedId];
+				}
+
+				callback(bookingResult);
 			});
 		};
 		result._models.getFirst = function (callback) {

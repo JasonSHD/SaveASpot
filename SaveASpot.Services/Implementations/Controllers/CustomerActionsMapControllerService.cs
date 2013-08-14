@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using SaveASpot.Core;
 using SaveASpot.Core.Security;
 using SaveASpot.Services.Interfaces;
@@ -17,11 +18,9 @@ namespace SaveASpot.Services.Implementations.Controllers
 			_spotsBookingService = spotsBookingService;
 		}
 
-		public bool BookingSpots(IElementIdentity[] identities)
+		public IEnumerable<IElementIdentity> BookingSpots(IElementIdentity[] identities)
 		{
-			identities.ToList().ForEach(identity => _spotsBookingService.BookingForCustomer(identity, _currentCustomer.Customer.Identity));
-
-			return true;
+			return identities.ToList().Where(identity => _spotsBookingService.BookingForCustomer(identity, _currentCustomer.Customer.Identity)).ToList();
 		}
 	}
 }

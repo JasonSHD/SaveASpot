@@ -4,10 +4,10 @@ namespace SaveASpot.Services.Interfaces.Security
 {
 	public interface IUserValidateFactory
 	{
-		IValidator<UserArg> UserExistsValidator();
-		IValidator<UserArg> UserNotExistsValidator();
-		IValidator<UserArg> UserNameValidator();
-		IValidator<UserArg> PasswordValidator();
-		IValidator<UserArg> EmailValidator();
+		IValidator UserExistsValidator();
+		IValidator UserNotExistsValidator();
+		IValidator UserNameValidator();
+		IValidator PasswordValidator();
+		IValidator EmailValidator();
 	}
 }

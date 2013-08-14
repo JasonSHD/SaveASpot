@@ -40,6 +40,8 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ICustomerActionsMapControllerService>().To<CustomerActionsMapControllerService>();
 			Bind<ICustomerService>().To<CustomersService>();
 			Bind<ITypeConverter<SiteCustomer, CustomerViewModel>>().To<CustomerTypeConverter>();
+			Bind<ISpotsBookingService>().To<SpotsBookingService>();
+			Bind<ISpotValidateFactory>().To<SpotValidateFactory>();
 			//Bind<ISpotsBookingService>().To<SpotsB>()
 		}
 	}
