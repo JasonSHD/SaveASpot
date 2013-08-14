@@ -253,6 +253,9 @@
 				});
 			});
 		};
+		result._controllers.updateSpotState = function (spotArg) {
+			this.view("changeSpotState", spotArg);
+		};
 
 		result._views.context = {
 			color: {
@@ -378,7 +381,14 @@
 		result._controllers.booking = function () {
 			var context = this;
 			this.model("bookingSpots", function (bookedSpots) {
-
+				for (var spotIdentity in bookedSpots.spots) {
+					var spot = bookedSpots.spots[spotIdentity];
+					spot.spotDesc.spot.isAvailable = false;
+					spot.spotDesc.val = "unavailable";
+					context.execute("updateSpotState", spot);
+				}
+				
+				context.execute("updateSelectedSpotsCount");
 			});
 		};
 		result._controllers.selectUp = function () {
@@ -391,22 +401,25 @@
 			});
 		};
 		result._controllers.removeSpot = function (spot) {
-			this.selectedContext.selectedSpots = this.selectedContext.selectedSpots - 1;
-
 			spot.spotDesc.val = "available";
 			spot.spotDesc.spot.selected = false;
 
 			this.model("removeSpot", spot);
-			this.view("updateSelectedSpots", this.selectedContext.selectedSpots);
+			this.execute("updateSelectedSpotsCount");
 		};
 		result._controllers.onSpotSelected = function (spot) {
 			if (spot.spotDesc.val == "selected") {
-				this.selectedContext.selectedSpots = this.selectedContext.selectedSpots + 1;
 				this.model("addSpot", spot);
 			} else {
 				this.execute("removeSpot", spot);
 			}
-			this.view("updateSelectedSpots", this.selectedContext.selectedSpots);
+			this.execute("updateSelectedSpotsCount");
+		};
+		result._controllers.updateSelectedSpotsCount = function () {
+			var context = this;
+			this.model("selectedSpotCount", function (count) {
+				context.view("updateSelectedSpotsCount", count);
+			});
 		};
 
 		result._views.context = {
@@ -424,7 +437,7 @@
 				panelArg.onDown();
 			});
 		};
-		result._views.updateSelectedSpots = function (model) {
+		result._views.updateSelectedSpotsCount = function (model) {
 			this.$panel.find("input").val(model);
 		};
 
@@ -447,11 +460,8 @@
 			}
 			var context = this;
 			q.ajax({ url: this.bookingUrl, data: data, type: "POST" }).done(function (bookingResult) {
-				for (var bookingIndex in bookingResult.identities) {
-					var bookedId = bookingResult.identities[bookingIndex];
-
-					delete context.selectedSpots[bookedId];
-				}
+				bookingResult.spots = context.selectedSpots;
+				context.selectedSpots = {};
 
 				callback(bookingResult);
 			});
@@ -461,6 +471,14 @@
 				callback(this.selectedSpots[spotIndex]);
 				return;
 			}
+		};
+		result._models.selectedSpotCount = function (callback) {
+			var count = 0;
+			for (var index in this.selectedSpots) {
+				count++;
+			}
+
+			callback(count);
 		};
 
 		return result;
