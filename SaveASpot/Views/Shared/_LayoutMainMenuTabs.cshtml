@@ -32,10 +32,10 @@
 			<li class="hidden-phone">
 				<input class="search" type="text" />
 			</li>
-			<li class="notification-dropdown hidden-phone">
+			<li class="notification-dropdown hidden-phone" style="display: none;" data-cart>
 				<a href="#" class="trigger">
 					<i class="icon-shopping-cart"></i>
-					<span class="count">8</span>
+					<span class="count">0</span>
 				</a>
 				<div class="pop-dialog">
 					<div class="pointer right">
@@ -69,7 +69,7 @@
 					</div>
 				</div>
 			</li>
-			<li class="settings hidden-phone">
+			<li class="settings hidden-phone" style="display: none;">
 				<a href="#" role="button">
 					<i class="icon-envelope-alt"></i>
 				</a>
@@ -92,6 +92,7 @@
 	Object.defineProperty(q.pageConfig, "phasesUrl", { value: "@Url.Action("Index", "Phases")", wirtable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "spotsUrl", { value: "@Url.Action("ByPhase", "Spots")", wirtable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "bookingForCustomerUrl", { value: "@Url.Action("BookingSpots", "CustomerActionsMap")", wirtable: false, configurable: false });
+	Object.defineProperty(q.pageConfig, "unbookingForCustomerUrl", { value: "@Url.Action("RemoveBookedSpot", "CustomerActionsMap")", wirtable: false, configurable: false });
 
 	Object.defineProperty(q.pageConfig, "createCustomerView", { value: "@Url.Action("CreateCustomer", "Customers")", wirtable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "createSponsorView", { value: "@Url.Action("CreateSponsor", "Sponsors")", wirtable: false, configurable: false });

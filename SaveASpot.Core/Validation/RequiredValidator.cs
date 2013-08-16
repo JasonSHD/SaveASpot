@@ -8,7 +8,7 @@ namespace SaveASpot.Core.Validation
 
 		protected override bool IsValid(object input)
 		{
-			return ReferenceEquals(null, input);
+			return !ReferenceEquals(null, input);
 		}
 	}
 }

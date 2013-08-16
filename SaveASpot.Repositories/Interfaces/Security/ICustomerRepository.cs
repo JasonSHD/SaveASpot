@@ -6,5 +6,7 @@ namespace SaveASpot.Repositories.Interfaces.Security
 	{
 		bool AddSpot(IElementIdentity customerId, IElementIdentity spotId);
 		bool CreateCustomer(IElementIdentity userIdentity);
+		bool AddSpotToCart(IElementIdentity customerIdentity, IElementIdentity spotIdentity);
+		bool RemoveSpotFromCart(IElementIdentity customerIdentity, IElementIdentity spotIdentity);
 	}
 }

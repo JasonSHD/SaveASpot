@@ -34,7 +34,7 @@ namespace SaveASpot.Services.Implementations.Security
 
 				var customer = customers.First();
 
-				return new Customer(_elementIdentityConverter.ToIdentity(customer.Id), user);
+				return new Customer(_elementIdentityConverter.ToIdentity(customer.Id), user, new Cart(customer.Cart.SpotIdCollection.Select(e => _elementIdentityConverter.ToIdentity(e)).ToList()));
 			}
 		}
 	}

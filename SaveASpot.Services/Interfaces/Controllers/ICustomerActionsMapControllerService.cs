@@ -1,10 +1,11 @@
-using System.Collections.Generic;
 using SaveASpot.Core;
+using SaveASpot.ViewModels;
 
 namespace SaveASpot.Services.Interfaces.Controllers
 {
 	public interface ICustomerActionsMapControllerService
 	{
-		IEnumerable<IElementIdentity> BookingSpots(IElementIdentity[] identities);
+		BookingSpotsViewModel BookingSpots(IElementIdentity[] identities);
+		BookingSpotsViewModel RemoveBookedSpot(IElementIdentity bookedSpotIdentity);
 	}
 }

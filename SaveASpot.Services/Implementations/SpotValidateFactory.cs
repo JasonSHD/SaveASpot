@@ -20,5 +20,10 @@ namespace SaveASpot.Services.Implementations
 				For(e => e.Spot.CustomerId, e => e.Not().IsEmpty(_elementIdentityConverter)).
 				For(e => e.Spot.CustomerId, e => e.Not().IsEmpty(_elementIdentityConverter));
 		}
+
+		public IValidator AvailableForRemove()
+		{
+			return new AllowCustomerToRemoveSpotValidator(_elementIdentityConverter);
+		}
 	}
 }

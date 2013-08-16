@@ -46,5 +46,13 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 
 			return true;
 		}
+
+		public bool RemoveMap(Spot spot)
+		{
+			spot.CustomerId = ObjectId.Empty;
+			_mongoDbCollectionFactory.Collection<Spot>().Save(spot);
+
+			return true;
+		}
 	}
 }

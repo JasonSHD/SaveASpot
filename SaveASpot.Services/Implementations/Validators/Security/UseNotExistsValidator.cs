@@ -17,7 +17,7 @@ namespace SaveASpot.Services.Implementations.Validators.Security
 
 		protected override bool IsValid(UserArg input)
 		{
-			return _userQueryable.Filter(e => e.FilterByName(input.Username)).Find().Any();
+			return !_userQueryable.Filter(e => e.FilterByName(input.Username)).Find().Any();
 		}
 	}
 }

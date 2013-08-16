@@ -33,5 +33,10 @@ namespace SaveASpot.Repositories.Implementations
 			ObjectId.TryParse(identityAsString, out objectId);
 			return objectId == ObjectId.Empty ? (IElementIdentity)new NullElementIdentity() : new MongoDBIdentity(objectId);
 		}
+
+		public bool IsEqual(IElementIdentity left, IElementIdentity right)
+		{
+			return left.ToIdentity() == right.ToIdentity();
+		}
 	}
 }

@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BookingSpotsViewModel.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CreateCustomerViewModel.cs" />
     <Compile Include="CreateSponsorViewModel.cs" />

@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementations\AllowCustomerToRemoveSpotValidator.cs" />
     <Compile Include="Implementations\ArcgisParcelsService.cs" />
     <Compile Include="Implementations\ArcgisSpotsService.cs" />
     <Compile Include="Implementations\Controllers\AccountControllerService.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Interfaces\ITextParserCase.cs" />
     <Compile Include="Interfaces\ITextParserEngine.cs" />
     <Compile Include="Interfaces\ITypeConverter.cs" />
+    <Compile Include="Interfaces\RemoveSpotArg.cs" />
     <Compile Include="Interfaces\Security\CreateCustomerResult.cs" />
     <Compile Include="Interfaces\Security\ICustomerService.cs" />
     <Compile Include="Interfaces\Security\IUserValidateFactory.cs" />

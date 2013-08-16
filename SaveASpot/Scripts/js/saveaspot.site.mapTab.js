@@ -11,7 +11,6 @@
 
 	application.execute("initialize");
 
-
 	function MvcCompositeObject() {
 		var result = { _mvcObjectCollection: [], _sharedViewData: {} };
 
@@ -217,6 +216,7 @@
 			});
 		};
 		result._controllers.onSpotSelect = function (arg) {
+			var context = this;
 			var spotDesc = arg;
 			var spot = spotDesc.spot;
 			if (spot.isAvailable) {
@@ -228,10 +228,14 @@
 					spotDesc.val = "selected";
 				}
 			} else {
-				return;
+				this.view("confirm", {
+					message: "Readly unbook spot?",
+					onOk: function () {
+						context.execute("removeBooking", { spotDesc: arg });
+					}
+				});
 			}
 
-			var context = this;
 			var spotArg = {
 				spotDesc: spotDesc
 			};
@@ -333,6 +337,11 @@
 				}
 			}
 		};
+		result._views.confirm = function (argConfirm) {
+			if (confirm(argConfirm.message)) {
+				argConfirm.onOk();
+			}
+		};
 
 		result._models.context = {
 			spotsUrl: q.pageConfig.spotsUrl
@@ -387,7 +396,9 @@
 					spot.spotDesc.val = "unavailable";
 					context.execute("updateSpotState", spot);
 				}
-				
+
+				q.events().fire("updateCart", { elements: bookedSpots.cart.elements });
+
 				context.execute("updateSelectedSpotsCount");
 			});
 		};
@@ -421,6 +432,19 @@
 				context.view("updateSelectedSpotsCount", count);
 			});
 		};
+		result._controllers.removeBooking = function (spotArg) {
+			var context = this;
+			this.model("removeBooking", spotArg, function (bookedSpots) {
+				for (var spotIdentity in bookedSpots.spots) {
+					var spot = bookedSpots.spots[spotIdentity];
+					spot.spotDesc.spot.isAvailable = true;
+					spot.spotDesc.val = "available";
+					context.execute("updateSpotState", spot);
+				}
+
+				q.events().fire("updateCart", { elements: bookedSpots.cart.elements });
+			});
+		};
 
 		result._views.context = {
 			$panel: $("#customerSpotSelectPanel")
@@ -443,7 +467,8 @@
 
 		result._models.context = {
 			selectedSpots: {},
-			bookingUrl: q.pageConfig.bookingForCustomerUrl
+			bookingUrl: q.pageConfig.bookingForCustomerUrl,
+			unbookingUrl: q.pageConfig.unbookingForCustomerUrl
 		};
 		result._models.addSpot = function (spotDesc) {
 			this.selectedSpots[spotDesc.spotDesc.spot.identity] = spotDesc;
@@ -479,6 +504,15 @@
 			}
 
 			callback(count);
+		};
+		result._models.removeBooking = function (spotDesc, callback) {
+			q.ajax({ url: this.unbookingUrl, data: { bookedSpotIdentity: spotDesc.spotDesc.spot.identity }, type: "POST" }).done(function (booingResult) {
+				booingResult.spots = [];
+				if (spotDesc.spotDesc.spot.identity == booingResult.identities[0]) {
+					booingResult.spots.push(spotDesc);
+				}
+				callback(booingResult);
+			});
 		};
 
 		return result;
