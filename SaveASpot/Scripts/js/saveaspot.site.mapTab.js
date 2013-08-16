@@ -7,6 +7,8 @@
 
 	if ($("#isCustomer").val().toUpperCase() == "TRUE") {
 		application.add(new CustomerSpotsPartialMvcObject());
+	} else {
+		application.add(new SponsorSpotsPartialMvcObject());
 	}
 
 	application.execute("initialize");
@@ -369,10 +371,6 @@
 
 	function CustomerSpotsPartialMvcObject() {
 		var result = new MvcObject();
-
-		result._controllers.context = {
-			selectedContext: { selectedSpots: 0 }
-		};
 		result._controllers.initialize = function () {
 			var context = this;
 			this.view("showPanel", {
@@ -512,6 +510,27 @@
 					booingResult.spots.push(spotDesc);
 				}
 				callback(booingResult);
+			});
+		};
+
+		return result;
+	}
+
+	function SponsorSpotsPartialMvcObject() {
+		var result = new MvcObject();
+		
+		result._controllers.initialize = function () {
+			var context = this;
+			this.view("showPanel", {
+				onBook: function () {
+					context.execute("booking");
+				},
+				onUp: function () {
+					context.execute("selectUp");
+				},
+				onDown: function () {
+					context.execute("selectDown");
+				}
 			});
 		};
 

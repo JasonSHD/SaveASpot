@@ -89,6 +89,7 @@
     <Compile Include="Areas\Setup\Controllers\Artifacts\SetupController.cs" />
     <Compile Include="Areas\Setup\SetupAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdministratorActionsMapController.cs" />
     <Compile Include="Controllers\Artifacts\MainMenuTabActionAttribute.cs" />
     <Compile Include="Controllers\Artifacts\MainMenuTabAttribute.cs" />
     <Compile Include="Controllers\Artifacts\PhasePageDefaultTabActionAttribute.cs" />

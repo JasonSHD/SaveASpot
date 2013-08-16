@@ -84,6 +84,7 @@
     <Compile Include="Implementations\Validators\Security\UserValidateFactory.cs" />
     <Compile Include="Interfaces\Controllers\CustomerResult.cs" />
     <Compile Include="Interfaces\Controllers\IAccountControllerService.cs" />
+    <Compile Include="Interfaces\Controllers\IAdministratorActionsMapControllerService.cs" />
     <Compile Include="Interfaces\Controllers\ICustomerActionsMapControllerService.cs" />
     <Compile Include="Interfaces\Controllers\ICustomersControllerService.cs" />
     <Compile Include="Interfaces\Controllers\IMapControllerService.cs" />
