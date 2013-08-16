@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SaveASpot.Core;
-using SaveASpot.Core;
+using SaveASpot.Repositories.Models;
 using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.Services.Interfaces;
 using SaveASpot.ViewModels;
@@ -11,10 +11,12 @@ namespace SaveASpot.Services.Implementations.Controllers
 	public sealed class SponsorsControllerService : ISponsorsControllerService
 	{
 		private readonly ISponsorsService _sponsorsService;
+		private readonly IConverter<Sponsor, SponsorViewModel> _converter;
 
-		public SponsorsControllerService(ISponsorsService sponsorsService)
+		public SponsorsControllerService(ISponsorsService sponsorsService, IConverter<Sponsor, SponsorViewModel> converter)
 		{
 			_sponsorsService = sponsorsService;
+			_converter = converter;
 		}
 
 		public IMethodResult<SponsorResult> AddSponsor(CreateSponsorViewModel createSponsorViewModel)
@@ -29,12 +31,12 @@ namespace SaveASpot.Services.Implementations.Controllers
 				});
 
 			return new MethodResult<SponsorResult>(createSponsorResult.IsSuccess,
-																							new SponsorResult(new SponsorViewModel { Identity = createSponsorResult.Status.SponsorId, CompanyName = createSponsorViewModel.CompanyName, Sentence = createSponsorViewModel.Sentence, Logo = createSponsorViewModel.Logo, Url = createSponsorViewModel.Url}, "Sponsor created!"));
+																							new SponsorResult(_converter.Convert(createSponsorResult.Status.Sponsor), "Sponsor created!"));
 		}
 
 		public IEnumerable<SponsorViewModel> GetSponsors()
 		{
-			return _sponsorsService.GetAllSponsors().Select(e => new SponsorViewModel { Identity = e.Identity, CompanyName = e.CompanyName, Sentence = e.Sentence, Logo =  e.Logo, Url =  e.Url });
+			return _sponsorsService.GetAllSponsors().Select(_converter.Convert);
 		}
 	}
 }

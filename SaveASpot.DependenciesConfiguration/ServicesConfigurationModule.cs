@@ -1,6 +1,7 @@
 using SaveASpot.Core;
 using SaveASpot.Core.Security;
 using SaveASpot.Core.Web.Mvc;
+using SaveASpot.Repositories.Models;
 using SaveASpot.Repositories.Models.Security;
 using SaveASpot.Services.Implementations;
 using SaveASpot.Services.Implementations.Controllers;
@@ -42,6 +43,8 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ITypeConverter<SiteCustomer, CustomerViewModel>>().To<CustomerTypeConverter>();
 			Bind<ISpotsBookingService>().To<SpotsBookingService>();
 			Bind<ISpotValidateFactory>().To<SpotValidateFactory>();
+			Bind<IConverter<Sponsor, SponsorViewModel>>().To<SponsorConverter>();
+			Bind<IAdministratorActionsMapControllerService>().To<AdministratorActionsMapControllerService>();
 			//Bind<ISpotsBookingService>().To<SpotsB>()
 		}
 	}

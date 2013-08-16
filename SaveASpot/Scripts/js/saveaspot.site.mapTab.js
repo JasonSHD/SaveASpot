@@ -518,19 +518,67 @@
 
 	function SponsorSpotsPartialMvcObject() {
 		var result = new MvcObject();
-		
+
 		result._controllers.initialize = function () {
 			var context = this;
 			this.view("showPanel", {
-				onBook: function () {
-					context.execute("booking");
-				},
-				onUp: function () {
-					context.execute("selectUp");
-				},
-				onDown: function () {
-					context.execute("selectDown");
+				onBook: function (bookingArg) {
+					context.execute("booking", bookingArg);
 				}
+			});
+		};
+		result._controllers.onSpotSelected = function (spot) {
+			if (spot.spotDesc.val == "selected") {
+				this.model("addSpot", spot);
+			} else {
+				this.model("removeSpot", spot);
+			}
+		};
+		result._controllers.booking = function (bookingArg) {
+			var context = this;
+			this.model("bookingSpots", bookingArg, function (bookedSpots) {
+				for (var spotIdentity in bookedSpots.spots) {
+					var spot = bookedSpots.spots[spotIdentity];
+					spot.spotDesc.spot.isAvailable = false;
+					spot.spotDesc.val = "unavailable";
+					context.execute("updateSpotState", spot);
+				}
+			});
+		};
+
+		result._views.context = {
+			$panel: $("#sponsorsSpotSelectPanel")
+		};
+		result._views.showPanel = function (panelArg) {
+			this.$panel.show();
+			this.$panel.find("button[data-booking]").click(function () {
+				panelArg.onBook({ sponsorIdentity: $("#sponsors").val() });
+			});
+		};
+
+		result._models.context = {
+			selectedSpots: {},
+			bookingUrl: q.pageConfig.bookingForSponsorsUrl
+		};
+		result._models.addSpot = function (spotArg) {
+			this.selectedSpots[spotArg.spotDesc.spot.identity] = spotArg;
+		};
+		result._models.removeSpot = function (spotArg) {
+			delete this.selectedSpots[spotArg.spotDesc.spot.identity];
+		};
+		result._models.bookingSpots = function (bookingArg, callback) {
+			var data = { sponsorIdentity: bookingArg.sponsorIdentity };
+			var index = 0;
+			for (var spotIdentity in this.selectedSpots) {
+				data["identities[" + index + "]"] = spotIdentity;
+				index++;
+			}
+			var context = this;
+			q.ajax({ type: "POST", url: this.bookingUrl, data: data }).done(function (bookingResult) {
+				bookingResult.spots = context.selectedSpots;
+				context.selectedSpots = {};
+				
+				callback(bookingResult);
 			});
 		};
 

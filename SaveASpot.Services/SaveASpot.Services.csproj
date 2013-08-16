@@ -52,6 +52,7 @@
     <Compile Include="Implementations\ArcgisParcelsService.cs" />
     <Compile Include="Implementations\ArcgisSpotsService.cs" />
     <Compile Include="Implementations\Controllers\AccountControllerService.cs" />
+    <Compile Include="Implementations\Controllers\AdministratorActionsMapControllerService.cs" />
     <Compile Include="Implementations\Controllers\CustomerActionsMapControllerService.cs" />
     <Compile Include="Implementations\Controllers\CustomersControllerService.cs" />
     <Compile Include="Implementations\Controllers\CustomerTypeConverter.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Implementations\Controllers\ParcelsControllerService.cs" />
     <Compile Include="Implementations\Controllers\PhasesControllerService.cs" />
     <Compile Include="Implementations\Controllers\SetupUsersControllerService.cs" />
+    <Compile Include="Implementations\Controllers\SponsorConverter.cs" />
     <Compile Include="Implementations\Controllers\SponsorsControllerService.cs" />
     <Compile Include="Implementations\Controllers\SpotsControllerService.cs" />
     <Compile Include="Implementations\Controllers\UploadPhasesAndParcelsControllerService.cs" />

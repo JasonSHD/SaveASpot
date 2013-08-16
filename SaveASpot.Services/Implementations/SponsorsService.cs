@@ -28,7 +28,7 @@ namespace SaveASpot.Services.Implementations
 				                              });
 			
 			return string.IsNullOrEmpty(sponsor.Identity) 
-				? new MethodResult<CreateSponsorResult>(true, new CreateSponsorResult { SponsorId = sponsor.Identity })
+				? new MethodResult<CreateSponsorResult>(true, new CreateSponsorResult { Sponsor = sponsor })
 				: new MethodResult<CreateSponsorResult>(false, new CreateSponsorResult { MessageKet = "Error occured during sponsor creating" });
 		}
 

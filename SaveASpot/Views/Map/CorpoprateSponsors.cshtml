@@ -1,0 +1,12 @@
+﻿@model SaveASpot.ViewModels.MapViewModel
+
+<div style="display: none;" id="sponsorsSpotSelectPanel">
+	Corporate sponsors:
+		<select id="sponsors" class="span3">
+			@foreach (var sponsor in Model.Sponsors)
+	 {
+				<option value="@sponsor.Identity.ToString()">@sponsor.CompanyName</option>
+	 }
+		</select>
+	<button type="button" data-booking="" class="btn">Book</button>
+</div>

@@ -8,8 +8,9 @@ namespace SaveASpot.ViewModels.PhasesAndParcels
 	{
 		public IElementIdentity Identity { get; set; }
 		public decimal Area { get; set; }
-		public bool IsAvailable { get { return CustomerId.IsNull(); } }
+		public bool IsAvailable { get { return CustomerId.IsNull() && SponsorIdentity.IsNull(); } }
 		public IElementIdentity CustomerId { get; set; }
+		public IElementIdentity SponsorIdentity { get; set; }
 		public IEnumerable<Point> Points { get; set; }
 
 		public object ToJson()

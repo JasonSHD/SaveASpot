@@ -65,7 +65,8 @@ namespace SaveASpot.Services.Implementations.Controllers
 				Identity = _elementIdentityConverter.ToIdentity(spot.Id),
 				Area = spot.SpotArea,
 				Points = spot.SpotShape.Select(e => new ViewModels.PhasesAndParcels.Point { Latitude = e.Latitude, Longitude = e.Longitude }),
-				CustomerId = _elementIdentityConverter.ToIdentity(spot.CustomerId)
+				CustomerId = _elementIdentityConverter.ToIdentity(spot.CustomerId),
+				SponsorIdentity = _elementIdentityConverter.ToIdentity(spot.SponsorId)
 			};
 		}
 	}

@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IConverter.cs" />
     <Compile Include="Validation\CompositeValidator.cs" />
     <Compile Include="Validation\EntityValidator.cs" />
     <Compile Include="Validation\NullValidator.cs" />

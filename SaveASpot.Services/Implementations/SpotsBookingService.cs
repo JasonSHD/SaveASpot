@@ -46,6 +46,25 @@ namespace SaveASpot.Services.Implementations
 			return false;
 		}
 
+		public bool BookingForSponsor(IElementIdentity spotIdentity, IElementIdentity sponsorIdentity)
+		{
+			var spot = _spotQueryable.Filter(e => e.ByIdentity(spotIdentity)).FirstOrDefault();
+			if (spot == null)
+			{
+				_logger.Info("Try to map spot with identity <{0}> to sponsor <{1}>. But spot not found.", spotIdentity, sponsorIdentity);
+				return false;
+			}
+
+			var validateResult = _spotValidateFactory.Available().Validate(new SpotArg { Spot = spot });
+
+			if (validateResult.IsValid)
+			{
+				return _spotRepository.MapSpotToSponsor(spot, sponsorIdentity);
+			}
+
+			return false;
+		}
+
 		public bool RemoveBookedSpot(IElementIdentity bookedSpotIdentity, IElementIdentity customerIdentity)
 		{
 			var spot = _spotQueryable.Filter(e => e.ByIdentity(bookedSpotIdentity)).FirstOrDefault();

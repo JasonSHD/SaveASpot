@@ -10,6 +10,7 @@ namespace SaveASpot.Repositories.Models
 		public decimal SpotLength { get; set; }
 		public decimal SpotArea { get; set; }
 		public ObjectId CustomerId { get; set; }
+		public ObjectId SponsorId { get; set; }
 		public List<Point> SpotShape { get; set; }
 	}
 }

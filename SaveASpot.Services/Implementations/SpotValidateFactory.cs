@@ -18,7 +18,7 @@ namespace SaveASpot.Services.Implementations
 			return Validator.
 				For<SpotArg>().
 				For(e => e.Spot.CustomerId, e => e.Not().IsEmpty(_elementIdentityConverter)).
-				For(e => e.Spot.CustomerId, e => e.Not().IsEmpty(_elementIdentityConverter));
+				For(e => e.Spot.SponsorId, e => e.Not().IsEmpty(_elementIdentityConverter));
 		}
 
 		public IValidator AvailableForRemove()

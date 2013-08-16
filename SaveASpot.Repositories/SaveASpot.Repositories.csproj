@@ -94,6 +94,7 @@
     <Compile Include="Interfaces\Security\IUserFilter.cs" />
     <Compile Include="Interfaces\Security\IUserQueryable.cs" />
     <Compile Include="Interfaces\Security\IUserRepository.cs" />
+    <Compile Include="Interfaces\Sponsors\SponsorQueryableExtensions.cs" />
     <Compile Include="Models\Parcel.cs" />
     <Compile Include="Models\ExceptionData.cs" />
     <Compile Include="Models\Phase.cs" />

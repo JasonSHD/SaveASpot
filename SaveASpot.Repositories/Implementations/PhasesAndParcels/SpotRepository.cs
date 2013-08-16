@@ -47,6 +47,14 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			return true;
 		}
 
+		public bool MapSpotToSponsor(Spot spot, IElementIdentity sponsorIdentity)
+		{
+			spot.SponsorId = sponsorIdentity.ToIdentity();
+			_mongoDbCollectionFactory.Collection<Spot>().Save(spot);
+
+			return true;
+		}
+
 		public bool RemoveMap(Spot spot)
 		{
 			spot.CustomerId = ObjectId.Empty;
