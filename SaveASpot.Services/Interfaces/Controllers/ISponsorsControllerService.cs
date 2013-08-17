@@ -8,5 +8,6 @@ namespace SaveASpot.Services.Interfaces.Controllers
 	{
 		IMethodResult<SponsorResult> AddSponsor(CreateSponsorViewModel createSponsorViewModel);
 		IEnumerable<SponsorViewModel> GetSponsors();
+		SponsorViewModel SponsorDetails(IElementIdentity sponsorIdentity);
 	}
 }

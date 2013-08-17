@@ -1,4 +1,5 @@
-﻿using SaveASpot.Repositories.Models;
+﻿using SaveASpot.Core;
+using SaveASpot.Repositories.Models;
 
 namespace SaveASpot.Repositories.Interfaces.Sponsors
 {
@@ -6,6 +7,7 @@ namespace SaveASpot.Repositories.Interfaces.Sponsors
 	{
 		ISponsorFilter All();
 		ISponsorFilter ByName(string name);
+		ISponsorFilter ByIdentity(IElementIdentity elementIdentity);
 		ISponsorFilter ByUrl(string url);
 	}
 }

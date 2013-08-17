@@ -33,6 +33,13 @@
 	@if (Model.IsCustomer)
  {
 	 Html.RenderPartial("CustomerSpots", Model);
+	 
+		<div class="sponsor-details">
+			<span class="company-name"></span>
+			<span class="sponsor-sentence"></span>
+			<span class="sponsor-url"></span>
+			<img class="sponsor-logo" src="" />
+		</div>
  }
  else
  {

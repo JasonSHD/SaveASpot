@@ -1,5 +1,6 @@
 ﻿using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using SaveASpot.Core;
 using SaveASpot.Repositories.Interfaces.Sponsors;
 using SaveASpot.Repositories.Models;
 
@@ -20,6 +21,12 @@ namespace SaveASpot.Repositories.Implementations.Sponsors
 		public ISponsorFilter ByName(string name)
 		{
 			return new SponsorFilter(Query<Sponsor>.Where(e => e.CompanyName == name));
+		}
+
+		public ISponsorFilter ByIdentity(IElementIdentity elementIdentity)
+		{
+			var sponsorId = elementIdentity.ToIdentity();
+			return new SponsorFilter(Query<Sponsor>.Where(e => e.Id == sponsorId));
 		}
 
 		public ISponsorFilter ByUrl(string url)

@@ -153,10 +153,12 @@
 			q.controls.gmap(key, function () {
 				var mapOptions = {
 					zoom: 8,
+					// ReSharper disable UseOfImplicitGlobalInFunctionScope
 					center: new google.maps.LatLng(0, 0),
 					mapTypeId: google.maps.MapTypeId.ROADMAP
 				};
 				context.shared.gmap = new google.maps.Map(context.gmapContext.mapCanvas, mapOptions);
+				// ReSharper restore UseOfImplicitGlobalInFunctionScope
 			});
 		};
 		result._views.phasesMenu = function (argPhases) {
@@ -195,8 +197,8 @@
 			phasesUrl: q.pageConfig.phasesUrl
 		};
 		result._models.phases = function (callback) {
-			q.ajax({ url: this.phasesUrl + "?isJson=true", type: "GET" }).done(function (result) {
-				callback(result);
+			q.ajax({ url: this.phasesUrl + "?isJson=true", type: "GET" }).done(function (phasesResult) {
+				callback(phasesResult);
 			});
 		};
 
@@ -217,9 +219,9 @@
 				});
 			});
 		};
-		result._controllers.onSpotSelect = function (arg) {
+		result._controllers.onSpotSelect = function (argSelect) {
 			var context = this;
-			var spotDesc = arg;
+			var spotDesc = argSelect;
 			var spot = spotDesc.spot;
 			if (spot.isAvailable) {
 				if (spot.selected) {
@@ -230,12 +232,8 @@
 					spotDesc.val = "selected";
 				}
 			} else {
-				this.view("confirm", {
-					message: "Readly unbook spot?",
-					onOk: function () {
-						context.execute("removeBooking", { spotDesc: arg });
-					}
-				});
+				context.execute("selectUnavailableElement", { spotDesc: argSelect });
+				return;
 			}
 
 			var spotArg = {
@@ -275,7 +273,9 @@
 
 			this.view("clearPolygons");
 
+			// ReSharper disable UseOfImplicitGlobalInFunctionScope
 			var bounds = new google.maps.LatLngBounds();
+			// ReSharper restore UseOfImplicitGlobalInFunctionScope
 			this.existsPolygons = this.shared.existsPolygons || [];
 
 			for (var elementIndex in spots) {
@@ -285,7 +285,9 @@
 				for (var pointIndex in spot.points) {
 					var point = spot.points[pointIndex];
 
+					// ReSharper disable UseOfImplicitGlobalInFunctionScope
 					elementPolygonCoords.push(new google.maps.LatLng(point.lng, point.lat));
+					// ReSharper restore UseOfImplicitGlobalInFunctionScope
 				}
 
 				var spotDesc = { spot: spot, val: spot.isAvailable ? "available" : "unavailable" };
@@ -312,7 +314,9 @@
 		result._views.createPolygonForSpot = function (spotArg) {
 			var spotDesc = spotArg.spotDesc;
 			var colors = this.color;
+			// ReSharper disable UseOfImplicitGlobalInFunctionScope
 			var polygon = new google.maps.Polygon({
+				// ReSharper restore UseOfImplicitGlobalInFunctionScope
 				paths: spotArg.paths,
 				strokeColor: colors[spotDesc.val],
 				strokeOpacity: 0.8,
@@ -323,7 +327,9 @@
 			polygon.setMap(this.shared.gmap);
 			spotDesc.polygon = polygon;
 
+			// ReSharper disable UseOfImplicitGlobalInFunctionScope
 			google.maps.event.addListener(polygon, 'click', function () {
+				// ReSharper restore UseOfImplicitGlobalInFunctionScope
 				spotArg.onSelect(spotDesc);
 			});
 		};
@@ -337,11 +343,6 @@
 					selectArg.callback(polg);
 					return;
 				}
-			}
-		};
-		result._views.confirm = function (argConfirm) {
-			if (confirm(argConfirm.message)) {
-				argConfirm.onOk();
 			}
 		};
 
@@ -417,6 +418,7 @@
 			this.execute("updateSelectedSpotsCount");
 		};
 		result._controllers.onSpotSelected = function (spot) {
+			this.view("hideSponsorDetails");
 			if (spot.spotDesc.val == "selected") {
 				this.model("addSpot", spot);
 			} else {
@@ -429,6 +431,25 @@
 			this.model("selectedSpotCount", function (count) {
 				context.view("updateSelectedSpotsCount", count);
 			});
+		};
+		result._controllers.selectUnavailableElement = function (argElement) {
+			var spotDesc = argElement.spotDesc;
+			var context = this;
+
+			context.view("hideSponsorDetails");
+
+			if (spotDesc.spot.sponsorId == "") {
+				this.view("confirm", {
+					message: "Realy remove spot?",
+					onOk: function () {
+						context.execute("removeBooking", { spotDesc: spotDesc });
+					}
+				});
+			} else {
+				this.model("sponsorDetails", { sponsorIdentity: spotDesc.spot.sponsorId }, function (sponsorDetails) {
+					context.view("showSponsorDetails", sponsorDetails);
+				});
+			}
 		};
 		result._controllers.removeBooking = function (spotArg) {
 			var context = this;
@@ -462,11 +483,29 @@
 		result._views.updateSelectedSpotsCount = function (model) {
 			this.$panel.find("input").val(model);
 		};
+		result._views.confirm = function (confirmArg) {
+			if (confirm(confirmArg.message)) {
+				confirmArg.onOk();
+			}
+		};
+		result._views.showSponsorDetails = function (sponsorDetails) {
+			var $sponsorDetails = $(".sponsor-details").show();
+
+			$sponsorDetails.find(".company-name").text(sponsorDetails.companyName);
+			$sponsorDetails.find(".sponsor-sentence").text(sponsorDetails.sentence);
+			$sponsorDetails.find(".sponsor-url").text(sponsorDetails.url);
+			$sponsorDetails.find(".sponsor-logo").attr("src", sponsorDetails.logo);
+		};
+		result._views.hideSponsorDetails = function () {
+			$(".sponsor-details").hide();
+		};
 
 		result._models.context = {
 			selectedSpots: {},
+			sponsorsDetails: {},
 			bookingUrl: q.pageConfig.bookingForCustomerUrl,
-			unbookingUrl: q.pageConfig.unbookingForCustomerUrl
+			unbookingUrl: q.pageConfig.unbookingForCustomerUrl,
+			sponsorDetailsUrl: q.pageConfig.sponsorDetailsUrl
 		};
 		result._models.addSpot = function (spotDesc) {
 			this.selectedSpots[spotDesc.spotDesc.spot.identity] = spotDesc;
@@ -510,6 +549,18 @@
 					booingResult.spots.push(spotDesc);
 				}
 				callback(booingResult);
+			});
+		};
+		result._models.sponsorDetails = function (sponsorArg, callback) {
+			if (this.sponsorsDetails[sponsorArg.sponsorIdentity] != undefined) {
+				callback(this.sponsorsDetails[sponsorArg.sponsorIdentity]);
+				return;
+			}
+
+			var context = this;
+			q.ajax({ url: this.sponsorDetailsUrl, type: "GET", data: { sponsorIdentity: sponsorArg.sponsorIdentity } }).done(function (sponsorDetails) {
+				context.sponsorsDetails[sponsorArg.sponsorIdentity] = sponsorDetails;
+				callback(sponsorDetails);
 			});
 		};
 
@@ -577,7 +628,7 @@
 			q.ajax({ type: "POST", url: this.bookingUrl, data: data }).done(function (bookingResult) {
 				bookingResult.spots = context.selectedSpots;
 				context.selectedSpots = {};
-				
+
 				callback(bookingResult);
 			});
 		};

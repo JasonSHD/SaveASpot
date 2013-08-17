@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SaveASpot.Core;
+using SaveASpot.Repositories.Interfaces;
+using SaveASpot.Repositories.Interfaces.Sponsors;
 using SaveASpot.Repositories.Models;
 using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.Services.Interfaces;
@@ -12,11 +14,13 @@ namespace SaveASpot.Services.Implementations.Controllers
 	{
 		private readonly ISponsorsService _sponsorsService;
 		private readonly IConverter<Sponsor, SponsorViewModel> _converter;
+		private readonly ISponsorQueryable _sponsorQueryable;
 
-		public SponsorsControllerService(ISponsorsService sponsorsService, IConverter<Sponsor, SponsorViewModel> converter)
+		public SponsorsControllerService(ISponsorsService sponsorsService, IConverter<Sponsor, SponsorViewModel> converter, ISponsorQueryable sponsorQueryable)
 		{
 			_sponsorsService = sponsorsService;
 			_converter = converter;
+			_sponsorQueryable = sponsorQueryable;
 		}
 
 		public IMethodResult<SponsorResult> AddSponsor(CreateSponsorViewModel createSponsorViewModel)
@@ -37,6 +41,11 @@ namespace SaveASpot.Services.Implementations.Controllers
 		public IEnumerable<SponsorViewModel> GetSponsors()
 		{
 			return _sponsorsService.GetAllSponsors().Select(_converter.Convert);
+		}
+
+		public SponsorViewModel SponsorDetails(IElementIdentity sponsorIdentity)
+		{
+			return _converter.Convert(_sponsorQueryable.Filter(e => e.ByIdentity(sponsorIdentity)).First());
 		}
 	}
 }
