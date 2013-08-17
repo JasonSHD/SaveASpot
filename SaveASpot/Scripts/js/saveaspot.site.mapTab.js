@@ -575,6 +575,12 @@
 			this.view("showPanel", {
 				onBook: function (bookingArg) {
 					context.execute("booking", bookingArg);
+				},
+				onUp: function () {
+					context.execute("selectUp");
+				},
+				onDown: function () {
+					context.execute("selectDown");
 				}
 			});
 		};
@@ -584,6 +590,8 @@
 			} else {
 				this.model("removeSpot", spot);
 			}
+			
+			this.execute("updateSelectedSpotsCount");
 		};
 		result._controllers.booking = function (bookingArg) {
 			var context = this;
@@ -594,6 +602,23 @@
 					spot.spotDesc.val = "unavailable";
 					context.execute("updateSpotState", spot);
 				}
+				
+				context.execute("updateSelectedSpotsCount");
+			});
+		};
+		result._controllers.selectUp = function () {
+			this.execute("selectFirstAvailable");
+		};
+		result._controllers.selectDown = function () {
+			var context = this;
+			this.model("getFirst", function (spot) {
+				context.execute("onSpotSelect", spot.spotDesc);
+			});
+		};
+		result._controllers.updateSelectedSpotsCount = function () {
+			var context = this;
+			this.model("selectedSpotCount", function (count) {
+				context.view("updateSelectedSpotsCount", count);
 			});
 		};
 
@@ -605,6 +630,15 @@
 			this.$panel.find("button[data-booking]").click(function () {
 				panelArg.onBook({ sponsorIdentity: $("#sponsors").val() });
 			});
+			this.$panel.find("button[data-up]").click(function () {
+				panelArg.onUp();
+			});
+			this.$panel.find("button[data-down]").click(function () {
+				panelArg.onDown();
+			});
+		};
+		result._views.updateSelectedSpotsCount = function (model) {
+			this.$panel.find("input").val(model);
 		};
 
 		result._models.context = {
@@ -616,6 +650,20 @@
 		};
 		result._models.removeSpot = function (spotArg) {
 			delete this.selectedSpots[spotArg.spotDesc.spot.identity];
+		};
+		result._models.getFirst = function (callback) {
+			for (var spotIndex in this.selectedSpots) {
+				callback(this.selectedSpots[spotIndex]);
+				return;
+			}
+		};
+		result._models.selectedSpotCount = function (callback) {
+			var count = 0;
+			for (var index in this.selectedSpots) {
+				count++;
+			}
+
+			callback(count);
 		};
 		result._models.bookingSpots = function (bookingArg, callback) {
 			var data = { sponsorIdentity: bookingArg.sponsorIdentity };
