@@ -15,7 +15,7 @@ namespace SaveASpot.ViewModels.PhasesAndParcels
 
 		public object ToJson()
 		{
-			return new { identity = Identity.ToString(), area = Area, points = Points.Select(e => e.ToJson()), isAvailable = IsAvailable };
+			return new { identity = Identity.ToString(), area = Area, points = Points.Select(e => e.ToJson()), isAvailable = IsAvailable, sponsorId = SponsorIdentity.ToString() };
 		}
 	}
 }
