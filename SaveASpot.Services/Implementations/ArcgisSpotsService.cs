@@ -72,8 +72,8 @@ namespace SaveASpot.Services.Implementations
 
 						_spotRepository.AddSpot(new Spot
 																			{
-																				SpotLength = (decimal)featuresCol["properties"]["Shape_Leng"],
-																				SpotArea = (decimal)featuresCol["properties"]["Shape_Area"],
+																				SpotLength = (decimal?)featuresCol["properties"]["Shape_Leng"],
+																				SpotArea = (decimal?)featuresCol["properties"]["Shape_Area"],
 																				ParcelId = parcelId,
 																				SpotShape = spotPoints
 																			});

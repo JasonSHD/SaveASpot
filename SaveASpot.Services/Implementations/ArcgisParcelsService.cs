@@ -63,9 +63,9 @@ namespace SaveASpot.Services.Implementations
 						_parcelRepository.AddParcel(new Parcel
 																					{
 																						ParcelName = (string)featuresCol["properties"]["Name"],
-																						ParcelLength = (decimal)featuresCol["properties"]["Shape_Leng"],
-																						ParcelArea = (decimal)featuresCol["properties"]["Shape_Area"],
-																						ParcelAcres = (decimal)featuresCol["properties"]["Acres"],
+																						ParcelLength = (decimal?)featuresCol["properties"]["Shape_Leng"],
+																						ParcelArea = (decimal?)featuresCol["properties"]["Shape_Area"],
+																						ParcelAcres = (decimal?) featuresCol["properties"]["Acres"],
 																						ParcelShape = points,
 																						PhaseId = phase.Id
 																					});

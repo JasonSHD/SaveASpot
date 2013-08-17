@@ -8,7 +8,7 @@ namespace SaveASpot.ViewModels.PhasesAndParcels
 	{
 		public IElementIdentity Identity { get; set; }
 		public string Name { get; set; }
-		public decimal Length { get; set; }
+		public decimal? Length { get; set; }
 		public IEnumerable<Point> Points { get; set; }
 
 		public object ToJson()

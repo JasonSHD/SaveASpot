@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using SaveASpot.Controllers.Artifacts;
 using SaveASpot.Core;
 using SaveASpot.Core.Web.Mvc;
@@ -32,9 +34,15 @@ namespace SaveASpot.Controllers
 			return TabView(model);
 		}
 
-		public JsonResult ByPhase(IElementIdentity identity)
+		public ContentResult ByPhase(IElementIdentity identity)
 		{
-			return Json(_spotsControllerService.ByPhase(identity).Spots.Select(e => e.ToJson()), JsonRequestBehavior.AllowGet);
+			return new ContentResult
+			{
+				Content = new JavaScriptSerializer { MaxJsonLength = Int32.MaxValue }.Serialize(_spotsControllerService.ByPhase(identity).Spots.Select(e => e.ToJson())),
+				ContentType = "application/json"
+			};
+
+			//return Json(), JsonRequestBehavior.AllowGet);
 		}
 
 		[HttpPost]
