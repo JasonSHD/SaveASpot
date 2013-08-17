@@ -11,7 +11,6 @@ using SaveASpot.ViewModels.PhasesAndParcels;
 namespace SaveASpot.Controllers
 {
 	[AdministratorAuthorize]
-	[CustomerAuthorize]
 	[PhasePageTab(Alias = SiteConstants.SpotsControllerAlias, IndexOfOrder = 30, Title = "SpotsAccordingGroupTitle")]
 	public sealed class SpotsController : TabController
 	{
@@ -34,6 +33,7 @@ namespace SaveASpot.Controllers
 			return TabView(model);
 		}
 
+		[CustomerAuthorize]
 		public ContentResult ByPhase(IElementIdentity identity)
 		{
 			return new ContentResult
@@ -41,8 +41,6 @@ namespace SaveASpot.Controllers
 				Content = new JavaScriptSerializer { MaxJsonLength = Int32.MaxValue }.Serialize(_spotsControllerService.ByPhase(identity).Spots.Select(e => e.ToJson())),
 				ContentType = "application/json"
 			};
-
-			//return Json(), JsonRequestBehavior.AllowGet);
 		}
 
 		[HttpPost]

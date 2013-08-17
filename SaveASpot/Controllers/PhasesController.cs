@@ -9,7 +9,6 @@ namespace SaveASpot.Controllers
 {
 	[PhasePageTab(Alias = SiteConstants.PhasesControllerAlias, IndexOfOrder = 10, Title = "PhasesAccordionGroupTitle")]
 	[MainMenuTab(Alias = SiteConstants.PhasesAndParcelsControllerAlias, Area = "", IndexOfOrder = 20, Title = "PhasesAndParcelsTabTitle")]
-	[CustomerAuthorize]
 	[AdministratorAuthorize]
 	public sealed class PhasesController : TabController
 	{
@@ -20,6 +19,7 @@ namespace SaveASpot.Controllers
 			_phasesControllerService = phasesControllerService;
 		}
 
+		[CustomerAuthorize]
 		public ActionResult Index(SelectorViewModel selectorViewModel, bool isJson = false)
 		{
 			if (!ModelState.IsValid)
