@@ -33,6 +33,56 @@ q("customersTab", function (arg) {
 	});
 });
 
+
+$("#bookSpots").click(function () {
+	q.ajax({ url: q.pageConfig.paymentInformation, type: "GET" }).done(function (paymentInformation) {
+		q.controls.modal().title("Credit Card Information").body(paymentInformation)
+			.ok("Create", function () {
+			var context = this;
+			var validator = q.validation.validator(q.controls.modal().body());
+			if (true) {
+				Stripe.setPublishableKey('pk_test_HtOjhY9gYqhndfgX3jMUvohd');
+				
+				//$('#payment-form').submit(function (e) {
+				var $form = $('#payment-form');
+
+				//	// Disable the submit button to prevent repeated clicks
+				//context.find("[data-model-ok]").prop('disabled', true);
+
+				Stripe.createToken($form, function (status, response) {
+					var $f = $form;
+
+					if (response.error) {
+						// Show the errors on the form
+						$f.find('.payment-errors').text(response.error.message);
+					//	$form.find('[data - model - ok]').prop('disabled', false);
+					} else {
+						// token contains id, last4, and card type
+						
+						var token = response.id;
+						// Insert the token into the form so it gets submitted to the server
+						//$form.append($('<input type="hidden" name="stripeToken" />').val(token));
+						// and re-submit
+						$.ajax({ url: q.pageConfig.paymentInformation, type: "POST", data:{token: token}}).done(function (result) {
+							context.hide();
+						});
+						//$form.get(0).submit();
+					}
+					});
+
+				//	// Prevent the form from submitting with the default action
+				//	return false;
+				//});
+
+
+				//$.ajax({ url: q.pageConfig.paymentInformation, type: "POST", data: q.serialize(modal.body()) }).done(function(result) {
+				//	context.hide();
+				//});
+			}
+		}).show();
+	});
+});
+
 q("sponsorsTab", function (arg) {
 	console.log("sponsors tab load.");
 

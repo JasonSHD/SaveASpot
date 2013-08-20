@@ -1,0 +1,46 @@
+﻿@model SaveASpot.ViewModels.StripeCreditCardInformationViewModel
+@{
+	Layout = null;
+	ViewContext.FormContext = new FormContext();
+}
+<form action="" method="post" id="payment-form">
+	<span class="payment-errors"></span>
+	<div>
+		<fieldset>
+			<div class="editor-label">
+				@Html.LabelFor(m => m.NameOnCard)
+			</div>
+			<div class="editor-field">
+				@Html.TextBoxFor(m => m.NameOnCard)
+			</div>
+			<div class="editor-label">
+				@Html.LabelFor(m => m.CardNumber)
+			</div>
+			<div class="editor-field">
+				@Html.TextBoxFor(m => m.CardNumber, new { data_stripe = "number" })
+			</div>
+			<div class="editor-label">
+				<label>Expiration(MM/YYYY)</label>
+			</div>
+			<div class="editor-field">
+				@Html.TextBoxFor(m => m.ExpirationMonth, new { data_stripe = "exp-month" })
+				<span>/ </span>
+				@Html.TextBoxFor(m => m.ExpirationYear, new { data_stripe = "exp-year" })
+			</div>
+			<div class="editor-label">
+				@Html.LabelFor(m => m.Cvc)
+			</div>
+			<div class="editor-field">
+				@Html.TextBoxFor(m => m.Cvc, new { data_stripe = "cvc" })
+			</div>
+			<div class="editor-label">
+				@Html.LabelFor(m => m.PostalCode)
+			</div>
+			<div class="editor-field">
+				@Html.TextBoxFor(m => m.PostalCode, new { placeholder = "Only required if you live in the U.S." })
+			</div>
+			<p>Please review the <a href="#">terms of service</a>, and <a href="#">privacy policy</a>.</p>
+		</fieldset>
+	</div>
+</form>
+

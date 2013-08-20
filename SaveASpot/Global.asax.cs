@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Ninject;
@@ -8,11 +7,10 @@ using SaveASpot.Controllers;
 using SaveASpot.Core;
 using SaveASpot.Core.Configuration;
 using SaveASpot.Core.Logging;
-using SaveASpot.Core.Logging.Implementation;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.DependenciesConfiguration;
-using SaveASpot.Repositories.Implementations;
-using SaveASpot.Repositories.Implementations.Logging;
+using Stripe;
+
 
 namespace SaveASpot
 {
@@ -74,6 +72,8 @@ namespace SaveASpot
 			{
 				GlobalFilters.Filters.Add(actionFilter);
 			}
+			
+			StripeConfiguration.SetApiKey(kernel.Get<ConfigurationManager>().GetSettings("StripeSecretKey"));
 
 			ModelBinders.Binders.Add(typeof(IElementIdentity), kernel.Get<ElementIdentityPropertyBinder>());
 

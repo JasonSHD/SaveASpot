@@ -103,5 +103,7 @@
 	Object.defineProperty(q.pageConfig, "removeSpotUrl", { value: "@Url.Action("Remove", "Spots")", wirtable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "parcelsAfterUploadUrl", { value: "@Url.Action("Index", "Parcels")", wirtable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "spotsAfterUploadUrl", { value: "@Url.Action("Index", "Spots")", wirtable: false, configurable: false });
+
+	Object.defineProperty(q.pageConfig, "paymentInformation", { value: "@Url.Action("CreatePaymentInformation","StripeCheckOut")", writable: false, configurable: false });
 	
 </script>
