@@ -38,6 +38,18 @@ namespace SaveASpot.Services.Implementations.Controllers
 																							new SponsorResult(_converter.Convert(createSponsorResult.Status.Sponsor), "Sponsor created!"));
 		}
 
+		public IMethodResult<MessageResult> EditSponsor(string identity, SponsorViewModel sponsorViewModel)
+		{
+			var updateSponsorResult = _sponsorsService.EditSponsor(identity, new SponsorArg
+				                             {
+					                             CompanyName = sponsorViewModel.CompanyName,
+					                             Logo = sponsorViewModel.Logo,
+					                             Sentence = sponsorViewModel.Sentence,
+					                             Url = sponsorViewModel.Url
+				                             });
+			return new MethodResult<MessageResult>(updateSponsorResult.IsSuccess, new MessageResult("Sponsor created!"));
+		}
+
 		public IEnumerable<SponsorViewModel> GetSponsors()
 		{
 			return _sponsorsService.GetAllSponsors().Select(_converter.Convert);
@@ -46,6 +58,11 @@ namespace SaveASpot.Services.Implementations.Controllers
 		public SponsorViewModel SponsorDetails(IElementIdentity sponsorIdentity)
 		{
 			return _converter.Convert(_sponsorQueryable.Filter(e => e.ByIdentity(sponsorIdentity)).First());
+		}
+
+		public IMethodResult Remove(string identity)
+		{
+			return new MessageMethodResult(_sponsorsService.Remove(identity), string.Empty);
 		}
 	}
 }

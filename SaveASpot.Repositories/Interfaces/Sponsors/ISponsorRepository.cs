@@ -6,5 +6,6 @@ namespace SaveASpot.Repositories.Interfaces.Sponsors
 	{
 		Sponsor AddSponsor(Sponsor sponsor);
 		bool Remove(string identity);
+		bool UpdateSponsor(string identity, Sponsor sponsor);
 	}
 }
