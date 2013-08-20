@@ -27,9 +27,9 @@ namespace SaveASpot.Services.Implementations
 					                              Url = sponsorArg.Url
 				                              });
 			
-			return string.IsNullOrEmpty(sponsor.Identity) 
-				? new MethodResult<CreateSponsorResult>(true, new CreateSponsorResult { SponsorId = sponsor.Identity })
-				: new MethodResult<CreateSponsorResult>(false, new CreateSponsorResult { MessageKet = "Error occured during sponsor creating." });
+			return string.IsNullOrEmpty(sponsor.Identity)
+				? new MethodResult<CreateSponsorResult>(true, new CreateSponsorResult { Sponsor = sponsor })
+				: new MethodResult<CreateSponsorResult>(false, new CreateSponsorResult { MessageKet = "Error occured during sponsor creating" });
 		}
 
 		public IMethodResult<MessageResult> EditSponsor(string identity, SponsorArg sponsorArg)
@@ -45,8 +45,7 @@ namespace SaveASpot.Services.Implementations
 			return result
 				       ? new MessageMethodResult(true, string.Empty)
 				       : new MessageMethodResult(false, "Error occured during sponsor upading.");
-				? new MethodResult<CreateSponsorResult>(true, new CreateSponsorResult { Sponsor = sponsor })
-				: new MethodResult<CreateSponsorResult>(false, new CreateSponsorResult { MessageKet = "Error occured during sponsor creating" });
+				
 		}
 
 		public IEnumerable<Sponsor> GetAllSponsors()
