@@ -15,7 +15,7 @@ namespace SaveASpot.ViewModels
 		public string Email { get; set; }
 
 		[Required]
-		[StringLength(Constants.PasswordMaxLength, ErrorMessage = Constants.Display.PasswordStringLengthErrorMessage, MinimumLength = Constants.PasswordMinLength)]
+		[StringLength(Constants.PasswordMaxLength, ErrorMessage = Constants.Display.PasswordStringLengthErrorMessage, MinimumLength = 6)]
 		[DataType(DataType.Password)]
 		[Display(Name = Constants.Display.Password)]
 		public string Password { get; set; }

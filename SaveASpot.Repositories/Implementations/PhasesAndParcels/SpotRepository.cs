@@ -1,5 +1,6 @@
 using MongoDB.Bson;
 using MongoDB.Driver.Builders;
+using SaveASpot.Core;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
 
@@ -22,18 +23,44 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			return spot;
 		}
 
-		public bool Remove(string identity)
+		public bool Remove(IElementIdentity identity)
 		{
-			ObjectId id;
+			ObjectId id = identity.ToIdentity();
 
-			if (ObjectId.TryParse(identity, out id))
-			{
-				_mongoDbCollectionFactory.Collection<Spot>().Remove(Query<Spot>.Where(e => e.Id == id));
+			_mongoDbCollectionFactory.Collection<Spot>().Remove(Query<Spot>.Where(e => e.Id == id));
 
-				return true;
-			}
+			return true;
+		}
 
-			return false;
+		public bool Update(Spot spot)
+		{
+			_mongoDbCollectionFactory.Collection<Spot>().Save(spot);
+
+			return true;
+		}
+
+		public bool MapSpotToCustomer(Spot spot, IElementIdentity customerIdentity)
+		{
+			spot.CustomerId = customerIdentity.ToIdentity();
+			_mongoDbCollectionFactory.Collection<Spot>().Save(spot);
+
+			return true;
+		}
+
+		public bool MapSpotToSponsor(Spot spot, IElementIdentity sponsorIdentity)
+		{
+			spot.SponsorId = sponsorIdentity.ToIdentity();
+			_mongoDbCollectionFactory.Collection<Spot>().Save(spot);
+
+			return true;
+		}
+
+		public bool RemoveMap(Spot spot)
+		{
+			spot.CustomerId = ObjectId.Empty;
+			_mongoDbCollectionFactory.Collection<Spot>().Save(spot);
+
+			return true;
 		}
 	}
 }

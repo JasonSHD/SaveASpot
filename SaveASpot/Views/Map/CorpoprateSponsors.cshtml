@@ -1,0 +1,20 @@
+﻿@model SaveASpot.ViewModels.MapViewModel
+<div style="display: none;" id="sponsorsSpotSelectPanel">
+	Corporate sponsors:
+	<select id="sponsors" class="span3">
+		@foreach (var sponsor in Model.Sponsors)
+	{
+			<option value="@sponsor.Identity.ToString()">@sponsor.CompanyName</option>
+	}
+	</select>
+
+	<div>
+		Spots selected:
+		<input type="text" disabled="disabled" value="0" />
+		<div class="btn-group-vertical">
+			<button type="button" class="btn btn-default btn-mini" data-up=""><i class="icon-chevron-up"></i></button>
+			<button type="button" class="btn btn-default btn-mini" data-down=""><i class="icon-chevron-down"></i></button>
+		</div>
+	</div>
+	<button type="button" data-booking="" class="btn">Book</button>
+</div>

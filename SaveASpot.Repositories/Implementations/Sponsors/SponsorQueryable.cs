@@ -1,19 +1,16 @@
-﻿using System.Collections.Generic;
-using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using SaveASpot.Core;
 using SaveASpot.Repositories.Interfaces.Sponsors;
 using SaveASpot.Repositories.Models;
 
 namespace SaveASpot.Repositories.Implementations.Sponsors
 {
-	public sealed class SponsorQueryable  :ISponsorQueryable
+	public sealed class SponsorQueryable : BasicMongoDBElementQueryable<Sponsor, ISponsorFilter>, ISponsorQueryable
 	{
-		private readonly IMongoDBCollectionFactory _mongoDbCollectionFactory;
-
 		public SponsorQueryable(IMongoDBCollectionFactory mongoDbCollectionFactory)
+			: base(mongoDbCollectionFactory)
 		{
-			_mongoDbCollectionFactory = mongoDbCollectionFactory;
 		}
 
 		public ISponsorFilter All()
@@ -26,14 +23,20 @@ namespace SaveASpot.Repositories.Implementations.Sponsors
 			return new SponsorFilter(Query<Sponsor>.Where(e => e.CompanyName == name));
 		}
 
+		public ISponsorFilter ByIdentity(IElementIdentity elementIdentity)
+		{
+			var sponsorId = elementIdentity.ToIdentity();
+			return new SponsorFilter(Query<Sponsor>.Where(e => e.Id == sponsorId));
+		}
+
 		public ISponsorFilter ByUrl(string url)
 		{
 			return new SponsorFilter(Query<Sponsor>.Where(e => e.Url == url));
 		}
 
-		public IEnumerable<Sponsor> Find(ISponsorFilter sponsorFilter)
+		protected override ISponsorFilter BuildFilter(IMongoQuery query)
 		{
-			return _mongoDbCollectionFactory.Collection<Sponsor>().Find(MongoQueryFilter.Convert(sponsorFilter).MongoQuery);
+			return new SponsorFilter(query);
 		}
 
 		private sealed class SponsorFilter : MongoQueryFilter, ISponsorFilter

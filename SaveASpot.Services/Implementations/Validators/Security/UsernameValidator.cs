@@ -1,15 +1,13 @@
-using SaveASpot.Core;
+using SaveASpot.Core.Validation;
 using SaveASpot.Services.Interfaces.Security;
 
 namespace SaveASpot.Services.Implementations.Validators.Security
 {
-	public sealed class UsernameValidator : IValidator<UserArg>
+	public sealed class UsernameValidator : CompositeValidator
 	{
-		public IValidationResult Validate(UserArg input)
+		public UsernameValidator()
+			: base(Validator.For<UserArg>().For(e => e.Username, e => e.Required().StringRequired()))
 		{
-			var nameValid = !string.IsNullOrWhiteSpace(input.Username) && input.Username.Length > 0;
-
-			return nameValid ? new ValidationResult(true, string.Empty) : new ValidationResult(false, "InvalidUserName");
 		}
 	}
 }

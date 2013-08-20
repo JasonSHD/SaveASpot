@@ -43,6 +43,12 @@
 })(q);
 
 (function (namespace, $) {
+	namespace.each = function (collection, handler) {
+		$(collection).each(handler);
+	}
+})(q, jQuery);
+
+(function (namespace, $) {
 	namespace.ajax = function (arg, ajaxIndicator) {
 		var result = {};
 		var handlers = {};
@@ -455,6 +461,41 @@ q.controls = q.controls || {};
 		return result;
 	};
 })(q.controls);
+
+(function (namespace, $) {
+	namespace.cart = function (element) {
+		var result = { _data: { control: $(element) } };
+		result._data.control.show();
+		var $notification = result._data.control.find(".notifications");
+
+		var updateCartHandler = function (arg) {
+			var count = arg.arg.elements.length;
+			$notification.find(".item").remove();
+			for (var elementIndex in arg.arg.elements) {
+				if (elementIndex < 4) {
+					$("<a/>").attr("href", "#").addClass("item").
+						append($("<i/>").addClass("icon-map-marker")).
+						append("Spot " + count).
+						append($("<span>").addClass("time").append($("<i/>").addClass("icon-dollar")).append("30.00")).
+						insertBefore($notification.find(".footer"));
+				} else {
+					break;
+				}
+			}
+
+			result._data.control.find(".count").text(count);
+
+
+		};
+		q.events().bind("updateCart", updateCartHandler);
+
+		result.destroy = function () {
+			q.events().unbind("updateCart", updateCartHandler);
+		};
+
+		return result;
+	};
+})(q.controls, jQuery);
 
 q.validation = q.validation || {};
 (function (namespace, $) {

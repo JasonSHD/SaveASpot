@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using SaveASpot.Core;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
 
@@ -28,20 +30,23 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			return new SpotFilter(Query.And(Query<Spot>.Where(e => e.SpotArea >= area), Query<Spot>.Where(e => e.SpotArea <= areaPlusOne)));
 		}
 
-		public ISpotFilter ByParcel(string identity)
-		{
-			ObjectId parcelIdentity;
-			if (ObjectId.TryParse(identity, out parcelIdentity))
-			{
-				return new SpotFilter(Query<Spot>.Where(e => e.ParcelId == parcelIdentity));
-			}
-
-			return new SpotFilter(Query.Null);
-		}
-
 		public ISpotFilter And(ISpotFilter left, ISpotFilter right)
 		{
 			return new SpotFilter(Query.And(MongoQueryFilter.Convert(left).MongoQuery, MongoQueryFilter.Convert(right).MongoQuery));
+		}
+
+		public ISpotFilter ByParcels(IEnumerable<IElementIdentity> identities)
+		{
+			var objectIdCollection = identities.Select(identity => identity.ToIdentity()).ToList();
+
+			return new SpotFilter(Query.And(Query<Spot>.In(e => e.ParcelId, objectIdCollection)));
+		}
+
+		public ISpotFilter ByIdentity(IElementIdentity identity)
+		{
+			ObjectId objectId = identity.ToIdentity();
+
+			return new SpotFilter(Query<Spot>.Where(e => e.Id == objectId));
 		}
 
 		public IEnumerable<Spot> Find(ISpotFilter spotFilter)

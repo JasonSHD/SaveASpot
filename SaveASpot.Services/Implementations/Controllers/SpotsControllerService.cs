@@ -12,13 +12,17 @@ namespace SaveASpot.Services.Implementations.Controllers
 	{
 		private readonly ISpotRepository _spotRepository;
 		private readonly ISpotQueryable _spotQueryable;
+		private readonly IParcelQueryable _parcelQueryable;
 		private readonly ITextParserEngine _textParserEngine;
+		private readonly IElementIdentityConverter _elementIdentityConverter;
 
-		public SpotsControllerService(ISpotRepository spotRepository, ISpotQueryable spotQueryable, ITextParserEngine textParserEngine)
+		public SpotsControllerService(ISpotRepository spotRepository, ISpotQueryable spotQueryable, IParcelQueryable parcelQueryable, ITextParserEngine textParserEngine, IElementIdentityConverter elementIdentityConverter)
 		{
 			_spotRepository = spotRepository;
 			_spotQueryable = spotQueryable;
+			_parcelQueryable = parcelQueryable;
 			_textParserEngine = textParserEngine;
+			_elementIdentityConverter = elementIdentityConverter;
 		}
 
 		public SpotsViewModel GetSpots(SelectorViewModel selectorViewModel)
@@ -38,23 +42,32 @@ namespace SaveASpot.Services.Implementations.Controllers
 							 };
 		}
 
-		public SpotsViewModel ByParcel(string identity)
+		public SpotsViewModel ByPhase(IElementIdentity identity)
 		{
+			var parcelsForPhase = _parcelQueryable.Find(_parcelQueryable.ByPhase(identity));
+
 			return new SpotsViewModel
 							 {
-								 Spots = _spotQueryable.Find(_spotQueryable.ByParcel(identity)).Select(ToSpotViewModel).ToList(),
+								 Spots = _spotQueryable.Filter(s => s.ByParcels(parcelsForPhase.Select(e => _elementIdentityConverter.ToIdentity(e.Id)))).Find().Select(ToSpotViewModel).ToList(),
 								 Selector = new SelectorViewModel()
 							 };
 		}
 
-		public IMethodResult Remove(string identity)
+		public IMethodResult Remove(IElementIdentity identity)
 		{
 			return new MessageMethodResult(_spotRepository.Remove(identity), string.Empty);
 		}
 
 		private SpotViewModel ToSpotViewModel(Spot spot)
 		{
-			return new SpotViewModel { Identity = spot.Identity, Area = spot.SpotArea, Points = spot.SpotShape.Select(e => new ViewModels.PhasesAndParcels.Point { Latitude = e.Latitude, Longitude = e.Longitude }) };
+			return new SpotViewModel
+			{
+				Identity = _elementIdentityConverter.ToIdentity(spot.Id),
+				Area = spot.SpotArea,
+				Points = spot.SpotShape.Select(e => new ViewModels.PhasesAndParcels.Point { Latitude = e.Latitude, Longitude = e.Longitude }),
+				CustomerId = _elementIdentityConverter.ToIdentity(spot.CustomerId),
+				SponsorIdentity = _elementIdentityConverter.ToIdentity(spot.SponsorId)
+			};
 		}
 	}
 }

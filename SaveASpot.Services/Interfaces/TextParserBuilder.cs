@@ -22,6 +22,8 @@ namespace SaveASpot.Services.Interfaces
 
 		public void Build(string filter)
 		{
+			if (filter == null) return;
+
 			foreach (var textParserCase in _textParserCases)
 			{
 				var result = textParserCase.Item1.Parse(filter);

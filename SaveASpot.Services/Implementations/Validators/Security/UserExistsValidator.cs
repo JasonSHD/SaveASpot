@@ -1,23 +1,24 @@
 using System.Linq;
-using SaveASpot.Core;
+using SaveASpot.Core.Validation;
 using SaveASpot.Repositories.Interfaces.Security;
 using SaveASpot.Services.Interfaces.Security;
 
 namespace SaveASpot.Services.Implementations.Validators.Security
 {
-	public sealed class UserExistsValidator : IValidator<UserArg>
+	public sealed class UserExistsValidator : BaseValidator<UserArg>
 	{
 		private readonly IUserQueryable _userQueryable;
 
 		public UserExistsValidator(IUserQueryable userQueryable)
+			: base("UserNotExistsError")
 		{
 			_userQueryable = userQueryable;
 		}
 
-		public IValidationResult Validate(UserArg input)
+		protected override bool IsValid(UserArg input)
 		{
-			var userExists = _userQueryable.FindUsers(_userQueryable.FilterByName(input.Username)).Any();
-			return userExists ? new ValidationResult(true, string.Empty) : new ValidationResult(false, "UserNotExistsError");
+			var userExists = _userQueryable.Filter(e => e.FilterByName(input.Username)).Find().Any();
+			return userExists;
 		}
 	}
 }

@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using SaveASpot.Controllers.Artifacts;
+using SaveASpot.Core;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.ViewModels.PhasesAndParcels;
@@ -30,13 +33,18 @@ namespace SaveASpot.Controllers
 			return TabView(model);
 		}
 
-		public JsonResult ByParcel(string identity)
+		[CustomerAuthorize]
+		public ContentResult ByPhase(IElementIdentity identity)
 		{
-			return Json(_spotsControllerService.ByParcel(identity).Spots.Select(e => e.ToJson()), JsonRequestBehavior.AllowGet);
+			return new ContentResult
+			{
+				Content = new JavaScriptSerializer { MaxJsonLength = Int32.MaxValue }.Serialize(_spotsControllerService.ByPhase(identity).Spots.Select(e => e.ToJson())),
+				ContentType = "application/json"
+			};
 		}
 
 		[HttpPost]
-		public ViewResult Remove(string identity, SelectorViewModel selectorViewModel)
+		public ViewResult Remove(IElementIdentity identity, SelectorViewModel selectorViewModel)
 		{
 			_spotsControllerService.Remove(identity);
 

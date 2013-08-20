@@ -41,11 +41,11 @@ namespace SaveASpot.Services.Implementations
 			{
 				foreach (var col in array)
 				{
-					foreach (var featuresCol in col.features)
+					foreach (var featuresCol in col["features"])
 					{
 						var phase = new Phase
 													{
-														PhaseName = featuresCol.properties.Phase
+														PhaseName = (string)featuresCol["properties"]["Phase"]
 													};
 
 						if (!_phaseQueryable.Find(_phaseQueryable.ByName(phase.PhaseName)).Any())
@@ -55,19 +55,19 @@ namespace SaveASpot.Services.Implementations
 
 						var points = new List<Point>();
 
-						foreach (var el in featuresCol.geometry.coordinates[0])
+						foreach (var el in featuresCol["geometry"]["coordinates"][0])
 						{
-							points.Add(new Point { Latitude = el[0], Longitude = el[1] });
+							points.Add(new Point { Latitude = (decimal)el[0], Longitude = (decimal)el[1] });
 						}
 
 						_parcelRepository.AddParcel(new Parcel
 																					{
-																						ParcelName = featuresCol.properties.Name,
-																						ParcelLength = featuresCol.properties.Shape_Leng,
-																						ParcelArea = featuresCol.properties.Shape_Area,
-																						ParcelAcres = featuresCol.properties.Acres,
+																						ParcelName = (string)featuresCol["properties"]["Name"],
+																						ParcelLength = (decimal?)featuresCol["properties"]["Shape_Leng"],
+																						ParcelArea = (decimal?)featuresCol["properties"]["Shape_Area"],
+																						ParcelAcres = (decimal?) featuresCol["properties"]["Acres"],
 																						ParcelShape = points,
-																						PhaseId = phase.Identity
+																						PhaseId = phase.Id
 																					});
 					}
 

@@ -45,6 +45,8 @@ namespace SaveASpot.Services.Implementations
 			return result
 				       ? new MessageMethodResult(true, string.Empty)
 				       : new MessageMethodResult(false, "Error occured during sponsor upading.");
+				? new MethodResult<CreateSponsorResult>(true, new CreateSponsorResult { Sponsor = sponsor })
+				: new MethodResult<CreateSponsorResult>(false, new CreateSponsorResult { MessageKet = "Error occured during sponsor creating" });
 		}
 
 		public IEnumerable<Sponsor> GetAllSponsors()

@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using SaveASpot.Core;
+﻿using SaveASpot.Core;
 using SaveASpot.Core.Web;
+using SaveASpot.Repositories.Interfaces;
 using SaveASpot.Repositories.Interfaces.Security;
 using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.Services.Interfaces.Security;
@@ -13,15 +13,15 @@ namespace SaveASpot.Services.Implementations.Controllers
 		private readonly IUserService _userService;
 		private readonly IWebAuthentication _webAuthentication;
 		private readonly ITextService _textService;
-		private readonly IUserHarvester _userHarvester;
+		private readonly IUserFactory _userFactory;
 		private readonly IUserQueryable _userQueryable;
 
-		public AccountControllerService(IUserService userService, IWebAuthentication webAuthentication, ITextService textService, IUserHarvester userHarvester, IUserQueryable userQueryable)
+		public AccountControllerService(IUserService userService, IWebAuthentication webAuthentication, ITextService textService, IUserFactory userFactory, IUserQueryable userQueryable)
 		{
 			_userService = userService;
 			_webAuthentication = webAuthentication;
 			_textService = textService;
-			_userHarvester = userHarvester;
+			_userFactory = userFactory;
 			_userQueryable = userQueryable;
 		}
 
@@ -31,14 +31,15 @@ namespace SaveASpot.Services.Implementations.Controllers
 
 			if (userExistsResult.IsSuccess)
 			{
-				_webAuthentication.Authenticate(userExistsResult.Status.UserId, logOnViewModel.RememberMe);
+				_webAuthentication.Authenticate(userExistsResult.Status.UserId.ToString(), logOnViewModel.RememberMe);
+
 				var user =
-					_userHarvester.Convert(_userQueryable.FindUsers(_userQueryable.FilterById(userExistsResult.Status.UserId)).First());
+					_userFactory.Convert(_userQueryable.Filter(e => e.FilterById(userExistsResult.Status.UserId)).First());
 
 				return new MethodResult<UserResult>(true, new UserResult(user, string.Empty));
 			}
 
-			return new MethodResult<UserResult>(false, new UserResult(_userHarvester.NotExists(), _textService.ResolveTest(userExistsResult.Status.MessageKey)));
+			return new MethodResult<UserResult>(false, new UserResult(_userFactory.NotExists(), _textService.ResolveTest(userExistsResult.Status.MessageKey)));
 		}
 
 		public IMethodResult<MessageResult> LogOff()

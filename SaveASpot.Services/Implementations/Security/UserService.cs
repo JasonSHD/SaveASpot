@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SaveASpot.Core;
+using SaveASpot.Core.Validation;
 using SaveASpot.Core.Security;
+using SaveASpot.Repositories.Interfaces;
 using SaveASpot.Repositories.Interfaces.Security;
 using SaveASpot.Repositories.Models.Security;
 using SaveASpot.Services.Interfaces.Security;
@@ -12,27 +14,30 @@ namespace SaveASpot.Services.Implementations.Security
 	{
 		private readonly IUserValidateFactory _userValidateFactory;
 		private readonly IUserRepository _userRepository;
-		private readonly IUserHarvester _userHarvester;
+		private readonly IUserFactory _userFactory;
 		private readonly IUserQueryable _userQueryable;
 		private readonly IPasswordHash _passwordHash;
+		private readonly IElementIdentityConverter _elementIdentityConverter;
 
-		public UserService(IUserValidateFactory userValidateFactory, IUserRepository userRepository, IUserHarvester userHarvester, IUserQueryable userQueryable, IPasswordHash passwordHash)
+		public UserService(IUserValidateFactory userValidateFactory, IUserRepository userRepository, IUserFactory userFactory, IUserQueryable userQueryable, IPasswordHash passwordHash, IElementIdentityConverter elementIdentityConverter)
 		{
 			_userValidateFactory = userValidateFactory;
 			_userRepository = userRepository;
-			_userHarvester = userHarvester;
+			_userFactory = userFactory;
 			_userQueryable = userQueryable;
 			_passwordHash = passwordHash;
+			_elementIdentityConverter = elementIdentityConverter;
 		}
 
 		public IMethodResult<UserExistsResult> UserExists(string username, string password)
 		{
-			var userFilter = _userQueryable.And(_userQueryable.FilterByName(username), _userQueryable.FilterByPassword(_passwordHash.GetHash(password, username)));
-			var users = _userQueryable.FindUsers(userFilter).ToList();
+			var users =
+				_userQueryable.Filter(e => e.FilterByName(username))
+											.And(e => e.FilterByPassword(_passwordHash.GetHash(password, username))).ToList();
 
 			if (users.Any())
 			{
-				return new MethodResult<UserExistsResult>(true, new UserExistsResult { UserId = users.First().Identity });
+				return new MethodResult<UserExistsResult>(true, new UserExistsResult { UserId = _elementIdentityConverter.ToIdentity(users.First().Identity) });
 			}
 
 			return new MethodResult<UserExistsResult>(false, new UserExistsResult { MessageKey = "InvalidUsernameOrPassword" });
@@ -58,7 +63,7 @@ namespace SaveASpot.Services.Implementations.Security
 																				 Roles = roles.Select(e => e.Identity).ToArray()
 																			 });
 
-				return new MethodResult<CreateUserResult>(true, new CreateUserResult { UserId = user.Identity });
+				return new MethodResult<CreateUserResult>(true, new CreateUserResult { UserId = _elementIdentityConverter.ToIdentity(user.Identity) });
 			}
 
 			return new MethodResult<CreateUserResult>(validationResult.IsValid, new CreateUserResult { MessageKet = validationResult.Message });
@@ -81,29 +86,28 @@ namespace SaveASpot.Services.Implementations.Security
 			return new MessageMethodResult(false, validationResult.Message);
 		}
 
-		public User GetUserById(string id)
+		public User GetUserById(IElementIdentity id)
 		{
-			var userFilter = _userQueryable.FilterById(id);
-			var users = _userQueryable.FindUsers(userFilter).ToList();
+			var users = _userQueryable.Filter(e => e.FilterById(id)).ToList();
 
 			if (users.Any())
 			{
-				return _userHarvester.Convert(users.First());
+				return _userFactory.Convert(users.First());
 			}
 
-			return _userHarvester.NotExists();
+			return _userFactory.NotExists();
 		}
 
 		public User GetUserByName(string username)
 		{
-			var users = _userQueryable.FindUsers(_userQueryable.FilterByName(username)).ToList();
+			var users = _userQueryable.Find(_userQueryable.FilterByName(username)).ToList();
 
-			return users.Any() ? _userHarvester.Convert(users.First()) : _userHarvester.NotExists();
+			return users.Any() ? _userFactory.Convert(users.First()) : _userFactory.NotExists();
 		}
 
 		public IEnumerable<User> GetByRole(Role role)
 		{
-			return _userQueryable.FindUsers(_userQueryable.FilterByRole(role)).Select(e => _userHarvester.Convert(e)).ToList();
+			return _userQueryable.Filter(e => e.FilterByRole(role)).Find().Select(e => _userFactory.Convert(e)).ToList();
 		}
 	}
 }

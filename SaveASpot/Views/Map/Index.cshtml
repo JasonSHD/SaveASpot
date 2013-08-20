@@ -1,4 +1,5 @@
-﻿@using SaveASpot.Controllers
+﻿@model SaveASpot.ViewModels.MapViewModel
+@using SaveASpot.Controllers
 @{
 	ViewBag.Title = "Index";
 	Layout = null;
@@ -23,10 +24,27 @@
 			padding: 17%;
 		}
 	</style>
+	<input type="hidden" id="isCustomer" value="@Model.IsCustomer"/>
 	<div id="map-container" class="container">
 		<div id="map-canvas" class="mini-layout-body">
 		</div>
 	</div>
+
+	@if (Model.IsCustomer)
+ {
+	 Html.RenderPartial("CustomerSpots", Model);
+	 
+		<div class="sponsor-details">
+			<span class="company-name"></span>
+			<span class="sponsor-sentence"></span>
+			<span class="sponsor-url"></span>
+			<img class="sponsor-logo" src="" />
+		</div>
+ }
+ else
+ {
+	 Html.RenderPartial("CorpoprateSponsors", Model);
+ }
 </div>
 
 

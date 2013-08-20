@@ -1,6 +1,7 @@
 ﻿@using Newtonsoft.Json
 @using SaveASpot.Controllers
 @using SaveASpot.Core.Security
+@using SaveASpot.Core.Web.Mvc
 @{
 	Layout = null;
 }
@@ -29,7 +30,6 @@
 
 	<!-- this page specific styles -->
 	<link rel="stylesheet" href="@Url.Content("~/Content/css/compiled/gallery.css")" type="text/css" media="screen" />
-	<link rel="stylesheet" href="@Url.Content("~/Content/css/map.css")" type="text/css" />
 	@RenderSection("styles", false)
 
 	<!-- open sans font -->
@@ -97,6 +97,13 @@
 			@if (ViewConfiguration.User.IsExists())
 	 {
 		 @Html.Raw("q.security.user().login(" + JsonConvert.SerializeObject(ViewConfiguration.User.AsUserJson()) + ");")
+
+		 if (ViewConfiguration.User.IsCustomer(new CustomerRole()))
+		 {
+			 @Html.Raw("q.security.customer = " + JsonConvert.SerializeObject(((Customer)CustomerElement.GetCustomer(ViewBag)).AsCustomerJson()) + ";")
+			@Html.Raw("var cartControl = q.controls.cart($('[data-cart]'));")
+		 @Html.Raw("q.events().fire('updateCart', { elements: q.security.customer.cart.elements });")
+		 }
 	 }
 	 else
 	 {

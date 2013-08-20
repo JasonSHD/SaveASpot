@@ -47,11 +47,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AndValidator.cs" />
+    <Compile Include="IConverter.cs" />
+    <Compile Include="Validation\CompositeValidator.cs" />
+    <Compile Include="Validation\EntityValidator.cs" />
+    <Compile Include="Validation\NullValidator.cs" />
+    <Compile Include="Validation\AndValidator.cs" />
+    <Compile Include="Configuration\ApplicationConfiguration.cs" />
+    <Compile Include="Configuration\ApplicationMode.cs" />
     <Compile Include="Configuration\ConfigurationManager.cs" />
+    <Compile Include="Configuration\IApplicationConfiguration.cs" />
     <Compile Include="Configuration\IConfigurationManager.cs" />
     <Compile Include="Configuration\ILogConfiguration.cs" />
     <Compile Include="Configuration\LogConfiguration.cs" />
+    <Compile Include="ElementIdentityExtensions.cs" />
+    <Compile Include="IElementIdentity.cs" />
+    <Compile Include="IElementIdentityConverter.cs" />
     <Compile Include="IMethodResult.cs" />
     <Compile Include="ITextService.cs" />
     <Compile Include="IValidationResult.cs" />
@@ -66,10 +76,12 @@
     <Compile Include="MessageMethodResult.cs" />
     <Compile Include="MessageResult.cs" />
     <Compile Include="MethodResult.cs" />
+    <Compile Include="NullElementIdentity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\AdministratorRole.cs" />
     <Compile Include="Security\Customer.cs" />
     <Compile Include="Security\CustomerRole.cs" />
+    <Compile Include="Security\ICurrentCustomer.cs" />
     <Compile Include="Security\ICurrentUser.cs" />
     <Compile Include="Security\IPasswordHash.cs" />
     <Compile Include="Security\IRoleFactory.cs" />
@@ -79,6 +91,17 @@
     <Compile Include="Security\UserExtensions.cs" />
     <Compile Include="TypeHelper.cs" />
     <Compile Include="ValidationResult.cs" />
+    <Compile Include="Validation\BaseValidator.cs" />
+    <Compile Include="Validation\RegexValidator.cs" />
+    <Compile Include="Validation\RequiredElementIdentityValidator.cs" />
+    <Compile Include="Validation\EntityValidatorBuilder.cs" />
+    <Compile Include="Validation\FluentValidatorExtensions.cs" />
+    <Compile Include="Validation\NotValidatorBuilder.cs" />
+    <Compile Include="Validation\NotValidatorBuilderExtensions.cs" />
+    <Compile Include="Validation\RequiredValidator.cs" />
+    <Compile Include="Validation\StringLenghtValidator.cs" />
+    <Compile Include="Validation\StringRequiredValidator.cs" />
+    <Compile Include="Validation\Validator.cs" />
     <Compile Include="Web\IWebAuthentication.cs" />
     <Compile Include="Web\Mvc\AdministratorAuthorizeAttribute.cs" />
     <Compile Include="Web\Mvc\AdminTabViewPage.cs" />
@@ -87,8 +110,11 @@
     <Compile Include="Web\Mvc\BaseViewPage.cs" />
     <Compile Include="Web\Mvc\ControllerFactory.cs" />
     <Compile Include="Web\Mvc\ControllerTypesFinder.cs" />
+    <Compile Include="Web\Mvc\CustomerActionFilter.cs" />
     <Compile Include="Web\Mvc\CustomerAuthorizeAttribute.cs" />
+    <Compile Include="Web\Mvc\CustomerElement.cs" />
     <Compile Include="Web\Mvc\DefaultTabActionAttribute.cs" />
+    <Compile Include="Web\Mvc\ElementIdentityPropertyBinder.cs" />
     <Compile Include="Web\Mvc\Extensions\ContainerForElement.cs" />
     <Compile Include="Web\Mvc\Extensions\TabElementExtensions.cs" />
     <Compile Include="Web\Mvc\IControllerTypesFinder.cs" />

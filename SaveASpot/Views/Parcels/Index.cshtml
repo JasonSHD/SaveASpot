@@ -19,8 +19,8 @@
 			<tr>
 				<td>@parcelViewModel.Name</td>
 				<td>
-					<button class="btn btn-primary" data-parcel-map-identity="@parcelViewModel.Identity" data-parcel-map-name="@parcelViewModel.Name">Map</button>
-					<button class="btn btn-danger" data-parcel-delete-identity="@parcelViewModel.Identity" data-parcel-delete-name="@parcelViewModel.Name">Delete</button>
+					<button class="btn btn-primary" data-parcel-map-identity="@parcelViewModel.Identity.ToString()" data-parcel-map-name="@parcelViewModel.Name">Map</button>
+					<button class="btn btn-danger" data-parcel-delete-identity="@parcelViewModel.Identity.ToString()" data-parcel-delete-name="@parcelViewModel.Name">Delete</button>
 				</td>
 			</tr>
 	}

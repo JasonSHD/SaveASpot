@@ -19,6 +19,7 @@ namespace SaveASpot.Controllers
 			_phasesControllerService = phasesControllerService;
 		}
 
+		[CustomerAuthorize]
 		public ActionResult Index(SelectorViewModel selectorViewModel, bool isJson = false)
 		{
 			if (!ModelState.IsValid)

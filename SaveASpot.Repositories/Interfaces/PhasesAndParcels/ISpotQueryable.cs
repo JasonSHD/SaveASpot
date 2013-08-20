@@ -1,14 +1,14 @@
 using System.Collections.Generic;
+using SaveASpot.Core;
 using SaveASpot.Repositories.Models;
 
 namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
 {
-	public interface ISpotQueryable
+	public interface ISpotQueryable : IElementQueryable<Spot, ISpotFilter>
 	{
 		ISpotFilter All();
 		ISpotFilter ByArea(decimal area);
-		ISpotFilter ByParcel(string identity);
-		ISpotFilter And(ISpotFilter left, ISpotFilter right);
-		IEnumerable<Spot> Find(ISpotFilter spotFilter);
+		ISpotFilter ByParcels(IEnumerable<IElementIdentity> identities);
+		ISpotFilter ByIdentity(IElementIdentity identity);
 	}
 }

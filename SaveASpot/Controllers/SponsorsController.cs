@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using SaveASpot.Controllers.Artifacts;
+using SaveASpot.Core;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.ViewModels;
@@ -58,6 +59,13 @@ namespace SaveASpot.Controllers
 			var model = _sponsorsControllerService.GetSponsors();
 
 			return TabView("Index", model);
+		}
+
+		[HttpGet]
+		[CustomerAuthorize]
+		public JsonResult SponsorDetails(IElementIdentity sponsorIdentity)
+		{
+			return Json(_sponsorsControllerService.SponsorDetails(sponsorIdentity).AsSponsorJson(), JsonRequestBehavior.AllowGet);
 		}
     }
 }

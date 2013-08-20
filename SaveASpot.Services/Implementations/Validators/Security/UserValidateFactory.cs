@@ -13,27 +13,27 @@ namespace SaveASpot.Services.Implementations.Validators.Security
 			_userQueryable = userQueryable;
 		}
 
-		public IValidator<UserArg> UserExistsValidator()
+		public IValidator UserExistsValidator()
 		{
 			return new UserExistsValidator(_userQueryable);
 		}
 
-		public IValidator<UserArg> UserNotExistsValidator()
+		public IValidator UserNotExistsValidator()
 		{
 			return new UseNotExistsValidator(_userQueryable);
 		}
 
-		public IValidator<UserArg> UserNameValidator()
+		public IValidator UserNameValidator()
 		{
 			return new UsernameValidator();
 		}
 
-		public IValidator<UserArg> PasswordValidator()
+		public IValidator PasswordValidator()
 		{
 			return new PasswordValidator();
 		}
 
-		public IValidator<UserArg> EmailValidator()
+		public IValidator EmailValidator()
 		{
 			return new UserEmailValidator();
 		}

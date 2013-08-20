@@ -6,11 +6,11 @@ using SaveASpot.Services.Interfaces.Security;
 
 namespace SaveASpot.Services.Implementations.Security
 {
-	public sealed class UserHarvester : IUserHarvester
+	public sealed class UserFactory : IUserFactory
 	{
 		private readonly IEnumerable<Role> _roles;
 
-		public UserHarvester()
+		public UserFactory()
 		{
 			_roles = new Role[] { new AdministratorRole(), new CustomerRole() };
 		}

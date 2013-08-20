@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using SaveASpot.Controllers.Artifacts;
+using SaveASpot.Core;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.ViewModels.PhasesAndParcels;
@@ -30,13 +31,8 @@ namespace SaveASpot.Controllers
 			return TabView(model);
 		}
 
-		public JsonResult ByPhase(string identity)
-		{
-			return Json(_parcelsControllerService.ByPhase(identity).Parcels.Select(e => e.ToJson()), JsonRequestBehavior.AllowGet);
-		}
-
 		[HttpPost]
-		public ViewResult Remove(string identity, SelectorViewModel selectorViewModel)
+		public ViewResult Remove(IElementIdentity identity, SelectorViewModel selectorViewModel)
 		{
 			_parcelsControllerService.Remove(identity);
 

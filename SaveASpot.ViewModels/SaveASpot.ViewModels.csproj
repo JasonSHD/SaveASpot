@@ -42,11 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BookingSpotsViewModel.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CreateCustomerViewModel.cs" />
     <Compile Include="CreateSponsorViewModel.cs" />
     <Compile Include="CustomerViewModel.cs" />
     <Compile Include="LogOnViewModel.cs" />
+    <Compile Include="MapViewModel.cs" />
     <Compile Include="PhasesAndParcels\ParcelsViewModel.cs" />
     <Compile Include="PhasesAndParcels\ParcelViewModel.cs" />
     <Compile Include="PhasesAndParcels\PhasesViewModel.cs" />
@@ -59,7 +61,12 @@
     <Compile Include="RegisterViewModel.cs" />
     <Compile Include="SponsorViewModel.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SaveASpot.Core\SaveASpot.Core.csproj">
+      <Project>{3689bdf8-2cbc-4583-b109-1b5163c97b53}</Project>
+      <Name>SaveASpot.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

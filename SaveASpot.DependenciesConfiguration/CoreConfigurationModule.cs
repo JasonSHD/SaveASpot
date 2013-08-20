@@ -6,6 +6,7 @@ using SaveASpot.Core.Security;
 using SaveASpot.Core.Web;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Repositories.Implementations.Logging;
+using SaveASpot.Services.Implementations.Security;
 
 namespace SaveASpot.DependenciesConfiguration
 {
@@ -19,11 +20,14 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<IPasswordHash>().To<PasswordHash>();
 			Bind<IActionFilter>().To<ViewPageInitializerFilter>();
 			Bind<IActionFilter>().To<TabActionFilter>();
+			Bind<IActionFilter>().To<CustomerActionFilter>();
 			Bind<ITabElementFilter>().To<RoleTabElementFilter>();
 			Bind<ILogConfiguration>().To<LogConfiguration>();
 			Bind<ILogger>().To<Logger>();
 			Bind<ILogAppender>().To<LogAppender>();
+			Bind<ICurrentCustomer>().To<CurrentCustomer>();
 			Bind<ModelMetadataProvider>().To<ResourceDataAnnotationsModelMetadataProvider>();
+			Bind<IApplicationConfiguration>().To<ApplicationConfiguration>();
 		}
 	}
 }
