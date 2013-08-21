@@ -13,7 +13,7 @@ namespace SaveASpot.Repositories.Implementations
 			_objectId = objectId;
 		}
 
-		public override string ToString()
+		string IElementIdentity.ToString()
 		{
 			return _objectId.ToString();
 		}
