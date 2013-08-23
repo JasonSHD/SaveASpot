@@ -63,5 +63,27 @@ namespace SaveASpot.Repositories.Implementations.Security
 
 			return true;
 		}
+
+		public bool UpdateSiteCustomer(string id, string stripeUserToken)
+		{
+			var customerId = id.ToIdentity();
+
+			var result = _mongoDBCollectionFactory.Collection<SiteCustomer>()
+															 .Update(Query<SiteCustomer>.EQ(e => e.UserId, customerId),
+																			 Update<SiteCustomer>.Set(e => e.StripeUserId, stripeUserToken));
+
+			return result.DocumentsAffected == 1;
+		}
+
+		public SiteCustomer GetCustomerById(string id)
+		{
+			var customerId = id.ToIdentity();
+
+			var customer =
+				_mongoDBCollectionFactory.Collection<SiteCustomer>().FindOne(Query<SiteCustomer>.Where(e => e.UserId == customerId));
+
+			return customer;
+		}
+
 	}
 }

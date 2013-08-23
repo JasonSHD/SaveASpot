@@ -11,6 +11,7 @@ namespace SaveASpot.Repositories.Models.Security
 
 		public ObjectId Id { get; set; }
 		public ObjectId UserId { get; set; }
+		public string StripeUserId { get; set; }
 		public Cart Cart { get; set; }
 	}
 }

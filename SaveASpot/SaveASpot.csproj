@@ -108,7 +108,7 @@
     <Compile Include="Controllers\SiteConstants.cs" />
     <Compile Include="Controllers\SponsorsController.cs" />
     <Compile Include="Controllers\SpotsController.cs" />
-    <Compile Include="Controllers\StripeCheckOutController.cs" />
+    <Compile Include="Controllers\StripeController.cs" />
     <Compile Include="Controllers\UploadPhasesAndParcelsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -425,7 +425,7 @@
     <Content Include="Views\Sponsors\CreateSponsor.cshtml" />
     <Content Include="Views\Map\CorpoprateSponsors.cshtml" />
     <Content Include="Views\Map\CustomerSpots.cshtml" />
-    <Content Include="Views\StripeCheckOut\CreatePaymentInformation.cshtml" />
+    <Content Include="Views\Stripe\CreatePaymentInformation.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
