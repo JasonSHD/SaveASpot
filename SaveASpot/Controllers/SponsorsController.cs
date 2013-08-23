@@ -38,6 +38,13 @@ namespace SaveASpot.Controllers
 		}
 
 		[HttpGet]
+		[CustomerAuthorize]
+		public JsonResult SponsorDetails(IElementIdentity sponsorIdentity)
+		{
+			return Json(_sponsorsControllerService.SponsorDetails(sponsorIdentity).AsSponsorJson(), JsonRequestBehavior.AllowGet);
+		}
+
+		[HttpGet]
 		public ViewResult EditSponsor(SponsorViewModel sponsorViewModel)
 		{
 			return View(sponsorViewModel);
@@ -59,13 +66,6 @@ namespace SaveASpot.Controllers
 			var model = _sponsorsControllerService.GetSponsors();
 
 			return TabView("Index", model);
-		}
-
-		[HttpGet]
-		[CustomerAuthorize]
-		public JsonResult SponsorDetails(IElementIdentity sponsorIdentity)
-		{
-			return Json(_sponsorsControllerService.SponsorDetails(sponsorIdentity).AsSponsorJson(), JsonRequestBehavior.AllowGet);
 		}
     }
 }

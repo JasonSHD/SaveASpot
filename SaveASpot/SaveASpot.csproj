@@ -419,9 +419,9 @@
     <Content Include="Views\Shared\Controls\PaginationControl.cshtml" />
     <Content Include="Views\Sponsors\Index.cshtml" />
     <Content Include="Views\Sponsors\CreateSponsor.cshtml" />
+    <Content Include="Views\Sponsors\EditSponsor.cshtml" />
     <Content Include="Views\Map\CorpoprateSponsors.cshtml" />
     <Content Include="Views\Map\CustomerSpots.cshtml" />
-    <Content Include="Views\Sponsors\EditSponsor.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
