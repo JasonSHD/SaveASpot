@@ -9,7 +9,7 @@ namespace SaveASpot.Controllers
 {
 	[MainMenuTab(Alias = SiteConstants.SponsorsControllerAlias, Area = "", IndexOfOrder = 40, Title = "SponsorsTabTitle")]
 	[AdministratorAuthorize]
-	public sealed class SponsorsController : TabController
+    public sealed class SponsorsController : TabController
 	{
 		private readonly ISponsorsControllerService _sponsorsControllerService;
 
@@ -43,5 +43,29 @@ namespace SaveASpot.Controllers
 		{
 			return Json(_sponsorsControllerService.SponsorDetails(sponsorIdentity).AsSponsorJson(), JsonRequestBehavior.AllowGet);
 		}
-	}
+
+		[HttpGet]
+		public ViewResult EditSponsor(SponsorViewModel sponsorViewModel)
+		{
+			return View(sponsorViewModel);
+		}
+
+		[HttpPost]
+		public ActionResult EditSponsor(string identity, SponsorViewModel sponsorViewModel)
+		{
+			var updateSponsorResult = _sponsorsControllerService.EditSponsor(identity, sponsorViewModel);
+
+			return Json(new { status = updateSponsorResult.IsSuccess, message = updateSponsorResult.Status.Message });
+		}
+
+		[HttpPost]
+		public ViewResult Remove(string identity)
+		{
+			_sponsorsControllerService.Remove(identity);
+
+			var model = _sponsorsControllerService.GetSponsors();
+
+			return TabView("Index", model);
+		}
+    }
 }

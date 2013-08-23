@@ -15,7 +15,7 @@
 	</div>
 	<table class="table">
 		<thead>
-			<tr>
+			<tr >
 				<th>Company name</th>
 				<th>Sentence</th>
 				<th>Url</th>
@@ -25,11 +25,15 @@
 		<tbody>
 			@foreach (var sponsor in Model)
 	 {
-				<tr>
-					<td>@sponsor.CompanyName</td>
-					<td>@sponsor.Sentence</td>
-					<td>@sponsor.Url</td>
-					<td>@sponsor.Logo</td>
+				<tr id="@sponsor.Identity.ToString()">
+					<td company-name>@sponsor.CompanyName</td>
+					<td company-sentence>@sponsor.Sentence</td>
+					<td company-url>@sponsor.Url</td>
+					<td company-logo>@sponsor.Logo</td>
+					<td>
+						<button class="btn btn-primary" data-sponsor-edit-identity="@sponsor.Identity.ToString()" data-sponsor-edit-name="@sponsor.CompanyName">Edit</button>
+						<button class="btn btn-danger" data-sponsor-delete-identity="@sponsor.Identity.ToString()" data-sponsor-delete-name="@sponsor.CompanyName">Delete</button>
+					</td>
 				</tr>
 	 }
 		</tbody>

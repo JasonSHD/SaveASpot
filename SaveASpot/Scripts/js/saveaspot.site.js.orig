@@ -28,12 +28,20 @@ q("customersTab", function (arg) {
 						});
 					}
 				}).
+<<<<<<< HEAD
+				show();
+		});
+	});
+});
+
+=======
 				show();
 		});
 	});
 });
 
 
+>>>>>>> development
 q("sponsorsTab", function (arg) {
 	console.log("sponsors tab load.");
 

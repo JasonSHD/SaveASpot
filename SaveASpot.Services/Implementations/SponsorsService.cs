@@ -27,14 +27,34 @@ namespace SaveASpot.Services.Implementations
 					                              Url = sponsorArg.Url
 				                              });
 			
-			return string.IsNullOrEmpty(sponsor.Identity) 
+			return !string.IsNullOrEmpty(sponsor.Identity) 
 				? new MethodResult<CreateSponsorResult>(true, new CreateSponsorResult { Sponsor = sponsor })
-				: new MethodResult<CreateSponsorResult>(false, new CreateSponsorResult { MessageKet = "Error occured during sponsor creating" });
+				: new MethodResult<CreateSponsorResult>(false, new CreateSponsorResult { MessageKet = "Error occured during sponsor creating." });
+		}
+
+		public IMethodResult<MessageResult> EditSponsor(string identity, SponsorArg sponsorArg)
+		{
+			var result = _sponsorRepository.UpdateSponsor(identity, new Sponsor()
+				                                           {
+					                                           CompanyName = sponsorArg.CompanyName,
+															   Sentence = sponsorArg.Sentence,
+															   Logo = sponsorArg.Logo,
+															   Url = sponsorArg.Url
+				                                           });
+			
+			return result
+				       ? new MessageMethodResult(true, string.Empty)
+				       : new MessageMethodResult(false, "Error occured during sponsor upading.");
 		}
 
 		public IEnumerable<Sponsor> GetAllSponsors()
 		{
 			return _sponsorQueryable.Find(_sponsorQueryable.All());
+		}
+
+		public bool Remove(string identity)
+		{
+			return _sponsorRepository.Remove(identity);
 		}
 	}
 }
