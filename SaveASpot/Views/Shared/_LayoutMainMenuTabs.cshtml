@@ -109,5 +109,6 @@
 
 	Object.defineProperty(q.pageConfig, "paymentInformation", { value: "@Url.Action("CreatePaymentInformation","Stripe")", writable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "isCustomerAStripeUser", { value: "@Url.Action("IsPaymentInformationAdded","Stripe")", writable: false, configurable: false });
+	Object.defineProperty(q.pageConfig, "checkOut", { value: "@Url.Action("CheckOutPhase","Stripe")", writable: false, configurable: false });
 	
 </script>

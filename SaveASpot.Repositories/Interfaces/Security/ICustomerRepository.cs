@@ -1,4 +1,5 @@
-﻿using SaveASpot.Core;
+﻿using MongoDB.Bson;
+using SaveASpot.Core;
 using SaveASpot.Repositories.Models.Security;
 
 namespace SaveASpot.Repositories.Interfaces.Security
@@ -7,9 +8,11 @@ namespace SaveASpot.Repositories.Interfaces.Security
 	{
 		bool AddSpot(IElementIdentity customerId, IElementIdentity spotId);
 		bool CreateCustomer(IElementIdentity userIdentity);
-		SiteCustomer GetCustomerById(string  id);
+		SiteCustomer GetCustomerByUserId(string userId);
+		SiteCustomer GetCustomerById(string id);
 		bool AddSpotToCart(IElementIdentity customerIdentity, IElementIdentity spotIdentity);
 		bool RemoveSpotFromCart(IElementIdentity customerIdentity, IElementIdentity spotIdentity);
 		bool UpdateSiteCustomer(string id, string stripeUserToken);
+		bool UpdateCustomerCart(string customerId, ObjectId[] cartIdentity);
 	}
 }

@@ -388,18 +388,16 @@
 		};
 		result._controllers.booking = function () {
 			var context = this;
-			q.ajax({ url: q.pageConfig.isCustomerAStripeUser, type: "GET" }).done(function(result) {
+			q.ajax({ url: q.pageConfig.isCustomerAStripeUser, type: "GET" }).done(function (result) {
 
 				if (result === false) {
 					q.ajax({ url: q.pageConfig.paymentInformation, type: "GET" }).done(function (paymentInformation) {
 						q.controls.modal().title("Credit Card Information").body(paymentInformation)
 							.ok("Create", function () {
 								var context = this;
-							//	var validator = q.validation.validator(q.controls.modal().body());
+								
 								if (true) {
 									Stripe.setPublishableKey('pk_test_HtOjhY9gYqhndfgX3jMUvohd');
-
-									//$('#payment-form').submit(function (e) {
 									var $form = $('#payment-form');
 
 									//	// Disable the submit button to prevent repeated clicks
@@ -408,7 +406,6 @@
 									Stripe.createToken($form, function (status, response) {
 										var $f = $form;
 										if (response.error) {
-											// Show the errors on the form
 											$f.find('.payment-errors').text(response.error.message);
 											//	$form.find('[data - model - ok]').prop('disabled', false);
 										} else {
@@ -418,17 +415,13 @@
 											});
 										}
 									});
-
-									//	// Prevent the form from submitting with the default action
-									//	return false;
-									//});
 								}
 							}).show();
 					});
 				}
 			});
-			
-			
+
+
 			this.model("bookingSpots", function (bookedSpots) {
 				for (var spotIdentity in bookedSpots.spots) {
 					var spot = bookedSpots.spots[spotIdentity];
@@ -622,6 +615,10 @@
 				},
 				onDown: function () {
 					context.execute("selectDown");
+				},
+				onCheckOut:function(phaseId, spotPrice) {
+					q.ajax({ url: q.pageConfig.checkOut, type: "POST", data: { phaseId: phaseId, spotPrice: spotPrice } }).done(function (result) {
+					});
 				}
 			});
 		};
@@ -631,7 +628,7 @@
 			} else {
 				this.model("removeSpot", spot);
 			}
-			
+
 			this.execute("updateSelectedSpotsCount");
 		};
 		result._controllers.booking = function (bookingArg) {
@@ -643,7 +640,7 @@
 					spot.spotDesc.val = "unavailable";
 					context.execute("updateSpotState", spot);
 				}
-				
+
 				context.execute("updateSelectedSpotsCount");
 			});
 		};
@@ -674,8 +671,15 @@
 			this.$panel.find("button[data-up]").click(function () {
 				panelArg.onUp();
 			});
-			this.$panel.find("button[data-down]").click(function () {
+			this.$panel.find("button[data-down]").click(function() {
 				panelArg.onDown();
+			});
+			this.$panel.find("button[data-checkout]").click(function () {
+				
+				var spotPrice = $("input#spot-price").val();
+				var phaseId = $("li[data-identity]").attr("data-identity");
+				
+				panelArg.onCheckOut(phaseId,spotPrice);
 			});
 		};
 		result._views.updateSelectedSpotsCount = function (model) {

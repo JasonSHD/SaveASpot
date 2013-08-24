@@ -1,4 +1,5 @@
-﻿using SaveASpot.Core;
+﻿using System.Collections.Generic;
+using SaveASpot.Core;
 using SaveASpot.Repositories.Models;
 
 namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
@@ -7,5 +8,6 @@ namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
 	{
 		Parcel AddParcel(Parcel parcel);
 		bool Remove(IElementIdentity identity);
+		IEnumerable<Parcel> GetAllParcelsByPhaseId(string phaseId);
 	}
 }

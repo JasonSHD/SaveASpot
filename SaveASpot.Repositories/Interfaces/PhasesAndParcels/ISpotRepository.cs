@@ -1,4 +1,5 @@
-﻿using SaveASpot.Core;
+﻿using System.Collections.Generic;
+using SaveASpot.Core;
 using SaveASpot.Repositories.Models;
 
 namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
@@ -11,5 +12,6 @@ namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
 		bool MapSpotToCustomer(Spot spot, IElementIdentity customerIdentity);
 		bool MapSpotToSponsor(Spot spot, IElementIdentity sponsorIdentity);
 		bool RemoveMap(Spot spot);
+		IEnumerable<Spot> GetSpotsByParcelId(string parcelId);
 	}
 }

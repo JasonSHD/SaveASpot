@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using System.Collections.Generic;
+using MongoDB.Bson;
 using MongoDB.Driver.Builders;
 using SaveASpot.Core;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
@@ -29,6 +30,12 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 
 			_mongoDbCollectionFactory.Collection<Parcel>().Remove(Query<Parcel>.Where(e => e.Id == id));
 			return true;
+		}
+
+		public IEnumerable<Parcel> GetAllParcelsByPhaseId(string phaseId)
+		{
+			var targetPhaseId = phaseId.ToIdentity();
+			return _mongoDbCollectionFactory.Collection<Parcel>().Find(Query<Parcel>.Where(p => p.PhaseId == targetPhaseId));
 		}
 	}
 }

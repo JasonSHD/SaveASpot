@@ -27,11 +27,22 @@ namespace SaveASpot.Repositories.Implementations.Security
 													{
 														Cart = new Cart(),
 														Id = ObjectId.GenerateNewId(),
-														UserId = userIdentity.ToIdentity()
+														UserId = userIdentity.ToIdentity(),
+														StripeUserId = string.Empty
 													};
 
 			_mongoDBCollectionFactory.Collection<SiteCustomer>().Insert(newCustomer);
 			return true;
+		}
+
+		public SiteCustomer GetCustomerById(string id)
+		{
+			var customerId = id.ToIdentity();
+
+			var customer =
+				_mongoDBCollectionFactory.Collection<SiteCustomer>().FindOne(Query<SiteCustomer>.Where(e => e.Id == customerId));
+
+			return customer;
 		}
 
 		public bool AddSpotToCart(IElementIdentity customerIdentity, IElementIdentity spotIdentity)
@@ -64,6 +75,20 @@ namespace SaveASpot.Repositories.Implementations.Security
 			return true;
 		}
 
+		public bool UpdateCustomerCart(string customerId, ObjectId[] cartIdentity)
+		{
+			var custId = customerId.ToIdentity();
+
+			var customer =
+				_mongoDBCollectionFactory.Collection<SiteCustomer>().FindOne(Query<SiteCustomer>.Where(e => e.Id == custId));
+
+			customer.Cart.SpotIdCollection = cartIdentity;
+			var result = _mongoDBCollectionFactory.Collection<SiteCustomer>().Save(customer);
+
+			return result.DocumentsAffected == 1;
+
+		}
+
 		public bool UpdateSiteCustomer(string id, string stripeUserToken)
 		{
 			var customerId = id.ToIdentity();
@@ -75,9 +100,9 @@ namespace SaveASpot.Repositories.Implementations.Security
 			return result.DocumentsAffected == 1;
 		}
 
-		public SiteCustomer GetCustomerById(string id)
+		public SiteCustomer GetCustomerByUserId(string userId)
 		{
-			var customerId = id.ToIdentity();
+			var customerId = userId.ToIdentity();
 
 			var customer =
 				_mongoDBCollectionFactory.Collection<SiteCustomer>().FindOne(Query<SiteCustomer>.Where(e => e.UserId == customerId));

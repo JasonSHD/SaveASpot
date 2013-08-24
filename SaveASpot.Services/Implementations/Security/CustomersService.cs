@@ -1,4 +1,5 @@
-﻿using SaveASpot.Core;
+﻿using MongoDB.Bson;
+using SaveASpot.Core;
 using SaveASpot.Core.Security;
 using SaveASpot.Repositories.Interfaces.Security;
 using SaveASpot.Repositories.Models.Security;
@@ -27,6 +28,11 @@ namespace SaveASpot.Services.Implementations.Security
 			return new MethodResult<CreateCustomerResult>(createCustomerResult, new CreateCustomerResult { });
 		}
 
+		public SiteCustomer GetCustomerByUserId(string userId)
+		{
+			return _customerRepository.GetCustomerByUserId(userId);
+		}
+
 		public SiteCustomer GetCustomerById(string id)
 		{
 			return _customerRepository.GetCustomerById(id);
@@ -35,6 +41,11 @@ namespace SaveASpot.Services.Implementations.Security
 		public bool UpdateSiteCustomer(string id, string stripeUserToken)
 		{
 			return _customerRepository.UpdateSiteCustomer(id, stripeUserToken);
+		}
+
+		public bool UpdateCustomerCart(string customerId, ObjectId[] cartIdentity)
+		{
+			return _customerRepository.UpdateCustomerCart(customerId, cartIdentity);
 		}
 	}
 }
