@@ -1,0 +1,23 @@
+﻿@model SaveASpot.ViewModels.PhasesAndParcels.PhaseViewModel
+
+@{
+	Layout = null;
+	ViewContext.FormContext = new FormContext();
+}
+
+<div>
+	<fieldset>
+		<div class="editor-label">
+			@Html.LabelFor(m => m.Name)
+		</div>
+		<div class="editor-field">
+			@Html.TextBoxFor(m => m.Name)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(m => m.SpotPrice)
+		</div>
+		<div class="editor-field">
+			@Html.TextBoxFor(m => m.SpotPrice)
+		</div>
+	</fieldset>
+</div>

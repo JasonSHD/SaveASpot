@@ -34,5 +34,19 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 
 			return false;
 		}
+
+		public bool UpdatePhase(string identity, Phase phase)
+		{
+			var id = ObjectId.Parse(identity);
+
+			var result = _mongoDBCollectionFactory.Collection<Phase>()
+															 .Update(Query<Phase>.EQ(e => e.Id, id),
+																			 Update<Phase>
+																			 .Set(e => e.PhaseName, phase.PhaseName)
+																			 .Set(e => e.SpotPrice, phase.SpotPrice)
+																			 );
+
+			return result.DocumentsAffected == 1;
+		}
 	}
 }

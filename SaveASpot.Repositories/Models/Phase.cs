@@ -7,5 +7,6 @@ namespace SaveASpot.Repositories.Models
 		public ObjectId Id { get; set; }
 		//public string Identity { get { return Id.ToString(); } }
 		public string PhaseName { get; set; }
+		public uint SpotPrice { get; set; }
 	}
 }

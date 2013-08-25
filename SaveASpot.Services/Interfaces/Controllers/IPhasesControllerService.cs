@@ -7,5 +7,6 @@ namespace SaveASpot.Services.Interfaces.Controllers
 	{
 		PhasesViewModel GetPhases(SelectorViewModel selectorViewModel);
 		IMethodResult RemovePhases(string identity);
+		IMethodResult<MessageResult> EditPhase(string identity, PhaseViewModel phaseViewModel);
 	}
 }

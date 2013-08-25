@@ -1,7 +1,10 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using MongoDB.Bson;
 using SaveASpot.Controllers.Artifacts;
 using SaveASpot.Core.Web.Mvc;
+using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
+using SaveASpot.Repositories.Models;
 using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.ViewModels.PhasesAndParcels;
 
@@ -13,10 +16,12 @@ namespace SaveASpot.Controllers
 	public sealed class PhasesController : TabController
 	{
 		private readonly IPhasesControllerService _phasesControllerService;
+		private readonly IPhaseRepository _phaseRepository;
 
-		public PhasesController(IPhasesControllerService phasesControllerService)
+		public PhasesController(IPhasesControllerService phasesControllerService, IPhaseRepository phaseRepository)
 		{
 			_phasesControllerService = phasesControllerService;
+			_phaseRepository = phaseRepository;
 		}
 
 		[CustomerAuthorize]
@@ -50,6 +55,20 @@ namespace SaveASpot.Controllers
 			var model = _phasesControllerService.GetPhases(selectorViewModel);
 
 			return TabView("Index", model);
+		}
+
+		[HttpGet]
+		public ViewResult EditPhase(PhaseViewModel phaseViewModel)
+		{
+			return View(phaseViewModel);
+		}
+
+		[HttpPost]
+		public ActionResult EditPhase(string identity, PhaseViewModel phaseViewModel)
+		{
+			var result = _phasesControllerService.EditPhase(identity, phaseViewModel);
+
+			return Json(new { status = result.IsSuccess, message = result.Status.Message });
 		}
 	}
 }

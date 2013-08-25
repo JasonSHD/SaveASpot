@@ -10,17 +10,22 @@
 	<thead>
 		<tr>
 			<th>Name</th>
+			<th>Spot Price (in cents)</th>
 			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		@foreach (var phaseViewModel in Model.Phases)
-	{
-			<tr>
-				<td>@phaseViewModel.Name</td>
+		{
+			<tr phase-id="@phaseViewModel.Identity.ToString()">
+				<td data-phase-name="">@phaseViewModel.Name</td>
+				<td data-phase-spot-price="">@phaseViewModel.SpotPrice</td>
 				<td>
-					<button class="btn btn-danger" data-phase-delete-identity="@phaseViewModel.Identity.ToString()" data-phase-delete-name="@phaseViewModel.Name">Delete</button></td>
+					<button class="btn btn-primary" data-phase-edit-identity="@phaseViewModel.Identity.ToString()" data-phase-edit-name="@phaseViewModel.Name" >Edit</button>
+					<button class="btn btn-danger" data-phase-delete-identity="@phaseViewModel.Identity.ToString()" data-phase-delete-name="@phaseViewModel.Name">Delete</button>
+				</td>
 			</tr>
-	}
+		}
+	
 	</tbody>
 </table>

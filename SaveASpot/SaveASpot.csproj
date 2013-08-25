@@ -427,6 +427,7 @@
     <Content Include="Views\Map\CorpoprateSponsors.cshtml" />
     <Content Include="Views\Map\CustomerSpots.cshtml" />
     <Content Include="Views\Stripe\CreatePaymentInformation.cshtml" />
+    <Content Include="Views\Phases\EditPhase.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

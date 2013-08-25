@@ -6,5 +6,7 @@ namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
 	{
 		Phase AddPhase(Phase phase);
 		bool RemovePhase(string identity);
+		bool UpdatePhase(string identity, Phase phase);
+
 	}
 }

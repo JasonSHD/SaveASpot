@@ -6,10 +6,11 @@ namespace SaveASpot.ViewModels.PhasesAndParcels
 	{
 		public IElementIdentity Identity { get; set; }
 		public string Name { get; set; }
+		public uint SpotPrice { get; set; }
 
 		public object ToJson()
 		{
-			return new { name = Name, identity = Identity.ToString() };
+			return new { name = Name, identity = Identity.ToString(), spotPrice=SpotPrice };
 		}
 	}
 }

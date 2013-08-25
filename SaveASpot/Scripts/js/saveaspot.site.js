@@ -261,6 +261,49 @@ q("phasesTab", function (arg) {
 	$searchPanel.show();
 	var $searchInput = $searchPanel.find("input").val("");
 
+	$("[data-phase-edit-identity]").click(function () {
+		var modal = q.controls.modal();
+		
+		var phaseIdentity = this.getAttribute("data-phase-edit-identity");
+		var phaseName = $("tr[phase-id='" + phaseIdentity + "']").find('td[data-phase-name]').text();
+		var spotPrice = $("tr[phase-id='" + phaseIdentity + "']").find('td[data-phase-spot-price]').text();
+		
+		
+		q.ajax({
+			url: q.pageConfig.phaseEditUrl,
+			type: "GET",
+			data: {
+				"PhaseViewModel.Name": phaseName,
+				"PhaseViewModel.SpotPrice": spotPrice
+			}
+		}).done(function (editPhaseView) {
+			modal.title("Edit phase").
+				body(editPhaseView).ok("Save", function () {
+					var itemFoUpdate = q.serialize(modal.body());
+					q.ajax({
+						url: q.pageConfig.phaseEditUrl,
+						type: "POST",
+						data: {
+							"identity": phaseIdentity,
+							"PhaseViewModel.Name": itemFoUpdate.Name,
+							"PhaseViewModel.SpotPrice": itemFoUpdate.SpotPrice
+						},
+					}).done(function (result) {
+						modal.hide();
+						q.controls.ajaxForm.fireUpdate({
+							arg: null,
+							url: q.pageConfig.phasesUrl,
+							method: "POST",
+							alias: "phasesTab",
+							ajaxForm: phasePageTabAttributeValue
+						});
+					});
+				}).
+				show();
+		});
+		
+	});
+
 	$("[data-phase-delete-identity]").click(function () {
 		var name = this.getAttribute("data-phase-delete-name");
 		if (confirm("Are you sure that remove phase with name '" + name + "'?") == true) {
