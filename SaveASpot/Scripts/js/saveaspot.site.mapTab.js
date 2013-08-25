@@ -615,11 +615,11 @@
 				},
 				onDown: function () {
 					context.execute("selectDown");
-				},
-				onCheckOut:function(phaseId, spotPrice) {
-					q.ajax({ url: q.pageConfig.checkOut, type: "POST", data: { phaseId: phaseId, spotPrice: spotPrice } }).done(function (result) {
-					});
 				}
+				//onCheckOut:function(phaseId, spotPrice) {
+				//	q.ajax({ url: q.pageConfig.checkOut, type: "POST", data: { phaseId: phaseId, spotPrice: spotPrice } }).done(function (result) {
+				//	});
+				//}
 			});
 		};
 		result._controllers.onSpotSelected = function (spot) {
@@ -674,13 +674,13 @@
 			this.$panel.find("button[data-down]").click(function() {
 				panelArg.onDown();
 			});
-			this.$panel.find("button[data-checkout]").click(function () {
+			//this.$panel.find("button[data-checkout]").click(function () {
 				
-				var spotPrice = $("input#spot-price").val();
-				var phaseId = $("li[data-identity]").attr("data-identity");
+			//	var spotPrice = $("input#spot-price").val();
+			//	var phaseId = $("li[data-identity]").attr("data-identity");
 				
-				panelArg.onCheckOut(phaseId,spotPrice);
-			});
+			//	panelArg.onCheckOut(phaseId,spotPrice);
+			//});
 		};
 		result._views.updateSelectedSpotsCount = function (model) {
 			this.$panel.find("input").val(model);

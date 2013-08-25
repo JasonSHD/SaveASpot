@@ -267,8 +267,7 @@ q("phasesTab", function (arg) {
 		var phaseIdentity = this.getAttribute("data-phase-edit-identity");
 		var phaseName = $("tr[phase-id='" + phaseIdentity + "']").find('td[data-phase-name]').text();
 		var spotPrice = $("tr[phase-id='" + phaseIdentity + "']").find('td[data-phase-spot-price]').text();
-		
-		
+				
 		q.ajax({
 			url: q.pageConfig.phaseEditUrl,
 			type: "GET",
@@ -302,6 +301,18 @@ q("phasesTab", function (arg) {
 				show();
 		});
 		
+	});
+
+	$("[data-phase-checkout-identity]").click(function () {
+		
+		var name = this.getAttribute("data-phase-checkout-name");
+		var phaseId = this.getAttribute("data-phase-checkout-identity");
+		var spotPrice = $("tr[phase-id='" + phaseId + "']").find('td[data-phase-spot-price]').text();
+		
+		if (confirm("Are you sure you want to check out phase with name '" + name + "'?") == true) {
+			q.ajax({ url: q.pageConfig.checkOut, type: "POST", data: { phaseId: phaseId, spotPrice: spotPrice } }).done(function (result) {
+			});
+		}
 	});
 
 	$("[data-phase-delete-identity]").click(function () {
