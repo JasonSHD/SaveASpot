@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Helpers;
 using System.Web.Mvc;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Repositories.Models;
 using SaveASpot.Services.Interfaces;
 using SaveASpot.Services.Interfaces.Security;
-using SaveASpot.ViewModels;
 using Stripe;
 
 namespace SaveASpot.Controllers
