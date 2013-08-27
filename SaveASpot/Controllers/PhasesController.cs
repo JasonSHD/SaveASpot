@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using MongoDB.Bson;
 using SaveASpot.Controllers.Artifacts;
+using SaveASpot.Core;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
@@ -16,12 +17,10 @@ namespace SaveASpot.Controllers
 	public sealed class PhasesController : TabController
 	{
 		private readonly IPhasesControllerService _phasesControllerService;
-		private readonly IPhaseRepository _phaseRepository;
 
-		public PhasesController(IPhasesControllerService phasesControllerService, IPhaseRepository phaseRepository)
+		public PhasesController(IPhasesControllerService phasesControllerService)
 		{
 			_phasesControllerService = phasesControllerService;
-			_phaseRepository = phaseRepository;
 		}
 
 		[CustomerAuthorize]

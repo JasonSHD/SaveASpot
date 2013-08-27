@@ -278,25 +278,28 @@ q("phasesTab", function (arg) {
 		}).done(function (editPhaseView) {
 			modal.title("Edit phase").
 				body(editPhaseView).ok("Save", function () {
+					//var validator = q.validation.validator(modal.body());
 					var itemFoUpdate = q.serialize(modal.body());
-					q.ajax({
-						url: q.pageConfig.phaseEditUrl,
-						type: "POST",
-						data: {
-							"identity": phaseIdentity,
-							"PhaseViewModel.Name": itemFoUpdate.Name,
-							"PhaseViewModel.SpotPrice": itemFoUpdate.SpotPrice
-						},
-					}).done(function (result) {
-						modal.hide();
-						q.controls.ajaxForm.fireUpdate({
-							arg: null,
-							url: q.pageConfig.phasesUrl,
-							method: "POST",
-							alias: "phasesTab",
-							ajaxForm: phasePageTabAttributeValue
+				//	if (validator.validate) {
+						q.ajax({
+							url: q.pageConfig.phaseEditUrl,
+							type: "POST",
+							data: {
+								"identity": phaseIdentity,
+								"PhaseViewModel.Name": itemFoUpdate.Name,
+								"PhaseViewModel.SpotPrice": itemFoUpdate.SpotPrice
+							},
+						}).done(function (result) {
+							modal.hide();
+							q.controls.ajaxForm.fireUpdate({
+								arg: null,
+								url: q.pageConfig.phasesUrl,
+								method: "POST",
+								alias: "phasesTab",
+								ajaxForm: phasePageTabAttributeValue
+							});
 						});
-					});
+				//	}				
 				}).
 				show();
 		});

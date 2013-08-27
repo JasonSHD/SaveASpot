@@ -1,4 +1,5 @@
-﻿using SaveASpot.Core;
+﻿using System.ComponentModel.DataAnnotations;
+using SaveASpot.Core;
 
 namespace SaveASpot.ViewModels.PhasesAndParcels
 {
@@ -6,7 +7,10 @@ namespace SaveASpot.ViewModels.PhasesAndParcels
 	{
 		public IElementIdentity Identity { get; set; }
 		public string Name { get; set; }
-		public uint SpotPrice { get; set; }
+
+		[Required(ErrorMessage = "Spot price is required")]
+		//[Range(typeof(double), "0,50", "21474835",ErrorMessage = "Price must be a number between {0} and {1}.")]
+		public string SpotPrice { get; set; }
 
 		public object ToJson()
 		{

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using SaveASpot.Core.Web.Mvc;
@@ -62,6 +63,7 @@ namespace SaveASpot.Controllers
 		[AdministratorAuthorize]
 		public ActionResult CheckOutPhase(string phaseId, string spotPrice)
 		{
+			var spotPriceInCents = (double.Parse(spotPrice, CultureInfo.InvariantCulture) * 100).ToString();
 
 			var parcels = _parcelService.GetAllParcelsByPhaseId(phaseId);
 
@@ -79,7 +81,7 @@ namespace SaveASpot.Controllers
 
 				if (!string.IsNullOrEmpty(customer.StripeUserId))
 				{
-					var myCharge = new StripeChargeCreateOptions { AmountInCents = int.Parse(spotPrice), Currency = "usd", CustomerId = customer.StripeUserId };
+					var myCharge = new StripeChargeCreateOptions { AmountInCents = int.Parse(spotPriceInCents), Currency = "usd", CustomerId = customer.StripeUserId };
 
 					var chargeService = new StripeChargeService();
 

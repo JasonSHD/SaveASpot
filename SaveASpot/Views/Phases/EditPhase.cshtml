@@ -15,6 +15,7 @@
 		</div>
 		<div class="editor-label">
 			@Html.LabelFor(m => m.SpotPrice)
+			@Html.ValidationMessageFor(m=>m.SpotPrice)
 		</div>
 		<div class="editor-field">
 			@Html.TextBoxFor(m => m.SpotPrice)
