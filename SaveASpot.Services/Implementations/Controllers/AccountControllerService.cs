@@ -42,11 +42,11 @@ namespace SaveASpot.Services.Implementations.Controllers
 			return new MethodResult<UserResult>(false, new UserResult(_userFactory.AnonymUser(), _textService.ResolveTest(userExistsResult.Status.MessageKey)));
 		}
 
-		public IMethodResult<MessageResult> LogOff()
+		public IMethodResult<UserResult> LogOff()
 		{
 			_webAuthentication.LogOff();
 
-			return new MessageMethodResult(true, string.Empty);
+			return new MethodResult<UserResult>(true, new UserResult(_userFactory.AnonymUser(), string.Empty));
 		}
 	}
 }

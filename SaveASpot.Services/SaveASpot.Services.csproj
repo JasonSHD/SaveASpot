@@ -114,10 +114,10 @@
     <Compile Include="Interfaces\RemoveSpotArg.cs" />
     <Compile Include="Interfaces\Security\CreateCustomerResult.cs" />
     <Compile Include="Interfaces\Security\ICustomerService.cs" />
+    <Compile Include="Interfaces\Security\IUserFactory.cs" />
     <Compile Include="Interfaces\Security\IUserValidateFactory.cs" />
     <Compile Include="Interfaces\Security\UserArg.cs" />
     <Compile Include="Interfaces\Security\CreateUserResult.cs" />
-    <Compile Include="Interfaces\Security\IUserFactory.cs" />
     <Compile Include="Interfaces\Security\IUserService.cs" />
     <Compile Include="Interfaces\Security\UserExistsResult.cs" />
     <Compile Include="Interfaces\Security\UserValidatorResult.cs" />

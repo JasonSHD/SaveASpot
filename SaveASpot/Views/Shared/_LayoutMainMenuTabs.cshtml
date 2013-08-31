@@ -69,6 +69,12 @@
 					</div>
 				</div>
 			</li>
+			<li class="settings hidden-phone" id="loginButton" style="display: none;" data-login-item="">
+				@{Html.RenderPartial(SiteConstants.Controls.LogOnContainerView);}
+			</li>
+			<li id="userInfoButton" class="notification-dropdown" style="display: none;" data-userInfo-item="">
+				@{Html.RenderPartial(SiteConstants.Controls.UserInfoContainerView);}
+			</li>
 			<li class="settings hidden-phone" style="display: none;">
 				<a href="#" role="button">
 					<i class="icon-envelope-alt"></i>
@@ -90,7 +96,7 @@
 	Object.defineProperty(q, "pageConfig", { value: {}, writable: false, configurable: false });
 
 	Object.defineProperty(q.pageConfig, "phasesUrl", { value: "@Url.Action("Index", "Phases")", wirtable: false, configurable: false });
-	Object.defineProperty(q.pageConfig, "phaseEditUrl", {value:"@Url.Action("EditPhase","Phases")", writable:false, configurable:false});
+	Object.defineProperty(q.pageConfig, "phaseEditUrl", { value: "@Url.Action("EditPhase", "Phases")", writable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "spotsUrl", { value: "@Url.Action("ByPhase", "Spots")", wirtable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "bookingForCustomerUrl", { value: "@Url.Action("BookingSpots", "CustomerActionsMap")", wirtable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "unbookingForCustomerUrl", { value: "@Url.Action("RemoveBookedSpot", "CustomerActionsMap")", wirtable: false, configurable: false });
@@ -108,8 +114,10 @@
 	Object.defineProperty(q.pageConfig, "parcelsAfterUploadUrl", { value: "@Url.Action("Index", "Parcels")", wirtable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "spotsAfterUploadUrl", { value: "@Url.Action("Index", "Spots")", wirtable: false, configurable: false });
 
-	Object.defineProperty(q.pageConfig, "paymentInformation", { value: "@Url.Action("CreatePaymentInformation","Stripe")", writable: false, configurable: false });
-	Object.defineProperty(q.pageConfig, "isCustomerAStripeUser", { value: "@Url.Action("IsPaymentInformationAdded","Stripe")", writable: false, configurable: false });
-	Object.defineProperty(q.pageConfig, "checkOut", { value: "@Url.Action("CheckOutPhase","Stripe")", writable: false, configurable: false });
+	Object.defineProperty(q.pageConfig, "paymentInformation", { value: "@Url.Action("CreatePaymentInformation", "Stripe")", writable: false, configurable: false });
+	Object.defineProperty(q.pageConfig, "isCustomerAStripeUser", { value: "@Url.Action("IsPaymentInformationAdded", "Stripe")", writable: false, configurable: false });
+	Object.defineProperty(q.pageConfig, "checkOut", { value: "@Url.Action("CheckOutPhase", "Stripe")", writable: false, configurable: false });
+	Object.defineProperty(q.pageConfig, "loginUrl", { value: "@Url.Action("LogOn", "Account")", writable: false, configurable: false });
+	Object.defineProperty(q.pageConfig, "logoutUrl", { value: "@Url.Action("LogOff", "Account")", writable: false, configurable: false });
 	
 </script>

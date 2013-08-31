@@ -39,11 +39,17 @@ namespace SaveASpot.Controllers
 			return View(viewModel);
 		}
 
+		[HttpPost]
 		public ActionResult LogOff()
 		{
 			var logOffResult = _accountControllerService.LogOff();
 
-			return Json(new { result = logOffResult.IsSuccess }, JsonRequestBehavior.AllowGet);
+			if (logOffResult.IsSuccess)
+			{
+				return Json(logOffResult.Status.User.AsUserJson());
+			}
+
+			return Json(new { result = logOffResult.IsSuccess });
 		}
 	}
 }
