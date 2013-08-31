@@ -5,7 +5,7 @@ using SaveASpot.Services.Interfaces.Security;
 
 namespace SaveASpot.Services.Implementations.Security
 {
-	public sealed class UserFactory : IUserFactory
+	public sealed class UserFactory : IUserFactory, IAnonymUser
 	{
 		private readonly IRoleFactory _roleFactory;
 
@@ -23,5 +23,7 @@ namespace SaveASpot.Services.Implementations.Security
 		{
 			return new User(string.Empty, string.Empty, string.Empty, new[] { _roleFactory.Convert(typeof(AnonymRole)) });
 		}
+
+		public User User { get { return AnonymUser(); } }
 	}
 }

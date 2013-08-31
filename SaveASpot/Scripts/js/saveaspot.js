@@ -334,83 +334,107 @@ q.controls = q.controls || {};
 })(q.controls, jQuery);
 
 (function (namespace, q, $) {
-	namespace.login = function (loginButton, loginUrl) {
-		var $loginButton = $(loginButton);
-		var result = { _data: { loginUrl: loginUrl, loginButton: $loginButton } };
-		var modal = q.controls.modal();
-		var validator = q.validation.validator(modal.body());
+	namespace.currentCustomer = function (options) {
+		options = options || {};
+		options.loginUrl = q.pageConfig.loginCustomerUrl;
 
-		result.login = function (handler) {
-			result._data.loginHandler = handler;
-			return result;
-		};
+		var result = namespace.currentUser(options);
+		var cart = q.controls.cart();
 
-		$loginButton.click(function () {
-			$.ajax({ url: loginUrl, type: "GET" }).done(function (dialogContent) {
-				modal.title("Login").body(dialogContent).ok("Login", function () {
-					if (validator.validate()) {
-						var data = q.serialize(modal.body());
-						var logonUrl = modal.body().find("[data-logon-url]").attr("data-logon-url");
-
-						$.ajax({ type: "POST", url: logonUrl, data: data }).done(function (logonResult) {
-							if (logonResult.status == false && logonResult.message != undefined) {
-								modal.body().find("[data-error-message]").show().find("[data-error-message-content]").text(logonResult.message);
-								return;
-							}
-
-							modal.hide();
-							(result._data.loginHandler || function () {
-							})(logonResult);
-						});
-					}
-				}).show();
-			});
+		result.onAuthenticate(function (customer) {
+			if (customer.user.isAnonym) {
+				q.security.currentCustomer().authenticate();
+				cart.hide();
+			} else {
+				q.security.currentCustomer().authenticate(customer);
+				cart.show();
+			}
 		});
-
-		result.hide = function () {
-			$loginButton.hide();
-
-			return result;
-		};
-
-		result.show = function () {
-			$loginButton.show();
-
-			return result;
-		};
 
 		return result;
 	};
 
-	namespace.userInfo = function (loginfoButton, userinfoPanel, logoutUrl) {
-		var result = { _data: {} };
-		var $loginfoButton = result._data.loginfoButton = $(loginfoButton);
-		var $userinfoPanel = result._data.userinfoPanel = $(userinfoPanel);
-		var $logoutButton = $userinfoPanel.find(".logout");
+	namespace.currentUser = function (options) {
+		var settings = $.extend(options, {
+			loginItem: $("[data-login-item]"),
+			userInfoItem: $("[data-userInfo-item]"),
+			loginUrl: q.pageConfig.loginUrl,
+			logoutUrl: q.pageConfig.logoutUrl,
+			cart: undefined
+		});
+		var result = { _data: { settings: settings } };
+		result._handlers = { authenticate: [] };
 
-		$logoutButton.click(function () {
-			$.ajax({ url: logoutUrl, type: "POST" }).done(function () {
-				(result._data.logoutHandler || function () {
-				})();
+		var currentUser = q.security.currentUser().user();
+		var modal = q.controls.modal();
+
+		var displayUserInfo = function (user) {
+			settings.loginItem.hide();
+			settings.userInfoItem.show();
+
+			settings.userInfoItem.find("[data-username]").text(user.name);
+			settings.userInfoItem.find("[data-email]").text(user.email);
+			settings.cart = q.controls.cart();
+		};
+
+		var logoutUser = function () {
+			settings.loginItem.show();
+			settings.userInfoItem.hide();
+			settings.cart.destroy();
+		};
+
+		if (currentUser.isAnonym) {
+			logoutUser();
+		} else {
+			displayUserInfo(currentUser);
+		}
+
+		var runHandlers = function (handlerName, arg) {
+			for (var handlerIndex in result._handlers[handlerName]) {
+				var handler = result._handlers[handlerName][handlerIndex];
+				handler(arg);
+			}
+		}
+
+		settings.loginItem.click(function () {
+			q.ajax({ url: settings.loginUrl, type: "GET" }).done(function (dialogContext) {
+				modal.
+					title("Login").
+					body(dialogContext).ok("Login", function () {
+						var data = q.serialize(modal.body());
+						var logonUrl = modal.body().find("[data-logon-url]").data("logon-url");
+
+						q.ajax({ type: "POST", url: logonUrl, data: data }).done(function (logonResult) {
+							if (logonResult.status == false) {
+
+								if (logonResult.message != undefined) {
+									modal.body().find("[data-error-message]").show().find("[data-error-message-context]").text(logonResult.message);
+								}
+								return;
+							}
+
+							modal.hide();
+							q.security.currentUser().authenticate(logonResult.user);
+							displayUserInfo(logonResult.user);
+
+							runHandlers("authenticate", logonResult);
+						});
+					}).
+					show();
 			});
 		});
 
-		result.logout = function (handler) {
-			result._data.logoutHandler = handler;
+		settings.userInfoItem.find("[data-logoff]").click(function () {
+			q.ajax({ type: "POST", url: settings.logoutUrl }).done(function (logoutResult) {
+				q.security.currentUser().authenticate(logoutResult);
+				logoutUser();
 
-			return result;
-		};
+				runHandlers("authenticate", { user: logoutResult });
+			});
+		});
 
-		result.show = function (user) {
-			$loginfoButton.show();
-			$userinfoPanel.find("[data-username]").text(user.name);
-			$userinfoPanel.find("[data-email]").text(user.email);
-
-			return result;
-		};
-
-		result.hide = function () {
-			$loginfoButton.hide();
+		result.onAuthenticate = function (handler) {
+			result._handlers.authenticate.push(handler);
 
 			return result;
 		};
@@ -463,34 +487,39 @@ q.controls = q.controls || {};
 })(q.controls);
 
 (function (namespace, $) {
-	namespace.cart = function (element) {
-		var result = { _data: { control: $(element) } };
+	namespace._data = namespace._data || {};
+
+	namespace.cart = function (options) {
+		var settings = $.extend(options, { element: $("[data-cart]") });
+		var result = { _data: { control: settings.element } };
 		result._data.control.show();
 		var $notification = result._data.control.find(".notifications");
 
-		var updateCartHandler = function (arg) {
-			var count = arg.arg.elements.length;
-			$notification.find(".item").remove();
-			for (var elementIndex in arg.arg.elements) {
-				if (elementIndex < 4) {
-					$("<a/>").attr("href", "#").addClass("item").
-						append($("<i/>").addClass("icon-map-marker")).
-						append("Spot " + count).
-						append($("<span>").addClass("time").append($("<i/>").addClass("icon-dollar")).append("30.00")).
-						insertBefore($notification.find(".footer"));
-				} else {
-					break;
-				}
-			}
-
-			result._data.control.find(".count").text(count);
+		settings.element.show();
+		var currentUser = q.security.currentUser().user();
 
 
-		};
-		q.events().bind("updateCart", updateCartHandler);
+		//var updateCartHandler = function (arg) {
+		//	var count = arg.arg.elements.length;
+		//	$notification.find(".item").remove();
+		//	for (var elementIndex in arg.arg.elements) {
+		//		if (elementIndex < 4) {
+		//			$("<a/>").attr("href", "#").addClass("item").
+		//				append($("<i/>").addClass("icon-map-marker")).
+		//				append("Spot " + count).
+		//				append($("<span>").addClass("time").append($("<i/>").addClass("icon-dollar")).append("30.00")).
+		//				insertBefore($notification.find(".footer"));
+		//		} else {
+		//			break;
+		//		}
+		//	}
+
+		//	result._data.control.find(".count").text(count);
+		//};
+		//q.events().bind("updateCart", updateCartHandler);
 
 		result.destroy = function () {
-			q.events().unbind("updateCart", updateCartHandler);
+			settings.element.hide();
 		};
 
 		return result;
@@ -695,5 +724,60 @@ q.security = q.security || {};
 		};
 
 		return namespace._data.user = result;
+	};
+
+	namespace.currentUser = function () {
+		if (namespace._data.currentUser != undefined) {
+			return namespace._data.currentUser;
+		}
+
+		var result = { _data: {} };
+
+		result.authenticate = function (user) {
+			if (user == undefined) {
+				result._data.user = result._data.anonym;
+			} else {
+				result._data.user = user;
+			}
+
+			return result;
+		};
+
+		result.anonym = function (user) {
+			result._data.anonym = user;
+
+			return result;
+		};
+
+		result.user = function () {
+			return result._data.user;
+		};
+
+		return namespace._data.currentUser = result;
+	};
+
+	namespace.currentCustomer = function () {
+		if (namespace._data.currentCustomer != undefined) {
+			return namespace._data.currentCustomer;
+		}
+
+		var result = { _data: {} };
+
+		result.authenticate = function (customer) {
+			if (customer == undefined) {
+				namespace.currentUser().authenticate();
+				
+				result._data.currentCustomer = {
+					user: namespace.currentUser().user()
+				};
+			} else {
+				result._data.currentCustomer = customer;
+				namespace.currentUser().authenticate(customer.user);
+			}
+
+			return result;
+		};
+
+		return namespace._data.currentCustomer = result;
 	};
 })(q.security, q.events);

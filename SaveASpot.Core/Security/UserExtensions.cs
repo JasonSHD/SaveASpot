@@ -11,7 +11,7 @@ namespace SaveASpot.Core.Security
 
 		public static object AsUserJson(this User source)
 		{
-			return new { name = source.Name, email = source.Email };
+			return new { name = source.Name, email = source.Email, isAnonym = source.Roles.Any(e => e == new AnonymRole()) };
 		}
 
 		public static object AsCustomerJson(this Customer source)
