@@ -95,14 +95,14 @@ namespace SaveASpot.Services.Implementations.Security
 				return _userFactory.Convert(users.First());
 			}
 
-			return _userFactory.NotExists();
+			return _userFactory.AnonymUser();
 		}
 
 		public User GetUserByName(string username)
 		{
 			var users = _userQueryable.Find(_userQueryable.FilterByName(username)).ToList();
 
-			return users.Any() ? _userFactory.Convert(users.First()) : _userFactory.NotExists();
+			return users.Any() ? _userFactory.Convert(users.First()) : _userFactory.AnonymUser();
 		}
 
 		public IEnumerable<User> GetByRole(Role role)

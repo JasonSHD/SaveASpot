@@ -28,5 +28,10 @@ namespace SaveASpot.Core.Security
 		{
 			return source.Roles.Any(e => e == customerRole);
 		}
+
+		public static bool IsAnonym(this User source, Role anonymRole)
+		{
+			return source.Roles.Any(e => e == anonymRole);
+		}
 	}
 }

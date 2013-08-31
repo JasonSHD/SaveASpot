@@ -39,7 +39,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 				return new MethodResult<UserResult>(true, new UserResult(user, string.Empty));
 			}
 
-			return new MethodResult<UserResult>(false, new UserResult(_userFactory.NotExists(), _textService.ResolveTest(userExistsResult.Status.MessageKey)));
+			return new MethodResult<UserResult>(false, new UserResult(_userFactory.AnonymUser(), _textService.ResolveTest(userExistsResult.Status.MessageKey)));
 		}
 
 		public IMethodResult<MessageResult> LogOff()

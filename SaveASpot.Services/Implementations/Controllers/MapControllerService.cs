@@ -26,13 +26,14 @@ namespace SaveASpot.Services.Implementations.Controllers
 		public MapViewModel GetMapViewModel()
 		{
 			var customerRole = _roleFactory.Convert(typeof(CustomerRole));
+			var anonymRole = _roleFactory.Convert(typeof(AnonymRole));
 
 			var viewModel = new MapViewModel
 							 {
-								 IsCustomer = _currentUser.User.IsCustomer(customerRole),
+								 ShowCustomerBookingPanel = _currentUser.User.IsCustomer(customerRole) || _currentUser.User.IsCustomer(anonymRole),
 							 };
 
-			if (viewModel.IsCustomer)
+			if (viewModel.ShowCustomerBookingPanel)
 			{
 				viewModel.Sponsors = Enumerable.Empty<SponsorViewModel>();
 			}

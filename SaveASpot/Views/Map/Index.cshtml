@@ -24,13 +24,13 @@
 			padding: 17%;
 		}
 	</style>
-	<input type="hidden" id="isCustomer" value="@Model.IsCustomer"/>
+	<input type="hidden" id="showCustomerBookingPanel" value="@Model.ShowCustomerBookingPanel"/>
 	<div id="map-container" class="container">
 		<div id="map-canvas" class="mini-layout-body">
 		</div>
 	</div>
 
-	@if (Model.IsCustomer)
+	@if (Model.ShowCustomerBookingPanel)
  {
 	 Html.RenderPartial("CustomerSpots", Model);
 	 

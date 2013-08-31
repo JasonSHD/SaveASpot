@@ -6,6 +6,6 @@ namespace SaveASpot.Services.Interfaces.Security
 	public interface IUserFactory
 	{
 		User Convert(SiteUser siteUser);
-		User NotExists();
+		User AnonymUser();
 	}
 }

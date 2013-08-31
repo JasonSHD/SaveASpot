@@ -8,6 +8,7 @@ namespace SaveASpot.Controllers
 	[MainMenuTab(Alias = SiteConstants.MapControllerAlias, Area = "", IndexOfOrder = 10, Title = "MapTabTitle")]
 	[CustomerAuthorize]
 	[AdministratorAuthorize]
+	[AnonymAuthorize]
 	public sealed class MapController : TabController
 	{
 		private readonly IMapControllerService _mapControllerService;

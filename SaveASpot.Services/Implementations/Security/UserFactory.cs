@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using SaveASpot.Core.Security;
 using SaveASpot.Repositories.Models.Security;
@@ -8,21 +7,21 @@ namespace SaveASpot.Services.Implementations.Security
 {
 	public sealed class UserFactory : IUserFactory
 	{
-		private readonly IEnumerable<Role> _roles;
+		private readonly IRoleFactory _roleFactory;
 
-		public UserFactory()
+		public UserFactory(IRoleFactory roleFactory)
 		{
-			_roles = new Role[] { new AdministratorRole(), new CustomerRole() };
+			_roleFactory = roleFactory;
 		}
 
 		public User Convert(SiteUser siteUser)
 		{
-			return new User(siteUser.Identity, siteUser.Username, siteUser.Email, siteUser.Roles.Select(e => _roles.First(r => r.Identity == e)));
+			return new User(siteUser.Identity, siteUser.Username, siteUser.Email, siteUser.Roles.Select(e => _roleFactory.Convert(e)));
 		}
 
-		public User NotExists()
+		public User AnonymUser()
 		{
-			return new User(string.Empty, string.Empty, string.Empty, new Role[0]);
+			return new User(string.Empty, string.Empty, string.Empty, new[] { _roleFactory.Convert(typeof(AnonymRole)) });
 		}
 	}
 }

@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IConverter.cs" />
+    <Compile Include="Security\AnonymRole.cs" />
     <Compile Include="Validation\CompositeValidator.cs" />
     <Compile Include="Validation\EntityValidator.cs" />
     <Compile Include="Validation\NullValidator.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Web\IWebAuthentication.cs" />
     <Compile Include="Web\Mvc\AdministratorAuthorizeAttribute.cs" />
     <Compile Include="Web\Mvc\AdminTabViewPage.cs" />
+    <Compile Include="Web\Mvc\AnonymAuthorizeAttribute.cs" />
     <Compile Include="Web\Mvc\AuthorizeResult.cs" />
     <Compile Include="Web\Mvc\BaseController.cs" />
     <Compile Include="Web\Mvc\BaseViewPage.cs" />
