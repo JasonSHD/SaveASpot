@@ -34,6 +34,7 @@ namespace SaveASpot.Controllers
 		}
 
 		[CustomerAuthorize]
+		[AnonymAuthorize]
 		public ContentResult ByPhase(IElementIdentity identity)
 		{
 			return new ContentResult

@@ -5,7 +5,7 @@
 		add(new PhasesMvcObject()).
 		add(new SpotsMvcObject());
 
-	if ($("#isCustomer").val().toUpperCase() == "TRUE") {
+	if ($("#showCustomerBookingPanel").val().toUpperCase() == "TRUE") {
 		application.add(new CustomerSpotsPartialMvcObject());
 	} else {
 		application.add(new SponsorSpotsPartialMvcObject());

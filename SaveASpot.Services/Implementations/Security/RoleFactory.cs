@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using SaveASpot.Core.Security;
-using SaveASpot.Services.Interfaces.Security;
 
 namespace SaveASpot.Services.Implementations.Security
 {
@@ -11,7 +10,7 @@ namespace SaveASpot.Services.Implementations.Security
 
 		public RoleFactory()
 		{
-			_roles = new Role[] { new AdministratorRole(), new CustomerRole(), };
+			_roles = new Role[] { new AdministratorRole(), new CustomerRole(), new AnonymRole() };
 		}
 
 		public Role Convert(string identity)

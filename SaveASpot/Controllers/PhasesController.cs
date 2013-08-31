@@ -1,11 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using MongoDB.Bson;
 using SaveASpot.Controllers.Artifacts;
-using SaveASpot.Core;
 using SaveASpot.Core.Web.Mvc;
-using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
-using SaveASpot.Repositories.Models;
 using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.ViewModels.PhasesAndParcels;
 
@@ -24,6 +20,7 @@ namespace SaveASpot.Controllers
 		}
 
 		[CustomerAuthorize]
+		[AnonymAuthorize]
 		public ActionResult Index(SelectorViewModel selectorViewModel, bool isJson = false)
 		{
 			if (!ModelState.IsValid)
