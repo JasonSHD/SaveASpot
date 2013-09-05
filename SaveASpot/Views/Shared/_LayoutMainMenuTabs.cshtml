@@ -1,9 +1,12 @@
 ﻿@using SaveASpot.Controllers
 @using SaveASpot.Controllers.Artifacts
+@using SaveASpot.Controllers.Artifacts.ViewExtensions
 @using SaveASpot.Core.Web.Mvc.Extensions
+@using SaveASpot.Core.Web.Mvc.ViewExtensions
 @inherits SaveASpot.Core.Web.Mvc.AdminTabViewPage<dynamic>
 @{
 	Layout = SiteConstants.Layouts.BootstrapLayout;
+	var extensions = ViewExtensionFilter.GetViewExtensionExecuter(ViewContext);
 }
 
 <!-- navbar -->
@@ -72,7 +75,7 @@
 			<li class="settings hidden-phone" id="loginButton" style="display: none;" data-login-item="">
 				@{Html.RenderPartial(SiteConstants.Controls.LogOnContainerView);}
 			</li>
-			<li id="userInfoButton" class="notification-dropdown" style="display: none;" data-userInfo-item="">
+			<li id="userInfoButton" class="notification-dropdown" style="display: none;" data-userinfo-item="">
 				@{Html.RenderPartial(SiteConstants.Controls.UserInfoContainerView);}
 			</li>
 			<li class="settings hidden-phone" style="display: none;">
@@ -92,14 +95,16 @@
 	@RenderBody()
 }
 
-<script>
+@{ 
+	extensions.Execute(new ViewJavascriptConfigurationElementIdentity());
+}
+
+@*<script>
 	Object.defineProperty(q, "pageConfig", { value: {}, writable: false, configurable: false });
 
 	Object.defineProperty(q.pageConfig, "phasesUrl", { value: "@Url.Action("Index", "Phases")", wirtable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "phaseEditUrl", { value: "@Url.Action("EditPhase", "Phases")", writable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "spotsUrl", { value: "@Url.Action("ByPhase", "Spots")", wirtable: false, configurable: false });
-	Object.defineProperty(q.pageConfig, "bookingForCustomerUrl", { value: "@Url.Action("BookingSpots", "CustomerActionsMap")", wirtable: false, configurable: false });
-	Object.defineProperty(q.pageConfig, "unbookingForCustomerUrl", { value: "@Url.Action("RemoveBookedSpot", "CustomerActionsMap")", wirtable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "bookingForSponsorsUrl", { value: "@Url.Action("BookingSpots", "AdministratorActionsMap")", wirtable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "sponsorDetailsUrl", { value: "@Url.Action("SponsorDetails", "Sponsors")", wirtable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "sponsorView", { value: "@Url.Action("Index", "Sponsors")", wirtable: false, configurable: false });
@@ -120,4 +125,4 @@
 	Object.defineProperty(q.pageConfig, "loginUrl", { value: "@Url.Action("LogOn", "Account")", writable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "logoutUrl", { value: "@Url.Action("LogOff", "Account")", writable: false, configurable: false });
 	
-</script>
+</script>*@

@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson;
-using SaveASpot.Core;
+﻿using SaveASpot.Core;
 using SaveASpot.Core.Security;
 using SaveASpot.Repositories.Interfaces.Security;
 using SaveASpot.Repositories.Models.Security;
@@ -41,11 +40,6 @@ namespace SaveASpot.Services.Implementations.Security
 		public bool UpdateSiteCustomer(string id, string stripeUserToken)
 		{
 			return _customerRepository.UpdateSiteCustomer(id, stripeUserToken);
-		}
-
-		public bool UpdateCustomerCart(string customerId, ObjectId[] cartIdentity)
-		{
-			return _customerRepository.UpdateCustomerCart(customerId, cartIdentity);
 		}
 	}
 }

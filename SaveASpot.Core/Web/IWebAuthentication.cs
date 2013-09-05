@@ -2,7 +2,7 @@
 {
 	public interface IWebAuthentication
 	{
-		void Authenticate(string username, bool createPersistentCookie);
+		void Authenticate(IElementIdentity userIdentity, bool createPersistentCookie);
 		void LogOff();
 	}
 }

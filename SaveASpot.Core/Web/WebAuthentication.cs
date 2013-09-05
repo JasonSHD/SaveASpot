@@ -4,9 +4,9 @@ namespace SaveASpot.Core.Web
 {
 	public sealed class WebAuthentication : IWebAuthentication
 	{
-		public void Authenticate(string username, bool createPersistentCookie)
+		public void Authenticate(IElementIdentity elementIdentity, bool createPersistentCookie)
 		{
-			FormsAuthentication.SetAuthCookie(username, createPersistentCookie);
+			FormsAuthentication.SetAuthCookie(elementIdentity.ToString(), createPersistentCookie);
 		}
 
 		public void LogOff()

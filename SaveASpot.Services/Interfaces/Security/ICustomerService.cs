@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson;
-using SaveASpot.Core;
+﻿using SaveASpot.Core;
 using SaveASpot.Repositories.Models.Security;
 
 namespace SaveASpot.Services.Interfaces.Security
@@ -10,6 +9,5 @@ namespace SaveASpot.Services.Interfaces.Security
 		SiteCustomer GetCustomerByUserId(string userId);
 		SiteCustomer GetCustomerById(string id);
 		bool UpdateSiteCustomer(string id, string stripeUserToken);
-		bool UpdateCustomerCart(string customerId, ObjectId[] cartIdentity);
 	}
 }

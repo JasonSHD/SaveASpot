@@ -10,9 +10,7 @@ using SaveASpot.Services.Interfaces.Security;
 using Stripe;
 
 namespace SaveASpot.Controllers
-{
-
-	public class StripeController : Controller
+{	public class StripeController : Controller
 	{
 		private readonly ICustomerService _customerService;
 		private readonly IParcelService _parcelService;
@@ -94,15 +92,15 @@ namespace SaveASpot.Controllers
 					var chargeService = new StripeChargeService();
 
 					chargeService.Create(myCharge);
+					
+					//var spotIdCollection = customer.Cart.SpotIdCollection.ToList();
 
-					var spotIdCollection = customer.Cart.SpotIdCollection.ToList();
+					//foreach (var sp in spotsForUser)
+					//{
+					//	spotIdCollection.Remove(sp.Id);
+					//}
 
-					foreach (var sp in spotsForUser)
-					{
-						spotIdCollection.Remove(sp.Id);
-					}
-
-					_customerService.UpdateCustomerCart(customer.Id.ToString(), spotIdCollection.ToArray());
+					//_customerService.UpdateCustomerCart(customer.Id.ToString(), spotIdCollection.ToArray());
 				}
 			}
 

@@ -42,12 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account\LogOnResultViewModel.cs" />
     <Compile Include="BookingSpotsViewModel.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CreateCustomerViewModel.cs" />
     <Compile Include="CreateSponsorViewModel.cs" />
     <Compile Include="CustomerViewModel.cs" />
-    <Compile Include="LogOnViewModel.cs" />
+    <Compile Include="Account\LogOnViewModel.cs" />
     <Compile Include="MapViewModel.cs" />
     <Compile Include="PhasesAndParcels\ParcelsViewModel.cs" />
     <Compile Include="PhasesAndParcels\ParcelViewModel.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="RegisterViewModel.cs" />
     <Compile Include="SponsorViewModel.cs" />
     <Compile Include="StripeCreditCardInformationViewModel.cs" />
+    <Compile Include="ViewExtensions\JavascriptViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SaveASpot.Core\SaveASpot.Core.csproj">

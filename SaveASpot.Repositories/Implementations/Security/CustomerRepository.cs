@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Driver.Builders;
 using SaveASpot.Core;
 using SaveASpot.Repositories.Interfaces.Security;
@@ -25,7 +24,6 @@ namespace SaveASpot.Repositories.Implementations.Security
 		{
 			var newCustomer = new SiteCustomer
 													{
-														Cart = new Cart(),
 														Id = ObjectId.GenerateNewId(),
 														UserId = userIdentity.ToIdentity(),
 														StripeUserId = string.Empty
@@ -43,50 +41,6 @@ namespace SaveASpot.Repositories.Implementations.Security
 				_mongoDBCollectionFactory.Collection<SiteCustomer>().FindOne(Query<SiteCustomer>.Where(e => e.Id == customerId));
 
 			return customer;
-		}
-
-		public bool AddSpotToCart(IElementIdentity customerIdentity, IElementIdentity spotIdentity)
-		{
-			var customerId = customerIdentity.ToIdentity();
-			var customer =
-				_mongoDBCollectionFactory.Collection<SiteCustomer>().FindOne(Query<SiteCustomer>.Where(e => e.Id == customerId));
-
-			if (customer == null) return false;
-
-			customer.Cart.SpotIdCollection = customer.Cart.SpotIdCollection.Union(new[] { spotIdentity.ToIdentity() }).ToArray();
-			_mongoDBCollectionFactory.Collection<SiteCustomer>().Save(customer);
-
-			return true;
-		}
-
-		public bool RemoveSpotFromCart(IElementIdentity customerIdentity, IElementIdentity spotIdentity)
-		{
-			var customerId = customerIdentity.ToIdentity();
-			var customer =
-				_mongoDBCollectionFactory.Collection<SiteCustomer>().FindOne(Query<SiteCustomer>.Where(e => e.Id == customerId));
-
-			if (customer == null) return false;
-
-			var identities = customer.Cart.SpotIdCollection.ToList();
-			identities.Remove(spotIdentity.ToIdentity());
-			customer.Cart.SpotIdCollection = identities.ToArray();
-			_mongoDBCollectionFactory.Collection<SiteCustomer>().Save(customer);
-
-			return true;
-		}
-
-		public bool UpdateCustomerCart(string customerId, ObjectId[] cartIdentity)
-		{
-			var custId = customerId.ToIdentity();
-
-			var customer =
-				_mongoDBCollectionFactory.Collection<SiteCustomer>().FindOne(Query<SiteCustomer>.Where(e => e.Id == custId));
-
-			customer.Cart.SpotIdCollection = cartIdentity;
-			var result = _mongoDBCollectionFactory.Collection<SiteCustomer>().Save(customer);
-
-			return result.DocumentsAffected == 1;
-
 		}
 
 		public bool UpdateSiteCustomer(string id, string stripeUserToken)

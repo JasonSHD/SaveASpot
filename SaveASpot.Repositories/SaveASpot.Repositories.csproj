@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="CollectionNameAttribute.cs" />
     <Compile Include="Implementations\BasicMongoDBElementQueryable.cs" />
+    <Compile Include="Implementations\Carts\CartQueryable.cs" />
+    <Compile Include="Implementations\Carts\CartRepository.cs" />
     <Compile Include="Implementations\IMongoDBCollectionFactory.cs" />
     <Compile Include="Implementations\IMongoDBConfiguration.cs" />
     <Compile Include="Implementations\Logging\LogAppender.cs" />
@@ -70,6 +72,9 @@
     <Compile Include="Implementations\PhasesAndParcels\SpotRepository.cs" />
     <Compile Include="Implementations\Sponsors\SponsorQueryable.cs" />
     <Compile Include="Implementations\Sponsors\SponsorRepository.cs" />
+    <Compile Include="Interfaces\Carts\ICartFilter.cs" />
+    <Compile Include="Interfaces\Carts\ICartQueryable.cs" />
+    <Compile Include="Interfaces\Carts\ICartRepository.cs" />
     <Compile Include="Interfaces\IElementQueryable.cs" />
     <Compile Include="Interfaces\PhasesAndParcels\IParcelFilter.cs" />
     <Compile Include="Interfaces\PhasesAndParcels\IParcelQueryable.cs" />

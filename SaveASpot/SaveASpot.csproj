@@ -99,7 +99,14 @@
     <Compile Include="Controllers\Artifacts\MainMenuTabAttribute.cs" />
     <Compile Include="Controllers\Artifacts\PhasePageDefaultTabActionAttribute.cs" />
     <Compile Include="Controllers\Artifacts\PhasePageTabAttribute.cs" />
-    <Compile Include="Controllers\CustomerActionsMapController.cs" />
+    <Compile Include="Controllers\Artifacts\ViewExtensions\InitializeAdminViewExtension.cs" />
+    <Compile Include="Controllers\Artifacts\ViewExtensions\InitializeAnonymCustomerViewExtension.cs" />
+    <Compile Include="Controllers\Artifacts\ViewExtensions\InitializeCustomerViewExtension.cs" />
+    <Compile Include="Controllers\Artifacts\ViewExtensions\JavascriptOptionsElementIdentity.cs" />
+    <Compile Include="Controllers\Artifacts\ViewExtensions\JavascriptOptionsViewExtension.cs" />
+    <Compile Include="Controllers\Artifacts\ViewExtensions\ViewJavascriptConfigurationElementIdentity.cs" />
+    <Compile Include="Controllers\Artifacts\ViewExtensions\ViewScriptsElementIdentity.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -433,6 +440,11 @@
     <Content Include="Views\Phases\EditPhase.cshtml" />
     <Content Include="Views\ShoppingCart\Index.cshtml" />
     <Content Include="Views\ShoppingCart\Success.cshtml" />
+    <Content Include="Views\Shared\ViewExtensions\JavascriptResources.cshtml" />
+    <Content Include="Views\Shared\ViewExtensions\Web.config" />
+    <Content Include="Views\Shared\ViewExtensions\Security\Customer.cshtml" />
+    <Content Include="Views\Shared\ViewExtensions\Security\Admin.cshtml" />
+    <Content Include="Views\Shared\ViewExtensions\Configuration\Admin.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

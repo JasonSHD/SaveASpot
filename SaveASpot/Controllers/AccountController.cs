@@ -3,6 +3,7 @@ using SaveASpot.Core.Security;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.ViewModels;
+using SaveASpot.ViewModels.Account;
 
 namespace SaveASpot.Controllers
 {
@@ -21,22 +22,15 @@ namespace SaveASpot.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult LogOn(LogOnViewModel viewModel, string returnUrl)
+		public JsonResult LogOnAdmin(LogOnViewModel logOn)
 		{
-			if (ModelState.IsValid)
-			{
-				var logOnResult = _accountControllerService.LogOn(viewModel);
+			return Json(_accountControllerService.LogOnAdmin(logOn).AsJsonResult());
+		}
 
-				if (logOnResult.IsSuccess)
-				{
-					return Json(logOnResult.Status.User.AsUserJson());
-				}
-
-				return Json(new { status = false, message = logOnResult.Status.Message });
-			}
-
-			// If we got this far, something failed, redisplay form
-			return View(viewModel);
+		[HttpPost]
+		public JsonResult LogOnCustomer(LogOnViewModel logOn)
+		{
+			return Json(new object());
 		}
 
 		[HttpPost]

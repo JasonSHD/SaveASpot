@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SaveASpot.ViewModels
+namespace SaveASpot.ViewModels.Account
 {
 	public sealed class LogOnViewModel
 	{

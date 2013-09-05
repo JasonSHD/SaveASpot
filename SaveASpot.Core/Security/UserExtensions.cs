@@ -11,12 +11,18 @@ namespace SaveASpot.Core.Security
 
 		public static object AsUserJson(this User source)
 		{
-			return new { name = source.Name, email = source.Email, isAnonym = source.Roles.Any(e => e == new AnonymRole()) };
+			return new
+			{
+				name = source.Name,
+				email = source.Email,
+				isAnonym = source.Roles.Any(e => e == new AnonymRole()),
+				isAdmin = source.Roles.Any(e => e == new AdministratorRole())
+			};
 		}
 
 		public static object AsCustomerJson(this Customer source)
 		{
-			return new { user = source.User.AsUserJson(), cart = source.Cart.AsCartJson() };
+			return new { user = source.User.AsUserJson() };
 		}
 
 		public static object AsCartJson(this Cart source)
@@ -27,6 +33,11 @@ namespace SaveASpot.Core.Security
 		public static bool IsCustomer(this User source, Role customerRole)
 		{
 			return source.Roles.Any(e => e == customerRole);
+		}
+
+		public static bool IsAdmin(this User source)
+		{
+			return source.Roles.Any(e => e == new AdministratorRole());
 		}
 
 		public static bool IsAnonym(this User source, Role anonymRole)

@@ -354,13 +354,34 @@ q.controls = q.controls || {};
 		return result;
 	};
 
+	namespace.currentAdmin = function (options) {
+		options = options || {};
+
+		var result = namespace.
+			currentUser(options);
+		result.onAuthenticate(function (logOnResult) {
+			if (logOnResult.user.isAdmin) {
+				location.reload();
+			} else {
+				result.authenticate();
+			}
+		});
+
+		var currentUser = q.security.currentUser().user();
+		if (currentUser.isAnonym) {
+			result.authenticate();
+		}
+
+		return result;
+	};
+
 	namespace.currentUser = function (options) {
 		var settings = $.extend(options, {
 			loginItem: $("[data-login-item]"),
 			userInfoItem: $("[data-userInfo-item]"),
 			loginUrl: q.pageConfig.loginUrl,
-			logoutUrl: q.pageConfig.logoutUrl,
-			cart: undefined
+			logonUrl: q.pageConfig.logonUrl,
+			logoutUrl: q.pageConfig.logoutUrl
 		});
 		var result = { _data: { settings: settings } };
 		result._handlers = { authenticate: [] };
@@ -374,13 +395,11 @@ q.controls = q.controls || {};
 
 			settings.userInfoItem.find("[data-username]").text(user.name);
 			settings.userInfoItem.find("[data-email]").text(user.email);
-			settings.cart = q.controls.cart();
 		};
 
 		var logoutUser = function () {
 			settings.loginItem.show();
 			settings.userInfoItem.hide();
-			settings.cart.destroy();
 		};
 
 		if (currentUser.isAnonym) {
@@ -394,17 +413,35 @@ q.controls = q.controls || {};
 				var handler = result._handlers[handlerName][handlerIndex];
 				handler(arg);
 			}
-		}
+		};
 
 		settings.loginItem.click(function () {
+			result.authenticate();
+		});
+
+		settings.userInfoItem.find("[data-logoff]").click(function () {
+			q.ajax({ type: "POST", url: settings.logoutUrl }).done(function (logoutResult) {
+				q.security.currentUser().authenticate(logoutResult);
+				logoutUser();
+
+				runHandlers("authenticate", { user: logoutResult });
+			});
+		});
+
+		result.onAuthenticate = function (handler) {
+			result._handlers.authenticate.push(handler);
+
+			return result;
+		};
+
+		result.authenticate = function () {
 			q.ajax({ url: settings.loginUrl, type: "GET" }).done(function (dialogContext) {
 				modal.
 					title("Login").
 					body(dialogContext).ok("Login", function () {
 						var data = q.serialize(modal.body());
-						var logonUrl = modal.body().find("[data-logon-url]").data("logon-url");
 
-						q.ajax({ type: "POST", url: logonUrl, data: data }).done(function (logonResult) {
+						q.ajax({ type: "POST", url: settings.logonUrl, data: data }).done(function (logonResult) {
 							if (logonResult.status == false) {
 
 								if (logonResult.message != undefined) {
@@ -422,21 +459,6 @@ q.controls = q.controls || {};
 					}).
 					show();
 			});
-		});
-
-		settings.userInfoItem.find("[data-logoff]").click(function () {
-			q.ajax({ type: "POST", url: settings.logoutUrl }).done(function (logoutResult) {
-				q.security.currentUser().authenticate(logoutResult);
-				logoutUser();
-
-				runHandlers("authenticate", { user: logoutResult });
-			});
-		});
-
-		result.onAuthenticate = function (handler) {
-			result._handlers.authenticate.push(handler);
-
-			return result;
 		};
 
 		return result;
@@ -490,14 +512,26 @@ q.controls = q.controls || {};
 	namespace._data = namespace._data || {};
 
 	namespace.cart = function (options) {
-		var settings = $.extend(options, { element: $("[data-cart]") });
+		var settings = $.extend(options, {
+			element: $("[data-cart]"),
+			addSpotUrl: q.pageConfig.addSpotToCartUrl,
+			removeSpotUrl: q.pageConfig.removeSpotFromCartUrl
+		});
 		var result = { _data: { control: settings.element } };
-		result._data.control.show();
+
 		var $notification = result._data.control.find(".notifications");
-
 		settings.element.show();
-		var currentUser = q.security.currentUser().user();
 
+		result.addSpotToCart = function () {
+		};
+
+		result.removeSpotFromCart = function () {
+		};
+
+		result.refresh = function () {
+		};
+
+		//var currentUser = q.security.currentUser().user();
 
 		//var updateCartHandler = function (arg) {
 		//	var count = arg.arg.elements.length;
@@ -518,9 +552,9 @@ q.controls = q.controls || {};
 		//};
 		//q.events().bind("updateCart", updateCartHandler);
 
-		result.destroy = function () {
-			settings.element.hide();
-		};
+		//result.destroy = function () {
+		//	settings.element.hide();
+		//};
 
 		return result;
 	};
@@ -766,7 +800,7 @@ q.security = q.security || {};
 		result.authenticate = function (customer) {
 			if (customer == undefined) {
 				namespace.currentUser().authenticate();
-				
+
 				result._data.currentCustomer = {
 					user: namespace.currentUser().user()
 				};

@@ -38,7 +38,6 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ISponsorsService>().To<SponsorsService>();
 			Bind<ISponsorsControllerService>().To<SponsorsControllerService>();
 			Bind<IMapControllerService>().To<MapControllerService>();
-			Bind<ICustomerActionsMapControllerService>().To<CustomerActionsMapControllerService>();
 			Bind<ICustomerService>().To<CustomersService>();
 			Bind<ITypeConverter<SiteCustomer, CustomerViewModel>>().To<CustomerTypeConverter>();
 			Bind<ISpotsBookingService>().To<SpotsBookingService>();
