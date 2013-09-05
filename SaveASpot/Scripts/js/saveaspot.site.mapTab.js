@@ -388,40 +388,6 @@
 		};
 		result._controllers.booking = function () {
 			var context = this;
-			q.ajax({ url: q.pageConfig.isCustomerAStripeUser, type: "GET" }).done(function (result) {
-
-				if (result === false) {
-					q.ajax({ url: q.pageConfig.paymentInformation, type: "GET" }).done(function (paymentInformation) {
-						q.controls.modal().title("Credit Card Information").body(paymentInformation)
-							.ok("Create", function () {
-								var context = this;
-								
-								if (true) {
-									Stripe.setPublishableKey('pk_test_HtOjhY9gYqhndfgX3jMUvohd');
-									var $form = $('#payment-form');
-
-									//	// Disable the submit button to prevent repeated clicks
-									//context.find("[data-model-ok]").prop('disabled', true);
-
-									Stripe.createToken($form, function (status, response) {
-										var $f = $form;
-										if (response.error) {
-											$f.find('.payment-errors').text(response.error.message);
-											//	$form.find('[data - model - ok]').prop('disabled', false);
-										} else {
-											var token = response.id;
-											$.ajax({ url: q.pageConfig.paymentInformation, type: "POST", data: { token: token } }).done(function (result) {
-												context.hide();
-											});
-										}
-									});
-								}
-							}).show();
-					});
-				}
-			});
-
-
 			this.model("bookingSpots", function (bookedSpots) {
 				for (var spotIdentity in bookedSpots.spots) {
 					var spot = bookedSpots.spots[spotIdentity];

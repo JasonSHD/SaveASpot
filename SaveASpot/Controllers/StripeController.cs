@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
@@ -60,6 +61,7 @@ namespace SaveASpot.Controllers
 			return Json(new { result });
 		}
 
+
 		[AdministratorAuthorize]
 		public ActionResult CheckOutPhase(string phaseId, string spotPrice)
 		{
@@ -73,22 +75,32 @@ namespace SaveASpot.Controllers
 			{
 				spots.AddRange(_spotService.GetSpotsByParcelId(parcel.Id.ToString()));
 			}
-			var filteredSpots = from s in spots where s.CustomerId != MongoDB.Bson.ObjectId.Empty select s;
+			var filteredSpots = (from s in spots where s.CustomerId != MongoDB.Bson.ObjectId.Empty select s).ToList();
 
-			foreach (var spot in filteredSpots)
+			//get quantity of unique customers
+			var uniqueCustomers = filteredSpots.GroupBy(s => s.CustomerId).Select(grp => grp.First());
+
+			foreach (var spot in uniqueCustomers)
 			{
+				var spotsForUser = (from f in filteredSpots where f.CustomerId == spot.CustomerId select f).ToList();
+				var countOfSpots = spotsForUser.ToArray().Length;
+				var totalAmountInCents = countOfSpots*int.Parse(spotPriceInCents);
 				var customer = _customerService.GetCustomerById(spot.CustomerId.ToString());
 
 				if (!string.IsNullOrEmpty(customer.StripeUserId))
 				{
-					var myCharge = new StripeChargeCreateOptions { AmountInCents = int.Parse(spotPriceInCents), Currency = "usd", CustomerId = customer.StripeUserId };
+					var myCharge = new StripeChargeCreateOptions { AmountInCents = totalAmountInCents, Currency = "usd", CustomerId = customer.StripeUserId };
 
 					var chargeService = new StripeChargeService();
 
 					chargeService.Create(myCharge);
 
 					var spotIdCollection = customer.Cart.SpotIdCollection.ToList();
-					spotIdCollection.Remove(spot.Id);
+
+					foreach (var sp in spotsForUser)
+					{
+						spotIdCollection.Remove(sp.Id);
+					}
 
 					_customerService.UpdateCustomerCart(customer.Id.ToString(), spotIdCollection.ToArray());
 				}

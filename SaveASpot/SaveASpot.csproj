@@ -106,6 +106,7 @@
     <Compile Include="Controllers\ParcelsController.cs" />
     <Compile Include="Areas\Setup\Controllers\SetupUsersController.cs" />
     <Compile Include="Controllers\PhasesController.cs" />
+    <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Controllers\SiteConstants.cs" />
     <Compile Include="Controllers\SponsorsController.cs" />
     <Compile Include="Controllers\SpotsController.cs" />
@@ -429,6 +430,8 @@
     <Content Include="Views\Map\CustomerSpots.cshtml" />
     <Content Include="Views\Stripe\CreatePaymentInformation.cshtml" />
     <Content Include="Views\Phases\EditPhase.cshtml" />
+    <Content Include="Views\ShoppingCart\Index.cshtml" />
+    <Content Include="Views\ShoppingCart\Success.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
