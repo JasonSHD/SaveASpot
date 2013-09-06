@@ -5,9 +5,18 @@
 	Layout = null;
 }
 <input id="@SiteConstants.MainMenuTabSpecificReadyAlias" value="@SiteConstants.MapControllerAlias" type="hidden" />
-<input type="hidden" data-gmap-api-key="AIzaSyCw9fP5c4kc5MiZBvUzLiMc8tY00BU4_i4" />
+<input type="hidden" data-gmap-api-key="@Model.GoogleMapKey" />
 <div id="sidebar-nav">
 	<ul id="dashboard-menu">
+		@foreach (var phase in Model.Phases)
+	{
+			<li data-identity="@phase.Identity.ToString()">
+				<a href="javascript:void(0)">
+					<i class="icon-map-marker"></i>
+					<span>@phase.Name</span>
+				</a>
+			</li>
+	}
 	</ul>
 </div>
 <div class="content">

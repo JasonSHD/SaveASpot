@@ -445,6 +445,8 @@
     <Content Include="Views\Shared\ViewExtensions\Security\Customer.cshtml" />
     <Content Include="Views\Shared\ViewExtensions\Security\Admin.cshtml" />
     <Content Include="Views\Shared\ViewExtensions\Configuration\Admin.cshtml" />
+    <Content Include="Views\Shared\ViewExtensions\Configuration\Admin.cshtml" />
+    <Content Include="Views\Shared\ViewExtensions\Configuration\Customer.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

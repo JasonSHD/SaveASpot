@@ -30,12 +30,12 @@ namespace SaveASpot
 			filters.Add(new HandleErrorAttribute());
 		}
 
-		public static void RegisterRoutes(RouteCollection routes)
+		public void RegisterRoutes(RouteCollection routes)
 		{
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 			routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
 
-			routes.MapRoute("Admin default page", "admin", new { controller = "Map", action = "Index", isAdmin = true });
+			routes.OnlyRoute("Admin default page", "admin", new { controller = "Map", action = "Index", isAdmin = true });
 
 			routes.MapRoute(
 					"Default", // Route name

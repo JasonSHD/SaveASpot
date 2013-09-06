@@ -108,6 +108,7 @@
     <Compile Include="Web\CurrentSessionIdentity.cs" />
     <Compile Include="Web\ICurrentSessionIdentity.cs" />
     <Compile Include="Web\IWebAuthentication.cs" />
+    <Compile Include="Web\Mvc\AdminConstraint.cs" />
     <Compile Include="Web\Mvc\AdministratorAuthorizeAttribute.cs" />
     <Compile Include="Web\Mvc\AdminTabViewPage.cs" />
     <Compile Include="Web\Mvc\AnonymAuthorizeAttribute.cs" />
@@ -125,12 +126,14 @@
     <Compile Include="Web\Mvc\Extensions\TabElementExtensions.cs" />
     <Compile Include="Web\Mvc\IControllerTypesFinder.cs" />
     <Compile Include="Web\Mvc\ITabElementFilter.cs" />
+    <Compile Include="Web\Mvc\OnlyRoute.cs" />
     <Compile Include="Web\Mvc\ResourceDataAnnotationsModelMetadataProvider.cs" />
     <Compile Include="Web\Mvc\IAuthorizeManager.cs" />
     <Compile Include="Web\Mvc\ITabDescriptionControllerTypes.cs" />
     <Compile Include="Web\Mvc\MvcAuthorizeFilter.cs" />
     <Compile Include="Web\Mvc\RoleAuthorizeAttribute.cs" />
     <Compile Include="Web\Mvc\RoleTabElementFilter.cs" />
+    <Compile Include="Web\Mvc\RouteCollectionExtensions.cs" />
     <Compile Include="Web\Mvc\TabActionFilter.cs" />
     <Compile Include="Web\Mvc\TabAttribute.cs" />
     <Compile Include="Web\Mvc\TabController.cs" />

@@ -17,7 +17,7 @@ namespace SaveASpot.Controllers.Artifacts.ViewExtensions
 
 		public IEnumerable<IViewExtensionResult> CollectionExtensions()
 		{
-			if (_currentUser.User.IsCustomer(new CustomerRole()))
+			if (_currentUser.User.IsCustomer())
 			{
 				yield return new ViewExtensionResult("security/customer", _currentCustomer.Customer, new ViewScriptsElementIdentity());
 			}

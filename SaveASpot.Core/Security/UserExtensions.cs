@@ -30,9 +30,9 @@ namespace SaveASpot.Core.Security
 			return new { elements = source.ElementIdentities.Select(e => e.ToString()).ToArray() };
 		}
 
-		public static bool IsCustomer(this User source, Role customerRole)
+		public static bool IsCustomer(this User source)
 		{
-			return source.Roles.Any(e => e == customerRole);
+			return source.Roles.Any(e => e == new CustomerRole());
 		}
 
 		public static bool IsAdmin(this User source)
@@ -40,9 +40,9 @@ namespace SaveASpot.Core.Security
 			return source.Roles.Any(e => e == new AdministratorRole());
 		}
 
-		public static bool IsAnonym(this User source, Role anonymRole)
+		public static bool IsAnonym(this User source)
 		{
-			return source.Roles.Any(e => e == anonymRole);
+			return source.Roles.Any(e => e == new AnonymRole());
 		}
 	}
 }

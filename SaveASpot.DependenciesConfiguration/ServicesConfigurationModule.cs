@@ -11,6 +11,7 @@ using SaveASpot.Services.Interfaces;
 using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.Services.Interfaces.Security;
 using SaveASpot.ViewModels;
+using SaveASpot.ViewModels.PhasesAndParcels;
 
 namespace SaveASpot.DependenciesConfiguration
 {
@@ -46,7 +47,7 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<IAdministratorActionsMapControllerService>().To<AdministratorActionsMapControllerService>();
 			Bind<IParcelService>().To<ParcelService>();
 			Bind<ISpotService>().To<SpotService>();
-			//Bind<ISpotsBookingService>().To<SpotsB>()
+			Bind<ITypeConverter<Phase, PhaseViewModel>>().To<PhaseTypeConverter>();
 		}
 	}
 }

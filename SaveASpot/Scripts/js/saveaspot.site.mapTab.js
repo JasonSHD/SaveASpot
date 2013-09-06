@@ -1,4 +1,75 @@
 ﻿q("mapTab", function (arg) {
+
+	var gmapKey = $("[data-gmap-api-key]").data("gmap-api-key");
+	var gmapCanvas = document.getElementById("map-canvas");
+	var gmap;
+	q.controls.gmap(gmapKey, function () {
+		var mapOptions = {
+			zoom: 8,
+			// ReSharper disable UseOfImplicitGlobalInFunctionScope
+			center: new google.maps.LatLng(0, 0),
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		gmap = new google.maps.Map(gmapCanvas, mapOptions);
+		// ReSharper restore UseOfImplicitGlobalInFunctionScope
+	});
+
+	var spotsControl = (function (options) {
+		var settings = $.extend(options, {
+			spotsUrl: q.pageConfig.spotsUrl
+		});
+
+		var result = {};
+
+		var onPhaseChangedHandler = function (phaseArg) {
+			q.ajax({ url: settings.spotsUrl + "?identity=" + phaseArg.phaseId, type: "GET" }).done(function () {
+
+			});
+		};
+
+		q.events().bind("phaseChanged", onPhaseChangedHandler);
+
+		result.destroy = function () {
+			q.events().unbind(onPhaseChangedHandler);
+			log.write("destory spots control.");
+		};
+
+		return result;
+	})();
+
+	var phaseControl = (function (options, $) {
+		var settings = $.extend(options, {});
+		var result = {};
+
+		var changePhase = function (phaseId) {
+			q.events().fire("changingPhase", { phaseId: phaseId });
+		};
+
+		var $dashboardMenu = $("#dashboard-menu");
+		$dashboardMenu.on("click", "[data-identity]", function () {
+			changePhase(this.getAttribute("data-identity"));
+			$dashboardMenu.find("[data-identity]").removeClass("phase-active");
+			$(this).addClass("phase-active");
+		});
+
+		result.destroy = function () {
+		};
+
+		return result;
+	})({}, jQuery);
+
+	var customerNumericControl = (function (options, $) {
+	})({}, jQuery);
+
+	var adminNumericControl = (function (options, $) {
+	})({}, jQuery);
+
+	arg.destroy = function () {
+		spotsControl.destroy();
+	};
+});
+
+q("mapTab_", function (arg) {
 	console.log("map tab load.");
 
 	var application = new MvcCompositeObject().
@@ -637,14 +708,14 @@
 			this.$panel.find("button[data-up]").click(function () {
 				panelArg.onUp();
 			});
-			this.$panel.find("button[data-down]").click(function() {
+			this.$panel.find("button[data-down]").click(function () {
 				panelArg.onDown();
 			});
 			//this.$panel.find("button[data-checkout]").click(function () {
-				
+
 			//	var spotPrice = $("input#spot-price").val();
 			//	var phaseId = $("li[data-identity]").attr("data-identity");
-				
+
 			//	panelArg.onCheckOut(phaseId,spotPrice);
 			//});
 		};

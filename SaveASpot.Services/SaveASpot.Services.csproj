@@ -61,6 +61,7 @@
     <Compile Include="Implementations\Controllers\MapControllerService.cs" />
     <Compile Include="Implementations\Controllers\ParcelsControllerService.cs" />
     <Compile Include="Implementations\Controllers\PhasesControllerService.cs" />
+    <Compile Include="Implementations\Controllers\PhaseTypeConverter.cs" />
     <Compile Include="Implementations\Controllers\SetupUsersControllerService.cs" />
     <Compile Include="Implementations\Controllers\SponsorConverter.cs" />
     <Compile Include="Implementations\Controllers\SponsorsControllerService.cs" />

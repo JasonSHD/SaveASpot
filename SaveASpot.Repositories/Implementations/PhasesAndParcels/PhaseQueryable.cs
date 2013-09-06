@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
@@ -6,13 +5,11 @@ using SaveASpot.Repositories.Models;
 
 namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 {
-	public sealed class PhaseQueryable : IPhaseQueryable
+	public sealed class PhaseQueryable : BasicMongoDBElementQueryable<Phase, IPhaseFilter>, IPhaseQueryable
 	{
-		private readonly IMongoDBCollectionFactory _mongoDbCollectionFactory;
-
 		public PhaseQueryable(IMongoDBCollectionFactory mongoDbCollectionFactory)
+			: base(mongoDbCollectionFactory)
 		{
-			_mongoDbCollectionFactory = mongoDbCollectionFactory;
 		}
 
 		public IPhaseFilter All()
@@ -25,9 +22,9 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			return new PhaseFilter(Query<Phase>.Where(e => e.PhaseName == name));
 		}
 
-		public IEnumerable<Phase> Find(IPhaseFilter phaseFilter)
+		protected override IPhaseFilter BuildFilter(IMongoQuery query)
 		{
-			return _mongoDbCollectionFactory.Collection<Phase>().Find(MongoQueryFilter.Convert(phaseFilter).MongoQuery);
+			return new PhaseFilter(query);
 		}
 
 		private sealed class PhaseFilter : MongoQueryFilter, IPhaseFilter

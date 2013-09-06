@@ -7,13 +7,11 @@ namespace SaveASpot.Core.Web.Mvc
 	{
 		private readonly ICurrentUser _currentUser;
 		private readonly ICurrentCustomer _currentCustomer;
-		private readonly IRoleFactory _roleFactory;
 
-		public CustomerActionFilter(ICurrentUser currentUser, ICurrentCustomer currentCustomer, IRoleFactory roleFactory)
+		public CustomerActionFilter(ICurrentUser currentUser, ICurrentCustomer currentCustomer)
 		{
 			_currentUser = currentUser;
 			_currentCustomer = currentCustomer;
-			_roleFactory = roleFactory;
 		}
 
 		public void OnActionExecuting(ActionExecutingContext filterContext)
@@ -22,7 +20,7 @@ namespace SaveASpot.Core.Web.Mvc
 
 		public void OnActionExecuted(ActionExecutedContext filterContext)
 		{
-			if (_currentUser.User.IsCustomer(_roleFactory.Convert(typeof(CustomerRole))))
+			if (_currentUser.User.IsCustomer())
 			{
 				CustomerElement.SetCustomer(_currentCustomer.Customer, filterContext.Controller.ViewBag);
 			}
