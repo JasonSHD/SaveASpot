@@ -29,8 +29,7 @@
 		var spotDescriptions = [];
 
 		var spotSelectedHandler = function () {
-			//alert(this.spot.identity)
-			q.events().fire("availableSpotSelected", { spot: this.spot });
+			q.events().fire(this.val + "SpotSelected", { spot: this.spot });
 		};
 
 		var displaySpot = function (spotDesc) {
@@ -56,6 +55,8 @@
 		};
 
 		var initializeSpots = function (spots) {
+
+			spotDescriptions = [];
 
 			// ReSharper disable UseOfImplicitGlobalInFunctionScope
 			var bounds = new google.maps.LatLngBounds();
@@ -93,6 +94,8 @@
 			}
 
 			gmap.fitBounds(bounds);
+
+			q.events().fire("phaseRenderCompleted", {});
 		};
 
 		var onPhaseChangedHandler = function (phaseArg) {
@@ -105,13 +108,64 @@
 		q.events().bind("phaseChanged", onPhaseChangedHandler);
 
 		var onUpdateSpotStateHandler = function (stateArg) {
+			var args = stateArg.arg;
+
+			var identity = args.identity;
+			var val = args.val;
+			var selectedCount = 0;
+
+			for (var spotDescIndex in spotDescriptions) {
+				var spotDesc = spotDescriptions[spotDescIndex];
+
+				if (spotDesc.spot.identity == identity && spotDesc.val != val) {
+					spotDesc.val = val;
+					spotDesc.polygon.setMap(null);
+					displaySpot(spotDesc);
+				}
+
+				if (spotDesc.val == "selected") {
+					selectedCount++;
+				}
+			}
+
+			q.events().fire("updateSpotsCount", { count: selectedCount });
 		};
 
 		q.events().bind("updateSpotState", onUpdateSpotStateHandler);
 
+		var onSelectFirstAvailableSpot = function () {
+			for (var spotDescIndex in spotDescriptions) {
+				var spotDesc = spotDescriptions[spotDescIndex];
+
+				if (spotDesc.val == "available") {
+					spotSelectedHandler.call(spotDesc);
+
+					return;
+				}
+			}
+		};
+
+		q.events().bind("selectFirstAvailableSpot", onSelectFirstAvailableSpot);
+
+		var onRemoveFirstSpot = function () {
+			for (var spotDescIndex in spotDescriptions) {
+				var spotDesc = spotDescriptions[spotDescIndex];
+
+				if (spotDesc.val == "selected") {
+					spotSelectedHandler.call(spotDesc);
+
+					return;
+				}
+			}
+		};
+
+		q.events().bind("removeFirstSpot", onRemoveFirstSpot);
+
 		result.destroy = function () {
 			q.events().unbind("phaseChanged", onPhaseChangedHandler);
 			q.events().unbind("updateSpotState", onUpdateSpotStateHandler);
+			q.events().unbind("selectFirstAvailableSpot", onSelectFirstAvailableSpot);
+			q.events().unbind("removeFirstSpot", onRemoveFirstSpot);
 			log.write("destory spots control.");
 		};
 
@@ -125,6 +179,7 @@
 		var $dashboardMenu = $("#dashboard-menu");
 		$dashboardMenu.on("click", "[data-identity]", function () {
 			var phaseId = this.getAttribute("data-identity");
+			q.events().fire("changeTab", { tab: "map" });
 			q.events().fire("phaseChanging", { phaseId: phaseId });
 			$dashboardMenu.find("[data-identity]").removeClass("phase-active");
 			$(this).addClass("phase-active");
@@ -139,7 +194,8 @@
 
 	var customerControl = (function (options, $) {
 		var settings = $.extend(options, {
-			addSpotToCartUrl: q.pageConfig.addSpotToCartUrl
+			addSpotToCartUrl: q.pageConfig.addSpotToCartUrl,
+			removeSpotFromCartUrl: q.pageConfig.removeSpotFromCartUrl
 		});
 
 		var result = {};
@@ -153,11 +209,25 @@
 				}
 			});
 		};
+		var selectedSpotSelectedHandler = function (args) {
+			q.ajax({ url: settings.removeSpotFromCartUrl, type: "POST", data: { spotIdentity: args.arg.spot.identity } }).done(function (removeResult) {
+				if (removeResult.isSuccess) {
+					q.events().fire("updateCart", { cart: removeResult.cart });
+					var identity = args.arg.spot.identity;
+					var val = "available";
+					q.events().fire("updateSpotState", { identity: identity, val: val });
+				} else {
+					alert(removeResult.message);
+				}
+			});
+		};
 
 		q.events().bind("availableSpotSelected", availableSpotSelectedHandler);
+		q.events().bind("selectedSpotSelected", selectedSpotSelectedHandler);
 
 		result.destroy = function () {
 			q.events().unbind("availableSpotSelected", availableSpotSelectedHandler);
+			q.events().unbind("selectedSpotSelected", selectedSpotSelectedHandler);
 		};
 
 		return result;
@@ -188,9 +258,11 @@
 		};
 
 		q.events().bind("updateCart", updateCartHandler);
+		q.events().bind("phaseRenderCompleted", fireUpdateSpotsState);
 
 		result.destroy = function () {
 			q.events().unbind("updateCart", updateCartHandler);
+			q.events().unbind("phaseRenderCompleted", fireUpdateSpotsState);
 		};
 
 		if (settings.cartInitializeElement.length > 0) {
@@ -203,9 +275,101 @@
 	})({}, jQuery);
 
 	var customerTabsControl = (function (options, $) {
+		var settings = $.extend(options, {
+			mapTab: $("[data-tabelement='map']"),
+			checkoutTab: $("[data-tabelement='checkout']"),
+			checkoutSelector: $("[data-checkout]")
+		});
+		var result = {};
+
+		var tabs = {
+			map: function () {
+				settings.mapTab.show();
+				settings.checkoutTab.hide();
+			},
+			checkout: function () {
+				settings.mapTab.hide();
+				settings.checkoutTab.show();
+				q.events().fire("changeTab_checkout", { element: settings.checkoutTab });
+			}
+		};
+
+		var onTabChange = function (args) {
+			var tab = args.arg.tab;
+			tabs[tab]();
+		};
+
+		settings.checkoutSelector.click(function () {
+			q.events().fire("changeTab", { tab: "checkout" });
+		});
+
+		q.events().bind("changeTab", onTabChange);
+
+		result.destroy = function () {
+			q.events().unbind("changeTab", onTabChange);
+		};
+
+		return result;
 	})({}, jQuery);
 
 	var checkoutControl = (function (options, $) {
+		var settings = $.extend(options, {
+			viewUrl: q.pageConfig.checkoutViewUrl
+		});
+		var result = {};
+
+		var changeTabCheckoutHandler = function (args) {
+			q.ajax({ url: settings.viewUrl, type: "GET" }).done(function (viewResult) {
+				var element = args.arg.element;
+				$(element).html(viewResult);
+			});
+		};
+
+		q.events().bind("changeTab_checkout", changeTabCheckoutHandler);
+
+		result.destroy = function () {
+			q.events().unbind("changeTab_checkout", changeTabCheckoutHandler);
+		};
+
+		return result;
+	})({}, jQuery);
+
+	var numericControl = (function (options, $) {
+		var settings = $.extend(options, {
+			control: $("[data-numericcontrol]"),
+			upControl: $("[data-numericcontrol] [data-up]"),
+			downControl: $("[data-numericcontrol] [data-down]"),
+			countControl: $("[data-numericcontrol] [data-count]")
+		});
+		var result = {};
+
+		var updateSpotsCount = function (args) {
+			var count = args.arg.count;
+			settings.countControl.val(count);
+		};
+
+		var phaseChange = function () {
+			settings.control.show();
+		};
+
+		q.events().bind("phaseChanged", phaseChange);
+
+		settings.upControl.click(function () {
+			q.events().fire("selectFirstAvailableSpot");
+		});
+
+		settings.downControl.click(function () {
+			q.events().fire("removeFirstSpot");
+		});
+
+		q.events().bind("updateSpotsCount", updateSpotsCount);
+
+		result.destroy = function () {
+			q.events().unbind("updateSpotsCount", updateSpotsCount);
+			q.events().unbind("phaseChanged", phaseChange);
+		};
+
+		return result;
 	})({}, jQuery);
 
 	var adminNumericControl = (function (options, $) {
@@ -216,6 +380,9 @@
 		phaseControl.destroy();
 		customerControl.destroy();
 		cartControl.destroy();
+		customerTabsControl.destroy();
+		checkoutControl.destroy();
+		numericControl.destroy();
 	};
 });
 

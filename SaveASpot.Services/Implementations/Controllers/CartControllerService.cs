@@ -20,16 +20,19 @@ namespace SaveASpot.Services.Implementations.Controllers
 			_textService = textService;
 		}
 
-		public AddSpotToCartResultViewModel AddSpotToCart(IElementIdentity spotIdentity)
+		public ChangeCartResultViewModel AddSpotToCart(IElementIdentity spotIdentity)
 		{
-			var addResult = _cartService.AddSpotToCart(_currentCart.Cart.Identity, spotIdentity);
-
-			return new AddSpotToCartResultViewModel { Cart = _currentCart.Cart, IsSuccess = addResult.IsSuccess, Message = _textService.ResolveTest(addResult.Status) };
+			return Convert(_cartService.AddSpotToCart(_currentCart.Cart.Identity, spotIdentity));
 		}
 
-		public void RemoveSpotFromCart(IElementIdentity spotIdentity)
+		public ChangeCartResultViewModel RemoveSpotFromCart(IElementIdentity spotIdentity)
 		{
-			_cartService.RemoveSpotFromCart(_currentCart.Cart.Identity, spotIdentity);
+			return Convert(_cartService.RemoveSpotFromCart(_currentCart.Cart.Identity, spotIdentity));
+		}
+
+		private ChangeCartResultViewModel Convert(IMethodResult<string> result)
+		{
+			return new ChangeCartResultViewModel { Cart = _currentCart.Cart, IsSuccess = result.IsSuccess, Message = _textService.ResolveTest(result.Status) };
 		}
 	}
 }

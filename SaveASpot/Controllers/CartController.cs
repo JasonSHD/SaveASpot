@@ -1,6 +1,5 @@
 ﻿using System.Web.Mvc;
 using SaveASpot.Core;
-using SaveASpot.Core.Security;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Interfaces.Controllers;
 
@@ -20,17 +19,13 @@ namespace SaveASpot.Controllers
 		[HttpPost]
 		public JsonResult AddSpotToCart(IElementIdentity spotIdentity)
 		{
-			var addResult = _cartControllerService.AddSpotToCart(spotIdentity);
-
-			return Json(new { isSuccess = addResult.IsSuccess, message = addResult.Message, cart = addResult.Cart.AsCartJson() });
+			return Json(_cartControllerService.AddSpotToCart(spotIdentity).AsJson());
 		}
 
 		[HttpPost]
 		public JsonResult RemoveSpotFromCart(IElementIdentity spotIdentity)
 		{
-			_cartControllerService.RemoveSpotFromCart(spotIdentity);
-
-			return Json(new object());
+			return Json(_cartControllerService.RemoveSpotFromCart(spotIdentity).AsJson());
 		}
 	}
 }

@@ -107,6 +107,7 @@
     <Compile Include="Controllers\Artifacts\ViewExtensions\ViewJavascriptConfigurationElementIdentity.cs" />
     <Compile Include="Controllers\Artifacts\ViewExtensions\ViewScriptsElementIdentity.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -444,10 +445,11 @@
     <Content Include="Views\Shared\ViewExtensions\Web.config" />
     <Content Include="Views\Shared\ViewExtensions\Security\Customer.cshtml" />
     <Content Include="Views\Shared\ViewExtensions\Security\Admin.cshtml" />
-    <Content Include="Views\Shared\ViewExtensions\Configuration\Admin.cshtml" />    
+    <Content Include="Views\Shared\ViewExtensions\Configuration\Admin.cshtml" />
     <Content Include="Views\Shared\ViewExtensions\Configuration\Customer.cshtml" />
     <Content Include="Views\Shared\ViewExtensions\Security\AnonymCustomer.cshtml" />
     <Content Include="Views\Map\CartInitialize.cshtml" />
+    <Content Include="Views\Checkout\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

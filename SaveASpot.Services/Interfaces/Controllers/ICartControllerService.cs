@@ -5,7 +5,7 @@ namespace SaveASpot.Services.Interfaces.Controllers
 {
 	public interface ICartControllerService
 	{
-		AddSpotToCartResultViewModel AddSpotToCart(IElementIdentity spotIdentity);
-		void RemoveSpotFromCart(IElementIdentity spotIdentity);
+		ChangeCartResultViewModel AddSpotToCart(IElementIdentity spotIdentity);
+		ChangeCartResultViewModel RemoveSpotFromCart(IElementIdentity spotIdentity);
 	}
 }
