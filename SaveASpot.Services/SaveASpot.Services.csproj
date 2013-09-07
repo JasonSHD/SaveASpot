@@ -72,7 +72,6 @@
     <Compile Include="Implementations\Controllers\StripeControllerService.cs" />
     <Compile Include="Implementations\Controllers\UploadPhasesAndParcelsControllerService.cs" />
     <Compile Include="Implementations\CurrentCart.cs" />
-    <Compile Include="Implementations\ParcelService.cs" />
     <Compile Include="Implementations\Security\CurrentCustomer.cs" />
     <Compile Include="Implementations\Security\CurrentUser.cs" />
     <Compile Include="Implementations\Polygon.cs" />
@@ -111,12 +110,8 @@
     <Compile Include="Interfaces\Controllers\SponsorResult.cs" />
     <Compile Include="Interfaces\Controllers\UserResult.cs" />
     <Compile Include="Interfaces\CreateSponsorResult.cs" />
-<<<<<<< HEAD
     <Compile Include="Interfaces\ICartService.cs" />
     <Compile Include="Interfaces\ICurrentCart.cs" />
-    <Compile Include="Interfaces\IParcelService.cs" />
-=======
->>>>>>> development
     <Compile Include="Interfaces\IParcelsService.cs" />
     <Compile Include="Interfaces\ISponsorsService.cs" />
     <Compile Include="Interfaces\ISpotsBookingService.cs" />

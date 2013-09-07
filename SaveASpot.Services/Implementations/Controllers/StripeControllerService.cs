@@ -18,13 +18,15 @@ namespace SaveASpot.Services.Implementations.Controllers
 		private readonly IParcelQueryable _parcelQueryable;
 		private readonly ISpotQueryable _spotQueryable;
 		private readonly IElementIdentityConverter _elementIdentityConverter;
+		private readonly ICurrentCart _currentCart;
 
-		public StripeControllerService(ICustomerService customerService, IParcelQueryable parcelQueryable, ISpotQueryable spotQueryable, IElementIdentityConverter elementIdentityConverter)
+		public StripeControllerService(ICustomerService customerService, IParcelQueryable parcelQueryable, ISpotQueryable spotQueryable, IElementIdentityConverter elementIdentityConverter, ICurrentCart currentCart)
 		{
 			_customerService = customerService;
 			_parcelQueryable = parcelQueryable;
 			_spotQueryable = spotQueryable;
 			_elementIdentityConverter = elementIdentityConverter;
+			_currentCart = currentCart;
 		}
 
 		public IMethodResult IsPaymentInformationAdded(string identityName)
@@ -73,14 +75,15 @@ namespace SaveASpot.Services.Implementations.Controllers
 
 					chargeService.Create(myCharge);
 
-					var spotIdCollection = customer.Cart.SpotIdCollection.ToList();
+					throw new NotImplementedException("Please user CurrentCart.");
+					//var spotIdCollection = customer.Cart.SpotIdCollection.ToList();
 
-					foreach (var sp in spotsForUser)
-					{
-						spotIdCollection.Remove(sp.Id);
-					}
+					//foreach (var sp in spotsForUser)
+					//{
+					//	spotIdCollection.Remove(sp.Id);
+					//}
 
-					_customerService.UpdateCustomerCart(customer.Id.ToString(), spotIdCollection.ToArray());
+					//_customerService.UpdateCustomerCart(customer.Id.ToString(), spotIdCollection.ToArray());
 				}
 			}
 			return new MessageMethodResult(true, string.Empty);
