@@ -243,11 +243,11 @@ q("phasesTab", function (arg) {
 
 	$("[data-phase-edit-identity]").click(function () {
 		var modal = q.controls.modal();
-		
+
 		var phaseIdentity = this.getAttribute("data-phase-edit-identity");
 		var phaseName = $("tr[phase-id='" + phaseIdentity + "']").find('td[data-phase-name]').text();
 		var spotPrice = $("tr[phase-id='" + phaseIdentity + "']").find('td[data-phase-spot-price]').text();
-				
+
 		q.ajax({
 			url: q.pageConfig.phaseEditUrl,
 			type: "GET",
@@ -258,40 +258,31 @@ q("phasesTab", function (arg) {
 		}).done(function (editPhaseView) {
 			modal.title("Edit phase").
 				body(editPhaseView).ok("Save", function () {
-					//var validator = q.validation.validator(modal.body());
 					var itemFoUpdate = q.serialize(modal.body());
-				//	if (validator.validate) {
-						q.ajax({
-							url: q.pageConfig.phaseEditUrl,
-							type: "POST",
-							data: {
-								"identity": phaseIdentity,
-								"PhaseViewModel.Name": itemFoUpdate.Name,
-								"PhaseViewModel.SpotPrice": itemFoUpdate.SpotPrice
-							},
-						}).done(function (result) {
-							modal.hide();
-							q.controls.ajaxForm.fireUpdate({
-								arg: null,
-								url: q.pageConfig.phasesUrl,
-								method: "POST",
-								alias: "phasesTab",
-								ajaxForm: phasePageTabAttributeValue
-							});
-						});
-				//	}				
+					q.ajax({
+						url: q.pageConfig.phaseEditUrl,
+						type: "POST",
+						data: {
+							"identity": phaseIdentity,
+							"PhaseViewModel.Name": itemFoUpdate.Name,
+							"PhaseViewModel.SpotPrice": itemFoUpdate.SpotPrice
+						},
+					}).done(function (result) {
+						modal.hide();
+						arg.update();
+					});
 				}).
 				show();
 		});
-		
+
 	});
 
 	$("[data-phase-checkout-identity]").click(function () {
-		
+
 		var name = this.getAttribute("data-phase-checkout-name");
 		var phaseId = this.getAttribute("data-phase-checkout-identity");
 		var spotPrice = $("tr[phase-id='" + phaseId + "']").find('td[data-phase-spot-price]').text();
-		
+
 		if (confirm("Are you sure you want to check out phase with name '" + name + "'?") == true) {
 			q.ajax({ url: q.pageConfig.checkOut, type: "POST", data: { phaseId: phaseId, spotPrice: spotPrice } }).done(function (result) {
 			});

@@ -10,11 +10,11 @@ namespace SaveASpot.ViewModels.PhasesAndParcels
 
 		[Required(ErrorMessage = "Spot price is required")]
 		//[Range(typeof(double), "0,50", "21474835",ErrorMessage = "Price must be a number between {0} and {1}.")]
-		public string SpotPrice { get; set; }
+		public decimal? SpotPrice { get; set; }
 
 		public object ToJson()
 		{
-			return new { name = Name, identity = Identity.ToString(), spotPrice=SpotPrice };
+			return new { name = Name, identity = Identity.ToString(), spotPrice = SpotPrice };
 		}
 	}
 }

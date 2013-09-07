@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using System;
+using MongoDB.Bson;
 
 namespace SaveASpot.Repositories.Models
 {
@@ -7,6 +8,6 @@ namespace SaveASpot.Repositories.Models
 		public ObjectId Id { get; set; }
 		//public string Identity { get { return Id.ToString(); } }
 		public string PhaseName { get; set; }
-		public string SpotPrice { get; set; }
+		public Decimal? SpotPrice { get; set; }
 	}
 }

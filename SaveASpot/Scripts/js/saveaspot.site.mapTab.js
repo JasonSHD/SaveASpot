@@ -318,8 +318,14 @@
 		});
 		var result = {};
 
+		var phaseChanged = function (args) {
+			settings.phaseIdentity = args.arg.phaseId;
+		};
+
+		q.events().bind("phaseChanged", phaseChanged);
+
 		var changeTabCheckoutHandler = function (args) {
-			q.ajax({ url: settings.viewUrl, type: "GET" }).done(function (viewResult) {
+			q.ajax({ url: settings.viewUrl + "?phaseIdentity=" + settings.phaseIdentity, type: "GET" }).done(function (viewResult) {
 				var element = args.arg.element;
 				$(element).html(viewResult);
 			});
@@ -329,6 +335,7 @@
 
 		result.destroy = function () {
 			q.events().unbind("changeTab_checkout", changeTabCheckoutHandler);
+			q.events().unbind("phaseChanged", phaseChanged);
 		};
 
 		return result;

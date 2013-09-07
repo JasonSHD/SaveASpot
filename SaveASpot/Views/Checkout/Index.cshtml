@@ -1,4 +1,5 @@
-﻿@{
+﻿@model SaveASpot.ViewModels.Checkout.CheckoutViewModel
+@{
 	Layout = null;
 }
 
@@ -26,88 +27,38 @@
 						<tr>
 							<th class="span3">
 								<input type="checkbox">
-								Spot
-                                    </th>
-							<th class="span3">Phase
-                                    </th>
-							<th class="span3">Price
-                                    </th>
+								Spot</th>
+							<th class="span3">Phase</th>
+							<th class="span3">Price</th>
 							<th class="span3"></th>
 						</tr>
 					</thead>
 					<tbody>
-						<!-- row -->
-						<tr class="first">
-							<td>
-								<input type="checkbox">
-								<i class="icon-map-marker"></i>Spot 1
-                                    </td>
-							<td>
-								<a href="#">Phase 1</a>
-							</td>
-							<td class="description">
-								<span class="time"><i class="icon-dollar"></i>30.00</span>
-							</td>
-							<td>
-								<ul class="actions">
-									<li class="last"><a href="#">Delete</a></li>
-								</ul>
-							</td>
-						</tr>
-						<!-- row -->
-						<tr>
-							<td>
-								<input type="checkbox">
-								<i class="icon-map-marker"></i>Spot 2
-                                    </td>
-							<td>
-								<a href="#">Phase 1</a>
-							</td>
-							<td class="description">
-								<span class="time"><i class="icon-dollar"></i>30.00</span>
-							</td>
-							<td>
-								<ul class="actions">
-									<li class="last"><a href="#">Delete</a></li>
-								</ul>
-							</td>
-						</tr>
-						<!-- row -->
-						<tr>
-							<td>
-								<input type="checkbox">
-								<i class="icon-map-marker"></i>Spot 3
-                                    </td>
-							<td>
-								<a href="#">Phase 1</a>
-							</td>
-							<td class="description">
-								<span class="time"><i class="icon-dollar"></i>30.00</span>
-							</td>
-							<td>
-								<ul class="actions">
-									<li class="last"><a href="#">Delete</a></li>
-								</ul>
-							</td>
-						</tr>
-						<!-- row -->
-						<tr>
-							<td>
-								<input type="checkbox">
-								<i class="icon-map-marker"></i>Spot 4
-                                    </td>
-							<td>
-								<a href="#">Phase 2</a>
-							</td>
-							<td class="description">
-								<span class="time"><i class="icon-dollar"></i>30.00</span>
-							</td>
-							<td>
-								<ul class="actions">
-									<li class="last"><a href="#">Delete</a></li>
-								</ul>
-							</td>
-						</tr>
+						@{
+							var spotIdex = 1;
+						}
+						@foreach (var spot in Model.Spots)
+			{
+							<tr data-identity="@spot.Identity.ToString()" class="@(spotIdex == 1 ? "first" : string.Empty)">
+								<td>
+									<input type="checkbox">
+									<i class="icon-map-marker"></i>Spot @spotIdex
+								</td>
+								<td>
+									<a href="#">Phase 1</a>
+								</td>
+								<td class="description">
+									<span class="time"><i class="icon-dollar"></i>30.00</span>
+								</td>
+								<td>
+									<ul class="actions">
+										<li class="last"><a href="#">Delete</a></li>
+									</ul>
+								</td>
+							</tr>
+
+				spotIdex++;
+			}
 					</tbody>
 					<tfoot>
 						<!-- row -->
@@ -115,7 +66,7 @@
 							<th></th>
 							<th></th>
 							<th class="description">
-								<span class="time"><i class="icon-dollar"></i>120.00</span>
+								<span class="time"><i class="icon-dollar"></i>@Model.Price</span>
 							</th>
 							<th></th>
 						</tr>

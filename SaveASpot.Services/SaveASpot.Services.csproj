@@ -90,10 +90,12 @@
     <Compile Include="Implementations\Validators\Security\UserExistsValidator.cs" />
     <Compile Include="Implementations\Validators\Security\UsernameValidator.cs" />
     <Compile Include="Implementations\Validators\Security\UserValidateFactory.cs" />
+    <Compile Include="Implementations\Controllers\CheckoutControllerService.cs" />
     <Compile Include="Interfaces\Controllers\CustomerResult.cs" />
     <Compile Include="Interfaces\Controllers\IAccountControllerService.cs" />
     <Compile Include="Interfaces\Controllers\IAdministratorActionsMapControllerService.cs" />
     <Compile Include="Interfaces\Controllers\ICartControllerService.cs" />
+    <Compile Include="Interfaces\Controllers\ICheckoutControllerService.cs" />
     <Compile Include="Interfaces\Controllers\ICustomersControllerService.cs" />
     <Compile Include="Interfaces\Controllers\IMapControllerService.cs" />
     <Compile Include="Interfaces\Controllers\IParcelsControllerService.cs" />

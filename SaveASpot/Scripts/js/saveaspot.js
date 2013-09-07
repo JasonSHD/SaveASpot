@@ -215,7 +215,12 @@ q.controls = q.controls || {};
 
 				$ajaxForm.html(content);
 
-				var readyContext = { alias: readyHandlerAlias };
+				var readyContext = {
+					alias: readyHandlerAlias,
+					update: function () {
+						result.update($("[data-ajaxform-alias='" + formAlias + "']"));
+					}
+				};
 				q.runReadyHandlers({ filter: readyHandlerAlias, args: readyContext });
 				result._data.currentEvents.unload = readyContext.unload || function () { };
 			});
@@ -225,7 +230,12 @@ q.controls = q.controls || {};
 
 		result.emulateUpdate = function (alias) {
 			result._data.currentEvents.unload();
-			var readyContext = { alias: alias };
+			var readyContext = {
+				alias: alias,
+				update: function() {
+					result.update($("[data-ajaxform-alias='" + alias + "']"));
+				}
+			};
 			q.runReadyHandlers({ filter: alias, args: readyContext });
 			result._data.currentEvents.unload = readyContext.unload || function () { };
 		};

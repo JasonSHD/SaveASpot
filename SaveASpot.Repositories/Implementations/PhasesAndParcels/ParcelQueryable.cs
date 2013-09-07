@@ -7,14 +7,9 @@ using SaveASpot.Repositories.Models;
 
 namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 {
-	public sealed class ParcelQueryable : IParcelQueryable
+	public sealed class ParcelQueryable : BasicMongoDBElementQueryable<Parcel, IParcelFilter>, IParcelQueryable
 	{
-		private readonly IMongoDBCollectionFactory _mongoDbCollectionFactory;
-
-		public ParcelQueryable(IMongoDBCollectionFactory mongoDbCollectionFactory)
-		{
-			_mongoDbCollectionFactory = mongoDbCollectionFactory;
-		}
+		public ParcelQueryable(IMongoDBCollectionFactory mongoDbCollectionFactory) : base(mongoDbCollectionFactory) { }
 
 		public IParcelFilter All()
 		{
@@ -27,9 +22,9 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			return new ParcelFilter(Query<Parcel>.Where(e => e.PhaseId == phaseId));
 		}
 
-		public IEnumerable<Parcel> Find(IParcelFilter filter)
+		protected override IParcelFilter BuildFilter(IMongoQuery query)
 		{
-			return _mongoDbCollectionFactory.Collection<Parcel>().Find(MongoQueryFilter.Convert(filter).MongoQuery);
+			return new ParcelFilter(query);
 		}
 
 		private sealed class ParcelFilter : MongoQueryFilter, IParcelFilter

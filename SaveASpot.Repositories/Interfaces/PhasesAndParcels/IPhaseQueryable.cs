@@ -1,4 +1,5 @@
 using System;
+using SaveASpot.Core;
 using SaveASpot.Repositories.Models;
 
 namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
@@ -7,6 +8,7 @@ namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
 	{
 		IPhaseFilter All();
 		IPhaseFilter ByName(string name);
+		IPhaseFilter ByIdentity(IElementIdentity phaseIdentity);
 	}
 
 	public static class PhaseQueryableExtensions
