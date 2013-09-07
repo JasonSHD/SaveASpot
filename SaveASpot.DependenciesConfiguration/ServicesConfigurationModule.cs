@@ -45,8 +45,7 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ISpotValidateFactory>().To<SpotValidateFactory>();
 			Bind<IConverter<Sponsor, SponsorViewModel>>().To<SponsorConverter>();
 			Bind<IAdministratorActionsMapControllerService>().To<AdministratorActionsMapControllerService>();
-			Bind<IParcelService>().To<ParcelService>();
-			Bind<ISpotService>().To<SpotService>();
+			Bind<IStripeControllerService>().To<StripeControllerService>();
 			//Bind<ISpotsBookingService>().To<SpotsB>()
 		}
 	}
