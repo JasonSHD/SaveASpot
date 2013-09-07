@@ -53,6 +53,7 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ICartService>().To<CartService>();
 			Bind<ITypeConverter<Repositories.Models.Security.Cart, Core.Security.Cart>>().To<CartConverter>();
 			Bind<ICheckoutControllerService>().To<CheckoutControllerService>();
+			Bind<IStripeControllerService>().To<StripeControllerService>();			
 		}
 	}
 }

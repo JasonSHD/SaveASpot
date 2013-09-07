@@ -38,6 +38,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Stripe.net">
+      <HintPath>..\packages\Stripe.net.1.6.2\lib\net40\Stripe.net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -66,6 +69,7 @@
     <Compile Include="Implementations\Controllers\SponsorConverter.cs" />
     <Compile Include="Implementations\Controllers\SponsorsControllerService.cs" />
     <Compile Include="Implementations\Controllers\SpotsControllerService.cs" />
+    <Compile Include="Implementations\Controllers\StripeControllerService.cs" />
     <Compile Include="Implementations\Controllers\UploadPhasesAndParcelsControllerService.cs" />
     <Compile Include="Implementations\CurrentCart.cs" />
     <Compile Include="Implementations\ParcelService.cs" />
@@ -75,7 +79,6 @@
     <Compile Include="Implementations\Security\CustomersService.cs" />
     <Compile Include="Implementations\SponsorsService.cs" />
     <Compile Include="Implementations\SpotsBookingService.cs" />
-    <Compile Include="Implementations\SpotService.cs" />
     <Compile Include="Implementations\SpotValidateFactory.cs" />
     <Compile Include="Implementations\TextParserCases\DecimalTextParserCase.cs" />
     <Compile Include="Implementations\Security\AuthorizeManager.cs" />
@@ -103,17 +106,20 @@
     <Compile Include="Interfaces\Controllers\ISetupUsersControllerService.cs" />
     <Compile Include="Interfaces\Controllers\ISponsorsControllerService.cs" />
     <Compile Include="Interfaces\Controllers\ISpotsControllerService.cs" />
+    <Compile Include="Interfaces\Controllers\IStripeControllerService.cs" />
     <Compile Include="Interfaces\Controllers\IUploadPhasesAndParcelsControllerService.cs" />
     <Compile Include="Interfaces\Controllers\SponsorResult.cs" />
     <Compile Include="Interfaces\Controllers\UserResult.cs" />
     <Compile Include="Interfaces\CreateSponsorResult.cs" />
+<<<<<<< HEAD
     <Compile Include="Interfaces\ICartService.cs" />
     <Compile Include="Interfaces\ICurrentCart.cs" />
     <Compile Include="Interfaces\IParcelService.cs" />
+=======
+>>>>>>> development
     <Compile Include="Interfaces\IParcelsService.cs" />
     <Compile Include="Interfaces\ISponsorsService.cs" />
     <Compile Include="Interfaces\ISpotsBookingService.cs" />
-    <Compile Include="Interfaces\ISpotService.cs" />
     <Compile Include="Interfaces\ISpotsService.cs" />
     <Compile Include="Interfaces\ISpotValidateFactory.cs" />
     <Compile Include="Interfaces\ITextParserCase.cs" />
@@ -161,7 +167,9 @@
       <Name>SaveASpot.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
