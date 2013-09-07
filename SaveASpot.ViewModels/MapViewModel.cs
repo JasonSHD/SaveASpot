@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using SaveASpot.Core.Security;
 using SaveASpot.ViewModels.PhasesAndParcels;
 
 namespace SaveASpot.ViewModels
@@ -9,5 +10,6 @@ namespace SaveASpot.ViewModels
 		public string GoogleMapKey { get; set; }
 		public IEnumerable<SponsorViewModel> Sponsors { get; set; }
 		public IEnumerable<PhaseViewModel> Phases { get; set; }
+		public Cart Cart { get; set; }
 	}
 }

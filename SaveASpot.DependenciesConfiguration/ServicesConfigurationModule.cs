@@ -48,6 +48,10 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<IParcelService>().To<ParcelService>();
 			Bind<ISpotService>().To<SpotService>();
 			Bind<ITypeConverter<Phase, PhaseViewModel>>().To<PhaseTypeConverter>();
+			Bind<ICartControllerService>().To<CartControllerService>();
+			Bind<ICurrentCart>().To<CurrentCart>();
+			Bind<ICartService>().To<CartService>();
+			Bind<ITypeConverter<Repositories.Models.Security.Cart, Core.Security.Cart>>().To<CartConverter>();
 		}
 	}
 }

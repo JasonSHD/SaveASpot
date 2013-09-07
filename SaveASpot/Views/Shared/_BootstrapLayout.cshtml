@@ -1,8 +1,5 @@
-﻿@using Newtonsoft.Json
-@using SaveASpot.Controllers
+﻿@using SaveASpot.Controllers
 @using SaveASpot.Controllers.Artifacts.ViewExtensions
-@using SaveASpot.Core.Security
-@using SaveASpot.Core.Web.Mvc
 @using SaveASpot.Core.Web.Mvc.ViewExtensions
 @{
 	var extensions = ViewExtensionFilter.GetViewExtensionExecuter(ViewContext);
@@ -74,31 +71,5 @@
 	@{
 		extensions.Execute(new ViewScriptsElementIdentity());
 	}
-
-	@*<script>
-		q(function () {
-			@Html.Raw("q.security.currentUser().authenticate(" + JsonConvert.SerializeObject(ViewConfiguration.User.AsUserJson()) + ").anonym(" + JsonConvert.SerializeObject(ViewConfiguration.Anonym.AsUserJson()) + ");")
-
-			
-			
-			
-			@Html.Raw("q.controls.currentCustomer();")
-			@if (ViewConfiguration.User.IsExists())
-	 {
-		 @Html.Raw("q.security.user().login(" + JsonConvert.SerializeObject(ViewConfiguration.User.AsUserJson()) + ");")
-
-		 if (ViewConfiguration.User.IsCustomer(new CustomerRole()))
-		 {
-			 @Html.Raw("q.security.customer = " + JsonConvert.SerializeObject(((Customer)CustomerElement.GetCustomer(ViewBag)).AsCustomerJson()) + ";")
-			@Html.Raw("var cartControl = q.controls.cart($('[data-cart]'));")
-		 @Html.Raw("q.events().fire('updateCart', { elements: q.security.customer.cart.elements });")
-		 }
-	 }
-	 else
-	 {
-		 @Html.Raw("q.security.user().logout();")
-	 }
-		});
-	</script>*@
 </body>
 </html>

@@ -20,9 +20,8 @@ namespace SaveASpot.Controllers.Artifacts.ViewExtensions
 			if (_currentUser.User.IsAdmin() || Args.Any(e => e.Key.Equals("isAdmin", StringComparison.CurrentCultureIgnoreCase) && e.Value.Equals("true", StringComparison.CurrentCultureIgnoreCase)))
 			{
 				yield return new ViewExtensionResult("security/admin", _currentUser.User, new ViewScriptsElementIdentity());
+				yield return new ViewExtensionResult("configuration/admin", null, new ViewJavascriptConfigurationElementIdentity());
 			}
-
-			yield return new ViewExtensionResult("configuration/admin", null, new ViewJavascriptConfigurationElementIdentity());
 		}
 
 		public IEnumerable<KeyValuePair<string, string>> Args { private get; set; }

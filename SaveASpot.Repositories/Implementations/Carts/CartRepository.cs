@@ -36,13 +36,17 @@ namespace SaveASpot.Repositories.Implementations.Carts
 
 		public Cart CreateCart(IElementIdentity elementIdentity)
 		{
-			throw new System.NotImplementedException();
+			var newCart = new Cart { Id = elementIdentity.ToIdentity() };
+
+			_mongoDBCollectionFactory.Collection<Cart>().Insert(newCart);
+
+			return newCart;
 		}
 
 		private Cart FindFirstCart(IElementIdentity cartIdentity)
 		{
 			var cartId = cartIdentity.ToIdentity();
-			return _mongoDBCollectionFactory.Collection<Cart>().FindOne(Query<Cart>.Where(e => e.CartId == cartId));
+			return _mongoDBCollectionFactory.Collection<Cart>().FindOne(Query<Cart>.Where(e => e.Id == cartId));
 		}
 	}
 }

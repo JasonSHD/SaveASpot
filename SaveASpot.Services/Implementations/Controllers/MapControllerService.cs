@@ -20,13 +20,15 @@ namespace SaveASpot.Services.Implementations.Controllers
 		private readonly ITypeConverter<Phase, PhaseViewModel> _typeConverter;
 		private readonly IConfigurationManager _configurationManager;
 		private readonly IConverter<Sponsor, SponsorViewModel> _converter;
+		private readonly ICurrentCart _currentCart;
 
 		public MapControllerService(ICurrentUser currentUser,
 			ISponsorQueryable sponsorQueryable,
 			IPhaseQueryable phaseQueryable,
 			ITypeConverter<Phase, PhaseViewModel> typeConverter,
 			IConfigurationManager configurationManager,
-			IConverter<Sponsor, SponsorViewModel> converter)
+			IConverter<Sponsor, SponsorViewModel> converter,
+			ICurrentCart currentCart)
 		{
 			_currentUser = currentUser;
 			_sponsorQueryable = sponsorQueryable;
@@ -34,20 +36,23 @@ namespace SaveASpot.Services.Implementations.Controllers
 			_typeConverter = typeConverter;
 			_configurationManager = configurationManager;
 			_converter = converter;
+			_currentCart = currentCart;
 		}
 
 		public MapViewModel GetMapViewModel()
 		{
 			var viewModel = new MapViewModel
 							 {
-								 ShowCustomerBookingPanel = _currentUser.User.IsCustomer() || _currentUser.User.IsCustomer(),
+								 ShowCustomerBookingPanel = _currentUser.User.IsCustomer() || _currentUser.User.IsAnonym(),
 								 Phases = _phaseQueryable.Filter(e => e.All()).Find().Select(_typeConverter.Convert).ToList(),
 								 GoogleMapKey = _configurationManager.GetSettings("GoogleMapKey")
+
 							 };
 
 			if (viewModel.ShowCustomerBookingPanel)
 			{
 				viewModel.Sponsors = Enumerable.Empty<SponsorViewModel>();
+				viewModel.Cart = _currentCart.Cart;
 			}
 			else
 			{

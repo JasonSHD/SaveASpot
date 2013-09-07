@@ -61,6 +61,15 @@ namespace SaveASpot.Services.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Success..
+        /// </summary>
+        internal static string AddSpotToCartSuccess {
+            get {
+                return ResourceManager.GetString("AddSpotToCartSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Admin in current application is exists..
         /// </summary>
         internal static string AdminExists {
@@ -273,6 +282,15 @@ namespace SaveASpot.Services.Properties {
         internal static string SponsorUrlDisplay {
             get {
                 return ResourceManager.GetString("SponsorUrlDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spot not available..
+        /// </summary>
+        internal static string SpotNotAvailableToAddToCart {
+            get {
+                return ResourceManager.GetString("SpotNotAvailableToAddToCart", resourceCulture);
             }
         }
         

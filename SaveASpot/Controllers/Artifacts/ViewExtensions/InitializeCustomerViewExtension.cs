@@ -20,6 +20,7 @@ namespace SaveASpot.Controllers.Artifacts.ViewExtensions
 			if (_currentUser.User.IsCustomer())
 			{
 				yield return new ViewExtensionResult("security/customer", _currentCustomer.Customer, new ViewScriptsElementIdentity());
+				yield return new ViewExtensionResult("configuration/customer", new { }, new ViewJavascriptConfigurationElementIdentity());
 			}
 		}
 	}

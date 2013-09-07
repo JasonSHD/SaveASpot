@@ -1,8 +1,10 @@
 using SaveASpot.Core;
 using SaveASpot.Repositories.Implementations;
+using SaveASpot.Repositories.Implementations.Carts;
 using SaveASpot.Repositories.Implementations.PhasesAndParcels;
 using SaveASpot.Repositories.Implementations.Security;
 using SaveASpot.Repositories.Implementations.Sponsors;
+using SaveASpot.Repositories.Interfaces.Carts;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Interfaces.Security;
 using SaveASpot.Repositories.Interfaces.Sponsors;
@@ -28,6 +30,8 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ICustomerQueryable>().To<CustomerQueryable>();
 			Bind<IElementIdentityConverter>().To<MongoDBElementIdentityConverter>();
 			Bind<ICustomerRepository>().To<CustomerRepository>();
+			Bind<ICartQueryable>().To<CartQueryable>();
+			Bind<ICartRepository>().To<CartRepository>();
 		}
 	}
 }

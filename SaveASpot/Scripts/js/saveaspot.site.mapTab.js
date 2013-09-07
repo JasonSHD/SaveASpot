@@ -16,21 +16,102 @@
 
 	var spotsControl = (function (options) {
 		var settings = $.extend(options, {
-			spotsUrl: q.pageConfig.spotsUrl
+			spotsUrl: q.pageConfig.spotsUrl,
+			colors: {
+				available: "#00FF00",
+				selected: "#FFFF00",
+				unavailable: "#FF0000"
+			}
 		});
 
 		var result = {};
 
-		var onPhaseChangedHandler = function (phaseArg) {
-			q.ajax({ url: settings.spotsUrl + "?identity=" + phaseArg.phaseId, type: "GET" }).done(function () {
+		var spotDescriptions = [];
 
+		var spotSelectedHandler = function () {
+			//alert(this.spot.identity)
+			q.events().fire("availableSpotSelected", { spot: this.spot });
+		};
+
+		var displaySpot = function (spotDesc) {
+			var colors = settings.colors;
+			// ReSharper disable UseOfImplicitGlobalInFunctionScope
+			var polygon = new google.maps.Polygon({
+				// ReSharper restore UseOfImplicitGlobalInFunctionScope
+				paths: spotDesc.paths,
+				strokeColor: colors[spotDesc.val],
+				strokeOpacity: 0.8,
+				strokeWeight: 2,
+				fillColor: colors[spotDesc.val],
+				fillOpacity: 0.35
+			});
+			polygon.setMap(gmap);
+			spotDesc.polygon = polygon;
+
+			// ReSharper disable UseOfImplicitGlobalInFunctionScope
+			google.maps.event.addListener(polygon, 'click', function () {
+				// ReSharper restore UseOfImplicitGlobalInFunctionScope
+				spotSelectedHandler.call(spotDesc);
+			});
+		};
+
+		var initializeSpots = function (spots) {
+
+			// ReSharper disable UseOfImplicitGlobalInFunctionScope
+			var bounds = new google.maps.LatLngBounds();
+			// ReSharper restore UseOfImplicitGlobalInFunctionScope
+
+			for (var spotIndex in spots) {
+				var spot = spots[spotIndex];
+
+				var elementPolygonCoords = [];
+
+				for (var pointIndex in spot.points) {
+					var point = spot.points[pointIndex];
+
+					// ReSharper disable UseOfImplicitGlobalInFunctionScope
+					elementPolygonCoords.push(new google.maps.LatLng(point.lng, point.lat));
+					// ReSharper restore UseOfImplicitGlobalInFunctionScope
+				}
+
+				var spotDesc = {
+					spot: spot,
+					val: spot.isAvailable ? "available" : "unavailable",
+					paths: elementPolygonCoords
+				};
+
+				if (!spot.isAvailable) {
+					var bp = "";
+				}
+
+				spotDescriptions.push(spotDesc);
+				displaySpot(spotDesc);
+
+				spotDesc.polygon.getPath().forEach(function (pointArg) {
+					bounds.extend(pointArg);
+				});
+			}
+
+			gmap.fitBounds(bounds);
+		};
+
+		var onPhaseChangedHandler = function (phaseArg) {
+			q.ajax({ url: settings.spotsUrl + "?identity=" + phaseArg.arg.phaseId, type: "GET" }).done(function (spotResults) {
+
+				initializeSpots(spotResults);
 			});
 		};
 
 		q.events().bind("phaseChanged", onPhaseChangedHandler);
 
+		var onUpdateSpotStateHandler = function (stateArg) {
+		};
+
+		q.events().bind("updateSpotState", onUpdateSpotStateHandler);
+
 		result.destroy = function () {
-			q.events().unbind(onPhaseChangedHandler);
+			q.events().unbind("phaseChanged", onPhaseChangedHandler);
+			q.events().unbind("updateSpotState", onUpdateSpotStateHandler);
 			log.write("destory spots control.");
 		};
 
@@ -41,15 +122,13 @@
 		var settings = $.extend(options, {});
 		var result = {};
 
-		var changePhase = function (phaseId) {
-			q.events().fire("changingPhase", { phaseId: phaseId });
-		};
-
 		var $dashboardMenu = $("#dashboard-menu");
 		$dashboardMenu.on("click", "[data-identity]", function () {
-			changePhase(this.getAttribute("data-identity"));
+			var phaseId = this.getAttribute("data-identity");
+			q.events().fire("phaseChanging", { phaseId: phaseId });
 			$dashboardMenu.find("[data-identity]").removeClass("phase-active");
 			$(this).addClass("phase-active");
+			q.events().fire("phaseChanged", { phaseId: phaseId });
 		});
 
 		result.destroy = function () {
@@ -58,7 +137,75 @@
 		return result;
 	})({}, jQuery);
 
-	var customerNumericControl = (function (options, $) {
+	var customerControl = (function (options, $) {
+		var settings = $.extend(options, {
+			addSpotToCartUrl: q.pageConfig.addSpotToCartUrl
+		});
+
+		var result = {};
+
+		var availableSpotSelectedHandler = function (args) {
+			q.ajax({ url: settings.addSpotToCartUrl, type: "POST", data: { spotIdentity: args.arg.spot.identity } }).done(function (addResult) {
+				if (addResult.isSuccess) {
+					q.events().fire("updateCart", { cart: addResult.cart });
+				} else {
+					alert(addResult.message);
+				}
+			});
+		};
+
+		q.events().bind("availableSpotSelected", availableSpotSelectedHandler);
+
+		result.destroy = function () {
+			q.events().unbind("availableSpotSelected", availableSpotSelectedHandler);
+		};
+
+		return result;
+	})({}, jQuery);
+
+	var cartControl = (function (options, $) {
+		var settings = $.extend(options, {
+			cartElement: $("[data-cart]"),
+			cartInitializeElement: $("[data-cart-initialize]"),
+			cart: { elements: [] }
+		});
+		var result = {};
+
+		settings.cartElement.show();
+
+		var fireUpdateSpotsState = function () {
+			for (var elemntIndex in settings.cart.elements) {
+				var element = settings.cart.elements[elemntIndex];
+
+				q.events().fire("updateSpotState", { identity: element, val: "selected" });
+			}
+		};
+
+		var updateCartHandler = function (args) {
+			settings.cart = args.arg.cart;
+			$(".count").text(settings.cart.elements.length);
+			fireUpdateSpotsState();
+		};
+
+		q.events().bind("updateCart", updateCartHandler);
+
+		result.destroy = function () {
+			q.events().unbind("updateCart", updateCartHandler);
+		};
+
+		if (settings.cartInitializeElement.length > 0) {
+			var initializeFunction = settings.cartInitializeElement.data("cart-initialize");
+			var cart = window[initializeFunction]();
+			q.events().fire("updateCart", { cart: cart });
+		}
+
+		return result;
+	})({}, jQuery);
+
+	var customerTabsControl = (function (options, $) {
+	})({}, jQuery);
+
+	var checkoutControl = (function (options, $) {
 	})({}, jQuery);
 
 	var adminNumericControl = (function (options, $) {
@@ -66,6 +213,9 @@
 
 	arg.destroy = function () {
 		spotsControl.destroy();
+		phaseControl.destroy();
+		customerControl.destroy();
+		cartControl.destroy();
 	};
 });
 

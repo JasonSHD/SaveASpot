@@ -4,7 +4,7 @@ namespace SaveASpot.Repositories.Models.Security
 {
 	public sealed class Cart
 	{
-		public ObjectId CartId { get; set; }
+		public ObjectId Id { get; set; }
 
 		private ObjectId[] _spotIdCollection;
 

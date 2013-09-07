@@ -1,9 +1,20 @@
 ﻿@model SaveASpot.ViewModels.MapViewModel
 <div style="display: none;" id="customerSpotSelectPanel">
 	Spots selected:
-		<input type="text" disabled="disabled" value="0" />
+	<input type="text" disabled="disabled" value="0" />
 	<div class="btn-group-vertical">
 		<button type="button" class="btn btn-default btn-mini" data-up=""><i class="icon-chevron-up"></i></button>
 		<button type="button" class="btn btn-default btn-mini" data-down=""><i class="icon-chevron-down"></i></button>
 	</div>
 </div>
+
+<div class="sponsor-details">
+	<span class="company-name"></span>
+	<span class="sponsor-sentence"></span>
+	<span class="sponsor-url"></span>
+	<img class="sponsor-logo" src="" />
+</div>
+
+@{
+	Html.RenderPartial("CartInitialize", Model.Cart);
+}

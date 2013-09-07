@@ -16,7 +16,7 @@ namespace SaveASpot.Services.Implementations
 
 		public Cart Convert(Repositories.Models.Security.Cart source)
 		{
-			return new Cart(_elementIdentityConverter.ToIdentity(source.CartId), source.SpotIdCollection.Select(e => _elementIdentityConverter.ToIdentity(e)).ToList());
+			return new Cart(_elementIdentityConverter.ToIdentity(source.Id), source.SpotIdCollection.Select(e => _elementIdentityConverter.ToIdentity(e)).ToList());
 		}
 	}
 }

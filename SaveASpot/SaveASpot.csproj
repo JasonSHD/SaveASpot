@@ -359,7 +359,7 @@
       <Name>SaveASpot.DependenciesConfiguration</Name>
     </ProjectReference>
     <ProjectReference Include="..\SaveASpot.Repositories\SaveASpot.Repositories.csproj">
-      <Project>{7575380F-C10B-45F0-9FA5-5BC4DB6C1340}</Project>
+      <Project>{7575380f-c10b-45f0-9fa5-5bc4db6c1340}</Project>
       <Name>SaveASpot.Repositories</Name>
     </ProjectReference>
     <ProjectReference Include="..\SaveASpot.Services\SaveASpot.Services.csproj">
@@ -444,9 +444,10 @@
     <Content Include="Views\Shared\ViewExtensions\Web.config" />
     <Content Include="Views\Shared\ViewExtensions\Security\Customer.cshtml" />
     <Content Include="Views\Shared\ViewExtensions\Security\Admin.cshtml" />
-    <Content Include="Views\Shared\ViewExtensions\Configuration\Admin.cshtml" />
-    <Content Include="Views\Shared\ViewExtensions\Configuration\Admin.cshtml" />
+    <Content Include="Views\Shared\ViewExtensions\Configuration\Admin.cshtml" />    
     <Content Include="Views\Shared\ViewExtensions\Configuration\Customer.cshtml" />
+    <Content Include="Views\Shared\ViewExtensions\Security\AnonymCustomer.cshtml" />
+    <Content Include="Views\Map\CartInitialize.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

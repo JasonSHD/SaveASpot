@@ -1,12 +1,13 @@
 ﻿using System.Web.Mvc;
 using SaveASpot.Core;
+using SaveASpot.Core.Security;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Interfaces.Controllers;
 
 namespace SaveASpot.Controllers
 {
 	[CustomerAuthorize]
-	[AdministratorAuthorize]
+	[AnonymAuthorize]
 	public sealed class CartController : BaseController
 	{
 		private readonly ICartControllerService _cartControllerService;
@@ -19,9 +20,9 @@ namespace SaveASpot.Controllers
 		[HttpPost]
 		public JsonResult AddSpotToCart(IElementIdentity spotIdentity)
 		{
-			_cartControllerService.AddSpotToCart(spotIdentity);
+			var addResult = _cartControllerService.AddSpotToCart(spotIdentity);
 
-			return Json(new object());
+			return Json(new { isSuccess = addResult.IsSuccess, message = addResult.Message, cart = addResult.Cart.AsCartJson() });
 		}
 
 		[HttpPost]

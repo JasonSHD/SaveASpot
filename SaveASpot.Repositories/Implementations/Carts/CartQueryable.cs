@@ -21,7 +21,7 @@ namespace SaveASpot.Repositories.Implementations.Carts
 		public ICartFilter FilterByIdentity(IElementIdentity cartIdentity)
 		{
 			var cartId = cartIdentity.ToIdentity();
-			return new CartFilter(Query<Cart>.Where(e => e.CartId == cartId));
+			return new CartFilter(Query<Cart>.Where(e => e.Id == cartId));
 		}
 
 		private sealed class CartFilter : MongoQueryFilter, ICartFilter
