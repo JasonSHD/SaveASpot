@@ -64,14 +64,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 		public LogOnResultViewModel LogOnCustomer(LogOnViewModel logOn)
 		{
 			throw new System.NotImplementedException();
-			return new MethodResult<UserResult>(false, new UserResult(_userFactory.AnonymUser(), _textService.ResolveTest(userExistsResult.Status.MessageKey)));
-		}
-
-		public IMethodResult<UserResult> LogOff()
-		{
-			_webAuthentication.LogOff();
-
-			return new MethodResult<UserResult>(true, new UserResult(_userFactory.AnonymUser(), string.Empty));
+			//return new MethodResult<UserResult>(false, new UserResult(_userFactory.AnonymUser(), _textService.ResolveTest(userExistsResult.Status.MessageKey)));
 		}
 	}
 }
