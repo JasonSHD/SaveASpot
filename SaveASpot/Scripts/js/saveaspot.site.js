@@ -24,7 +24,14 @@ q("customersTab", function (arg) {
 					if (validator.validate()) {
 
 						$.ajax({ url: q.pageConfig.createCustomerView, type: "POST", data: q.serialize(modal.body()) }).done(function (result) {
-							context.hide();
+						    context.hide();
+						    q.controls.ajaxForm.fireUpdate({
+						        arg: null,
+						        url: q.pageConfig.customersView,
+						        method: "POST",
+						        alias: "customersTab",
+						        ajaxForm: "MainMenuTabAttribute"
+						    });
 						});
 					}
 				}).
