@@ -1,4 +1,4 @@
-﻿(function ($) {
+﻿﻿(function ($) {
 	var oldQ = window.q;
 
 	window.q.runReadyHandlers = function (filter, runEmpty) {

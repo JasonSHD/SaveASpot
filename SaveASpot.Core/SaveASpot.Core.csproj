@@ -127,6 +127,7 @@
     <Compile Include="Web\Mvc\IControllerTypesFinder.cs" />
     <Compile Include="Web\Mvc\ITabElementFilter.cs" />
     <Compile Include="Web\Mvc\OnlyRoute.cs" />
+    <Compile Include="Web\Mvc\LayoutExtensions\LayoutExtensionsFactory.cs" />
     <Compile Include="Web\Mvc\ResourceDataAnnotationsModelMetadataProvider.cs" />
     <Compile Include="Web\Mvc\IAuthorizeManager.cs" />
     <Compile Include="Web\Mvc\ITabDescriptionControllerTypes.cs" />

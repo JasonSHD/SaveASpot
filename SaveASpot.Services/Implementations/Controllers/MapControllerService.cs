@@ -46,7 +46,6 @@ namespace SaveASpot.Services.Implementations.Controllers
 								 ShowCustomerBookingPanel = _currentUser.User.IsCustomer() || _currentUser.User.IsAnonym(),
 								 Phases = _phaseQueryable.Filter(e => e.All()).Find().Select(_typeConverter.Convert).ToList(),
 								 GoogleMapKey = _configurationManager.GetSettings("GoogleMapKey")
-
 							 };
 
 			if (viewModel.ShowCustomerBookingPanel)
