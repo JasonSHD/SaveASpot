@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using SaveASpot.Core;
 using SaveASpot.Repositories.Models;
 
@@ -8,6 +9,7 @@ namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
 	{
 		IParcelFilter All();
 		IParcelFilter ByPhase(IElementIdentity identity);
+		IParcelFilter ByIdentities(IEnumerable<IElementIdentity> parcelsIdentities);
 	}
 
 	public static class ParcelQueryableExtensions

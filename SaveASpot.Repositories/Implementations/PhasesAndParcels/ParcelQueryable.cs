@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using SaveASpot.Core;
@@ -20,6 +21,13 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 		{
 			var phaseId = identity.ToIdentity();
 			return new ParcelFilter(Query<Parcel>.Where(e => e.PhaseId == phaseId));
+		}
+
+		public IParcelFilter ByIdentities(IEnumerable<IElementIdentity> parcelsIdentities)
+		{
+			var parcelIds = parcelsIdentities.Select(e => e.ToIdentity());
+
+			return new ParcelFilter(Query.And(Query<Parcel>.In(e => e.Id, parcelIds)));
 		}
 
 		protected override IParcelFilter BuildFilter(IMongoQuery query)

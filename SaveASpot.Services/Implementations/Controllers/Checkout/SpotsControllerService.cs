@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using SaveASpot.Core;
 using SaveASpot.Repositories.Interfaces;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
@@ -31,27 +32,31 @@ namespace SaveASpot.Services.Implementations.Controllers.Checkout
 			_currentCart = currentCart;
 		}
 
-		public SpotsCheckoutViewModel GetSpots(IElementIdentity phaseIdentity)
+		public SpotsCheckoutViewModel GetSpots()
 		{
-			var phase = _phaseQueryable.Filter(e => e.ByIdentity(phaseIdentity)).First();
+			var elementsInCart = _currentCart.Cart.ElementIdentities;
+			var spotsInCart = _spotQueryable.Filter(e => e.ByIdentities(elementsInCart)).ToList();
+			var parcelsIdentitiesInCart = spotsInCart.GroupBy(e => e.ParcelId).Select(e => _elementIdentityConverter.ToIdentity(e.Key));
+			var parcelsInCart = _parcelQueryable.Filter(e => e.ByIdentities(parcelsIdentitiesInCart)).ToList();
+			var phasesIdentitiesInCart = parcelsInCart.GroupBy(e => e.PhaseId).Select(e => _elementIdentityConverter.ToIdentity(e.Key));
+			var phasesInCart = _phaseQueryable.Filter(e => e.ByIdentities(phasesIdentitiesInCart)).ToList();
 
-			if (!phase.SpotPrice.HasValue)
+			var spots = new List<SpotViewModel>();
+			decimal price = 0;
+
+			foreach (var spot in spotsInCart)
 			{
-				return new SpotsCheckoutViewModel();
+				var parcel = parcelsInCart.First(e => spot.ParcelId == e.Id);
+				var phase = phasesInCart.First(e => parcel.PhaseId == e.Id);
+
+				if (phase.SpotPrice.HasValue)
+				{
+					spots.Add(Convert(spot, phase.SpotPrice.Value));
+					price += phase.SpotPrice.Value;
+				}
 			}
 
-			var parcelsForPhase = _parcelQueryable.Filter(e => e.ByPhase(phaseIdentity)).Select(e => _elementIdentityConverter.ToIdentity(e.Id));
-			var spotsForParcels = _spotQueryable.Filter(e => e.ByParcels(parcelsForPhase));
-
-			var elementsInCart =
-				spotsForParcels.Where(
-					e =>
-					_currentCart.Cart.ElementIdentities.Any(
-						identity => _elementIdentityConverter.IsEqual(identity, _elementIdentityConverter.ToIdentity(e.Id)))).ToList();
-
-			var price = elementsInCart.Count * phase.SpotPrice.Value;
-
-			return new SpotsCheckoutViewModel { Price = price, Spots = elementsInCart.Select(e => Convert(e, phase.SpotPrice.Value)) };
+			return new SpotsCheckoutViewModel { Price = price, Spots = spots };
 		}
 
 		private SpotViewModel Convert(Spot spot, decimal price)

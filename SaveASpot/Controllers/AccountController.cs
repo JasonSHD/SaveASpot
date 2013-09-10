@@ -2,6 +2,7 @@
 using SaveASpot.Core.Security;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Interfaces.Controllers;
+using SaveASpot.ViewModels;
 using SaveASpot.ViewModels.Account;
 
 namespace SaveASpot.Controllers
@@ -30,6 +31,12 @@ namespace SaveASpot.Controllers
 		public JsonResult LogOnCustomer(LogOnViewModel logOn)
 		{
 			return Json(_accountControllerService.LogOnCustomer(logOn).AsJsonResult());
+		}
+
+		[HttpPost]
+		public JsonResult RegistrateCustomer(CreateCustomerViewModel createCustomerViewModel)
+		{
+			return Json(new { });
 		}
 
 		[HttpPost]

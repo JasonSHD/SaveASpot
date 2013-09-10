@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using SaveASpot.Core;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Interfaces.Controllers.Checkout;
 
@@ -17,9 +16,9 @@ namespace SaveASpot.Areas.Checkout.Controllers
 
 		[AnonymAuthorize]
 		[HttpGet]
-		public ViewResult SpotsInCart(IElementIdentity phaseIdentity)
+		public ViewResult SpotsInCart()
 		{
-			return View(_spotsControllerService.GetSpots(phaseIdentity));
+			return View(_spotsControllerService.GetSpots());
 		}
 	}
 }

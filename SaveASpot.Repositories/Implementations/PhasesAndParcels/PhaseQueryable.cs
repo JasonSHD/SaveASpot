@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using SaveASpot.Core;
@@ -27,6 +29,13 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 		{
 			var phaseId = phaseIdentity.ToIdentity();
 			return new PhaseFilter(Query<Phase>.Where(e => e.Id == phaseId));
+		}
+
+		public IPhaseFilter ByIdentities(IEnumerable<IElementIdentity> phasesIdentities)
+		{
+			var phasesIds = phasesIdentities.Select(e => e.ToIdentity());
+
+			return new PhaseFilter(Query.And(Query<Spot>.In(e => e.Id, phasesIds)));
 		}
 
 		protected override IPhaseFilter BuildFilter(IMongoQuery query)
