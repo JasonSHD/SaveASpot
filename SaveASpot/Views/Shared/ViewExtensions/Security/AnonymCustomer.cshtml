@@ -1,1 +1,9 @@
-﻿
+﻿@using Newtonsoft.Json
+@using SaveASpot.Core.Security
+@model User
+<script>
+	q(function () {
+		q.security.currentUser().authenticate(@Html.Raw(JsonConvert.SerializeObject(Model.AsUserJson())));
+		q.controls.currentCustomer();
+	});
+</script>

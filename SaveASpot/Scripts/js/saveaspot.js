@@ -349,15 +349,12 @@ q.controls = q.controls || {};
 		options.loginUrl = q.pageConfig.loginCustomerUrl;
 
 		var result = namespace.currentUser(options);
-		var cart = q.controls.cart();
 
 		result.onAuthenticate(function (customer) {
 			if (customer.user.isAnonym) {
 				q.security.currentCustomer().authenticate();
-				cart.hide();
 			} else {
 				q.security.currentCustomer().authenticate(customer);
-				cart.show();
 			}
 		});
 
@@ -468,12 +465,12 @@ q.controls = q.controls || {};
 	};
 
 	namespace.userAuthentication = function (options) {
-		var settings = $.extend(options, {
-			loginUrl: q.pageConfig.loginUrl,
+		var settings = $.extend({
+			loginUrl: q.pageConfig.logonUrl,
 			authenticate: function (logonResult) {
-				q.security().currentUser().authenticate(logonResult.user);
+				q.security.currentUser().authenticate(logonResult.user);
 			}
-		});
+		}, options);
 		var result = {};
 
 		result.authenticate = function (container) {

@@ -19,7 +19,7 @@ namespace SaveASpot.Areas.Checkout.Controllers
 		{
 			var userInfoResult = _userInfoControllerService.UserInfo();
 
-			return userInfoResult.IsCustomer ? (ActionResult)Json(userInfoResult.User.AsUserJson()) : View(userInfoResult.LogOnViewModel);
+			return userInfoResult.IsCustomer ? View("AuthenticatedUser", userInfoResult.User) : View(userInfoResult.LogOnViewModel);
 		}
 	}
 }

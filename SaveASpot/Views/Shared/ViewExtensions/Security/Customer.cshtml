@@ -3,6 +3,7 @@
 @model Customer
 <script>
 	q(function () {
-		@Html.Raw("q.security.currentCustomer().authenticate(" + JsonConvert.SerializeObject(Model.AsCustomerJson()) + ");")
+		q.security.currentCustomer().authenticate(@Html.Raw(JsonConvert.SerializeObject(Model.AsCustomerJson())));
+		q.controls.currentCustomer();
 	});
 </script>
