@@ -533,7 +533,7 @@
 				q.controls.userRegistration({
 					authenticate: function (logonResult) {
 						q.security.currentUser().authenticate(logonResult.user);
-						logonMethod.html("Your was authenticated with email: " + logonResult.user.email);
+						registrationMethod.html("Your was authenticated with email: " + logonResult.user.email);
 						processArg.complete();
 					},
 					failed: function () {
