@@ -36,7 +36,7 @@ namespace SaveASpot.Controllers
 		[HttpPost]
 		public JsonResult RegistrateCustomer(CreateCustomerViewModel createCustomerViewModel)
 		{
-			return Json(new { });
+			return Json(_accountControllerService.RegistrateCustomer(createCustomerViewModel).AsJsonResult());
 		}
 
 		[HttpPost]

@@ -386,6 +386,8 @@
     <Content Include="Areas\Checkout\Views\CardInfo\CartInfo.cshtml" />
     <Content Include="Areas\Checkout\Views\UserInfo\UserInfo.cshtml" />
     <Content Include="Areas\Checkout\Views\UserInfo\AuthenticatedUser.cshtml" />
+    <Content Include="Areas\Checkout\Views\UserInfo\LonOn.cshtml" />
+    <Content Include="Areas\Checkout\Views\UserInfo\Registration.cshtml" />
     <None Include="Content\css\scss\calendar.scss" />
     <None Include="Content\css\scss\chart-showcase.scss" />
     <None Include="Content\css\scss\elements.scss" />

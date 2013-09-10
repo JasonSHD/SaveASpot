@@ -40,7 +40,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 																		Username = registerViewModel.UserName
 																	}, new[] { _roleFactory.Convert(typeof(AdministratorRole)) });
 
-			return new MessageMethodResult(createUserResult.IsSuccess, _textService.ResolveTest(createUserResult.Status.MessageKet));
+			return new MessageMethodResult(createUserResult.IsSuccess, _textService.ResolveTest(createUserResult.Status.MessageKey));
 		}
 	}
 }

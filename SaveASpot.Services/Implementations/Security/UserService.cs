@@ -66,7 +66,7 @@ namespace SaveASpot.Services.Implementations.Security
 				return new MethodResult<CreateUserResult>(true, new CreateUserResult { UserId = _elementIdentityConverter.ToIdentity(user.Identity) });
 			}
 
-			return new MethodResult<CreateUserResult>(validationResult.IsValid, new CreateUserResult { MessageKet = validationResult.Message });
+			return new MethodResult<CreateUserResult>(validationResult.IsValid, new CreateUserResult { MessageKey = validationResult.Message });
 		}
 
 		public IMethodResult<MessageResult> ChangePassword(string username, string newPassword)

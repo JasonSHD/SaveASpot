@@ -470,7 +470,7 @@ q.controls = q.controls || {};
 			authenticate: function (logonResult) {
 				q.security.currentUser().authenticate(logonResult.user);
 			},
-			faild: function (){}
+			failed: function () { }
 		}, options);
 		var result = {};
 
@@ -478,6 +478,33 @@ q.controls = q.controls || {};
 			var data = q.serialize(container);
 
 			q.ajax({ type: "POST", url: settings.loginUrl, data: data }).done(function (logonResult) {
+				if (logonResult.status == false) {
+					$(container).find("[data-error-message]").show().find("[data-error-message-context]").text(logonResult.message);
+					settings.failed();
+					return;
+				}
+
+				settings.authenticate(logonResult);
+			});
+		};
+
+		return result;
+	};
+
+	namespace.userRegistration = function (options) {
+		var settings = $.extend({
+			registrationUrl: q.pageConfig.registrationUrl,
+			authenticate: function (logonResult) {
+				q.security.currentUser().authenticate(logonResult.user);
+			},
+			failed: function () { }
+		}, options);
+		var result = {};
+
+		result.registrate = function (container) {
+			var data = q.serialize(container);
+
+			q.ajax({ type: "POST", url: settings.registrationUrl, data: data }).done(function (logonResult) {
 				if (logonResult.status == false) {
 					$(container).find("[data-error-message]").show().find("[data-error-message-context]").text(logonResult.message);
 					settings.failed();

@@ -5,6 +5,7 @@
 
 	Object.defineProperty(q.pageConfig, "loginUrl", { value: "@Url.Action("LogOn", "Account")", writable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "logonUrl", { value: "@Url.Action("LogOnCustomer", "Account")", writable: false, configurable: false });
+	Object.defineProperty(q.pageConfig, "registrationUrl", { value: "@Url.Action("RegistrateCustomer", "Account")", writable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "logoutUrl", { value: "@Url.Action("LogOff", "Account")", writable: false, configurable: false });
 
 	Object.defineProperty(q.pageConfig, "spotsFromCartUrl", { value: "@Url.Action("SpotsInCart", "Spots", new { area = "Checkout" })", wirtable: false, configurable: false });

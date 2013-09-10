@@ -6,6 +6,7 @@ using SaveASpot.Repositories.Interfaces;
 using SaveASpot.Repositories.Interfaces.Security;
 using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.Services.Interfaces.Security;
+using SaveASpot.ViewModels;
 using SaveASpot.ViewModels.Account;
 
 namespace SaveASpot.Services.Implementations.Controllers
@@ -19,6 +20,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 		private readonly IUserQueryable _userQueryable;
 		private readonly IPasswordHash _passwordHash;
 		private readonly IElementIdentityConverter _elementIdentityConverter;
+		private readonly ICustomerService _customerService;
 
 		public AccountControllerService(IWebAuthentication webAuthentication,
 			ITextService textService,
@@ -26,7 +28,8 @@ namespace SaveASpot.Services.Implementations.Controllers
 			IRoleFactory roleFactory,
 			IUserQueryable userQueryable,
 			IPasswordHash passwordHash,
-			IElementIdentityConverter elementIdentityConverter)
+			IElementIdentityConverter elementIdentityConverter,
+			ICustomerService customerService)
 		{
 			_webAuthentication = webAuthentication;
 			_textService = textService;
@@ -35,6 +38,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 			_userQueryable = userQueryable;
 			_passwordHash = passwordHash;
 			_elementIdentityConverter = elementIdentityConverter;
+			_customerService = customerService;
 		}
 
 		public IMethodResult<UserResult> LogOff()
@@ -52,6 +56,31 @@ namespace SaveASpot.Services.Implementations.Controllers
 		public LogOnResultViewModel LogOnCustomer(LogOnViewModel logOn)
 		{
 			return LogOn(logOn, typeof(CustomerRole));
+		}
+
+		public LogOnResultViewModel RegistrateCustomer(CreateCustomerViewModel createCustomerViewModel)
+		{
+			var result = _customerService.CreateCustomer(
+				new UserArg
+					{
+						Email = createCustomerViewModel.Email,
+						Password = createCustomerViewModel.Password,
+						Username = createCustomerViewModel.UserName
+					});
+
+			if (result.IsSuccess)
+			{
+				return
+					LogOn(
+						new LogOnViewModel
+							{
+								Password = createCustomerViewModel.Password,
+								RememberMe = false,
+								UserName = createCustomerViewModel.UserName
+							}, typeof(CustomerRole));
+			}
+
+			return new LogOnResultViewModel(false, string.Empty, _userFactory.AnonymUser());
 		}
 
 		private LogOnResultViewModel LogOn(LogOnViewModel logOn, Type roleType)

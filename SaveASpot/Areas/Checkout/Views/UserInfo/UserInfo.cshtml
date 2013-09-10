@@ -1,21 +1,17 @@
-﻿@model SaveASpot.ViewModels.Account.LogOnViewModel
+﻿@using SaveASpot.ViewModels
+@using SaveASpot.ViewModels.Account
 <div class="head">
 	<h4>User Information</h4>
 </div>
 <p>&nbsp;</p>
-<div data-userinfo="">
-	<div style="display: none;" data-error-message="">
-		<div data-error-message-context="">
-			
-		</div>
+@{
+	<div class="pagination pagination-centered" data-customer-switcher="">
+		<ul>
+			<li class="active" data-method="logon"><a href="javascript:void(0)">Log on</a></li>
+			<li data-method="registration"><a href="javascript:void(0)">Registration</a></li>
+		</ul>
 	</div>
-
-	<div class="field-box">
-		<label>User name</label>
-		@Html.TextBoxFor(e => e.UserName, new { @class = "span8" })
-	</div>
-	<div class="field-box">
-		<label>Password</label>
-		@Html.PasswordFor(e => e.Password, new { @class = "span8" })
-	</div>
-</div>
+	
+	Html.RenderPartial("LonOn", new LogOnViewModel());
+	Html.RenderPartial("Registration", new CreateCustomerViewModel());
+}

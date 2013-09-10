@@ -20,7 +20,7 @@ namespace SaveASpot.Repositories.Implementations.Security
 			return true;
 		}
 
-		public bool CreateCustomer(IElementIdentity userIdentity)
+		public IElementIdentity CreateCustomer(IElementIdentity userIdentity)
 		{
 			var newCustomer = new SiteCustomer
 													{
@@ -30,7 +30,7 @@ namespace SaveASpot.Repositories.Implementations.Security
 													};
 
 			_mongoDBCollectionFactory.Collection<SiteCustomer>().Insert(newCustomer);
-			return true;
+			return new MongoDBIdentity(newCustomer.Id);
 		}
 
 		public SiteCustomer GetCustomerById(string id)

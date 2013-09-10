@@ -4,7 +4,7 @@ namespace SaveASpot.Services.Interfaces.Security
 {
 	public sealed class CreateUserResult
 	{
-		public string MessageKet { get; set; }
+		public string MessageKey { get; set; }
 		public IElementIdentity UserId { get; set; }
 	}
 }

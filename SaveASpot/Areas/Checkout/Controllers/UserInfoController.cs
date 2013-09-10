@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using SaveASpot.Core.Security;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Interfaces.Controllers.Checkout;
 

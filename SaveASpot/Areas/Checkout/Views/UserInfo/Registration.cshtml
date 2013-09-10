@@ -1,0 +1,24 @@
+﻿@model SaveASpot.ViewModels.CreateCustomerViewModel 
+<div data-userinfo="registration" style="display: none;">
+	<div style="display: none;" data-error-message="">
+		<div data-error-message-context="">
+		</div>
+	</div>
+
+	<div class="field-box">
+		<label>User name</label>
+		@Html.TextBoxFor(e => e.UserName, new { @class = "span8" })
+	</div>
+	<div class="field-box">
+		<label>Email</label>
+		@Html.TextBoxFor(e => e.Email, new { @class = "span8" })
+	</div>
+	<div class="field-box">
+		<label>Password</label>
+		@Html.PasswordFor(e => e.Password, new { @class = "span8" })
+	</div>
+	<div class="field-box">
+		<label>Confirm password</label>
+		@Html.PasswordFor(e => e.ConfirmPassword, new { @class = "span8" })
+	</div>
+</div>

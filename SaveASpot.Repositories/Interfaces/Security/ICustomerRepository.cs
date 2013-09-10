@@ -6,7 +6,7 @@ namespace SaveASpot.Repositories.Interfaces.Security
 	public interface ICustomerRepository
 	{
 		bool AddSpot(IElementIdentity customerId, IElementIdentity spotId);
-		bool CreateCustomer(IElementIdentity userIdentity);
+		IElementIdentity CreateCustomer(IElementIdentity userIdentity);
 		SiteCustomer GetCustomerByUserId(string userId);
 		SiteCustomer GetCustomerById(string id);
 		bool UpdateSiteCustomer(string id, string stripeUserToken);

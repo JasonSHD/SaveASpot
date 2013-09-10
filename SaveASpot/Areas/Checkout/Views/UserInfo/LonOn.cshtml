@@ -1,0 +1,16 @@
+﻿@model SaveASpot.ViewModels.Account.LogOnViewModel
+<div data-userinfo="logon">
+	<div style="display: none;" data-error-message="">
+		<div data-error-message-context="">
+		</div>
+	</div>
+
+	<div class="field-box">
+		<label>User name</label>
+		@Html.TextBoxFor(e => e.UserName, new { @class = "span8" })
+	</div>
+	<div class="field-box">
+		<label>Password</label>
+		@Html.PasswordFor(e => e.Password, new { @class = "span8" })
+	</div>
+</div>
