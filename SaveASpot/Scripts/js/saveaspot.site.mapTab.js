@@ -374,6 +374,9 @@
 					complete: function () {
 						runControlsAction(controlNumber + 1, controls, action);
 					},
+					break: function () {
+						settings.orderButton.removeAttr("disabled");
+					},
 					container: settings.content
 				});
 			} else if (controls.length == controlNumber) {
@@ -476,7 +479,9 @@
 		var settings = $.extend(options, {
 			userInfoUrl: q.pageConfig.userInfoUrl,
 			customerAuthenticateUrl: q.pageConfig.customerAuthenticateUrl,
-			userInfoContainer: $("[data-userinfo]")
+			userInfoContainer: function () {
+				return $("[data-userinfo]");
+			}
 		});
 		var result = {};
 
@@ -489,14 +494,18 @@
 		};
 
 		result.process = function (processArg) {
-			if (settings.userInfoContainer.length > 0) {
+			var userInfoContainer = settings.userInfoContainer();
+			if (userInfoContainer.length > 0) {
 				q.controls.userAuthentication({
 					authenticate: function (logonResult) {
 						q.security.currentUser().authenticate(logonResult.user);
-						settings.userInfoContainer.html("Your was authenticated with email: " + logonResult.user.email);
+						userInfoContainer.html("Your was authenticated with email: " + logonResult.user.email);
 						processArg.complete();
+					},
+					failed: function () {
+						processArg.break();
 					}
-				}).authenticate(settings.userInfoContainer);
+				}).authenticate(userInfoContainer);
 			} else {
 				processArg.complete();
 			}

@@ -469,7 +469,8 @@ q.controls = q.controls || {};
 			loginUrl: q.pageConfig.logonUrl,
 			authenticate: function (logonResult) {
 				q.security.currentUser().authenticate(logonResult.user);
-			}
+			},
+			faild: function (){}
 		}, options);
 		var result = {};
 
@@ -479,6 +480,7 @@ q.controls = q.controls || {};
 			q.ajax({ type: "POST", url: settings.loginUrl, data: data }).done(function (logonResult) {
 				if (logonResult.status == false) {
 					$(container).find("[data-error-message]").show().find("[data-error-message-context]").text(logonResult.message);
+					settings.failed();
 					return;
 				}
 
