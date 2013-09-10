@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace SaveASpot.Repositories.Interfaces
 {
-	public sealed class QueryableBuilder<T, TFilter, TQueryable>
+	public sealed class QueryableBuilder<T, TFilter, TQueryable> : IEnumerable<T>
 		where TFilter : class
 		where TQueryable : IElementQueryable<T, TFilter>
 	{
@@ -34,6 +35,16 @@ namespace SaveASpot.Repositories.Interfaces
 		public IEnumerable<T> Find()
 		{
 			return _elementQueryable.Find(Filter);
+		}
+
+		public IEnumerator<T> GetEnumerator()
+		{
+			return Find().GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return ((IEnumerable)Find()).GetEnumerator();
 		}
 	}
 }

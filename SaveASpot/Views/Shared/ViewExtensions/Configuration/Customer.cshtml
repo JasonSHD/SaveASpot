@@ -1,8 +1,11 @@
 ﻿<script>
 	Object.defineProperty(q, "pageConfig", { value: {}, writable: false, configurable: false });
 
+	Object.defineProperty(q.pageConfig, "customerAuthenticateUrl", { value: "@Url.Action("LogOnCustomer", "Account")", wirtable: false, configurable: false });
+
+	Object.defineProperty(q.pageConfig, "spotsFromCartUrl", { value: "@Url.Action("SpotsInCart", "Spots", new { area = "Checkout" })", wirtable: false, configurable: false });
+	Object.defineProperty(q.pageConfig, "userInfoUrl", { value: "@Url.Action("UserInfo", "UserInfo", new { area = "Checkout" })", wirtable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "spotsUrl", { value: "@Url.Action("ByPhase", "Spots")", wirtable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "addSpotToCartUrl", { value: "@Url.Action("AddSpotToCart", "Cart")", wirtable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "removeSpotFromCartUrl", { value: "@Url.Action("RemoveSpotFromCart", "Cart")", wirtable: false, configurable: false });
-	Object.defineProperty(q.pageConfig, "checkoutViewUrl", { value: "@Url.Action("Index", "Checkout")", wirtable: false, configurable: false });
 </script>

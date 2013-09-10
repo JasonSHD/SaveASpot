@@ -1,9 +1,9 @@
 ﻿using SaveASpot.Core;
 using SaveASpot.ViewModels.Checkout;
 
-namespace SaveASpot.Services.Interfaces.Controllers
+namespace SaveASpot.Services.Interfaces.Controllers.Checkout
 {
-	public interface ICheckoutControllerService
+	public interface ISpotsControllerService
 	{
 		SpotsCheckoutViewModel GetSpots(IElementIdentity phaseIdentity);
 	}

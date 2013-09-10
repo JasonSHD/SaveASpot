@@ -14,7 +14,10 @@
 		// ReSharper restore UseOfImplicitGlobalInFunctionScope
 	});
 
-	var spotsControl = (function (options) {
+	var controlsForDestroy = [];
+
+	//spots control
+	controlsForDestroy.push((function (options) {
 		var settings = $.extend(options, {
 			spotsUrl: q.pageConfig.spotsUrl,
 			colors: {
@@ -99,7 +102,7 @@
 		};
 
 		var onPhaseChangedHandler = function (phaseArg) {
-			q.ajax({ url: settings.spotsUrl + "?identity=" + phaseArg.arg.phaseId, type: "GET" }).done(function (spotResults) {
+			q.ajax({ url: settings.spotsUrl + "/" + phaseArg.arg.phaseId, type: "GET" }).done(function (spotResults) {
 
 				initializeSpots(spotResults);
 			});
@@ -170,9 +173,10 @@
 		};
 
 		return result;
-	})();
+	})());
 
-	var phaseControl = (function (options, $) {
+	//phases control
+	controlsForDestroy.push((function (options, $) {
 		var settings = $.extend(options, {});
 		var result = {};
 
@@ -190,7 +194,7 @@
 		};
 
 		return result;
-	})({}, jQuery);
+	})({}, jQuery));
 
 	var customerControl = (function (options, $) {
 		var settings = $.extend(options, {
@@ -312,35 +316,6 @@
 		return result;
 	})({}, jQuery);
 
-	var checkoutControl = (function (options, $) {
-		var settings = $.extend(options, {
-			viewUrl: q.pageConfig.checkoutViewUrl
-		});
-		var result = {};
-
-		var phaseChanged = function (args) {
-			settings.phaseIdentity = args.arg.phaseId;
-		};
-
-		q.events().bind("phaseChanged", phaseChanged);
-
-		var changeTabCheckoutHandler = function (args) {
-			q.ajax({ url: settings.viewUrl + "?phaseIdentity=" + settings.phaseIdentity, type: "GET" }).done(function (viewResult) {
-				var element = args.arg.element;
-				$(element).html(viewResult);
-			});
-		};
-
-		q.events().bind("changeTab_checkout", changeTabCheckoutHandler);
-
-		result.destroy = function () {
-			q.events().unbind("changeTab_checkout", changeTabCheckoutHandler);
-			q.events().unbind("phaseChanged", phaseChanged);
-		};
-
-		return result;
-	})({}, jQuery);
-
 	var numericControl = (function (options, $) {
 		var settings = $.extend(options, {
 			control: $("[data-numericcontrol]"),
@@ -379,12 +354,169 @@
 		return result;
 	})({}, jQuery);
 
+	//main checkout control for checkout process
+	var checkoutControl = (function (options, $) {
+		var settings = $.extend(options, {
+			element: $("[data-tabelement='checkout']"),
+			orderButton: $("[data-order]"),
+			content: $("[data-tabelement='checkout'] [data-checkout-content]")
+		});
+		var result = {};
+		var checkoutControls = [];
+
+		var runControlsAction = function (controlNumber, controls, action) {
+			settings.orderButton.attr("disabled", "disabled");
+			if (controls.length > controlNumber) {
+				var control = controls[controlNumber].control;
+
+				var actionValue = control[action];
+				actionValue.call(control, {
+					complete: function () {
+						runControlsAction(controlNumber + 1, controls, action);
+					},
+					container: settings.content
+				});
+			} else if (controls.length == controlNumber) {
+				settings.orderButton.removeAttr("disabled");
+			}
+		};
+
+		var changeTabCheckoutHandler = function () {
+			settings.content.html("");
+			var sortControls = function (left, right) {
+				return left.controlInfo.show > right.controlInfo.show;
+			};
+
+			runControlsAction(0, checkoutControls.sort(sortControls), "show");
+		};
+
+		q.events().bind("changeTab_checkout", changeTabCheckoutHandler);
+
+		var startOrder = function () {
+			var sortControls = function (left, right) {
+				return left.controlInfo.order > right.controlInfo.order;
+			};
+
+			runControlsAction(0, checkoutControls.sort(sortControls), "process");
+		};
+
+		settings.orderButton.bind("click", startOrder);
+
+		result.add = function (control, controlInfo) {
+			checkoutControls.push({ control: control, controlInfo: controlInfo });
+
+			return result;
+		};
+
+		result.destroy = function () {
+			q.events().unbind("changeTab_checkout", changeTabCheckoutHandler);
+			settings.orderButton.unbind("click", startOrder);
+
+			for (var controlIndex in checkoutControls) {
+				var control = checkoutControls[controlIndex];
+				control.destroy();
+			}
+		};
+
+		return result;
+	})({}, jQuery);
+	controlsForDestroy.push(checkoutControl);
+
+	//checkout phases control
+	checkoutControl.add((function (options, $) {
+		var settings = $.extend(options, {
+			spotsFromCartUrl: q.pageConfig.spotsFromCartUrl
+		});
+		var result = {};
+
+		result.show = function (showArg) {
+			q.ajax({ url: settings.spotsFromCartUrl + "?phaseIdentity=" + settings.phaseIdentity, type: "GET" }).done(function (phasesResult) {
+				$(showArg.container).append(phasesResult);
+
+				showArg.complete();
+			});
+		};
+
+		result.process = function (processArg) {
+			processArg.complete();
+		};
+
+		var onPhaseChangedHandler = function (phaseArg) {
+			settings.phaseIdentity = phaseArg.arg.phaseId;
+		};
+
+		q.events().bind("phaseChanged", onPhaseChangedHandler);
+
+		result.destroy = function () {
+		};
+
+		return result;
+	})({}, jQuery), { show: 10, order: 100 });
+
+	//checkout card control
+	checkoutControl.add((function (options, $) {
+		var result = {};
+
+		result.show = function (showArg) {
+			showArg.complete();
+		};
+
+		result.process = function (processArg) {
+			processArg.complete();
+		};
+
+		result.destroy = function () {
+		};
+
+		return result;
+	})({}, jQuery), { show: 20, order: 90 });
+
+	//checkout user control
+	checkoutControl.add((function (options, $) {
+		var settings = $.extend(options, {
+			userInfoUrl: q.pageConfig.userInfoUrl,
+			customerAuthenticateUrl: q.pageConfig.customerAuthenticateUrl,
+			userInfoContainer: $("[data-userinfo]")
+		});
+		var result = {};
+
+		result.show = function (showArg) {
+			q.ajax({ url: settings.userInfoUrl, type: "GET" }).done(function (userInfoResult) {
+				$(showArg.container).append(userInfoResult);
+
+				showArg.complete();
+			});
+		};
+
+		result.process = function (processArg) {
+			if (settings.userInfoContainer.length > 0) {
+				q.controls.userAuthentication({
+					authenticate: function (logonResult) {
+						q.security.currentUser().authenticate(logonResult.user);
+						settings.userInfoContainer.html("Your was authenticated with email: " + logonResult.user.email);
+						processArg.complete();
+					}
+				}).authenticate(settings.userInfoContainer);
+			} else {
+				processArg.complete();
+			}
+		};
+
+		result.destroy = function () {
+		};
+
+		return result;
+	})({}, jQuery), { show: 30, order: 10 });
+
 	var adminNumericControl = (function (options, $) {
 	})({}, jQuery);
 
 	arg.destroy = function () {
-		spotsControl.destroy();
-		phaseControl.destroy();
+		for (var controlIndex in controlsForDestroy) {
+			var control = controlsForDestroy[controlIndex];
+			control.destroy();
+		}
+
 		customerControl.destroy();
 		cartControl.destroy();
 		customerTabsControl.destroy();

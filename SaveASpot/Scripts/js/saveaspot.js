@@ -1,4 +1,4 @@
-﻿﻿(function ($) {
+﻿(function ($) {
 	var oldQ = window.q;
 
 	window.q.runReadyHandlers = function (filter, runEmpty) {
@@ -232,7 +232,7 @@ q.controls = q.controls || {};
 			result._data.currentEvents.unload();
 			var readyContext = {
 				alias: alias,
-				update: function() {
+				update: function () {
 					result.update($("[data-ajaxform-alias='" + alias + "']"));
 				}
 			};
@@ -449,25 +449,43 @@ q.controls = q.controls || {};
 				modal.
 					title("Login").
 					body(dialogContext).ok("Login", function () {
-						var data = q.serialize(modal.body());
+						namespace.userAuthentication({
+							authenticate: function (logonResult) {
+								modal.hide();
+								q.security.currentUser().authenticate(logonResult.user);
+								displayUserInfo(logonResult.user);
 
-						q.ajax({ type: "POST", url: settings.logonUrl, data: data }).done(function (logonResult) {
-							if (logonResult.status == false) {
-
-								if (logonResult.message != undefined) {
-									modal.body().find("[data-error-message]").show().find("[data-error-message-context]").text(logonResult.message);
-								}
-								return;
+								runHandlers("authenticate", logonResult);
 							}
-
-							modal.hide();
-							q.security.currentUser().authenticate(logonResult.user);
-							displayUserInfo(logonResult.user);
-
-							runHandlers("authenticate", logonResult);
-						});
+						}).
+							authenticate(modal.body());
 					}).
 					show();
+			});
+		};
+
+		return result;
+	};
+
+	namespace.userAuthentication = function (options) {
+		var settings = $.extend(options, {
+			loginUrl: q.pageConfig.loginUrl,
+			authenticate: function (logonResult) {
+				q.security().currentUser().authenticate(logonResult.user);
+			}
+		});
+		var result = {};
+
+		result.authenticate = function (container) {
+			var data = q.serialize(container);
+
+			q.ajax({ type: "POST", url: settings.loginUrl, data: data }).done(function (logonResult) {
+				if (logonResult.status == false) {
+					$(container).find("[data-error-message]").show().find("[data-error-message-context]").text(logonResult.message);
+					return;
+				}
+
+				settings.authenticate(logonResult);
 			});
 		};
 
@@ -783,6 +801,8 @@ q.security = q.security || {};
 			} else {
 				result._data.user = user;
 			}
+
+			q.events().fire("global_security_authenticated", { user: result._data.user });
 
 			return result;
 		};

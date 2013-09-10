@@ -4,13 +4,13 @@ using SaveASpot.Repositories.Interfaces;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
 using SaveASpot.Services.Interfaces;
-using SaveASpot.Services.Interfaces.Controllers;
+using SaveASpot.Services.Interfaces.Controllers.Checkout;
 using SaveASpot.ViewModels.Checkout;
 using SaveASpot.ViewModels.PhasesAndParcels;
 
-namespace SaveASpot.Services.Implementations.Controllers
+namespace SaveASpot.Services.Implementations.Controllers.Checkout
 {
-	public sealed class CheckoutControllerService : ICheckoutControllerService
+	public sealed class SpotsControllerService : ISpotsControllerService
 	{
 		private readonly IPhaseQueryable _phaseQueryable;
 		private readonly IParcelQueryable _parcelQueryable;
@@ -18,7 +18,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 		private readonly IElementIdentityConverter _elementIdentityConverter;
 		private readonly ICurrentCart _currentCart;
 
-		public CheckoutControllerService(IPhaseQueryable phaseQueryable,
+		public SpotsControllerService(IPhaseQueryable phaseQueryable,
 			IParcelQueryable parcelQueryable,
 			ISpotQueryable spotQueryable,
 			IElementIdentityConverter elementIdentityConverter,

@@ -1,0 +1,23 @@
+﻿@model SaveASpot.ViewModels.Account.LogOnViewModel
+<div class="head">
+	<h4>User Information</h4>
+</div>
+<p>&nbsp;</p>
+<div data-userinfo="">
+	<div class="field-box">
+		<label>User name</label>
+		@Html.TextBoxFor(e => e.UserName, new { @class = "span8" })
+	</div>
+	@*<div class="field-box">
+		<label>Email address</label>
+		@Html.TextBoxFor(e => e., new { @class = "span8" })
+	</div>*@
+	<div class="field-box">
+		<label>Password</label>
+		@Html.PasswordFor(e => e.Password, new { @class = "span8" })
+	</div>
+	<div class="field-box">
+		<label>Confirm Password</label>
+		@Html.PasswordFor(e => e.Password, new { @class = "span8" })
+	</div>
+</div>

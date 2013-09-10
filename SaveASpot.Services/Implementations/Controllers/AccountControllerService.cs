@@ -1,4 +1,5 @@
-﻿using SaveASpot.Core;
+﻿using System;
+using SaveASpot.Core;
 using SaveASpot.Core.Security;
 using SaveASpot.Core.Web;
 using SaveASpot.Repositories.Interfaces;
@@ -45,10 +46,20 @@ namespace SaveASpot.Services.Implementations.Controllers
 
 		public LogOnResultViewModel LogOnAdmin(LogOnViewModel logOn)
 		{
+			return LogOn(logOn, typeof(AdministratorRole));
+		}
+
+		public LogOnResultViewModel LogOnCustomer(LogOnViewModel logOn)
+		{
+			return LogOn(logOn, typeof(CustomerRole));
+		}
+
+		private LogOnResultViewModel LogOn(LogOnViewModel logOn, Type roleType)
+		{
 			var user = _userQueryable.
 				Filter(e => e.FilterByName(logOn.UserName)).
 				And(e => e.FilterByPassword(_passwordHash.GetHash(logOn.Password, logOn.UserName))).
-				And(e => e.FilterByRole(_roleFactory.Convert(typeof(AdministratorRole)))).
+				And(e => e.FilterByRole(_roleFactory.Convert(roleType))).
 				FirstOrDefault();
 
 			if (user != null)
@@ -59,12 +70,6 @@ namespace SaveASpot.Services.Implementations.Controllers
 			}
 
 			return new LogOnResultViewModel(false, _textService.ResolveTest("UserNotExistsError"), _userFactory.AnonymUser());
-		}
-
-		public LogOnResultViewModel LogOnCustomer(LogOnViewModel logOn)
-		{
-			throw new System.NotImplementedException();
-			//return new MethodResult<UserResult>(false, new UserResult(_userFactory.AnonymUser(), _textService.ResolveTest(userExistsResult.Status.MessageKey)));
 		}
 	}
 }

@@ -45,7 +45,7 @@
     <Compile Include="Account\LogOnResultViewModel.cs" />
     <Compile Include="BookingSpotsViewModel.cs" />
     <Compile Include="Carts\ChangeCartResultViewModel.cs" />
-    <Compile Include="Checkout\CheckoutViewModel.cs" />
+    <Compile Include="Checkout\SpotsCheckoutViewModel.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CreateCustomerViewModel.cs" />
     <Compile Include="CreateSponsorViewModel.cs" />
@@ -64,6 +64,7 @@
     <Compile Include="RegisterViewModel.cs" />
     <Compile Include="SponsorViewModel.cs" />
     <Compile Include="StripeCreditCardInformationViewModel.cs" />
+    <Compile Include="Checkout\UserInfoViewModel.cs" />
     <Compile Include="ViewExtensions\JavascriptViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

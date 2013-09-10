@@ -21,7 +21,12 @@ namespace SaveASpot
 
 		public MvcApplication()
 		{
-			_kernel = new StandardKernel(new CoreConfigurationModule(typeof(JavascriptOptionsViewExtension).Assembly), new ServicesConfigurationModule(), new RepositoriesConfigurationModule(), new SetupAreaConfigurationModule());
+			_kernel = new StandardKernel(
+				new CoreConfigurationModule(typeof(JavascriptOptionsViewExtension).Assembly),
+				new ServicesConfigurationModule(),
+				new RepositoriesConfigurationModule(),
+				new SetupAreaConfigurationModule(),
+				new CheckoutServicesConfigurationModule());
 			_logger = _kernel.Get<ILogger>();
 		}
 
@@ -39,8 +44,9 @@ namespace SaveASpot
 
 			routes.MapRoute(
 					"Default", // Route name
-					"{controller}/{action}/{id}", // URL with parameters
-					new { controller = "Map", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+					"{controller}/{action}/{identity}", // URL with parameters
+					new { controller = "Map", action = "Index", identity = UrlParameter.Optional }, // Parameter defaults
+					new[] { "SaveASpot.Controllers" }
 			);
 		}
 
