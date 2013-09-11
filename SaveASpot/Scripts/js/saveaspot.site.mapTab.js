@@ -454,8 +454,6 @@
 			q.ajax({ url: settings.removeSpotFromCartUrl, type: "POST", data: { spotIdentity: identity } }).done(function (removeResult) {
 				if (removeResult.isSuccess) {
 					q.events().fire("updateCart", { cart: removeResult.cart });
-					var val = "available";
-					q.events().fire("updateSpotState", { identity: identity, val: val });
 					$row.remove();
 				} else {
 					alert(removeResult.message);
@@ -494,6 +492,7 @@
 			q.ajax({ url: settings.checkoutUrl, type: "POST", data: data, dataType: "json" }).done(function (checkoutResult) {
 				if (checkoutResult.isSuccess) {
 					processArg.complete();
+					q.events().fire("updateCart", { cart: checkoutResult.cart });
 					q.events().fire("changeTab", { tab: "thanks" });
 				} else {
 					processArg.break();
