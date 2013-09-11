@@ -90,6 +90,7 @@
   <ItemGroup>
     <Compile Include="Areas\Checkout\CheckoutAreaRegistration.cs" />
     <Compile Include="Areas\Checkout\Controllers\CardInfoController.cs" />
+    <Compile Include="Areas\Checkout\Controllers\CheckoutController.cs" />
     <Compile Include="Areas\Checkout\Controllers\SpotsController.cs" />
     <Compile Include="Areas\Checkout\Controllers\UserInfoController.cs" />
     <Compile Include="Areas\Setup\Controllers\Artifacts\ISetupConfiguration.cs" />

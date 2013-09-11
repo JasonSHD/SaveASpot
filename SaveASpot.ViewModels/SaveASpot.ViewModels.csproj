@@ -45,6 +45,7 @@
     <Compile Include="Account\LogOnResultViewModel.cs" />
     <Compile Include="BookingSpotsViewModel.cs" />
     <Compile Include="Carts\ChangeCartResultViewModel.cs" />
+    <Compile Include="Checkout\CheckoutResultViewModel.cs" />
     <Compile Include="Checkout\SpotsCheckoutViewModel.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CreateCustomerViewModel.cs" />

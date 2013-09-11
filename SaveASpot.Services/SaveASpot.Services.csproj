@@ -59,6 +59,7 @@
     <Compile Include="Implementations\Controllers\AccountControllerService.cs" />
     <Compile Include="Implementations\Controllers\AdministratorActionsMapControllerService.cs" />
     <Compile Include="Implementations\Controllers\CartControllerService.cs" />
+    <Compile Include="Implementations\Controllers\Checkout\CheckoutController.cs" />
     <Compile Include="Implementations\Controllers\Checkout\SpotsControllerService.cs" />
     <Compile Include="Implementations\Controllers\Checkout\UserInfoControllerService.cs" />
     <Compile Include="Implementations\Controllers\CustomersControllerService.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Implementations\Validators\Security\UsernameValidator.cs" />
     <Compile Include="Implementations\Validators\Security\UserValidateFactory.cs" />
     <Compile Include="Implementations\Controllers\CheckoutControllerService.cs" />
+    <Compile Include="Interfaces\Controllers\Checkout\ICheckoutController.cs" />
     <Compile Include="Interfaces\Controllers\Checkout\ISpotsControllerService.cs" />
     <Compile Include="Interfaces\Controllers\Checkout\IUserInfoControllerService.cs" />
     <Compile Include="Interfaces\Controllers\CustomerResult.cs" />

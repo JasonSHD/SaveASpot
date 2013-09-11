@@ -280,21 +280,34 @@
 
 	var customerTabsControl = (function (options, $) {
 		var settings = $.extend(options, {
-			mapTab: $("[data-tabelement='map']"),
-			checkoutTab: $("[data-tabelement='checkout']"),
+			tabs: {
+				map: $("[data-tabelement='map']"),
+				checkout: $("[data-tabelement='checkout']"),
+				thanks: $("[data-tabelement='thanks']")
+			},
 			checkoutSelector: $("[data-checkout]")
 		});
 		var result = {};
 
+		var switchToTab = function (tabName) {
+			for (var tabIndex in settings.tabs) {
+				var tab = settings.tabs[tabIndex];
+				tab.hide();
+			}
+
+			settings.tabs[tabName].show();
+		};
+
 		var tabs = {
 			map: function () {
-				settings.mapTab.show();
-				settings.checkoutTab.hide();
+				switchToTab("map");
 			},
 			checkout: function () {
-				settings.mapTab.hide();
-				settings.checkoutTab.show();
+				switchToTab("checkout");
 				q.events().fire("changeTab_checkout", { element: settings.checkoutTab });
+			},
+			thanks: function () {
+				switchToTab("thanks");
 			}
 		};
 
@@ -429,7 +442,8 @@
 	checkoutControl.add((function (options, $) {
 		var settings = $.extend(options, {
 			spotsFromCartUrl: q.pageConfig.spotsFromCartUrl,
-			removeSpotFromCartUrl: q.pageConfig.removeSpotFromCartUrl
+			removeSpotFromCartUrl: q.pageConfig.removeSpotFromCartUrl,
+			checkoutUrl: q.pageConfig.checkoutUrl
 		});
 		var result = {};
 
@@ -450,22 +464,46 @@
 		};
 		var deleteActionSelector = function () { return $("[data-element='cart'] [data-action='delete']"); };
 
+		var deleteSelectedActionHandler = function () {
+			$("input:checked").each(function () {
+				deleteSpotHandler.call(this);
+			});
+		};
+		var deleteSelectedActionSelector = function () { return $("[data-element='cart'] [data-action='delete-selected']"); };
+
 		result.show = function (showArg) {
 			q.ajax({ url: settings.spotsFromCartUrl, type: "GET" }).done(function (phasesResult) {
 				$(showArg.container).append(phasesResult);
 
 				deleteActionSelector().bind("click", deleteSpotHandler);
+				deleteSelectedActionSelector().bind("click", deleteSelectedActionHandler);
 
 				showArg.complete();
 			});
 		};
 
 		result.process = function (processArg) {
-			processArg.complete();
+			var data = { spotsForCheckout: [] };
+
+			$("[data-element='cart']").find("[data-identity]").each(function (index) {
+				var spotIdentity = this.getAttribute("data-identity");
+				//data.spotsForCheckout.push(spotIdentity);
+				data["spotsForCheckout[" + index + "]"] = spotIdentity;
+			});
+
+			q.ajax({ url: settings.checkoutUrl, type: "POST", data: data, dataType: "json" }).done(function (checkoutResult) {
+				if (checkoutResult.isSuccess) {
+					processArg.complete();
+					q.events().fire("changeTab", { tab: "thanks" });
+				} else {
+					processArg.break();
+				}
+			});
 		};
 
 		result.destroy = function () {
 			deleteActionSelector().unbind("click", deleteSpotHandler);
+			deleteSelectedActionSelector().unbind("click", deleteSelectedActionHandler);
 		};
 
 		return result;
