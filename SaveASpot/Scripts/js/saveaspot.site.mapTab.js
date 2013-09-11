@@ -196,139 +196,6 @@
 		return result;
 	})({}, jQuery));
 
-	var customerControl = (function (options, $) {
-		var settings = $.extend(options, {
-			addSpotToCartUrl: q.pageConfig.addSpotToCartUrl,
-			removeSpotFromCartUrl: q.pageConfig.removeSpotFromCartUrl
-		});
-
-		var result = {};
-
-		var availableSpotSelectedHandler = function (args) {
-			q.ajax({ url: settings.addSpotToCartUrl, type: "POST", data: { spotIdentity: args.arg.spot.identity } }).done(function (addResult) {
-				if (addResult.isSuccess) {
-					q.events().fire("updateCart", { cart: addResult.cart });
-				} else {
-					alert(addResult.message);
-				}
-			});
-		};
-		var selectedSpotSelectedHandler = function (args) {
-			q.ajax({ url: settings.removeSpotFromCartUrl, type: "POST", data: { spotIdentity: args.arg.spot.identity } }).done(function (removeResult) {
-				if (removeResult.isSuccess) {
-					q.events().fire("updateCart", { cart: removeResult.cart });
-					var identity = args.arg.spot.identity;
-					var val = "available";
-					q.events().fire("updateSpotState", { identity: identity, val: val });
-				} else {
-					alert(removeResult.message);
-				}
-			});
-		};
-
-		q.events().bind("availableSpotSelected", availableSpotSelectedHandler);
-		q.events().bind("selectedSpotSelected", selectedSpotSelectedHandler);
-
-		result.destroy = function () {
-			q.events().unbind("availableSpotSelected", availableSpotSelectedHandler);
-			q.events().unbind("selectedSpotSelected", selectedSpotSelectedHandler);
-		};
-
-		return result;
-	})({}, jQuery);
-
-	var cartControl = (function (options, $) {
-		var settings = $.extend(options, {
-			cartElement: $("[data-cart]"),
-			cartInitializeElement: $("[data-cart-initialize]"),
-			cart: { elements: [] }
-		});
-		var result = {};
-
-		settings.cartElement.show();
-
-		var fireUpdateSpotsState = function () {
-			for (var elemntIndex in settings.cart.elements) {
-				var element = settings.cart.elements[elemntIndex];
-
-				q.events().fire("updateSpotState", { identity: element, val: "selected" });
-			}
-		};
-
-		var updateCartHandler = function (args) {
-			settings.cart = args.arg.cart;
-			$(".count").text(settings.cart.elements.length);
-			fireUpdateSpotsState();
-		};
-
-		q.events().bind("updateCart", updateCartHandler);
-		q.events().bind("phaseRenderCompleted", fireUpdateSpotsState);
-
-		result.destroy = function () {
-			q.events().unbind("updateCart", updateCartHandler);
-			q.events().unbind("phaseRenderCompleted", fireUpdateSpotsState);
-		};
-
-		if (settings.cartInitializeElement.length > 0) {
-			var initializeFunction = settings.cartInitializeElement.data("cart-initialize");
-			var cart = window[initializeFunction]();
-			q.events().fire("updateCart", { cart: cart });
-		}
-
-		return result;
-	})({}, jQuery);
-
-	var customerTabsControl = (function (options, $) {
-		var settings = $.extend(options, {
-			tabs: {
-				map: $("[data-tabelement='map']"),
-				checkout: $("[data-tabelement='checkout']"),
-				thanks: $("[data-tabelement='thanks']")
-			},
-			checkoutSelector: $("[data-checkout]")
-		});
-		var result = {};
-
-		var switchToTab = function (tabName) {
-			for (var tabIndex in settings.tabs) {
-				var tab = settings.tabs[tabIndex];
-				tab.hide();
-			}
-
-			settings.tabs[tabName].show();
-		};
-
-		var tabs = {
-			map: function () {
-				switchToTab("map");
-			},
-			checkout: function () {
-				switchToTab("checkout");
-				q.events().fire("changeTab_checkout", { element: settings.checkoutTab });
-			},
-			thanks: function () {
-				switchToTab("thanks");
-			}
-		};
-
-		var onTabChange = function (args) {
-			var tab = args.arg.tab;
-			tabs[tab]();
-		};
-
-		settings.checkoutSelector.click(function () {
-			q.events().fire("changeTab", { tab: "checkout" });
-		});
-
-		q.events().bind("changeTab", onTabChange);
-
-		result.destroy = function () {
-			q.events().unbind("changeTab", onTabChange);
-		};
-
-		return result;
-	})({}, jQuery);
-
 	var numericControl = (function (options, $) {
 		var settings = $.extend(options, {
 			control: $("[data-numericcontrol]"),
@@ -367,242 +234,377 @@
 		return result;
 	})({}, jQuery);
 
-	//main checkout control for checkout process
-	var checkoutControl = (function (options, $) {
-		var settings = $.extend(options, {
-			element: $("[data-tabelement='checkout']"),
-			orderButton: $("[data-order]"),
-			content: $("[data-tabelement='checkout'] [data-checkout-content]")
-		});
-		var result = {};
-		var checkoutControls = [];
+	if (q.pageConfig.controlsUserConfiguration == "customer") {
 
-		var runControlsAction = function (controlNumber, controls, action) {
-			settings.orderButton.attr("disabled", "disabled");
-			if (controls.length > controlNumber) {
-				var control = controls[controlNumber].control;
+		var customerControl = (function (options, $) {
+			var settings = $.extend(options, {
+				addSpotToCartUrl: q.pageConfig.addSpotToCartUrl,
+				removeSpotFromCartUrl: q.pageConfig.removeSpotFromCartUrl
+			});
 
-				var actionValue = control[action];
-				actionValue.call(control, {
-					complete: function () {
-						runControlsAction(controlNumber + 1, controls, action);
-					},
-					break: function () {
-						settings.orderButton.removeAttr("disabled");
-					},
-					container: settings.content
+			var result = {};
+
+			var availableSpotSelectedHandler = function (args) {
+				q.ajax({ url: settings.addSpotToCartUrl, type: "POST", data: { spotIdentity: args.arg.spot.identity } }).done(function (addResult) {
+					if (addResult.isSuccess) {
+						q.events().fire("updateCart", { cart: addResult.cart });
+					} else {
+						alert(addResult.message);
+					}
 				});
-			} else if (controls.length == controlNumber) {
-				settings.orderButton.removeAttr("disabled");
-			}
-		};
-
-		var changeTabCheckoutHandler = function () {
-			settings.content.html("");
-			var sortControls = function (left, right) {
-				return left.controlInfo.show > right.controlInfo.show;
+			};
+			var selectedSpotSelectedHandler = function (args) {
+				q.ajax({ url: settings.removeSpotFromCartUrl, type: "POST", data: { spotIdentity: args.arg.spot.identity } }).done(function (removeResult) {
+					if (removeResult.isSuccess) {
+						q.events().fire("updateCart", { cart: removeResult.cart });
+						var identity = args.arg.spot.identity;
+						var val = "available";
+						q.events().fire("updateSpotState", { identity: identity, val: val });
+					} else {
+						alert(removeResult.message);
+					}
+				});
 			};
 
-			runControlsAction(0, checkoutControls.sort(sortControls), "show");
-		};
+			q.events().bind("availableSpotSelected", availableSpotSelectedHandler);
+			q.events().bind("selectedSpotSelected", selectedSpotSelectedHandler);
 
-		q.events().bind("changeTab_checkout", changeTabCheckoutHandler);
-
-		var startOrder = function () {
-			var sortControls = function (left, right) {
-				return left.controlInfo.order > right.controlInfo.order;
+			result.destroy = function () {
+				q.events().unbind("availableSpotSelected", availableSpotSelectedHandler);
+				q.events().unbind("selectedSpotSelected", selectedSpotSelectedHandler);
 			};
-
-			runControlsAction(0, checkoutControls.sort(sortControls), "process");
-		};
-
-		settings.orderButton.bind("click", startOrder);
-
-		result.add = function (control, controlInfo) {
-			checkoutControls.push({ control: control, controlInfo: controlInfo });
 
 			return result;
-		};
+		})({}, jQuery);
 
-		result.destroy = function () {
-			q.events().unbind("changeTab_checkout", changeTabCheckoutHandler);
-			settings.orderButton.unbind("click", startOrder);
-
-			for (var controlIndex in checkoutControls) {
-				var control = checkoutControls[controlIndex];
-				control.destroy();
-			}
-		};
-
-		return result;
-	})({}, jQuery);
-	controlsForDestroy.push(checkoutControl);
-
-	//checkout phases control
-	checkoutControl.add((function (options, $) {
-		var settings = $.extend(options, {
-			spotsFromCartUrl: q.pageConfig.spotsFromCartUrl,
-			removeSpotFromCartUrl: q.pageConfig.removeSpotFromCartUrl,
-			checkoutUrl: q.pageConfig.checkoutUrl
-		});
-		var result = {};
-
-		var deleteSpotHandler = function () {
-			var $row = $(this).parents("[data-identity]");
-			var identity = $row.data("identity");
-
-			q.ajax({ url: settings.removeSpotFromCartUrl, type: "POST", data: { spotIdentity: identity } }).done(function (removeResult) {
-				if (removeResult.isSuccess) {
-					q.events().fire("updateCart", { cart: removeResult.cart });
-					$row.remove();
-				} else {
-					alert(removeResult.message);
-				}
+		var cartControl = (function (options, $) {
+			var settings = $.extend(options, {
+				cartElement: $("[data-cart]"),
+				cartInitializeElement: $("[data-cart-initialize]"),
+				cart: { elements: [] }
 			});
-		};
-		var deleteActionSelector = function () { return $("[data-element='cart'] [data-action='delete']"); };
+			var result = {};
 
-		var deleteSelectedActionHandler = function () {
-			$("input:checked").each(function () {
-				deleteSpotHandler.call(this);
-			});
-		};
-		var deleteSelectedActionSelector = function () { return $("[data-element='cart'] [data-action='delete-selected']"); };
+			settings.cartElement.show();
 
-		result.show = function (showArg) {
-			q.ajax({ url: settings.spotsFromCartUrl, type: "GET" }).done(function (phasesResult) {
-				$(showArg.container).append(phasesResult);
+			var fireUpdateSpotsState = function () {
+				for (var elemntIndex in settings.cart.elements) {
+					var element = settings.cart.elements[elemntIndex];
 
-				deleteActionSelector().bind("click", deleteSpotHandler);
-				deleteSelectedActionSelector().bind("click", deleteSelectedActionHandler);
-
-				showArg.complete();
-			});
-		};
-
-		result.process = function (processArg) {
-			var data = { spotsForCheckout: [] };
-
-			$("[data-element='cart']").find("[data-identity]").each(function (index) {
-				var spotIdentity = this.getAttribute("data-identity");
-				//data.spotsForCheckout.push(spotIdentity);
-				data["spotsForCheckout[" + index + "]"] = spotIdentity;
-			});
-
-			q.ajax({ url: settings.checkoutUrl, type: "POST", data: data, dataType: "json" }).done(function (checkoutResult) {
-				if (checkoutResult.isSuccess) {
-					processArg.complete();
-					q.events().fire("updateCart", { cart: checkoutResult.cart });
-					q.events().fire("changeTab", { tab: "thanks" });
-				} else {
-					processArg.break();
-				}
-			});
-		};
-
-		result.destroy = function () {
-			deleteActionSelector().unbind("click", deleteSpotHandler);
-			deleteSelectedActionSelector().unbind("click", deleteSelectedActionHandler);
-		};
-
-		return result;
-	})({}, jQuery), { show: 10, order: 100 });
-
-	//checkout card control
-	checkoutControl.add((function (options, $) {
-		var result = {};
-
-		result.show = function (showArg) {
-			showArg.complete();
-		};
-
-		result.process = function (processArg) {
-			processArg.complete(); //or processArg.break()
-		};
-
-		result.destroy = function () {
-		};
-
-		return result;
-	})({}, jQuery), { show: 20, order: 90 });
-
-	//checkout user control
-	checkoutControl.add((function (options, $) {
-		var settings = $.extend(options, {
-			userInfoUrl: q.pageConfig.userInfoUrl,
-			customerAuthenticateUrl: q.pageConfig.customerAuthenticateUrl
-		});
-		var result = {};
-
-		var logonMethodSwitcher = function () {
-			return $("[data-customer-switcher] li");
-		};
-		var logonMethodSwitcherHandler = function () {
-			var methods = {
-				logon: function () {
-					$("[data-customer-switcher] li[data-method='logon'][data-userinfo='logon']").addClass("active");
-					$("[data-userinfo='logon']").show();
-					$("[data-customer-switcher] li[data-method='registration']").removeClass("active");
-					$("[data-userinfo='registration']").hide();
-				},
-				registration: function () {
-					$("[data-customer-switcher] li[data-method='logon'], [data-userinfo='logon']").removeClass("active");
-					$("[data-userinfo='logon']").hide();
-					$("[data-customer-switcher] li[data-method='registration']").addClass("active");
-					$("[data-userinfo='registration']").show();
+					q.events().fire("updateSpotState", { identity: element, val: "selected" });
 				}
 			};
 
-			var method = this.getAttribute("data-method");
-			methods[method]();
-		};
+			var updateCartHandler = function (args) {
+				settings.cart = args.arg.cart;
+				$(".count").text(settings.cart.elements.length);
+				fireUpdateSpotsState();
+			};
 
-		result.show = function (showArg) {
-			q.ajax({ url: settings.userInfoUrl, type: "GET" }).done(function (userInfoResult) {
-				$(showArg.container).append(userInfoResult);
+			q.events().bind("updateCart", updateCartHandler);
+			q.events().bind("phaseRenderCompleted", fireUpdateSpotsState);
 
-				logonMethodSwitcher().bind("click", logonMethodSwitcherHandler);
+			result.destroy = function () {
+				q.events().unbind("updateCart", updateCartHandler);
+				q.events().unbind("phaseRenderCompleted", fireUpdateSpotsState);
+			};
 
-				showArg.complete();
-			});
-		};
-
-		result.process = function (processArg) {
-			var logonMethod = $("[data-userinfo='logon']:visible");
-			var registrationMethod = $("[data-userinfo='registration']:visible");
-			if (logonMethod.length > 0) {
-				q.controls.userAuthentication({
-					authenticate: function (logonResult) {
-						q.security.currentUser().authenticate(logonResult.user);
-						logonMethod.html("Your was authenticated with email: " + logonResult.user.email);
-						processArg.complete();
-					},
-					failed: function () {
-						processArg.break();
-					}
-				}).authenticate(logonMethod);
-			} else if (registrationMethod.length > 0) {
-				q.controls.userRegistration({
-					authenticate: function (logonResult) {
-						q.security.currentUser().authenticate(logonResult.user);
-						registrationMethod.html("Your was authenticated with email: " + logonResult.user.email);
-						processArg.complete();
-					},
-					failed: function () {
-						processArg.break();
-					}
-				}).registrate(registrationMethod);
-			} else {
-				processArg.complete();
+			if (settings.cartInitializeElement.length > 0) {
+				var initializeFunction = settings.cartInitializeElement.data("cart-initialize");
+				var cart = window[initializeFunction]();
+				q.events().fire("updateCart", { cart: cart });
 			}
-		};
 
-		result.destroy = function () {
-			logonMethodSwitcher().unbind("click", logonMethodSwitcherHandler);
-		};
+			return result;
+		})({}, jQuery);
 
-		return result;
-	})({}, jQuery), { show: 30, order: 10 });
+		var customerTabsControl = (function (options, $) {
+			var settings = $.extend(options, {
+				tabs: {
+					map: $("[data-tabelement='map']"),
+					checkout: $("[data-tabelement='checkout']"),
+					thanks: $("[data-tabelement='thanks']")
+				},
+				checkoutSelector: $("[data-checkout]")
+			});
+			var result = {};
+
+			var switchToTab = function (tabName) {
+				for (var tabIndex in settings.tabs) {
+					var tab = settings.tabs[tabIndex];
+					tab.hide();
+				}
+
+				settings.tabs[tabName].show();
+			};
+
+			var tabs = {
+				map: function () {
+					switchToTab("map");
+				},
+				checkout: function () {
+					switchToTab("checkout");
+					q.events().fire("changeTab_checkout", { element: settings.checkoutTab });
+				},
+				thanks: function () {
+					switchToTab("thanks");
+				}
+			};
+
+			var onTabChange = function (args) {
+				var tab = args.arg.tab;
+				tabs[tab]();
+			};
+
+			settings.checkoutSelector.click(function () {
+				q.events().fire("changeTab", { tab: "checkout" });
+			});
+
+			q.events().bind("changeTab", onTabChange);
+
+			result.destroy = function () {
+				q.events().unbind("changeTab", onTabChange);
+			};
+
+			return result;
+		})({}, jQuery);
+
+		//main checkout control for checkout process
+		var checkoutControl = (function (options, $) {
+			var settings = $.extend(options, {
+				element: $("[data-tabelement='checkout']"),
+				orderButton: $("[data-order]"),
+				content: $("[data-tabelement='checkout'] [data-checkout-content]")
+			});
+			var result = {};
+			var checkoutControls = [];
+
+			var runControlsAction = function (controlNumber, controls, action) {
+				settings.orderButton.attr("disabled", "disabled");
+				if (controls.length > controlNumber) {
+					var control = controls[controlNumber].control;
+
+					var actionValue = control[action];
+					actionValue.call(control, {
+						complete: function () {
+							runControlsAction(controlNumber + 1, controls, action);
+						},
+						break: function () {
+							settings.orderButton.removeAttr("disabled");
+						},
+						container: settings.content
+					});
+				} else if (controls.length == controlNumber) {
+					settings.orderButton.removeAttr("disabled");
+				}
+			};
+
+			var changeTabCheckoutHandler = function () {
+				settings.content.html("");
+				var sortControls = function (left, right) {
+					return left.controlInfo.show > right.controlInfo.show;
+				};
+
+				runControlsAction(0, checkoutControls.sort(sortControls), "show");
+			};
+
+			q.events().bind("changeTab_checkout", changeTabCheckoutHandler);
+
+			var startOrder = function () {
+				var sortControls = function (left, right) {
+					return left.controlInfo.order > right.controlInfo.order;
+				};
+
+				runControlsAction(0, checkoutControls.sort(sortControls), "process");
+			};
+
+			settings.orderButton.bind("click", startOrder);
+
+			result.add = function (control, controlInfo) {
+				checkoutControls.push({ control: control, controlInfo: controlInfo });
+
+				return result;
+			};
+
+			result.destroy = function () {
+				q.events().unbind("changeTab_checkout", changeTabCheckoutHandler);
+				settings.orderButton.unbind("click", startOrder);
+
+				for (var controlIndex in checkoutControls) {
+					var control = checkoutControls[controlIndex];
+					control.destroy();
+				}
+			};
+
+			return result;
+		})({}, jQuery);
+		controlsForDestroy.push(checkoutControl);
+
+		//checkout phases control
+		checkoutControl.add((function (options, $) {
+			var settings = $.extend(options, {
+				spotsFromCartUrl: q.pageConfig.spotsFromCartUrl,
+				removeSpotFromCartUrl: q.pageConfig.removeSpotFromCartUrl,
+				checkoutUrl: q.pageConfig.checkoutUrl
+			});
+			var result = {};
+
+			var deleteSpotHandler = function () {
+				var $row = $(this).parents("[data-identity]");
+				var identity = $row.data("identity");
+
+				q.ajax({ url: settings.removeSpotFromCartUrl, type: "POST", data: { spotIdentity: identity } }).done(function (removeResult) {
+					if (removeResult.isSuccess) {
+						q.events().fire("updateCart", { cart: removeResult.cart });
+						$row.remove();
+					} else {
+						alert(removeResult.message);
+					}
+				});
+			};
+			var deleteActionSelector = function () { return $("[data-element='cart'] [data-action='delete']"); };
+
+			var deleteSelectedActionHandler = function () {
+				$("input:checked").each(function () {
+					deleteSpotHandler.call(this);
+				});
+			};
+			var deleteSelectedActionSelector = function () { return $("[data-element='cart'] [data-action='delete-selected']"); };
+
+			result.show = function (showArg) {
+				q.ajax({ url: settings.spotsFromCartUrl, type: "GET" }).done(function (phasesResult) {
+					$(showArg.container).append(phasesResult);
+
+					deleteActionSelector().bind("click", deleteSpotHandler);
+					deleteSelectedActionSelector().bind("click", deleteSelectedActionHandler);
+
+					showArg.complete();
+				});
+			};
+
+			result.process = function (processArg) {
+				var data = { spotsForCheckout: [] };
+
+				$("[data-element='cart']").find("[data-identity]").each(function (index) {
+					var spotIdentity = this.getAttribute("data-identity");
+					data["spotsForCheckout[" + index + "]"] = spotIdentity;
+				});
+
+				q.ajax({ url: settings.checkoutUrl, type: "POST", data: data, dataType: "json" }).done(function (checkoutResult) {
+					if (checkoutResult.isSuccess) {
+						processArg.complete();
+						q.events().fire("updateCart", { cart: checkoutResult.cart });
+						q.events().fire("changeTab", { tab: "thanks" });
+					} else {
+						processArg.break();
+					}
+				});
+			};
+
+			result.destroy = function () {
+				deleteActionSelector().unbind("click", deleteSpotHandler);
+				deleteSelectedActionSelector().unbind("click", deleteSelectedActionHandler);
+			};
+
+			return result;
+		})({}, jQuery), { show: 10, order: 100 });
+
+		//checkout card control
+		checkoutControl.add((function (options, $) {
+			var result = {};
+
+			result.show = function (showArg) {
+				showArg.complete();
+			};
+
+			result.process = function (processArg) {
+				processArg.complete(); //or processArg.break()
+			};
+
+			result.destroy = function () {
+			};
+
+			return result;
+		})({}, jQuery), { show: 20, order: 90 });
+
+		//checkout user control
+		checkoutControl.add((function (options, $) {
+			var settings = $.extend(options, {
+				userInfoUrl: q.pageConfig.userInfoUrl,
+				customerAuthenticateUrl: q.pageConfig.customerAuthenticateUrl
+			});
+			var result = {};
+
+			var logonMethodSwitcher = function () {
+				return $("[data-customer-switcher] li");
+			};
+			var logonMethodSwitcherHandler = function () {
+				var methods = {
+					logon: function () {
+						$("[data-customer-switcher] li[data-method='logon'][data-userinfo='logon']").addClass("active");
+						$("[data-userinfo='logon']").show();
+						$("[data-customer-switcher] li[data-method='registration']").removeClass("active");
+						$("[data-userinfo='registration']").hide();
+					},
+					registration: function () {
+						$("[data-customer-switcher] li[data-method='logon'], [data-userinfo='logon']").removeClass("active");
+						$("[data-userinfo='logon']").hide();
+						$("[data-customer-switcher] li[data-method='registration']").addClass("active");
+						$("[data-userinfo='registration']").show();
+					}
+				};
+
+				var method = this.getAttribute("data-method");
+				methods[method]();
+			};
+
+			result.show = function (showArg) {
+				q.ajax({ url: settings.userInfoUrl, type: "GET" }).done(function (userInfoResult) {
+					$(showArg.container).append(userInfoResult);
+
+					logonMethodSwitcher().bind("click", logonMethodSwitcherHandler);
+
+					showArg.complete();
+				});
+			};
+
+			result.process = function (processArg) {
+				var logonMethod = $("[data-userinfo='logon']:visible");
+				var registrationMethod = $("[data-userinfo='registration']:visible");
+				if (logonMethod.length > 0) {
+					q.controls.userAuthentication({
+						authenticate: function (logonResult) {
+							q.security.currentUser().authenticate(logonResult.user);
+							logonMethod.html("Your was authenticated with email: " + logonResult.user.email);
+							processArg.complete();
+						},
+						failed: function () {
+							processArg.break();
+						}
+					}).authenticate(logonMethod);
+				} else if (registrationMethod.length > 0) {
+					q.controls.userRegistration({
+						authenticate: function (logonResult) {
+							q.security.currentUser().authenticate(logonResult.user);
+							registrationMethod.html("Your was authenticated with email: " + logonResult.user.email);
+							processArg.complete();
+						},
+						failed: function () {
+							processArg.break();
+						}
+					}).registrate(registrationMethod);
+				} else {
+					processArg.complete();
+				}
+			};
+
+			result.destroy = function () {
+				logonMethodSwitcher().unbind("click", logonMethodSwitcherHandler);
+			};
+
+			return result;
+		})({}, jQuery), { show: 30, order: 10 });
+	}
 
 	var adminNumericControl = (function (options, $) {
 	})({}, jQuery);
