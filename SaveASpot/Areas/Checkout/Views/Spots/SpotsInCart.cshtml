@@ -1,7 +1,7 @@
 ﻿@model SaveASpot.ViewModels.Checkout.SpotsCheckoutViewModel
 <!-- products table-->
 <!-- the script for the toggle all checkboxes from header is located in js/theme.js -->
-<div class="table-wrapper products-table section">
+<div class="table-wrapper products-table section" data-element="cart">
 	<div class="row-fluid head">
 		<div class="span12">
 			<h4>Cart</h4>
@@ -45,7 +45,7 @@
 						</td>
 						<td>
 							<ul class="actions">
-								<li class="last"><a href="#">Delete</a></li>
+								<li class="last" data-action="delete"><a href="#">Delete</a></li>
 							</ul>
 						</td>
 					</tr>

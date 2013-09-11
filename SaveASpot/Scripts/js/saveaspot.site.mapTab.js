@@ -428,13 +428,33 @@
 	//checkout phases control
 	checkoutControl.add((function (options, $) {
 		var settings = $.extend(options, {
-			spotsFromCartUrl: q.pageConfig.spotsFromCartUrl
+			spotsFromCartUrl: q.pageConfig.spotsFromCartUrl,
+			removeSpotFromCartUrl: q.pageConfig.removeSpotFromCartUrl
 		});
 		var result = {};
 
+		var deleteSpotHandler = function () {
+			var $row = $(this).parents("[data-identity]");
+			var identity = $row.data("identity");
+
+			q.ajax({ url: settings.removeSpotFromCartUrl, type: "POST", data: { spotIdentity: identity } }).done(function (removeResult) {
+				if (removeResult.isSuccess) {
+					q.events().fire("updateCart", { cart: removeResult.cart });
+					var val = "available";
+					q.events().fire("updateSpotState", { identity: identity, val: val });
+					$row.remove();
+				} else {
+					alert(removeResult.message);
+				}
+			});
+		};
+		var deleteActionSelector = function () { return $("[data-element='cart'] [data-action='delete']"); };
+
 		result.show = function (showArg) {
-			q.ajax({ url: settings.spotsFromCartUrl + "?phaseIdentity=" + settings.phaseIdentity, type: "GET" }).done(function (phasesResult) {
+			q.ajax({ url: settings.spotsFromCartUrl, type: "GET" }).done(function (phasesResult) {
 				$(showArg.container).append(phasesResult);
+
+				deleteActionSelector().bind("click", deleteSpotHandler);
 
 				showArg.complete();
 			});
@@ -444,13 +464,8 @@
 			processArg.complete();
 		};
 
-		var onPhaseChangedHandler = function (phaseArg) {
-			settings.phaseIdentity = phaseArg.arg.phaseId;
-		};
-
-		q.events().bind("phaseChanged", onPhaseChangedHandler);
-
 		result.destroy = function () {
+			deleteActionSelector().unbind("click", deleteSpotHandler);
 		};
 
 		return result;
