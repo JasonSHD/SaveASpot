@@ -483,7 +483,7 @@
 				q.ajax({ url: settings.checkoutUrl, type: "POST", data: data, dataType: "json" }).done(function (checkoutResult) {
 					if (checkoutResult.isSuccess) {
 						processArg.complete();
-						q.cart.currentCart().cart(checkoutControl.cart);
+						q.cart.currentCart().cart(checkoutResult.cart);
 						q.events().fire("changeTab", { tab: "thanks" });
 						q.events().unbind("global_cart_update", updateCartHandler);
 					} else {
@@ -550,11 +550,26 @@
 				methods[method]();
 			};
 
+			var changeAuthenticationHandler = function () {
+				var user = q.security.currentUser().user();
+
+				if (user.isCustomer) {
+					$("[data-user-info='authentication-panel']").hide();
+					$("[data-user-info='user-info-panel']").show().find("[data-user='email']").text(user.email);
+				} else {
+					$("[data-user-info='authentication-panel']").show();
+					$("[data-user-info='user-info-panel']").hide().find("[data-user='email']").text("");
+				}
+			};
+
 			result.show = function (showArg) {
 				q.ajax({ url: settings.userInfoUrl, type: "GET" }).done(function (userInfoResult) {
 					$(showArg.container).append(userInfoResult);
 
+					changeAuthenticationHandler();
 					logonMethodSwitcher().bind("click", logonMethodSwitcherHandler);
+
+					q.events().bind("global_security_authenticated", changeAuthenticationHandler);
 
 					showArg.complete();
 				});
@@ -567,7 +582,7 @@
 					q.controls.userAuthentication({
 						authenticate: function (logonResult) {
 							q.security.currentUser().authenticate(logonResult.user);
-							logonMethod.html("Your was authenticated with email: " + logonResult.user.email);
+							q.events().unbind("global_security_authenticated", changeAuthenticationHandler);
 							processArg.complete();
 						},
 						failed: function () {
@@ -578,7 +593,7 @@
 					q.controls.userRegistration({
 						authenticate: function (logonResult) {
 							q.security.currentUser().authenticate(logonResult.user);
-							registrationMethod.html("Your was authenticated with email: " + logonResult.user.email);
+							q.events().unbind("global_security_authenticated", changeAuthenticationHandler);
 							processArg.complete();
 						},
 						failed: function () {
@@ -587,11 +602,13 @@
 					}).registrate(registrationMethod);
 				} else {
 					processArg.complete();
+					q.events().unbind("global_security_authenticated", changeAuthenticationHandler);
 				}
 			};
 
 			result.destroy = function () {
 				logonMethodSwitcher().unbind("click", logonMethodSwitcherHandler);
+				q.events().unbind("global_security_authenticated", changeAuthenticationHandler);
 			};
 
 			return result;

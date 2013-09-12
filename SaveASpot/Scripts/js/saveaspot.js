@@ -384,10 +384,11 @@ q.controls = q.controls || {};
 		var settings = $.extend(options, {
 			loginItem: $("[data-login-item]"),
 			userInfoItem: $("[data-userInfo-item]"),
+			loginUrl: q.pageConfig.loginUrl,
 			logoutUrl: q.pageConfig.logoutUrl
 		});
 		var result = { _data: { settings: settings } };
-		
+
 		var modal = q.controls.modal();
 
 		var displayUserInfo = function (user) {
@@ -438,7 +439,8 @@ q.controls = q.controls || {};
 								modal.hide();
 								q.security.currentUser().authenticate(logonResult.user);
 
-								callback(logonResult);
+								if (typeof callback == "function")
+									callback(logonResult);
 							}
 						}).
 							authenticate(modal.body());

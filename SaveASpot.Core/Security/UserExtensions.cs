@@ -16,8 +16,9 @@ namespace SaveASpot.Core.Security
 			{
 				name = source.Name,
 				email = source.Email,
-				isAnonym = source.Roles.Any(e => e == new AnonymRole()),
-				isAdmin = source.Roles.Any(e => e == new AdministratorRole())
+				isAnonym = source.IsAnonym(),
+				isAdmin = source.IsAdmin(),
+				isCustomer = source.IsCustomer()
 			};
 		}
 

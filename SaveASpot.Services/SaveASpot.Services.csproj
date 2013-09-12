@@ -62,7 +62,6 @@
     <Compile Include="Implementations\Controllers\CartControllerService.cs" />
     <Compile Include="Implementations\Controllers\Checkout\CheckoutController.cs" />
     <Compile Include="Implementations\Controllers\Checkout\SpotsControllerService.cs" />
-    <Compile Include="Implementations\Controllers\Checkout\UserInfoControllerService.cs" />
     <Compile Include="Implementations\Controllers\CustomersControllerService.cs" />
     <Compile Include="Implementations\Controllers\CustomerTypeConverter.cs" />
     <Compile Include="Implementations\Controllers\MapControllerService.cs" />
@@ -99,7 +98,6 @@
     <Compile Include="Implementations\Validators\Security\UserValidateFactory.cs" />
     <Compile Include="Interfaces\Controllers\Checkout\ICheckoutController.cs" />
     <Compile Include="Interfaces\Controllers\Checkout\ISpotsControllerService.cs" />
-    <Compile Include="Interfaces\Controllers\Checkout\IUserInfoControllerService.cs" />
     <Compile Include="Interfaces\Controllers\CustomerResult.cs" />
     <Compile Include="Interfaces\Controllers\IAccountControllerService.cs" />
     <Compile Include="Interfaces\Controllers\IAdministratorActionsMapControllerService.cs" />

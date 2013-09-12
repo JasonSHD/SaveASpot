@@ -3,15 +3,20 @@
 <div class="head">
 	<h4>User Information</h4>
 </div>
-<p>&nbsp;</p>
-@{
-	<div class="pagination pagination-centered" data-customer-switcher="">
-		<ul>
-			<li class="active" data-method="logon"><a href="javascript:void(0)">Log on</a></li>
-			<li data-method="registration"><a href="javascript:void(0)">Registration</a></li>
-		</ul>
-	</div>
+<div data-user-info="authentication-panel" style="display: none;">
+	<p>&nbsp;</p>
+	@{
+		<div class="pagination pagination-centered" data-customer-switcher="">
+			<ul>
+				<li class="active" data-method="logon"><a href="javascript:void(0)">Log on</a></li>
+				<li data-method="registration"><a href="javascript:void(0)">Registration</a></li>
+			</ul>
+		</div>
 	
-	Html.RenderPartial("LonOn", new LogOnViewModel());
-	Html.RenderPartial("Registration", new CreateCustomerViewModel());
-}
+		Html.RenderPartial("LonOn", new LogOnViewModel());
+		Html.RenderPartial("Registration", new CreateCustomerViewModel());
+	}
+</div>
+<div data-user-info="user-info-panel" style="display: none;">
+	Your logined as <span data-user="email"></span>
+</div>
