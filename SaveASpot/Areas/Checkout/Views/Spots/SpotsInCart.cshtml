@@ -30,7 +30,7 @@
 					</td>
 					<td>
 						<ul class="actions">
-							<li class="last" data-action="delete"><a href="#">Delete</a></li>
+							<li class="last" data-action="delete"><a href="javascript:void(0)">Delete</a></li>
 						</ul>
 					</td>
 				</tr>
@@ -51,31 +51,6 @@
 				</tr>
 			</thead>
 			<tbody data-template-content="spotInCart">
-				@*@{
-					var spotIdex = 1;
-				}
-				@foreach (var spot in Model.Spots)
-		{
-					<tr data-identity="@spot.Identity.ToString()" class="@(spotIdex == 1 ? "first" : string.Empty)">
-						<td>
-							<input type="checkbox">
-							<i class="icon-map-marker"></i>Spot @spotIdex
-						</td>
-						<td>
-							<a href="javascript:void(0)">Phase 1</a>
-						</td>
-						<td class="description">
-							<span class="time"><i class="icon-dollar"></i>@spot.PhaseElement.SpotPrice</span>
-						</td>
-						<td>
-							<ul class="actions">
-								<li class="last" data-action="delete"><a href="#">Delete</a></li>
-							</ul>
-						</td>
-					</tr>
-
-			spotIdex++;
-		}*@
 			</tbody>
 			<tfoot>
 				<!-- row -->
@@ -83,7 +58,7 @@
 					<th></th>
 					<th></th>
 					<th class="description">
-						<span class="time"><i class="icon-dollar"></i><span data-cart-price="">@Model.Price</span></span>
+						<span class="time"><i class="icon-dollar"></i><span data-cart-price=""></span></span>
 					</th>
 					<th></th>
 				</tr>

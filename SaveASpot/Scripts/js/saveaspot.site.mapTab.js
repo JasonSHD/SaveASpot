@@ -420,10 +420,35 @@
 			});
 			var result = {};
 
+			var updateCartHandler = function () {
+				var $generalTemplateContainer = $("[data-template='spotInCart']");
+				var templateContainerSelector = $generalTemplateContainer.data("template-selector");
+				var template = $generalTemplateContainer.find(templateContainerSelector).html();
+
+				var cart = q.cart.currentCart().cart();
+				var tempalateContent = "";
+				for (var elementIndex in cart.elements) {
+					var element = cart.elements[elementIndex];
+					tempalateContent += template.
+						replace("${identity}", element.identity).
+						replace("${spotIdenx}", elementIndex).
+						replace("${phaseName}", element.phase.name).
+						replace("${spotPrice}", element.phase.spotPrice);
+				}
+
+				var $templateContent = $("[data-template-content='spotInCart']");
+				$templateContent.html(tempalateContent);
+
+				$("[data-cart-price]").text(cart.price);
+
+				deleteActionSelector().bind("click", deleteSpotHandler);
+				deleteSelectedActionSelector().bind("click", deleteSelectedActionHandler);
+			};
+
 			var deleteSpotHandler = function () {
 				var $row = $(this).parents("[data-identity]");
 				var identity = $row.data("identity");
-				
+
 				q.cart.currentCart().remove(identity);
 			};
 			var deleteActionSelector = function () { return $("[data-element='cart'] [data-action='delete']"); };
@@ -439,26 +464,9 @@
 				q.ajax({ url: settings.spotsFromCartUrl, type: "GET" }).done(function (phasesResult) {
 					$(showArg.container).append(phasesResult);
 
-					var $generalTemplateContainer = $("[data-template='spotInCart']");
-					var templateContainerSelector = $generalTemplateContainer.data("template-selector");
-					var template = $generalTemplateContainer.find(templateContainerSelector).html();
+					updateCartHandler();
 
-					var cart = q.cart.currentCart().cart();
-					var tempalateContent = "";
-					for (var elementIndex in cart.elements) {
-						var element = cart.elements[elementIndex];
-						tempalateContent += template.
-							replace("${identity}", element.identity).
-							replace("${spotIdenx}", elementIndex).
-							replace("${phaseName}", element.phase.name).
-							replace("${spotPrice}", element.phase.spotPrice);
-					}
-					
-					var $templateContent = $("[data-template-content='spotInCart']");
-					$templateContent.html(tempalateContent);
-
-					deleteActionSelector().bind("click", deleteSpotHandler);
-					deleteSelectedActionSelector().bind("click", deleteSelectedActionHandler);
+					q.events().bind("global_cart_update", updateCartHandler);
 
 					showArg.complete();
 				});
@@ -477,6 +485,7 @@
 						processArg.complete();
 						q.cart.currentCart().cart(checkoutControl.cart);
 						q.events().fire("changeTab", { tab: "thanks" });
+						q.events().unbind("global_cart_update", updateCartHandler);
 					} else {
 						processArg.break();
 					}
@@ -486,6 +495,7 @@
 			result.destroy = function () {
 				deleteActionSelector().unbind("click", deleteSpotHandler);
 				deleteSelectedActionSelector().unbind("click", deleteSelectedActionHandler);
+				q.events().unbind("global_cart_update", updateCartHandler);
 			};
 
 			return result;
