@@ -54,6 +54,7 @@
     <Compile Include="Implementations\AllowCustomerToRemoveSpotValidator.cs" />
     <Compile Include="Implementations\ArcgisParcelsService.cs" />
     <Compile Include="Implementations\ArcgisSpotsService.cs" />
+    <Compile Include="Implementations\CartAmountCalculator.cs" />
     <Compile Include="Implementations\CartConverter.cs" />
     <Compile Include="Implementations\CartService.cs" />
     <Compile Include="Implementations\Controllers\AccountControllerService.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Implementations\Polygon.cs" />
     <Compile Include="Implementations\Security\CustomersService.cs" />
     <Compile Include="Implementations\SponsorsService.cs" />
+    <Compile Include="Implementations\SpotPhaseContainerConverter.cs" />
     <Compile Include="Implementations\SpotsBookingService.cs" />
     <Compile Include="Implementations\SpotValidateFactory.cs" />
     <Compile Include="Implementations\TextParserCases\DecimalTextParserCase.cs" />
@@ -95,7 +97,6 @@
     <Compile Include="Implementations\Validators\Security\UserExistsValidator.cs" />
     <Compile Include="Implementations\Validators\Security\UsernameValidator.cs" />
     <Compile Include="Implementations\Validators\Security\UserValidateFactory.cs" />
-    <Compile Include="Implementations\Controllers\CheckoutControllerService.cs" />
     <Compile Include="Interfaces\Controllers\Checkout\ICheckoutController.cs" />
     <Compile Include="Interfaces\Controllers\Checkout\ISpotsControllerService.cs" />
     <Compile Include="Interfaces\Controllers\Checkout\IUserInfoControllerService.cs" />
@@ -103,7 +104,6 @@
     <Compile Include="Interfaces\Controllers\IAccountControllerService.cs" />
     <Compile Include="Interfaces\Controllers\IAdministratorActionsMapControllerService.cs" />
     <Compile Include="Interfaces\Controllers\ICartControllerService.cs" />
-    <Compile Include="Interfaces\Controllers\ICheckoutControllerService.cs" />
     <Compile Include="Interfaces\Controllers\ICustomersControllerService.cs" />
     <Compile Include="Interfaces\Controllers\IMapControllerService.cs" />
     <Compile Include="Interfaces\Controllers\IParcelsControllerService.cs" />
@@ -116,6 +116,7 @@
     <Compile Include="Interfaces\Controllers\SponsorResult.cs" />
     <Compile Include="Interfaces\Controllers\UserResult.cs" />
     <Compile Include="Interfaces\CreateSponsorResult.cs" />
+    <Compile Include="Interfaces\ICartAmountCalculator.cs" />
     <Compile Include="Interfaces\ICartService.cs" />
     <Compile Include="Interfaces\ICurrentCart.cs" />
     <Compile Include="Interfaces\IParcelsService.cs" />

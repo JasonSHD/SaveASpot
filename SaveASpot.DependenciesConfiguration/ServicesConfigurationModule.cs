@@ -1,4 +1,5 @@
 using SaveASpot.Core;
+using SaveASpot.Core.Cart;
 using SaveASpot.Core.Security;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Repositories.Models;
@@ -12,6 +13,7 @@ using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.Services.Interfaces.Security;
 using SaveASpot.ViewModels;
 using SaveASpot.ViewModels.PhasesAndParcels;
+using Cart = SaveASpot.Core.Cart.Cart;
 
 namespace SaveASpot.DependenciesConfiguration
 {
@@ -49,9 +51,10 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ICartControllerService>().To<CartControllerService>();
 			Bind<ICurrentCart>().To<CurrentCart>();
 			Bind<ICartService>().To<CartService>();
-			Bind<ITypeConverter<Repositories.Models.Security.Cart, Core.Security.Cart>>().To<CartConverter>();
-			Bind<ICheckoutControllerService>().To<CheckoutControllerService>();
+			Bind<ITypeConverter<Repositories.Models.Security.Cart, Cart>>().To<CartConverter>();
 			Bind<IStripeControllerService>().To<StripeControllerService>();
+			Bind<ITypeConverter<SpotPhaseContainer, SpotElement>>().To<SpotPhaseContainerConverter>();
+			Bind<ICartAmountCalculator>().To<CartAmountCalculator>();
 		}
 	}
 }

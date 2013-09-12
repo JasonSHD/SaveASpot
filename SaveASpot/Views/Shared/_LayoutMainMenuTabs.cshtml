@@ -49,25 +49,28 @@
 						<a href="#" class="close-icon"><i class="icon-remove-sign"></i></a>
 						<div class="notifications">
 							<h3>Your Shopping Cart</h3>
+							<div data-items-container="">
+								<a href="#" class="item">
+									<i class="icon-map-marker"></i>Spot 1
+									<span class="time"><i class="icon-dollar"></i>30.00</span>
+								</a>
+								<a href="#" class="item">
+									<i class="icon-map-marker"></i>Spot 2
+									<span class="time"><i class="icon-dollar"></i>30.00</span>
+								</a>
+								<a href="#" class="item">
+									<i class="icon-map-marker"></i>Spot 3
+									<span class="time"><i class="icon-dollar"></i>30.00</span>
+								</a>
+								<a href="#" class="item">
+									<i class="icon-map-marker"></i>Spot 4
+									<span class="time"><i class="icon-dollar"></i>30.00</span>
+								</a>
+							</div>
 							<a href="#" class="item">
-								<i class="icon-map-marker"></i>Spot 1
-								<span class="time"><i class="icon-dollar"></i>30.00</span>
-							</a>
-							<a href="#" class="item">
-								<i class="icon-map-marker"></i>Spot 2
-								<span class="time"><i class="icon-dollar"></i>30.00</span>
-							</a>
-							<a href="#" class="item">
-								<i class="icon-map-marker"></i>Spot 3
-								<span class="time"><i class="icon-dollar"></i>30.00</span>
-							</a>
-							<a href="#" class="item">
-								<i class="icon-map-marker"></i>Spot 4
-								<span class="time"><i class="icon-dollar"></i>30.00</span>
+								<span class="time">Amount<i class="icon-dollar"></i>&nbsp;<span data-cart-amount=""></span></span>
 							</a>
 							<div class="footer">
-								@*<a href="@Url.Action("Index","ShoppingCart")" class="logout">Check Out Cart</a>*@
-								
 								<a href="javascript:void(0)" class="logout" data-checkout="">Check Out Cart</a>
 							</div>
 						</div>
@@ -76,8 +79,8 @@
 			</li>
 			<li class="settings hidden-phone" id="loginButton" style="display: none;" data-login-item="">
 				@{Html.RenderPartial(SiteConstants.Controls.LogOnContainerView);}
-			</li>			
-			<li id="userInfoButton" class="notification-dropdown" style="display: none;" data-userInfo-item="">
+			</li>
+			<li id="userInfoButton" class="notification-dropdown" style="display: none;" data-userinfo-item="">
 				@{Html.RenderPartial(SiteConstants.Controls.UserInfoContainerView);}
 			</li>
 			<li class="settings hidden-phone" style="display: none;">
@@ -100,21 +103,3 @@
 @{ 
 	extensions.Execute(new ViewJavascriptConfigurationElementIdentity());
 }
-
-@*<script>
-	Object.defineProperty(q, "pageConfig", { value: {}, writable: false, configurable: false });
-
-	Object.defineProperty(q.pageConfig, "phasesUrl", { value: "@Url.Action("Index", "Phases")", wirtable: false, configurable: false });
-	Object.defineProperty(q.pageConfig, "phaseEditUrl", { value: "@Url.Action("EditPhase", "Phases")", writable: false, configurable: false });
-	Object.defineProperty(q.pageConfig, "spotsUrl", { value: "@Url.Action("ByPhase", "Spots")", wirtable: false, configurable: false });
-	Object.defineProperty(q.pageConfig, "bookingForSponsorsUrl", { value: "@Url.Action("BookingSpots", "AdministratorActionsMap")", wirtable: false, configurable: false });
-	Object.defineProperty(q.pageConfig, "sponsorDetailsUrl", { value: "@Url.Action("SponsorDetails", "Sponsors")", wirtable: false, configurable: false });
-	Object.defineProperty(q.pageConfig, "sponsorView", { value: "@Url.Action("Index", "Sponsors")", wirtable: false, configurable: false });	
-
-	Object.defineProperty(q.pageConfig, "paymentInformation", { value: "@Url.Action("CreatePaymentInformation", "Stripe")", writable: false, configurable: false });
-	Object.defineProperty(q.pageConfig, "isCustomerAStripeUser", { value: "@Url.Action("IsPaymentInformationAdded", "Stripe")", writable: false, configurable: false });
-	Object.defineProperty(q.pageConfig, "checkOut", { value: "@Url.Action("CheckOutPhase", "Stripe")", writable: false, configurable: false });
-	Object.defineProperty(q.pageConfig, "loginUrl", { value: "@Url.Action("LogOn", "Account")", writable: false, configurable: false });
-	Object.defineProperty(q.pageConfig, "logoutUrl", { value: "@Url.Action("LogOff", "Account")", writable: false, configurable: false });
-	
-</script>*@

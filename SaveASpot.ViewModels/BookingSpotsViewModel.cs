@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using SaveASpot.Core;
+using SaveASpot.Core.Cart;
 using SaveASpot.Core.Security;
 
 namespace SaveASpot.ViewModels

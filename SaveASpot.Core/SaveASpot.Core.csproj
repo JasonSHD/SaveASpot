@@ -47,9 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cart\PhaseElement.cs" />
+    <Compile Include="Cart\SpotElement.cs" />
     <Compile Include="IConverter.cs" />
     <Compile Include="Security\AnonymRole.cs" />
-    <Compile Include="Security\Cart.cs" />
+    <Compile Include="Cart\Cart.cs" />
     <Compile Include="TypeElementIdentityConverter.cs" />
     <Compile Include="Validation\CompositeValidator.cs" />
     <Compile Include="Validation\EntityValidator.cs" />

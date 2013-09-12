@@ -63,6 +63,7 @@
     <Compile Include="Implementations\PhasesAndParcels\ParcelRepository.cs" />
     <Compile Include="Implementations\PhasesAndParcels\PhaseQueryable.cs" />
     <Compile Include="Implementations\PhasesAndParcels\PhaseRepository.cs" />
+    <Compile Include="Implementations\PhasesAndParcels\SpotPhaseContainerQueryable.cs" />
     <Compile Include="Implementations\PhasesAndParcels\SpotQueryable.cs" />
     <Compile Include="Implementations\Security\CustomerQueryable.cs" />
     <Compile Include="Implementations\Security\CustomerRepository.cs" />
@@ -82,9 +83,9 @@
     <Compile Include="Interfaces\PhasesAndParcels\IPhaseFilter.cs" />
     <Compile Include="Interfaces\PhasesAndParcels\IPhaseQueryable.cs" />
     <Compile Include="Interfaces\PhasesAndParcels\IPhaseRepository.cs" />
+    <Compile Include="Interfaces\PhasesAndParcels\ISpotPhaseContainerQueryable.cs" />
     <Compile Include="Interfaces\PhasesAndParcels\SpotQueryableExtensions.cs" />
     <Compile Include="Interfaces\QueryableBuilder.cs" />
-    <Compile Include="Interfaces\QueryableBuilderExtensions.cs" />
     <Compile Include="Interfaces\Security\CustomerQueryableExtensions.cs" />
     <Compile Include="Interfaces\Security\ICustomerFilter.cs" />
     <Compile Include="Interfaces\Security\ICustomerQueryable.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Models\Sponsor.cs" />
     <Compile Include="Models\Spot.cs" />
     <Compile Include="Models\Log.cs" />
+    <Compile Include="Models\SpotPhaseContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

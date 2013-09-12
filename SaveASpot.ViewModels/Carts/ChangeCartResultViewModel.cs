@@ -1,4 +1,5 @@
-﻿using SaveASpot.Core.Security;
+﻿using SaveASpot.Core.Cart;
+using SaveASpot.Core.Security;
 
 namespace SaveASpot.ViewModels.Carts
 {

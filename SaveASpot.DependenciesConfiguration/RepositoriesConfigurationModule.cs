@@ -32,6 +32,7 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ICustomerRepository>().To<CustomerRepository>();
 			Bind<ICartQueryable>().To<CartQueryable>();
 			Bind<ICartRepository>().To<CartRepository>();
+			Bind<ISpotPhaseContainerQueryable>().To<SpotPhaseContainerQueryable>();
 		}
 	}
 }

@@ -461,7 +461,6 @@
     <Content Include="Views\Shared\ViewExtensions\Configuration\Admin.cshtml" />
     <Content Include="Views\Shared\ViewExtensions\Configuration\Customer.cshtml" />
     <Content Include="Views\Shared\ViewExtensions\Security\AnonymCustomer.cshtml" />
-    <Content Include="Views\Map\CartInitialize.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,9 +1,12 @@
 ﻿@using Newtonsoft.Json
 @using SaveASpot.Core.Security
-@model User
+@model SaveASpot.ViewModels.ViewExtensions.UserCartViewModel
 <script>
 	q(function () {
-		q.security.currentUser().authenticate(@Html.Raw(JsonConvert.SerializeObject(Model.AsUserJson())));
+		q.security.currentUser().authenticate(@Html.Raw(JsonConvert.SerializeObject(Model.User.AsUserJson())));
 		q.controls.currentCustomer();
+
+		q.cart.currentCart().cart(@Html.Raw(JsonConvert.SerializeObject(Model.Cart.AsCartJson())));
+		q.controls.cart();
 	});
 </script>

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using SaveASpot.Core.Cart;
 
 namespace SaveASpot.Core.Security
 {
@@ -25,9 +26,19 @@ namespace SaveASpot.Core.Security
 			return new { user = source.User.AsUserJson() };
 		}
 
-		public static object AsCartJson(this Cart source)
+		public static object AsCartJson(this Cart.Cart source)
 		{
-			return new { elements = source.ElementIdentities.Select(e => e.ToString()).ToArray() };
+			return new { elements = source.SpotElements.Select(e => e.AsSpotElementJson()).ToArray(), price = source.Price };
+		}
+
+		public static object AsSpotElementJson(this SpotElement source)
+		{
+			return new { identity = source.Identity.ToString(), phase = source.PhaseElement.AsPhaseElementJson() };
+		}
+
+		public static object AsPhaseElementJson(this PhaseElement source)
+		{
+			return new { spotPrice = source.SpotPrice, identity = source.Identity.ToString(), name = source.Name };
 		}
 
 		public static bool IsCustomer(this User source)

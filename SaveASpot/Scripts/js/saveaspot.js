@@ -566,49 +566,50 @@ q.controls = q.controls || {};
 	namespace._data = namespace._data || {};
 
 	namespace.cart = function (options) {
-		var settings = $.extend(options, {
-			element: $("[data-cart]"),
-			addSpotUrl: q.pageConfig.addSpotToCartUrl,
-			removeSpotUrl: q.pageConfig.removeSpotFromCartUrl
-		});
+		var settings = $.extend({
+			cartElement: $("[data-cart]"),
+			countSelector: $(".count")
+		}, options);
 		var result = { _data: { control: settings.element } };
+		settings.cartElement.show();
 
-		var $notification = result._data.control.find(".notifications");
-		settings.element.show();
+		var updateCartControl = function () {
+			var cart = q.cart.currentCart().cart();
+			settings.countSelector.text(cart.elements.length);
+			var elementsContainer = settings.cartElement.find(".body [data-items-container]");
+			elementsContainer.html("");
 
-		result.addSpotToCart = function () {
+			for (var cartElementIndex in cart.elements) {
+				var cartElement = cart.elements[cartElementIndex];
+				elementsContainer.append(
+					$("<a/>").attr("href", "javascript:void(0)").addClass("item").append(
+						$("<i/>").addClass("icon-map-marker")
+					).append(
+						"Spot " + cartElementIndex
+					).append(
+						$("<span/>").addClass("time").append(
+							$("<i/>").addClass("icon-dollar")
+						).append(
+							cartElement.phase.spotPrice
+						)
+					)
+				);
+
+				if (cartElementIndex > 2) {
+					break;
+				}
+			}
+
+			settings.cartElement.find("[data-cart-amount]").text(cart.price);
 		};
 
-		result.removeSpotFromCart = function () {
+		updateCartControl();
+
+		q.events().bind("global_cart_update", updateCartControl);
+
+		result.destroy = function () {
+			q.events().unbind("global_cart_update", updateCartControl);
 		};
-
-		result.refresh = function () {
-		};
-
-		//var currentUser = q.security.currentUser().user();
-
-		//var updateCartHandler = function (arg) {
-		//	var count = arg.arg.elements.length;
-		//	$notification.find(".item").remove();
-		//	for (var elementIndex in arg.arg.elements) {
-		//		if (elementIndex < 4) {
-		//			$("<a/>").attr("href", "#").addClass("item").
-		//				append($("<i/>").addClass("icon-map-marker")).
-		//				append("Spot " + count).
-		//				append($("<span>").addClass("time").append($("<i/>").addClass("icon-dollar")).append("30.00")).
-		//				insertBefore($notification.find(".footer"));
-		//		} else {
-		//			break;
-		//		}
-		//	}
-
-		//	result._data.control.find(".count").text(count);
-		//};
-		//q.events().bind("updateCart", updateCartHandler);
-
-		//result.destroy = function () {
-		//	settings.element.hide();
-		//};
 
 		return result;
 	};
@@ -871,3 +872,54 @@ q.security = q.security || {};
 		return namespace._data.currentCustomer = result;
 	};
 })(q.security, q.events);
+
+q.cart = q.cart || {};
+(function (namespace) {
+	var currentCart = undefined;
+
+	namespace.currentCart = function () {
+		if (currentCart != undefined) {
+			return currentCart;
+		}
+
+		var result = { _data: { cart: {} } };
+		var settings = {
+			addSpotUrl: q.pageConfig.addSpotToCartUrl,
+			removeSpotUrl: q.pageConfig.removeSpotFromCartUrl
+		};
+
+		result.cart = function (cart) {
+			if (cart == undefined) {
+				return result._data.cart;
+			}
+
+			result._data.cart = cart;
+			q.events().fire("global_cart_update", { cart: cart });
+
+			return result;
+		};
+
+		result.remove = function (spotIdentity) {
+			q.ajax({ url: settings.removeSpotUrl, type: "POST", data: { spotIdentity: spotIdentity } }).done(function (cartResult) {
+				if (cartResult.isSuccess) {
+					result.cart(cartResult.cart);
+					q.events().fire("global_cart_removeElement", { identity: spotIdentity });
+				}
+			});
+
+			return result;
+		};
+
+		result.add = function (spotIdentity) {
+			q.ajax({ url: settings.addSpotUrl, type: "POST", data: { spotIdentity: spotIdentity } }).done(function (cartResult) {
+				if (cartResult.isSuccess) {
+					result.cart(cartResult.cart);
+				}
+			});
+
+			return result;
+		};
+
+		return currentCart = result;
+	};
+})(q.cart);

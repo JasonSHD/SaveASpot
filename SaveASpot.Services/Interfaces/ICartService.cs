@@ -1,5 +1,5 @@
 ﻿using SaveASpot.Core;
-using SaveASpot.Core.Security;
+using SaveASpot.Core.Cart;
 
 namespace SaveASpot.Services.Interfaces
 {

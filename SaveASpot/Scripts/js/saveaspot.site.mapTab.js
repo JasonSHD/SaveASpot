@@ -237,33 +237,14 @@
 	if (q.pageConfig.controlsUserConfiguration == "customer") {
 
 		var customerControl = (function (options, $) {
-			var settings = $.extend(options, {
-				addSpotToCartUrl: q.pageConfig.addSpotToCartUrl,
-				removeSpotFromCartUrl: q.pageConfig.removeSpotFromCartUrl
-			});
-
+			var settings = $.extend({}, options);
 			var result = {};
 
 			var availableSpotSelectedHandler = function (args) {
-				q.ajax({ url: settings.addSpotToCartUrl, type: "POST", data: { spotIdentity: args.arg.spot.identity } }).done(function (addResult) {
-					if (addResult.isSuccess) {
-						q.events().fire("updateCart", { cart: addResult.cart });
-					} else {
-						alert(addResult.message);
-					}
-				});
+				q.cart.currentCart().add(args.arg.spot.identity);
 			};
 			var selectedSpotSelectedHandler = function (args) {
-				q.ajax({ url: settings.removeSpotFromCartUrl, type: "POST", data: { spotIdentity: args.arg.spot.identity } }).done(function (removeResult) {
-					if (removeResult.isSuccess) {
-						q.events().fire("updateCart", { cart: removeResult.cart });
-						var identity = args.arg.spot.identity;
-						var val = "available";
-						q.events().fire("updateSpotState", { identity: identity, val: val });
-					} else {
-						alert(removeResult.message);
-					}
-				});
+				q.cart.currentCart().remove(args.arg.spot.identity);
 			};
 
 			q.events().bind("availableSpotSelected", availableSpotSelectedHandler);
@@ -278,42 +259,32 @@
 		})({}, jQuery);
 
 		var cartControl = (function (options, $) {
-			var settings = $.extend(options, {
-				cartElement: $("[data-cart]"),
-				cartInitializeElement: $("[data-cart-initialize]"),
-				cart: { elements: [] }
-			});
+			var settings = $.extend({}, options);
 			var result = {};
 
-			settings.cartElement.show();
-
 			var fireUpdateSpotsState = function () {
-				for (var elemntIndex in settings.cart.elements) {
-					var element = settings.cart.elements[elemntIndex];
-
-					q.events().fire("updateSpotState", { identity: element, val: "selected" });
+				var cart = q.cart.currentCart().cart();
+				for (var elementIndex in cart.elements) {
+					var element = cart.elements[elementIndex];
+					q.events().fire("updateSpotState", { identity: element.identity, val: "selected" });
 				}
 			};
 
-			var updateCartHandler = function (args) {
-				settings.cart = args.arg.cart;
-				$(".count").text(settings.cart.elements.length);
-				fireUpdateSpotsState();
+			var removeElementFromCartHandler = function (removeArg) {
+				var identity = removeArg.arg.identity;
+				var val = "available";
+				q.events().fire("updateSpotState", { identity: identity, val: val });
 			};
 
-			q.events().bind("updateCart", updateCartHandler);
+			q.events().bind("global_cart_update", fireUpdateSpotsState);
+			q.events().bind("global_cart_removeElement", removeElementFromCartHandler);
 			q.events().bind("phaseRenderCompleted", fireUpdateSpotsState);
 
 			result.destroy = function () {
-				q.events().unbind("updateCart", updateCartHandler);
+				q.events().unbind("global_cart_update", fireUpdateSpotsState);
 				q.events().unbind("phaseRenderCompleted", fireUpdateSpotsState);
+				q.events().unbind("global_cart_removeElement", removeElementFromCartHandler);
 			};
-
-			if (settings.cartInitializeElement.length > 0) {
-				var initializeFunction = settings.cartInitializeElement.data("cart-initialize");
-				var cart = window[initializeFunction]();
-				q.events().fire("updateCart", { cart: cart });
-			}
 
 			return result;
 		})({}, jQuery);
@@ -452,15 +423,8 @@
 			var deleteSpotHandler = function () {
 				var $row = $(this).parents("[data-identity]");
 				var identity = $row.data("identity");
-
-				q.ajax({ url: settings.removeSpotFromCartUrl, type: "POST", data: { spotIdentity: identity } }).done(function (removeResult) {
-					if (removeResult.isSuccess) {
-						q.events().fire("updateCart", { cart: removeResult.cart });
-						$row.remove();
-					} else {
-						alert(removeResult.message);
-					}
-				});
+				
+				q.cart.currentCart().remove(identity);
 			};
 			var deleteActionSelector = function () { return $("[data-element='cart'] [data-action='delete']"); };
 
@@ -493,7 +457,7 @@
 				q.ajax({ url: settings.checkoutUrl, type: "POST", data: data, dataType: "json" }).done(function (checkoutResult) {
 					if (checkoutResult.isSuccess) {
 						processArg.complete();
-						q.events().fire("updateCart", { cart: checkoutResult.cart });
+						q.cart.currentCart().cart(checkoutControl.cart);
 						q.events().fire("changeTab", { tab: "thanks" });
 					} else {
 						processArg.break();

@@ -1,5 +1,5 @@
-﻿using SaveASpot.Core;
-using SaveASpot.Repositories.Interfaces;
+﻿using System.Linq;
+using SaveASpot.Core;
 using SaveASpot.Repositories.Interfaces.Security;
 using SaveASpot.Repositories.Models.Security;
 using SaveASpot.Services.Interfaces;

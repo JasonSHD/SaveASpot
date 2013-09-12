@@ -66,7 +66,9 @@
     <Compile Include="SponsorViewModel.cs" />
     <Compile Include="StripeCreditCardInformationViewModel.cs" />
     <Compile Include="Checkout\UserInfoViewModel.cs" />
+    <Compile Include="ViewExtensions\CustomerCartViewModel.cs" />
     <Compile Include="ViewExtensions\JavascriptViewModel.cs" />
+    <Compile Include="ViewExtensions\UserCartViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SaveASpot.Core\SaveASpot.Core.csproj">
