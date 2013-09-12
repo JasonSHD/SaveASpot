@@ -130,8 +130,6 @@
 					selectedCount++;
 				}
 			}
-
-			q.events().fire("updateSpotsCount", { count: selectedCount });
 		};
 
 		q.events().bind("updateSpotState", onUpdateSpotStateHandler);
@@ -268,6 +266,8 @@
 					var element = cart.elements[elementIndex];
 					q.events().fire("updateSpotState", { identity: element.identity, val: "selected" });
 				}
+				
+				q.events().fire("updateSpotsCount", { count: cart.elements.length });
 			};
 
 			var removeElementFromCartHandler = function (removeArg) {
