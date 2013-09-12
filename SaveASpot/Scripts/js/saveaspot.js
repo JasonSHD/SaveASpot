@@ -360,22 +360,27 @@ q.controls = q.controls || {};
 	};
 
 	namespace.currentAdmin = function (options) {
-		options = options || {};
+		var result = {};
+		var currentUser = namespace.currentUser(options);
 
-		var result = namespace.
-			currentUser(options);
-		result.onAuthenticate(function (logOnResult) {
-			if (logOnResult.user.isAdmin) {
-				location.reload();
-			} else {
-				result.authenticate();
+		var userChangedHandler = function () {
+			var user = q.security.currentUser().user();
+
+			if (!user.isAdmin) {
+				currentUser.authenticate(function () {
+					location.reload();
+				});
 			}
-		});
+		};
 
-		var currentUser = q.security.currentUser().user();
-		if (currentUser.isAnonym) {
-			result.authenticate();
-		}
+		userChangedHandler();
+
+		q.events().bind("global_security_authenticated", userChangedHandler);
+
+		result.destroy = function () {
+			q.events().unbind("global_security_authenticated", userChangedHandler);
+			currentUser.destroy();
+		};
 
 		return result;
 	};

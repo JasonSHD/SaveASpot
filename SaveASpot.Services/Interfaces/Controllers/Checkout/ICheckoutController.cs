@@ -3,7 +3,7 @@ using SaveASpot.ViewModels.Checkout;
 
 namespace SaveASpot.Services.Interfaces.Controllers.Checkout
 {
-	public interface ICheckoutController
+	public interface ICheckoutControllerService
 	{
 		CheckoutResultViewModel Checkout(IElementIdentity[] spotsForCheckout);
 	}

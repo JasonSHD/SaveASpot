@@ -9,7 +9,7 @@ namespace SaveASpot.DependenciesConfiguration
 		{
 			Bind<ISpotsControllerService>()
 				.To<SpotsControllerService>();
-			Bind<ICheckoutController>().To<CheckoutController>();
+			Bind<ICheckoutControllerService>().To<CheckoutControllerService>();
 		}
 	}
 }

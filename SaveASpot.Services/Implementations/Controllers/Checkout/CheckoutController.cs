@@ -7,7 +7,7 @@ using SaveASpot.ViewModels.Checkout;
 
 namespace SaveASpot.Services.Implementations.Controllers.Checkout
 {
-	public sealed class CheckoutController : ICheckoutController
+	public sealed class CheckoutControllerService : ICheckoutControllerService
 	{
 		private readonly ICurrentCart _currentCart;
 		private readonly ICurrentCustomer _currentCustomer;
@@ -16,7 +16,7 @@ namespace SaveASpot.Services.Implementations.Controllers.Checkout
 		private readonly IElementIdentityConverter _elementIdentityConverter;
 		private readonly ISpotRepository _spotRepository;
 
-		public CheckoutController(ICurrentCart currentCart, ICurrentCustomer currentCustomer, ISpotQueryable spotQueryable, ICartService cartService, IElementIdentityConverter elementIdentityConverter, ISpotRepository spotRepository)
+		public CheckoutControllerService(ICurrentCart currentCart, ICurrentCustomer currentCustomer, ISpotQueryable spotQueryable, ICartService cartService, IElementIdentityConverter elementIdentityConverter, ISpotRepository spotRepository)
 		{
 			_currentCart = currentCart;
 			_currentCustomer = currentCustomer;

@@ -194,7 +194,8 @@
 		return result;
 	})({}, jQuery));
 
-	var numericControl = (function (options, $) {
+	//numeric control
+	controlsForDestroy.push((function (options, $) {
 		var settings = $.extend(options, {
 			control: $("[data-numericcontrol]"),
 			upControl: $("[data-numericcontrol] [data-up]"),
@@ -230,11 +231,11 @@
 		};
 
 		return result;
-	})({}, jQuery);
+	})({}, jQuery));
 
 	if (q.pageConfig.controlsUserConfiguration == "customer") {
-
-		var customerControl = (function (options, $) {
+		//select handlers
+		controlsForDestroy.push((function (options, $) {
 			var settings = $.extend({}, options);
 			var result = {};
 
@@ -254,9 +255,10 @@
 			};
 
 			return result;
-		})({}, jQuery);
+		})({}, jQuery));
 
-		var cartControl = (function (options, $) {
+		//map cart sync
+		controlsForDestroy.push((function (options, $) {
 			var settings = $.extend({}, options);
 			var result = {};
 
@@ -266,7 +268,7 @@
 					var element = cart.elements[elementIndex];
 					q.events().fire("updateSpotState", { identity: element.identity, val: "selected" });
 				}
-				
+
 				q.events().fire("updateSpotsCount", { count: cart.elements.length });
 			};
 
@@ -287,9 +289,10 @@
 			};
 
 			return result;
-		})({}, jQuery);
+		})({}, jQuery));
 
-		var customerTabsControl = (function (options, $) {
+		//checkout/map/thanks switcher
+		controlsForDestroy.push((function (options, $) {
 			var settings = $.extend(options, {
 				tabs: {
 					map: $("[data-tabelement='map']"),
@@ -338,7 +341,7 @@
 			};
 
 			return result;
-		})({}, jQuery);
+		})({}, jQuery));
 
 		//main checkout control for checkout process
 		var checkoutControl = (function (options, $) {
@@ -613,10 +616,16 @@
 
 			return result;
 		})({}, jQuery), { show: 30, order: 10 });
-	}
+	} else if (q.pageConfig.controlsUserConfiguration == "admin") {
+		controlsForDestroy.push((function (options, $) {
+			var result = {};
 
-	var adminNumericControl = (function (options, $) {
-	})({}, jQuery);
+			result.destroy = function () {
+			};
+
+			return result;
+		})({}, jQuery));
+	}
 
 	arg.destroy = function () {
 		for (var controlIndex in controlsForDestroy) {

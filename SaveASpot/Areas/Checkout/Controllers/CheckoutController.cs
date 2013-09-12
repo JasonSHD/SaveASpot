@@ -8,9 +8,9 @@ namespace SaveASpot.Areas.Checkout.Controllers
 	[CustomerAuthorize]
 	public sealed class CheckoutController : BaseController
 	{
-		private readonly ICheckoutController _checkoutController;
+		private readonly ICheckoutControllerService _checkoutController;
 
-		public CheckoutController(ICheckoutController checkoutController)
+		public CheckoutController(ICheckoutControllerService checkoutController)
 		{
 			_checkoutController = checkoutController;
 		}
