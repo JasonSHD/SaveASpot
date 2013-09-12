@@ -439,6 +439,24 @@
 				q.ajax({ url: settings.spotsFromCartUrl, type: "GET" }).done(function (phasesResult) {
 					$(showArg.container).append(phasesResult);
 
+					var $generalTemplateContainer = $("[data-template='spotInCart']");
+					var templateContainerSelector = $generalTemplateContainer.data("template-selector");
+					var template = $generalTemplateContainer.find(templateContainerSelector).html();
+
+					var cart = q.cart.currentCart().cart();
+					var tempalateContent = "";
+					for (var elementIndex in cart.elements) {
+						var element = cart.elements[elementIndex];
+						tempalateContent += template.
+							replace("${identity}", element.identity).
+							replace("${spotIdenx}", elementIndex).
+							replace("${phaseName}", element.phase.name).
+							replace("${spotPrice}", element.phase.spotPrice);
+					}
+					
+					var $templateContent = $("[data-template-content='spotInCart']");
+					$templateContent.html(tempalateContent);
+
 					deleteActionSelector().bind("click", deleteSpotHandler);
 					deleteSelectedActionSelector().bind("click", deleteSelectedActionHandler);
 
