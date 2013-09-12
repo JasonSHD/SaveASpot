@@ -348,15 +348,13 @@ q.controls = q.controls || {};
 		options = options || {};
 		options.loginUrl = q.pageConfig.loginCustomerUrl;
 
-		var result = namespace.currentUser(options);
+		var result = {};
+		var currentUserControl = namespace.currentUser();
 
-		result.onAuthenticate(function (customer) {
-			if (customer.user.isAnonym) {
-				q.security.currentCustomer().authenticate();
-			} else {
-				q.security.currentCustomer().authenticate(customer);
-			}
-		});
+		result.authenticate = function () {
+			currentUserControl.authenticate(function (logonResult) {
+			});
+		};
 
 		return result;
 	};
@@ -386,14 +384,10 @@ q.controls = q.controls || {};
 		var settings = $.extend(options, {
 			loginItem: $("[data-login-item]"),
 			userInfoItem: $("[data-userInfo-item]"),
-			loginUrl: q.pageConfig.loginUrl,
-			logonUrl: q.pageConfig.logonUrl,
 			logoutUrl: q.pageConfig.logoutUrl
 		});
 		var result = { _data: { settings: settings } };
-		result._handlers = { authenticate: [] };
-
-		var currentUser = q.security.currentUser().user();
+		
 		var modal = q.controls.modal();
 
 		var displayUserInfo = function (user) {
@@ -409,18 +403,19 @@ q.controls = q.controls || {};
 			settings.userInfoItem.hide();
 		};
 
-		if (currentUser.isAnonym) {
-			logoutUser();
-		} else {
-			displayUserInfo(currentUser);
-		}
+		var authenticationHandler = function () {
+			var user = q.security.currentUser().user();
 
-		var runHandlers = function (handlerName, arg) {
-			for (var handlerIndex in result._handlers[handlerName]) {
-				var handler = result._handlers[handlerName][handlerIndex];
-				handler(arg);
+			if (user.isAnonym) {
+				logoutUser();
+			} else {
+				displayUserInfo(user);
 			}
 		};
+
+		authenticationHandler();
+
+		q.events().bind("global_security_authenticated", authenticationHandler);
 
 		settings.loginItem.click(function () {
 			result.authenticate();
@@ -430,18 +425,10 @@ q.controls = q.controls || {};
 			q.ajax({ type: "POST", url: settings.logoutUrl }).done(function (logoutResult) {
 				q.security.currentUser().authenticate(logoutResult);
 				logoutUser();
-
-				runHandlers("authenticate", { user: logoutResult });
 			});
 		});
 
-		result.onAuthenticate = function (handler) {
-			result._handlers.authenticate.push(handler);
-
-			return result;
-		};
-
-		result.authenticate = function () {
+		result.authenticate = function (callback) {
 			q.ajax({ url: settings.loginUrl, type: "GET" }).done(function (dialogContext) {
 				modal.
 					title("Login").
@@ -450,15 +437,18 @@ q.controls = q.controls || {};
 							authenticate: function (logonResult) {
 								modal.hide();
 								q.security.currentUser().authenticate(logonResult.user);
-								displayUserInfo(logonResult.user);
 
-								runHandlers("authenticate", logonResult);
+								callback(logonResult);
 							}
 						}).
 							authenticate(modal.body());
 					}).
 					show();
 			});
+		};
+
+		result.destroy = function () {
+			q.events().unbind("global_security_authenticated", authenticationHandler);
 		};
 
 		return result;
