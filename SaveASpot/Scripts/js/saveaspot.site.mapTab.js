@@ -58,6 +58,11 @@
 		};
 
 		var initializeSpots = function (spots) {
+			
+			for (var spotDescIndex in spotDescriptions) {
+				var oldSpotDesc = spotDescriptions[spotDescIndex];
+				oldSpotDesc.polygon.setMap(null);
+			}
 
 			spotDescriptions = [];
 
@@ -167,6 +172,7 @@
 			q.events().unbind("updateSpotState", onUpdateSpotStateHandler);
 			q.events().unbind("selectFirstAvailableSpot", onSelectFirstAvailableSpot);
 			q.events().unbind("removeFirstSpot", onRemoveFirstSpot);
+
 			log.write("destory spots control.");
 		};
 
