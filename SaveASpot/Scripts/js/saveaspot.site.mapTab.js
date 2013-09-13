@@ -618,9 +618,74 @@
 		})({}, jQuery), { show: 30, order: 10 });
 	} else if (q.pageConfig.controlsUserConfiguration == "admin") {
 		controlsForDestroy.push((function (options, $) {
+			var settings = $.extend({
+				panel: $("#sponsorsSpotSelectPanel"),
+				booking: $("[data-booking]"),
+				sponsors: $("#sponsors"),
+				bookingUrl: q.pageConfig.bookingSpots
+			}, options);
 			var result = {};
+			var selectedSpots = {};
+
+			var authenticationChanged = function () {
+				var user = q.security.currentUser().user();
+
+				if (user.isAdmin) {
+					settings.panel.show();
+				} else {
+					settings.panel.hide();
+				}
+			};
+			var fireUpdateSpotsCount = function () {
+				var count = 0;
+				for (var index in selectedSpots) {
+					count++;
+				}
+
+				q.events().fire("updateSpotsCount", { count: count });
+			};
+			var availableSpotSelectedHandler = function (args) {
+				selectedSpots[args.arg.spot.identity] = args.arg.spot;
+				q.events().fire("updateSpotState", { identity: args.arg.spot.identity, val: "selected" });
+				fireUpdateSpotsCount();
+			};
+			var selectedSpotSelectedHandler = function (args) {
+				delete selectedSpots[args.arg.spot.identity];
+				q.events().fire("updateSpotState", { identity: args.arg.spot.identity, val: "available" });
+				fireUpdateSpotsCount();
+			};
+
+			q.events().bind("availableSpotSelected", availableSpotSelectedHandler);
+			q.events().bind("selectedSpotSelected", selectedSpotSelectedHandler);
+			q.events().bind("global_security_authenticated", authenticationChanged);
+
+			var bookingHandler = function () {
+				var data = {};
+				var arrayIndex = 0;
+				for (var identityIndex in selectedSpots) {
+					data["identities[" + arrayIndex + "]"] = identityIndex;
+					arrayIndex++;
+				}
+				data.sponsorIdentity = settings.sponsors.find("option:selected").val();
+
+				q.ajax({ type: "POST", url: settings.bookingUrl, data: data }).done(function (bookingResult) {
+					var bookedSpots = bookingResult.bookedSpots;
+
+					for (var spotIdex in bookedSpots) {
+						var bookedSpot = bookedSpots[spotIdex];
+
+						delete selectedSpots[bookedSpot];
+						q.events().fire("updateSpotState", { identity: bookedSpot, val: "unavailable" });
+					}
+				});
+			};
+			settings.booking.bind("click", bookingHandler);
 
 			result.destroy = function () {
+				q.events().unbind("global_security_authenticated", authenticationChanged);
+				q.events().unbind("availableSpotSelected", availableSpotSelectedHandler);
+				q.events().unbind("selectedSpotSelected", selectedSpotSelectedHandler);
+				settings.booking.unbind("click", bookingHandler);
 			};
 
 			return result;

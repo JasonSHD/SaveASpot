@@ -218,7 +218,7 @@ q.controls = q.controls || {};
 				var readyContext = {
 					alias: readyHandlerAlias,
 					update: function () {
-						result.update($("[data-ajaxform-alias='" + formAlias + "']"));
+						result.update($("[data-ajaxform-alias='" + readyHandlerAlias + "']"));
 					}
 				};
 				q.runReadyHandlers({ filter: readyHandlerAlias, args: readyContext });

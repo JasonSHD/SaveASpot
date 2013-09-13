@@ -24,14 +24,8 @@ q("customersTab", function (arg) {
 					if (validator.validate()) {
 
 						$.ajax({ url: q.pageConfig.createCustomerView, type: "POST", data: q.serialize(modal.body()) }).done(function (result) {
-						    context.hide();
-						    q.controls.ajaxForm.fireUpdate({
-						        arg: null,
-						        url: q.pageConfig.customersView,
-						        method: "POST",
-						        alias: "customersTab",
-						        ajaxForm: "MainMenuTabAttribute"
-						    });
+							context.hide();
+							arg.update();
 						});
 					}
 				}).
@@ -49,8 +43,6 @@ q("sponsorsTab", function (arg) {
 		console.log("sponsors tab unload");
 	};
 
-
-
 	$("#createSponsor").click(function () {
 		var modal = q.controls.modal();
 		q.ajax({ url: q.pageConfig.createSponsorView, type: "GET" }).done(function (createSponsorView) {
@@ -65,13 +57,7 @@ q("sponsorsTab", function (arg) {
 						$.ajax({ url: q.pageConfig.createSponsorView, type: "POST", data: q.serialize(modal.body()) }).done(function (result) {
 							modal.hide();
 							context.hide();
-							q.controls.ajaxForm.fireUpdate({
-								arg: null,
-								url: q.pageConfig.sponsorView,
-								method: "POST",
-								alias: "sponsorsTab",
-								ajaxForm: "MainMenuTabAttribute"
-							});
+							arg.update();
 						});
 					}
 				}).

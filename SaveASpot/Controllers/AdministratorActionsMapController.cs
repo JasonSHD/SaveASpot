@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using SaveASpot.Core;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Interfaces.Controllers;
@@ -20,7 +21,7 @@ namespace SaveASpot.Controllers
 		{
 			var bookedSpotsViewModel = _administratorActionsMapControllerService.BookingSpots(identities, sponsorIdentity);
 
-			return Json(new { });
+			return Json(new { bookedSpots = bookedSpotsViewModel.BookedSpots.Select(e => e.ToString()) });
 		}
 	}
 }
