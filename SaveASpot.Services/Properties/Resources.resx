@@ -216,4 +216,7 @@
   <data name="InvalidSpotPriceValue" xml:space="preserve">
     <value>Spot price should be greate than 0.01 and less than 4000000</value>
   </data>
+  <data name="SpotPrice" xml:space="preserve">
+    <value>Spot price</value>
+  </data>
 </root>

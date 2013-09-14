@@ -313,6 +313,15 @@ namespace SaveASpot.Services.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Spot price.
+        /// </summary>
+        internal static string SpotPrice {
+            get {
+                return ResourceManager.GetString("SpotPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Spots.
         /// </summary>
         internal static string SpotsAccordingGroupTitle {
