@@ -277,7 +277,7 @@ q("phasesTab", function (arg) {
 		var spotPrice = $("tr[phase-id='" + phaseId + "']").find('td[data-phase-spot-price]').text();
 
 		if (confirm("Are you sure you want to check out phase with name '" + name + "'?") == true) {
-			q.ajax({ url: q.pageConfig.checkOut, type: "POST", data: { phaseId: phaseId, spotPrice: spotPrice } }).done(function (result) {
+			q.ajax({ url: q.pageConfig.checkOutUrl, type: "POST", data: { phaseId: phaseId} }).done(function (result) {
 			});
 		}
 	});

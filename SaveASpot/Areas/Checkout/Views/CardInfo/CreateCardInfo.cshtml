@@ -1,0 +1,30 @@
+﻿<div class="head">
+	<h4>Credit Card Information</h4>
+</div>
+<p>&nbsp;</p>
+<div id="payment-form" >
+	<span class="payment-errors" style="color: red"></span>
+	<div class="field-box">
+		<label>Name on Card</label>
+		<input class="span8" type="text" />
+	</div>
+	<div class="field-box">
+		<label>Card Number</label>
+		<input class="span8" type="text" size="20" data-stripe="number"/>
+	</div>
+	<div class="field-box">
+		<label>Expiration (MM/YYYY)</label>
+		<input class="span3" type="text" size="2" data-stripe="exp-month"/>
+		/
+		<input class="span3" type="text" size="4" data-stripe="exp-year"/>
+	</div>
+	<div class="field-box">
+		<label>Cvc</label>
+		<input class="span8" type="text" size="4" data-stripe="cvc" />
+	</div>
+	<div class="field-box">
+		<label>Postal Code</label>
+		<input class="span8" type="text" placeholder="Only required if you live in the U.S.A." />
+	</div>
+	<p>Please review the <a href="https://stripe.com/terms">terms of service</a>, and <a href="https://stripe.com/privacy">privacy policy</a>.</p>
+</div>

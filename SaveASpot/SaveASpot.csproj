@@ -119,11 +119,9 @@
     <Compile Include="Controllers\ParcelsController.cs" />
     <Compile Include="Areas\Setup\Controllers\SetupUsersController.cs" />
     <Compile Include="Controllers\PhasesController.cs" />
-    <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Controllers\SiteConstants.cs" />
     <Compile Include="Controllers\SponsorsController.cs" />
     <Compile Include="Controllers\SpotsController.cs" />
-    <Compile Include="Controllers\StripeController.cs" />
     <Compile Include="Controllers\UploadPhasesAndParcelsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -384,7 +382,7 @@
     <Content Include="Areas\Setup\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Checkout\Views\Web.config" />
     <Content Include="Areas\Checkout\Views\Spots\SpotsInCart.cshtml" />
-    <Content Include="Areas\Checkout\Views\CardInfo\CartInfo.cshtml" />
+    <Content Include="Areas\Checkout\Views\CardInfo\CreateCardInfo.cshtml" />
     <Content Include="Areas\Checkout\Views\UserInfo\UserInfo.cshtml" />
     <Content Include="Areas\Checkout\Views\UserInfo\LonOn.cshtml" />
     <Content Include="Areas\Checkout\Views\UserInfo\Registration.cshtml" />
@@ -451,8 +449,6 @@
     <Content Include="Views\Map\CustomerSpots.cshtml" />
     <Content Include="Views\Stripe\CreatePaymentInformation.cshtml" />
     <Content Include="Views\Phases\EditPhase.cshtml" />
-    <Content Include="Views\ShoppingCart\Index.cshtml" />
-    <Content Include="Views\ShoppingCart\Success.cshtml" />
     <Content Include="Views\Shared\ViewExtensions\JavascriptResources.cshtml" />
     <Content Include="Views\Shared\ViewExtensions\Web.config" />
     <Content Include="Views\Shared\ViewExtensions\Security\Customer.cshtml" />

@@ -10,7 +10,7 @@ namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
 		bool Remove(IElementIdentity identity);
 		bool Update(Spot spot);
 		bool MapSpotToSponsor(Spot spot, IElementIdentity sponsorIdentity);
-		bool MapSpotToCustomer(Spot spot, IElementIdentity customerIdentity);
+		bool MapSpotToCustomer(Spot spot, IElementIdentity customerIdentity, decimal? spotPrice);
 		IEnumerable<Spot> GetSpotsByParcelId(string parcelId);
 	}
 }

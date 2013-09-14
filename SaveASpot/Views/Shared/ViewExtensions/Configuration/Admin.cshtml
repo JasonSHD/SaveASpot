@@ -18,6 +18,7 @@
 	Object.defineProperty(q.pageConfig, "spotsAfterUploadUrl", { value: "@Url.Action("Index", "Spots")", wirtable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "customersView", { value: "@Url.Action("Index", "Customers")", wirtable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "bookingSpots", { value: "@Url.Action("BookingSpots", "AdministratorActionsMap")", wirtable: false, configurable: false });
+	Object.defineProperty(q.pageConfig, "checkOutUrl", { value: "@Url.Action("CheckOutPhase","Checkout", new{area="Checkout"})", writable: false, configurable: false });
 	
 	Object.defineProperty(q.pageConfig, "controlsUserConfiguration", { value: "admin", wirtable: false, configurable: false });
 </script>

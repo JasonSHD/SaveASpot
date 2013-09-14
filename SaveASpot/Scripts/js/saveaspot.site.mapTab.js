@@ -512,14 +512,49 @@
 
 		//checkout card control
 		checkoutControl.add((function (options, $) {
+			var settings = $.extend(options, {
+				cardInfoUrl: q.pageConfig.cardInfoUrl,
+				checkPaymentInfoUrl:q.pageConfig.checkPaymentInfoUrl,
+				getStripePublicKeyUrl: q.pageConfig.getStripePublicKeyUrl,
+				createPaymentInformationUrl:q.pageConfig.createPaymentInformationUrl
+			});
 			var result = {};
 
 			result.show = function (showArg) {
-				showArg.complete();
+				q.ajax({ url: settings.cardInfoUrl, type: "GET" }).done(function (cardInfoResult) {
+					$(showArg.container).append(cardInfoResult);
+					showArg.complete();
+				});
 			};
 
 			result.process = function (processArg) {
-				processArg.complete(); //or processArg.break()
+				q.ajax({ url: settings.checkPaymentInfoUrl, type: "GET" }).done(function (paymentInfoResult) {
+					if (paymentInfoResult === true) {
+						processArg.complete();
+					}
+
+					if (result === false) {
+						q.ajax({ url: settings.getStripePublicKeyUrl, type: "GET" }).done(function (publicKeyResult) {
+							
+							Stripe.setPublishableKey(publicKeyResult.key);
+							var $form = $('#payment-form');
+
+							Stripe.createToken($form, function (status, response) {
+								var $f = $form;
+								if (response.error) {
+									$f.find('.payment-errors').text(response.error.message);
+									processArg.break();
+								} else {
+									var token = response.id;
+									$.ajax({ url: settings.createPaymentInformationUrl, type: "POST", data: { token: token } }).done(function (createPaymentInfoResult) {
+										processArg.complete();
+									});
+								}
+							});
+						});
+				
+				}
+				});
 			};
 
 			result.destroy = function () {

@@ -20,5 +20,13 @@ namespace SaveASpot.Areas.Checkout.Controllers
 		{
 			return Json(_checkoutController.Checkout(spotsForCheckout).AsJson());
 		}
+
+		[AdministratorAuthorize]
+		[HttpPost]
+		public ActionResult CheckOutPhase(IElementIdentity phaseId)
+		{
+			var result = _checkoutController.CheckOutPhase(phaseId);
+			return Json(result.IsSuccess);
+		}
 	}
 }

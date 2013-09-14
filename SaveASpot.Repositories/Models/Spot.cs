@@ -12,5 +12,6 @@ namespace SaveASpot.Repositories.Models
 		public ObjectId CustomerId { get; set; }
 		public ObjectId SponsorId { get; set; }
 		public List<Point> SpotShape { get; set; }
+		public decimal? SpotPrice { get; set; }
 	}
 }

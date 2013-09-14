@@ -34,7 +34,7 @@ namespace SaveASpot.Services.Implementations.Security
 
 				var customer = customers.First();
 
-				return new Customer(_elementIdentityConverter.ToIdentity(customer.Id), user);
+				return new Customer(_elementIdentityConverter.ToIdentity(customer.Id), user, !string.IsNullOrEmpty(customer.StripeUserId));
 			}
 		}
 	}

@@ -52,7 +52,7 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ICurrentCart>().To<CurrentCart>();
 			Bind<ICartService>().To<CartService>();
 			Bind<ITypeConverter<Repositories.Models.Security.Cart, Cart>>().To<CartConverter>();
-			Bind<IStripeControllerService>().To<StripeControllerService>();
+			Bind<ICardInfoControllerService>().To<CardInfoControllerService>();
 			Bind<ITypeConverter<SpotPhaseContainer, SpotElement>>().To<SpotPhaseContainerConverter>();
 			Bind<ICartAmountCalculator>().To<CartAmountCalculator>();
 		}

@@ -40,9 +40,10 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			return true;
 		}
 
-		public bool MapSpotToCustomer(Spot spot, IElementIdentity customerIdentity)
+		public bool MapSpotToCustomer(Spot spot, IElementIdentity customerIdentity, decimal? spotPrice)
 		{
 			spot.CustomerId = customerIdentity.ToIdentity();
+			spot.SpotPrice = spotPrice;
 			_mongoDbCollectionFactory.Collection<Spot>().Save(spot);
 
 			return true;
