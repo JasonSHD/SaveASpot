@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SaveASpot.Core;
-using SaveASpot.Repositories.Interfaces;
+using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Interfaces.Sponsors;
 using SaveASpot.Repositories.Models;
 using SaveASpot.Services.Interfaces.Controllers;
@@ -15,12 +15,20 @@ namespace SaveASpot.Services.Implementations.Controllers
 		private readonly ISponsorsService _sponsorsService;
 		private readonly IConverter<Sponsor, SponsorViewModel> _converter;
 		private readonly ISponsorQueryable _sponsorQueryable;
+		private readonly ISpotQueryable _spotQueryable;
+		private readonly IElementIdentityConverter _elementIdentityConverter;
 
-		public SponsorsControllerService(ISponsorsService sponsorsService, IConverter<Sponsor, SponsorViewModel> converter, ISponsorQueryable sponsorQueryable)
+		public SponsorsControllerService(ISponsorsService sponsorsService,
+			IConverter<Sponsor, SponsorViewModel> converter,
+			ISponsorQueryable sponsorQueryable,
+			ISpotQueryable spotQueryable,
+			IElementIdentityConverter elementIdentityConverter)
 		{
 			_sponsorsService = sponsorsService;
 			_converter = converter;
 			_sponsorQueryable = sponsorQueryable;
+			_spotQueryable = spotQueryable;
+			_elementIdentityConverter = elementIdentityConverter;
 		}
 
 		public IMethodResult<SponsorResult> AddSponsor(CreateSponsorViewModel createSponsorViewModel)
@@ -41,12 +49,12 @@ namespace SaveASpot.Services.Implementations.Controllers
 		public IMethodResult<MessageResult> EditSponsor(string identity, SponsorViewModel sponsorViewModel)
 		{
 			var updateSponsorResult = _sponsorsService.EditSponsor(identity, new SponsorArg
-				                             {
-					                             CompanyName = sponsorViewModel.CompanyName,
-					                             Logo = sponsorViewModel.Logo,
-					                             Sentence = sponsorViewModel.Sentence,
-					                             Url = sponsorViewModel.Url
-				                             });
+																		 {
+																			 CompanyName = sponsorViewModel.CompanyName,
+																			 Logo = sponsorViewModel.Logo,
+																			 Sentence = sponsorViewModel.Sentence,
+																			 Url = sponsorViewModel.Url
+																		 });
 			return new MethodResult<MessageResult>(updateSponsorResult.IsSuccess, new MessageResult("Sponsor created!"));
 		}
 
@@ -55,9 +63,14 @@ namespace SaveASpot.Services.Implementations.Controllers
 			return _sponsorsService.GetAllSponsors().Select(_converter.Convert);
 		}
 
-		public SponsorViewModel SponsorDetails(IElementIdentity sponsorIdentity)
+		public IMethodResult<SponsorViewModel> SponsorDetails(IElementIdentity spotIdentity)
 		{
-			return _converter.Convert(_sponsorQueryable.Filter(e => e.ByIdentity(sponsorIdentity)).First());
+			var spot = _spotQueryable.Filter(e => e.ByIdentity(spotIdentity)).First();
+			var sponsorIdentity = _elementIdentityConverter.ToIdentity(spot.SponsorId);
+			var sponsors =
+				_sponsorQueryable.Filter(e => e.ByIdentity(sponsorIdentity)).Select(e => _converter.Convert(e)).ToList();
+
+			return new MethodResult<SponsorViewModel>(sponsors.Any(), sponsors.FirstOrDefault());
 		}
 
 		public IMethodResult Remove(string identity)
