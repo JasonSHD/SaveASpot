@@ -6,7 +6,7 @@ namespace SaveASpot.Services.Interfaces.Controllers
 	public interface IPhasesControllerService
 	{
 		PhasesViewModel GetPhases(SelectorViewModel selectorViewModel);
-		IMethodResult RemovePhases(string identity);
-		IMethodResult<MessageResult> EditPhase(string identity, PhaseViewModel phaseViewModel);
+		IMethodResult RemovePhases(IElementIdentity identity);
+		IMethodResult<MessageResult> EditPhase(IElementIdentity identity, PhaseViewModel phaseViewModel);
 	}
 }

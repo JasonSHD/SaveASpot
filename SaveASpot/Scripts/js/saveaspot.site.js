@@ -24,6 +24,13 @@ q("customersTab", function (arg) {
 					if (validator.validate()) {
 
 						$.ajax({ url: q.pageConfig.createCustomerView, type: "POST", data: q.serialize(modal.body()) }).done(function (result) {
+							if (result.status == false) {
+								var $errorMessageContainer = $(modal.body()).find("[data-error-message='container']");
+								$errorMessageContainer.html("");
+								q.controls.alert($errorMessageContainer, result.message, "error").show();
+
+								return;
+							}
 							context.hide();
 							arg.update();
 						});

@@ -729,7 +729,36 @@ q.validation = q.validation || {};
 		result.validate = function () {
 			var value = $element.val();
 
-			return !isNaN(parseInt(value));
+			return !isNaN(value);
+		};
+
+		return result;
+	};
+
+	namespace.attrValidator.regexp = function (element, pattern, message) {
+		var result = { _data: {}, message: function () { return message; } };
+		var $element = result._data.element = $(element);
+
+		result.validate = function () {
+			var value = $element.val();
+
+			var regex = new RegExp(pattern);
+
+			return regex.test(value);
+		};
+
+		return result;
+	};
+
+	namespace.attrValidator.range = function (element, minValue, maxValue, message) {
+		var result = { _data: {}, message: function () { return message; } };
+		var $element = result._data.element = $(element);
+
+		result.validate = function () {
+			var value = $element.val();
+			var floatValue = parseFloat(value);
+
+			return minValue <= floatValue && floatValue <= maxValue;
 		};
 
 		return result;
@@ -766,6 +795,20 @@ q.validation = q.validation || {};
 			attr: "data-val-number",
 			factory: function (element) {
 				return namespace.attrValidator.number(element, $(element).attr("data-val-number"));
+			}
+		});
+
+		mappings.push({
+			attr: "data-val-regex",
+			factory: function (element) {
+				return namespace.attrValidator.regexp(element, $(element).attr("data-val-regex-pattern"), $(element).attr("data-val-regex"));
+			}
+		});
+		
+		mappings.push({
+			attr: "data-val-range",
+			factory: function (element) {
+				return namespace.attrValidator.range(element, $(element).attr("data-val-range-min"), $(element).attr("data-val-range-max"), $(element).attr("data-val-range"));
 			}
 		});
 

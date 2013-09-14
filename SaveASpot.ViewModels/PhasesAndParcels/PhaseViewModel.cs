@@ -10,7 +10,7 @@ namespace SaveASpot.ViewModels.PhasesAndParcels
 		public string Name { get; set; }
 
 		[Required(ErrorMessage = "Spot price is required")]
-		//[Range(typeof(double), "0,50", "21474835",ErrorMessage = "Price must be a number between {0} and {1}.")]
+		[Range(0.01, 4000000, ErrorMessage = "InvalidSpotPriceValue")]
 		public decimal? SpotPrice { get; set; }
 
 		public object ToJson()

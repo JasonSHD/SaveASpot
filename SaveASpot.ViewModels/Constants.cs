@@ -21,5 +21,10 @@
 			public const string SponsorUrl = "SponsorUrlDisplay";
 			public const string SponsorLogo = "SponsorLogoDisplay";
 		}
+
+		public static class Errors
+		{
+			public const string InvalidUserEmail = "InvalidUserEmail";
+		}
 	}
 }

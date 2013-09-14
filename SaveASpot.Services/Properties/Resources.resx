@@ -213,4 +213,7 @@
   <data name="SpotNotAvailableToAddToCart" xml:space="preserve">
     <value>Spot not available.</value>
   </data>
+  <data name="InvalidSpotPriceValue" xml:space="preserve">
+    <value>Spot price should be greate than 0.01 and less than 4000000</value>
+  </data>
 </root>

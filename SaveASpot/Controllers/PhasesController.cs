@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using SaveASpot.Controllers.Artifacts;
+using SaveASpot.Core;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.ViewModels.PhasesAndParcels;
@@ -39,7 +40,7 @@ namespace SaveASpot.Controllers
 		}
 
 		[HttpPost]
-		public ViewResult Remove(string identity, SelectorViewModel selectorViewModel)
+		public ViewResult Remove(IElementIdentity identity, SelectorViewModel selectorViewModel)
 		{
 			_phasesControllerService.RemovePhases(identity);
 
@@ -60,7 +61,7 @@ namespace SaveASpot.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult EditPhase(string identity, PhaseViewModel phaseViewModel)
+		public ActionResult EditPhase(IElementIdentity identity, PhaseViewModel phaseViewModel)
 		{
 			var result = _phasesControllerService.EditPhase(identity, phaseViewModel);
 

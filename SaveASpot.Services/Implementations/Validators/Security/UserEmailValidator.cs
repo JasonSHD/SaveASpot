@@ -9,7 +9,7 @@ namespace SaveASpot.Services.Implementations.Validators.Security
 		public UserEmailValidator()
 			: base(Validator.
 				For<UserArg>().
-				For(e => e.Email, e => e.StringRequired().StringRequired().Regex(Constants.EmailRegularExpression, "InvalidUserEmail")))
+				For(e => e.Email, e => e.StringRequired().StringRequired().Regex(Constants.EmailRegularExpression, Constants.Errors.InvalidUserEmail)))
 		{
 		}
 	}

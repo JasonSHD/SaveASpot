@@ -30,12 +30,12 @@ namespace SaveASpot.Services.Implementations.Controllers
 							 };
 		}
 
-		public IMethodResult RemovePhases(string identity)
+		public IMethodResult RemovePhases(IElementIdentity identity)
 		{
 			return new MessageMethodResult(_phaseRepository.RemovePhase(identity), string.Empty);
 		}
 
-		public IMethodResult<MessageResult> EditPhase(string identity, PhaseViewModel phaseViewModel)
+		public IMethodResult<MessageResult> EditPhase(IElementIdentity identity, PhaseViewModel phaseViewModel)
 		{
 			var result = _phaseRepository.UpdatePhase(identity, new Phase()
 			{
