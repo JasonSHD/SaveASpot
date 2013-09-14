@@ -252,18 +252,21 @@ q("phasesTab", function (arg) {
 			modal.title("Edit phase").
 				body(editPhaseView).ok("Save", function () {
 					var itemFoUpdate = q.serialize(modal.body());
-					q.ajax({
-						url: q.pageConfig.phaseEditUrl,
-						type: "POST",
-						data: {
-							"identity": phaseIdentity,
-							"PhaseViewModel.Name": itemFoUpdate.Name,
-							"PhaseViewModel.SpotPrice": itemFoUpdate.SpotPrice
-						},
-					}).done(function (result) {
-						modal.hide();
-						arg.update();
-					});
+					var validator = q.validation.validator(modal.body());
+					if (validator.validate()) {
+						q.ajax({
+							url: q.pageConfig.phaseEditUrl,
+							type: "POST",
+							data: {
+								"identity": phaseIdentity,
+								"PhaseViewModel.Name": itemFoUpdate.Name,
+								"PhaseViewModel.SpotPrice": itemFoUpdate.SpotPrice
+							},
+						}).done(function (result) {
+							modal.hide();
+							arg.update();
+						});
+					}
 				}).
 				show();
 		});

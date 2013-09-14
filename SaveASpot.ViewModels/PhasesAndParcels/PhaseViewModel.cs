@@ -6,6 +6,7 @@ namespace SaveASpot.ViewModels.PhasesAndParcels
 	public sealed class PhaseViewModel
 	{
 		public IElementIdentity Identity { get; set; }
+		[Required]
 		public string Name { get; set; }
 
 		[Required(ErrorMessage = "Spot price is required")]
