@@ -2,7 +2,6 @@ using System.Linq;
 using System.Security.Authentication;
 using SaveASpot.Core;
 using SaveASpot.Core.Security;
-using SaveASpot.Repositories.Interfaces;
 using SaveASpot.Repositories.Interfaces.Security;
 
 namespace SaveASpot.Services.Implementations.Security
