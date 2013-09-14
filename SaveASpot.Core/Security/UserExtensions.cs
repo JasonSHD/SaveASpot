@@ -24,7 +24,7 @@ namespace SaveASpot.Core.Security
 
 		public static object AsCustomerJson(this Customer source)
 		{
-			return new { user = source.User.AsUserJson() };
+			return new { user = source.User.AsUserJson(), isPaymentInfoAdded = source.IsPaymentInfoAdded };
 		}
 
 		public static object AsCartJson(this Cart.Cart source)

@@ -2,7 +2,7 @@
 	<h4>Credit Card Information</h4>
 </div>
 <p>&nbsp;</p>
-<div id="payment-form" >
+<div id="payment-form" data-user-payment-info="payment-panel" style="display: none;">
 	<span class="payment-errors" style="color: red"></span>
 	<div class="field-box">
 		<label>Name on Card</label>
@@ -27,4 +27,7 @@
 		<input class="span8" type="text" placeholder="Only required if you live in the U.S.A." />
 	</div>
 	<p>Please review the <a href="https://stripe.com/terms">terms of service</a>, and <a href="https://stripe.com/privacy">privacy policy</a>.</p>
+</div>
+<div data-user-payment-info="payment-info-panel" style="display: none;">
+	Information about your credit card has already been added
 </div>

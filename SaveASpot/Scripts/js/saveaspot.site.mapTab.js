@@ -519,10 +519,25 @@
 				createPaymentInformationUrl:q.pageConfig.createPaymentInformationUrl
 			});
 			var result = {};
+			
+			var changeAuthenticationHandler = function() {
+				var user = q.security.currentUser().user();
+
+				if (user.isCustomer && q.security.currentCustomer().customer().isPaymentInfoAdded) {
+					$("[data-user-payment-info='payment-panel']").hide();
+					$("[data-user-payment-info='payment-info-panel']").show();
+				} else {
+					$("[data-user-payment-info='payment-panel']").show();
+					$("[data-user-payment-info='payment-info-panel']").hide();
+				}
+			};
 
 			result.show = function (showArg) {
+				
 				q.ajax({ url: settings.cardInfoUrl, type: "GET" }).done(function (cardInfoResult) {
 					$(showArg.container).append(cardInfoResult);
+					changeAuthenticationHandler();
+					q.events().bind("global_security_authenticated", changeAuthenticationHandler);
 					showArg.complete();
 				});
 			};
@@ -530,6 +545,7 @@
 			result.process = function (processArg) {
 				q.ajax({ url: settings.checkPaymentInfoUrl, type: "GET" }).done(function (paymentInfoResult) {
 					if (paymentInfoResult === true) {
+						q.events().unbind("global_security_authenticated", changeAuthenticationHandler);
 						processArg.complete();
 					}
 
@@ -547,17 +563,18 @@
 								} else {
 									var token = response.id;
 									$.ajax({ url: settings.createPaymentInformationUrl, type: "POST", data: { token: token } }).done(function (createPaymentInfoResult) {
+										q.events().unbind("global_security_authenticated", changeAuthenticationHandler);
 										processArg.complete();
 									});
 								}
 							});
 						});
-				
-				}
+					}
 				});
 			};
 
 			result.destroy = function () {
+				q.events().unbind("global_security_authenticated", changeAuthenticationHandler);
 			};
 
 			return result;

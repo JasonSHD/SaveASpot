@@ -48,7 +48,7 @@ namespace SaveASpot.Repositories.Implementations.Security
 			var customerId = id.ToIdentity();
 
 			var result = _mongoDBCollectionFactory.Collection<SiteCustomer>()
-															 .Update(Query<SiteCustomer>.EQ(e => e.Id, customerId),
+															 .Update(Query<SiteCustomer>.Where(e => e.UserId == customerId),
 																			 Update<SiteCustomer>.Set(e => e.StripeUserId, stripeUserToken));
 
 			return result.DocumentsAffected == 1;

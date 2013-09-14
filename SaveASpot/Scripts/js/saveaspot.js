@@ -866,6 +866,10 @@ q.security = q.security || {};
 			return result;
 		};
 
+		result.customer = function () {
+			return result._data.currentCustomer;
+		};
+
 		return namespace._data.currentCustomer = result;
 	};
 })(q.security, q.events);
