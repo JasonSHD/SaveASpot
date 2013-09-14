@@ -1,5 +1,6 @@
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using SaveASpot.Core;
 using SaveASpot.Repositories.Interfaces.Security;
 using SaveASpot.Repositories.Models.Security;
 
@@ -12,7 +13,7 @@ namespace SaveASpot.Repositories.Implementations.Security
 		{
 		}
 
-		public ICustomerFilter FilterByUserId(string identity)
+		public ICustomerFilter FilterByUserId(IElementIdentity identity)
 		{
 			var id = identity.ToIdentity();
 

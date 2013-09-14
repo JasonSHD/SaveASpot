@@ -24,6 +24,13 @@ q("customersTab", function (arg) {
 					if (validator.validate()) {
 
 						$.ajax({ url: q.pageConfig.createCustomerView, type: "POST", data: q.serialize(modal.body()) }).done(function (result) {
+							if (result.status == false) {
+								var $errorMessageContainer = $(modal.body()).find("[data-error-message='container']");
+								$errorMessageContainer.html("");
+								q.controls.alert($errorMessageContainer, result.message, "error").show();
+
+								return;
+							}
 							context.hide();
 							arg.update();
 						});
@@ -54,7 +61,7 @@ q("sponsorsTab", function (arg) {
 					var validator = q.validation.validator(modal.body());
 					if (validator.validate()) {
 
-						$.ajax({ url: q.pageConfig.createSponsorView, type: "POST", data: q.serialize(modal.body()) }).done(function (result) {
+						$.ajax({ url: q.pageConfig.createSponsorView, type: "POST", data: q.serialize(modal.body()) }).done(function () {
 							modal.hide();
 							context.hide();
 							arg.update();
@@ -97,13 +104,7 @@ q("sponsorsTab", function (arg) {
 						},
 					}).done(function (result) {
 						modal.hide();
-						q.controls.ajaxForm.fireUpdate({
-							arg: null,
-							url: q.pageConfig.sponsorView,
-							method: "POST",
-							alias: "sponsorsTab",
-							ajaxForm: "MainMenuTabAttribute"
-						});
+						arg.update();
 					});
 				}).
 				show();
@@ -252,18 +253,21 @@ q("phasesTab", function (arg) {
 			modal.title("Edit phase").
 				body(editPhaseView).ok("Save", function () {
 					var itemFoUpdate = q.serialize(modal.body());
-					q.ajax({
-						url: q.pageConfig.phaseEditUrl,
-						type: "POST",
-						data: {
-							"identity": phaseIdentity,
-							"PhaseViewModel.Name": itemFoUpdate.Name,
-							"PhaseViewModel.SpotPrice": itemFoUpdate.SpotPrice
-						},
-					}).done(function (result) {
-						modal.hide();
-						arg.update();
-					});
+					var validator = q.validation.validator(modal.body());
+					if (validator.validate()) {
+						q.ajax({
+							url: q.pageConfig.phaseEditUrl,
+							type: "POST",
+							data: {
+								"identity": phaseIdentity,
+								"PhaseViewModel.Name": itemFoUpdate.Name,
+								"PhaseViewModel.SpotPrice": itemFoUpdate.SpotPrice
+							},
+						}).done(function (result) {
+							modal.hide();
+							arg.update();
+						});
+					}
 				}).
 				show();
 		});

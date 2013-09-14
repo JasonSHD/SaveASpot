@@ -20,6 +20,12 @@
 			public const string SponsorSentence = "SponsorSentenceDisplay";
 			public const string SponsorUrl = "SponsorUrlDisplay";
 			public const string SponsorLogo = "SponsorLogoDisplay";
+			public const string SpotPrice = "SpotPrice";
+		}
+
+		public static class Errors
+		{
+			public const string InvalidUserEmail = "InvalidUserEmail";
 		}
 	}
 }

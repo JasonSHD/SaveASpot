@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver.Builders;
+using SaveASpot.Core;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
 
@@ -22,22 +23,16 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			return phase;
 		}
 
-		public bool RemovePhase(string identity)
+		public bool RemovePhase(IElementIdentity identity)
 		{
-			ObjectId phaseId;
-			if (ObjectId.TryParse(identity, out phaseId))
-			{
-				_mongoDBCollectionFactory.Collection<Phase>().Remove(Query<Phase>.Where(e => e.Id == phaseId));
-
-				return true;
-			}
-
-			return false;
+			var phaseId = identity.ToIdentity();
+			_mongoDBCollectionFactory.Collection<Phase>().Remove(Query<Phase>.Where(e => e.Id == phaseId));
+			return true;
 		}
 
-		public bool UpdatePhase(string identity, Phase phase)
+		public bool UpdatePhase(IElementIdentity identity, Phase phase)
 		{
-			var id = ObjectId.Parse(identity);
+			var id = identity.ToIdentity();
 
 			var result = _mongoDBCollectionFactory.Collection<Phase>()
 															 .Update(Query<Phase>.EQ(e => e.Id, id),

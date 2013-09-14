@@ -133,6 +133,15 @@ namespace SaveASpot.Services.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Spot price should be greate than 0.01 and less than 4000000.
+        /// </summary>
+        internal static string InvalidSpotPriceValue {
+            get {
+                return ResourceManager.GetString("InvalidSpotPriceValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid spedified user email..
         /// </summary>
         internal static string InvalidUserEmail {
@@ -300,6 +309,15 @@ namespace SaveASpot.Services.Properties {
         internal static string SpotNotFound {
             get {
                 return ResourceManager.GetString("SpotNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spot price.
+        /// </summary>
+        internal static string SpotPrice {
+            get {
+                return ResourceManager.GetString("SpotPrice", resourceCulture);
             }
         }
         

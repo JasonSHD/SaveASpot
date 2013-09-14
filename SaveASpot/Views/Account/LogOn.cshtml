@@ -9,10 +9,12 @@
 	<fieldset>
 		<legend>Account Information</legend>
 
-		<div style="display: none;" data-error-message="" class="alert alert-error">
+		<div data-error-message="container"></div>
+
+		@*<div style="display: none;" data-error-message="" class="alert alert-error">
 			<button type="button" class="close" data-dismiss="alert">×</button>
 			<span data-error-message-content=""></span>
-		</div>
+		</div>*@
 
 		<div class="editor-label">
 			@Html.LabelFor(m => m.UserName)

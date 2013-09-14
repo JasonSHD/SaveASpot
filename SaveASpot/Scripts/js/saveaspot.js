@@ -3,7 +3,7 @@
 
 	window.q.runReadyHandlers = function (filter, runEmpty) {
 		var readyHandlers = oldQ.readyCollection();
-		var config = undefined;
+		var config;
 		var args = {};
 
 		if (typeof filter == "object") {
@@ -45,7 +45,7 @@
 (function (namespace, $) {
 	namespace.each = function (collection, handler) {
 		$(collection).each(handler);
-	}
+	};
 })(q, jQuery);
 
 (function (namespace, $) {
@@ -98,7 +98,7 @@
 		var loaded = false;
 		el.onload = el.onreadystatechange = function () {
 			if ((el.readyState && el.readyState !== "complete" && el.readyState !== "loaded") || loaded) {
-				return false;
+				return;
 			}
 
 			el.onload = el.onreadystatechange = null;
@@ -476,7 +476,9 @@ q.controls = q.controls || {};
 
 			q.ajax({ type: "POST", url: settings.loginUrl, data: data }).done(function (logonResult) {
 				if (logonResult.status == false) {
-					$(container).find("[data-error-message]").show().find("[data-error-message-context]").text(logonResult.message);
+					var $errorMessageContainer = $(container).find("[data-error-message='container']");//.show().find("[data-error-message-content]").text(logonResult.message);
+					$(container).find("[data-error-message='container']").html("");
+					q.controls.alert($errorMessageContainer, logonResult.message, "error").show();
 					settings.failed();
 					return;
 				}
@@ -703,10 +705,10 @@ q.validation = q.validation || {};
 			var value = $element.val();
 
 			return result._data.options.min < value.length && value.length < result._data.options.max;
-		}
+		};
 
 		return result;
-	}
+	};
 
 	namespace.attrValidator.equalTo = function (element, message) {
 		var result = { _data: {}, message: function () { return message; } };
@@ -715,6 +717,48 @@ q.validation = q.validation || {};
 
 		result.validate = function () {
 			return $element.val() == $elementToEqual.val();
+		};
+
+		return result;
+	};
+
+	namespace.attrValidator.number = function (element, message) {
+		var result = { _data: {}, message: function () { return message; } };
+		var $element = result._data.element = $(element);
+
+		result.validate = function () {
+			var value = $element.val();
+
+			return !isNaN(value);
+		};
+
+		return result;
+	};
+
+	namespace.attrValidator.regexp = function (element, pattern, message) {
+		var result = { _data: {}, message: function () { return message; } };
+		var $element = result._data.element = $(element);
+
+		result.validate = function () {
+			var value = $element.val();
+
+			var regex = new RegExp(pattern);
+
+			return regex.test(value);
+		};
+
+		return result;
+	};
+
+	namespace.attrValidator.range = function (element, minValue, maxValue, message) {
+		var result = { _data: {}, message: function () { return message; } };
+		var $element = result._data.element = $(element);
+
+		result.validate = function () {
+			var value = $element.val();
+			var floatValue = parseFloat(value);
+
+			return minValue <= floatValue && floatValue <= maxValue;
 		};
 
 		return result;
@@ -744,6 +788,27 @@ q.validation = q.validation || {};
 			attr: "data-val-equalto",
 			factory: function (element) {
 				return namespace.attrValidator.equalTo(element, $(element).attr("data-val-equalto"));
+			}
+		});
+
+		mappings.push({
+			attr: "data-val-number",
+			factory: function (element) {
+				return namespace.attrValidator.number(element, $(element).attr("data-val-number"));
+			}
+		});
+
+		mappings.push({
+			attr: "data-val-regex",
+			factory: function (element) {
+				return namespace.attrValidator.regexp(element, $(element).attr("data-val-regex-pattern"), $(element).attr("data-val-regex"));
+			}
+		});
+		
+		mappings.push({
+			attr: "data-val-range",
+			factory: function (element) {
+				return namespace.attrValidator.range(element, $(element).attr("data-val-range-min"), $(element).attr("data-val-range-max"), $(element).attr("data-val-range"));
 			}
 		});
 

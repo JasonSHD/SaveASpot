@@ -15,6 +15,8 @@ namespace SaveASpot.Repositories.Implementations
 
 		public IElementIdentity ToIdentity(object identity)
 		{
+			if (identity == null) return new NullElementIdentity();
+
 			var isObjectId = identity is ObjectId;
 			if (isObjectId)
 			{

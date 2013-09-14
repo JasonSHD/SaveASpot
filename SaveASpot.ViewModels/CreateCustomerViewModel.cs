@@ -16,6 +16,7 @@ namespace SaveASpot.ViewModels
 		[Required]
 		[DataType(DataType.EmailAddress)]
 		[Display(Name = Constants.Display.Email)]
+		//[RegularExpression(Constants.EmailRegularExpression, ErrorMessage = Constants.Errors.InvalidUserEmail)]
 		public string Email { get; set; }
 
 		[Required]

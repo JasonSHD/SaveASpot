@@ -6,10 +6,12 @@ namespace SaveASpot.ViewModels.PhasesAndParcels
 	public sealed class PhaseViewModel
 	{
 		public IElementIdentity Identity { get; set; }
+		[Required]
 		public string Name { get; set; }
 
 		[Required(ErrorMessage = "Spot price is required")]
-		//[Range(typeof(double), "0,50", "21474835",ErrorMessage = "Price must be a number between {0} and {1}.")]
+		[Range(0.01, 4000000, ErrorMessage = "InvalidSpotPriceValue")]
+		[Display(Name = Constants.Display.SpotPrice)]
 		public decimal? SpotPrice { get; set; }
 
 		public object ToJson()

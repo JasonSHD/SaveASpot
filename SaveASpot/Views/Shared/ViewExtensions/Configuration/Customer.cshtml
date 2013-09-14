@@ -14,11 +14,12 @@
 	Object.defineProperty(q.pageConfig, "addSpotToCartUrl", { value: "@Url.Action("AddSpotToCart", "Cart")", wirtable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "removeSpotFromCartUrl", { value: "@Url.Action("RemoveSpotFromCart", "Cart")", wirtable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "checkoutUrl", { value: "@Url.Action("Index", "Checkout")", wirtable: false, configurable: false });
-
 	Object.defineProperty(q.pageConfig, "cardInfoUrl", { value: "@Url.Action("CreateCardInfo", "CardInfo", new { area = "Checkout" })", writable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "checkPaymentInfoUrl", { value: "@Url.Action("IsPaymentInformationAdded", "CardInfo", new { area = "Checkout" })", writable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "getStripePublicKeyUrl", { value: "@Url.Action("GetStripePublicKey","CardInfo", new {area="Checkout"})", writable: false, configurable: false });
 	Object.defineProperty(q.pageConfig, "createPaymentInformationUrl", { value: "@Url.Action("CreatePaymentInformation","CardInfo", new {area="Checkout"})", writable: false, configurable: false });
 
 	Object.defineProperty(q.pageConfig, "controlsUserConfiguration", { value: "customer", wirtable: false, configurable: false });
+
+	Object.defineProperty(q.pageConfig, "sponsorDetailsUrl", { value: "@Url.Action("SponsorDetails", "Sponsors")", wirtable: false, configurable: false });
 </script>

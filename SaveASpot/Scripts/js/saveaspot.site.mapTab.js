@@ -58,7 +58,7 @@
 		};
 
 		var initializeSpots = function (spots) {
-			
+
 			for (var spotDescIndex in spotDescriptions) {
 				var oldSpotDesc = spotDescriptions[spotDescIndex];
 				oldSpotDesc.polygon.setMap(null);
@@ -344,6 +344,53 @@
 
 			result.destroy = function () {
 				q.events().unbind("changeTab", onTabChange);
+			};
+
+			return result;
+		})({}, jQuery));
+
+		//sponsors
+		controlsForDestroy.push((function (options, $) {
+			var settings = $.extend({
+				sponsorDetailsUrl: q.pageConfig.sponsorDetailsUrl,
+				spondorDetailsPanel: $(".sponsor-details")
+			}, options);
+			var result = {};
+			var sponsorsCache = {};
+
+			var displaySponsor = function (sponsor) {
+				settings.spondorDetailsPanel.show();
+
+				settings.spondorDetailsPanel.find(".company-name").text(sponsor.companyName);
+			};
+
+			var hideSponsorDetails = function () {
+				settings.spondorDetailsPanel.hide();
+			};
+
+			var unavailableSpotSelectedHandler = function (args) {
+				var sponsorIdentity = args.arg.spot.identity;
+				if (sponsorsCache[sponsorIdentity] != undefined) {
+					displaySponsor(sponsorsCache[sponsorIdentity]);
+				} else {
+					q.ajax({ type: "GET", data: { spotIdentity: sponsorIdentity }, url: settings.sponsorDetailsUrl }).done(function (sponsorResult) {
+						if (sponsorResult.isExists) {
+							sponsorsCache[sponsorIdentity] = sponsorResult.sponsor;
+							displaySponsor(sponsorResult.sponsor);
+						} else {
+							hideSponsorDetails();
+						}
+					});
+				}
+			};
+			q.events().bind("unavailableSpotSelected", unavailableSpotSelectedHandler);
+			q.events().bind("availableSpotSelected", hideSponsorDetails);
+			q.events().bind("selectedSpotSelected", hideSponsorDetails);
+
+			result.destroy = function () {
+				q.events().unbind("unavailableSpotSelected", unavailableSpotSelectedHandler);
+				q.events().unbind("availableSpotSelected", hideSponsorDetails);
+				q.events().unbind("selectedSpotSelected", hideSponsorDetails);
 			};
 
 			return result;
