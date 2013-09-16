@@ -401,7 +401,7 @@ q.controls = q.controls || {};
 						namespace.userAuthentication({
 							authenticate: function (logonResult) {
 								modal.hide();
-								q.security.currentUser().authenticate(logonResult.user);
+								q.security.currentUser().fullUser(logonResult);
 
 								if (typeof callback == "function")
 									callback(logonResult);
@@ -834,7 +834,7 @@ q.security = q.security || {};
 		};
 
 		result.full = function () {
-			return result._data.fullUser;
+			return result._data.fullUser || { user: result._data.anonym };
 		};
 
 		return namespace._data.currentUser = result;

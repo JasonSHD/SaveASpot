@@ -22,7 +22,11 @@ namespace SaveASpot.Controllers.Artifacts.ViewExtensions
 		{
 			if (Args.All(e => e.Key != "isAdmin") && _currentUser.User.IsAnonym())
 			{
-				yield return new ViewExtensionResult("security/anonymcustomer", new UserCartViewModel { Cart = _currentCart.Cart, User = _currentUser.User }, new ViewScriptsElementIdentity());
+				yield return new ViewExtensionResult("security/anonymcustomer", new UserCartViewModel
+																																					{
+																																						Cart = _currentCart.Cart,
+																																						User = _currentUser.User
+																																					}, new ViewScriptsElementIdentity());
 				yield return new ViewExtensionResult("configuration/customer", new object(), new ViewJavascriptConfigurationElementIdentity());
 			}
 		}

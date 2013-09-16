@@ -1,9 +1,10 @@
 ﻿@using Newtonsoft.Json
 @using SaveASpot.Core.Security
-@model User
+@model SaveASpot.ViewModels.ViewExtensions.AdminViewModel
 <script>
 	q(function () {
-		q.security.currentUser().authenticate(@Html.Raw(JsonConvert.SerializeObject(Model.AsUserJson())));
+		q.security.currentUser().authenticate(@Html.Raw(JsonConvert.SerializeObject(Model.User.AsUserJson()))).
+			anonym(@Html.Raw(JsonConvert.SerializeObject(Model.Anonym.AsUserJson())));
 		q.controls.currentUser();
 	});
 </script>
