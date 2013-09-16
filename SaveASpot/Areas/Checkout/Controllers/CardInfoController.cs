@@ -30,15 +30,7 @@ namespace SaveASpot.Areas.Checkout.Controllers
 		{
 			var key = _configurationManager.GetSettings("StripePublicKey");
 
-			return Json(new {key}, JsonRequestBehavior.AllowGet);
-		}
-
-		[AnonymAuthorize]
-		[HttpGet]
-		public JsonResult IsPaymentInformationAdded()
-		{
-			var result = _cardInfoControllerService.IsPaymentInformationAdded();
-			return Json(result.IsSuccess, JsonRequestBehavior.AllowGet);
+			return Json(new { key }, JsonRequestBehavior.AllowGet);
 		}
 
 		[AnonymAuthorize]

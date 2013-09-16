@@ -561,13 +561,12 @@
 		checkoutControl.add((function (options, $) {
 			var settings = $.extend(options, {
 				cardInfoUrl: q.pageConfig.cardInfoUrl,
-				checkPaymentInfoUrl:q.pageConfig.checkPaymentInfoUrl,
 				getStripePublicKeyUrl: q.pageConfig.getStripePublicKeyUrl,
-				createPaymentInformationUrl:q.pageConfig.createPaymentInformationUrl
+				createPaymentInformationUrl: q.pageConfig.createPaymentInformationUrl
 			});
 			var result = {};
-			
-			var changeAuthenticationHandler = function() {
+
+			var changeAuthenticationHandler = function () {
 				var fullUser = q.security.currentUser().full();
 
 				if (fullUser.user.isCustomer && fullUser.isPaymentInfoAdded) {
@@ -580,7 +579,7 @@
 			};
 
 			result.show = function (showArg) {
-				
+
 				q.ajax({ url: settings.cardInfoUrl, type: "GET" }).done(function (cardInfoResult) {
 					$(showArg.container).append(cardInfoResult);
 					changeAuthenticationHandler();
@@ -590,34 +589,32 @@
 			};
 
 			result.process = function (processArg) {
-				q.ajax({ url: settings.checkPaymentInfoUrl, type: "GET" }).done(function (paymentInfoResult) {
-					if (paymentInfoResult === true) {
-						q.events().unbind("global_security_authenticated", changeAuthenticationHandler);
-						processArg.complete();
-					}
+				var fullUser = q.security.currentUser().full();
 
-					if (result === false) {
-						q.ajax({ url: settings.getStripePublicKeyUrl, type: "GET" }).done(function (publicKeyResult) {
-							
-							Stripe.setPublishableKey(publicKeyResult.key);
-							var $form = $('#payment-form');
+				if (fullUser.isPaymentInfoAdded == true) {
+					q.events().unbind("global_security_authenticated", changeAuthenticationHandler);
+					processArg.complete();
+				} else {
+					q.ajax({ url: settings.getStripePublicKeyUrl, type: "GET" }).done(function (publicKeyResult) {
 
-							Stripe.createToken($form, function (status, response) {
-								var $f = $form;
-								if (response.error) {
-									$f.find('.payment-errors').text(response.error.message);
-									processArg.break();
-								} else {
-									var token = response.id;
-									$.ajax({ url: settings.createPaymentInformationUrl, type: "POST", data: { token: token } }).done(function (createPaymentInfoResult) {
-										q.events().unbind("global_security_authenticated", changeAuthenticationHandler);
-										processArg.complete();
-									});
-								}
-							});
+						Stripe.setPublishableKey(publicKeyResult.key);
+						var $form = $('#payment-form');
+
+						Stripe.createToken($form, function (status, response) {
+							var $f = $form;
+							if (response.error) {
+								$f.find('.payment-errors').text(response.error.message);
+								processArg.break();
+							} else {
+								var token = response.id;
+								$.ajax({ url: settings.createPaymentInformationUrl, type: "POST", data: { token: token } }).done(function (createPaymentInfoResult) {
+									q.events().unbind("global_security_authenticated", changeAuthenticationHandler);
+									processArg.complete();
+								});
+							}
 						});
-					}
-				});
+					});
+				}
 			};
 
 			result.destroy = function () {
