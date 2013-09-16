@@ -4,7 +4,7 @@
 <script>
 	q(function () {
 		q.security.currentUser().authenticate(@Html.Raw(JsonConvert.SerializeObject(Model.User.AsUserJson())));
-		q.controls.currentCustomer();
+		q.controls.currentUser();
 
 		q.cart.currentCart().cart(@Html.Raw(JsonConvert.SerializeObject(Model.Cart.AsCartJson())));
 		q.controls.cart();

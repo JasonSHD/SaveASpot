@@ -568,9 +568,9 @@
 			var result = {};
 			
 			var changeAuthenticationHandler = function() {
-				var user = q.security.currentUser().user();
+				var fullUser = q.security.currentUser().full();
 
-				if (user.isCustomer && q.security.currentCustomer().customer().isPaymentInfoAdded) {
+				if (fullUser.user.isCustomer && fullUser.isPaymentInfoAdded) {
 					$("[data-user-payment-info='payment-panel']").hide();
 					$("[data-user-payment-info='payment-info-panel']").show();
 				} else {

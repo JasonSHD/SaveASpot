@@ -3,8 +3,8 @@
 @model SaveASpot.ViewModels.ViewExtensions.CustomerCartViewModel
 <script>
 	q(function () {
-		q.security.currentCustomer().authenticate(@Html.Raw(JsonConvert.SerializeObject(Model.Customer.AsCustomerJson())));
-		q.controls.currentCustomer();
+		q.security.currentUser().fullUser(@Html.Raw(JsonConvert.SerializeObject(Model.Customer.AsCustomerJson())));
+		q.controls.currentUser();
 
 		q.cart.currentCart().cart(@Html.Raw(JsonConvert.SerializeObject(Model.Cart.AsCartJson())));
 		q.controls.cart();

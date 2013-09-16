@@ -344,47 +344,6 @@ q.controls = q.controls || {};
 })(q.controls, jQuery);
 
 (function (namespace, q, $) {
-	namespace.currentCustomer = function (options) {
-		options = options || {};
-		options.loginUrl = q.pageConfig.loginCustomerUrl;
-
-		var result = {};
-		var currentUserControl = namespace.currentUser();
-
-		result.authenticate = function () {
-			currentUserControl.authenticate(function (logonResult) {
-			});
-		};
-
-		return result;
-	};
-
-	namespace.currentAdmin = function (options) {
-		var result = {};
-		var currentUser = namespace.currentUser(options);
-
-		var userChangedHandler = function () {
-			var user = q.security.currentUser().user();
-
-			if (!user.isAdmin) {
-				currentUser.authenticate(function () {
-					location.reload();
-				});
-			}
-		};
-
-		userChangedHandler();
-
-		q.events().bind("global_security_authenticated", userChangedHandler);
-
-		result.destroy = function () {
-			q.events().unbind("global_security_authenticated", userChangedHandler);
-			currentUser.destroy();
-		};
-
-		return result;
-	};
-
 	namespace.currentUser = function (options) {
 		var settings = $.extend(options, {
 			loginItem: $("[data-login-item]"),
@@ -466,6 +425,7 @@ q.controls = q.controls || {};
 			loginUrl: q.pageConfig.logonUrl,
 			authenticate: function (logonResult) {
 				q.security.currentUser().authenticate(logonResult.user);
+				q.security.currentUser().fullUser(logonResult);
 			},
 			failed: function () { }
 		}, options);
@@ -804,7 +764,7 @@ q.validation = q.validation || {};
 				return namespace.attrValidator.regexp(element, $(element).attr("data-val-regex-pattern"), $(element).attr("data-val-regex"));
 			}
 		});
-		
+
 		mappings.push({
 			attr: "data-val-range",
 			factory: function (element) {
@@ -829,53 +789,8 @@ q.validation = q.validation || {};
 })(q.validation, jQuery);
 
 q.security = q.security || {};
-(function (namespace, events) {
+(function (namespace) {
 	namespace._data = namespace._data || {};
-
-	namespace.user = function () {
-		if (namespace._data.user != undefined) {
-			return namespace._data.user;
-		}
-
-		var result = { _data: {} };
-
-		result.user = function (user) {
-			if (user === undefined) {
-				return result._data.user || { isDefined: false };
-			}
-
-			result._data.user = user;
-			return result;
-		};
-
-		result.login = function (handler) {
-			var eventName = "q_security_user_login";
-			if (typeof handler === "function") {
-				events().bind(eventName, handler);
-
-				return result;
-			}
-			result.user(handler);
-			events().fire(eventName, result.user());
-
-			return result;
-		};
-
-		result.logout = function (hahdler) {
-			var eventName = "q_security_user_logout";
-			if (hahdler === undefined) {
-				events().fire(eventName);
-				result.user({ isDefined: false });
-
-				return result;
-			}
-
-			events().bind(eventName, hahdler);
-			return result;
-		};
-
-		return namespace._data.user = result;
-	};
 
 	namespace.currentUser = function () {
 		if (namespace._data.currentUser != undefined) {
@@ -896,6 +811,18 @@ q.security = q.security || {};
 			return result;
 		};
 
+		result.fullUser = function (fullUser) {
+			if (fullUser == undefined) {
+				result._data.fullUser = {};
+				result.authenticate();
+			} else {
+				result._data.fullUser = fullUser;
+				result.authenticate(fullUser.user);
+			}
+
+			return result;
+		};
+
 		result.anonym = function (user) {
 			result._data.anonym = user;
 
@@ -906,36 +833,11 @@ q.security = q.security || {};
 			return result._data.user;
 		};
 
+		result.full = function () {
+			return result._data.fullUser;
+		};
+
 		return namespace._data.currentUser = result;
-	};
-
-	namespace.currentCustomer = function () {
-		if (namespace._data.currentCustomer != undefined) {
-			return namespace._data.currentCustomer;
-		}
-
-		var result = { _data: {} };
-
-		result.authenticate = function (customer) {
-			if (customer == undefined) {
-				namespace.currentUser().authenticate();
-
-				result._data.currentCustomer = {
-					user: namespace.currentUser().user()
-				};
-			} else {
-				result._data.currentCustomer = customer;
-				namespace.currentUser().authenticate(customer.user);
-			}
-
-			return result;
-		};
-
-		result.customer = function () {
-			return result._data.currentCustomer;
-		};
-
-		return namespace._data.currentCustomer = result;
 	};
 })(q.security, q.events);
 
