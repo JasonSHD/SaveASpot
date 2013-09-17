@@ -37,7 +37,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 
 		public IMethodResult<MessageResult> EditPhase(IElementIdentity identity, PhaseViewModel phaseViewModel)
 		{
-			var result = _phaseRepository.UpdatePhase(identity, new Phase()
+			var result = _phaseRepository.UpdatePhase(identity, new Phase
 			{
 				PhaseName = phaseViewModel.Name,
 				SpotPrice = phaseViewModel.SpotPrice

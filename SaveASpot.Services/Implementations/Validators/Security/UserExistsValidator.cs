@@ -2,6 +2,7 @@ using System.Linq;
 using SaveASpot.Core.Validation;
 using SaveASpot.Repositories.Interfaces.Security;
 using SaveASpot.Services.Interfaces.Security;
+using SaveASpot.ViewModels;
 
 namespace SaveASpot.Services.Implementations.Validators.Security
 {
@@ -10,7 +11,7 @@ namespace SaveASpot.Services.Implementations.Validators.Security
 		private readonly IUserQueryable _userQueryable;
 
 		public UserExistsValidator(IUserQueryable userQueryable)
-			: base("UserNotExistsError")
+			: base(Constants.Errors.UserNotExistsError)
 		{
 			_userQueryable = userQueryable;
 		}

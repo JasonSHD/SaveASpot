@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using SaveASpot.Core.Cart;
-using SaveASpot.Core.Security;
 using SaveASpot.Core.Web;
 using SaveASpot.Repositories.Interfaces.Carts;
 using SaveASpot.Services.Interfaces;

@@ -48,6 +48,8 @@
     <Compile Include="Checkout\CheckoutResultViewModel.cs" />
     <Compile Include="Checkout\SpotsCheckoutViewModel.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Constants.Display.cs" />
+    <Compile Include="Constants.Errors.cs" />
     <Compile Include="CreateCustomerViewModel.cs" />
     <Compile Include="CreateSponsorViewModel.cs" />
     <Compile Include="CustomerViewModel.cs" />

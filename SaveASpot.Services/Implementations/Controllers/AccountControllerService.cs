@@ -98,7 +98,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 				return new LogOnResultViewModel(true, string.Empty, _userFactory.Convert(user));
 			}
 
-			return new LogOnResultViewModel(false, _textService.ResolveTest("UserNotExistsError"), _userFactory.AnonymUser());
+			return new LogOnResultViewModel(false, _textService.ResolveTest(Constants.Errors.UserNotExistsError), _userFactory.AnonymUser());
 		}
 	}
 }
