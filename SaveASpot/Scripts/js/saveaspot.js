@@ -485,7 +485,7 @@ q.controls = q.controls || {};
 		var $content = $("<div>").addClass("alert alert-" + type).html(html);
 
 		result.show = function () {
-			$container.prepend($content.prepend($("<button type='button'>").attr("data-dismiss", "alert").addClass("close").text("x")))
+			$container.prepend($content.prepend($("<button type='button'>").attr("data-dismiss", "alert").addClass("close").text("x")));
 
 			return result;
 		};

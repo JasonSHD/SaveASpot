@@ -177,7 +177,6 @@
 
 	//phases control
 	controlsForDestroy.push((function (options, $) {
-		var settings = $.extend(options, {});
 		var result = {};
 
 		var $dashboardMenu = $("#dashboard-menu");
@@ -237,8 +236,7 @@
 
 	if (q.pageConfig.controlsUserConfiguration == "customer") {
 		//select handlers
-		controlsForDestroy.push((function (options, $) {
-			var settings = $.extend({}, options);
+		controlsForDestroy.push((function () {
 			var result = {};
 
 			var availableSpotSelectedHandler = function (args) {
@@ -260,8 +258,7 @@
 		})({}, jQuery));
 
 		//map cart sync
-		controlsForDestroy.push((function (options, $) {
-			var settings = $.extend({}, options);
+		controlsForDestroy.push((function () {
 			var result = {};
 
 			var fireUpdateSpotsState = function () {
@@ -316,13 +313,16 @@
 
 			var tabs = {
 				map: function () {
+					q.events().fire("changeTab_leave");
 					switchToTab("map");
 				},
 				checkout: function () {
+					q.events().fire("changeTab_leave");
 					switchToTab("checkout");
 					q.events().fire("changeTab_checkout", { element: settings.checkoutTab });
 				},
 				thanks: function () {
+					q.events().fire("changeTab_leave");
 					switchToTab("thanks");
 				}
 			};
@@ -340,6 +340,32 @@
 
 			result.destroy = function () {
 				q.events().unbind("changeTab", onTabChange);
+			};
+
+			return result;
+		})({}, jQuery));
+
+		controlsForDestroy.push((function () {
+			var result = { _data: {} };
+
+			var checkoutTabSwitchedHandler = function () {
+				var arguments = {};
+				q.runReadyHandlers({ filter: "mapTab_checkout", args: arguments });
+				result._data.destroyCheckout = arguments.destory;
+			};
+
+			var changeTabLeaveHandler = function () {
+				if (typeof result._data.destroyCheckout == "function") {
+					result._data.destroyCheckout();
+				}
+			};
+
+			q.events().bind("changeTab_checkout", checkoutTabSwitchedHandler);
+			q.events().bind("changeTab_leave", changeTabLeaveHandler);
+
+			result.destroy = function () {
+				q.events().unbind("changeTab_checkout", checkoutTabSwitchedHandler);
+				changeTabLeaveHandler();
 			};
 
 			return result;
@@ -412,10 +438,10 @@
 				}
 			};
 			var fireUpdateSpotsCount = function () {
-				var count = 0;
-				for (var index in selectedSpots) {
-					count++;
-				}
+				var count = Object.keys(selectedSpots).length;
+				//for (var index in selectedSpots) {
+				//	count++;
+				//}
 
 				q.events().fire("updateSpotsCount", { count: count });
 			};
@@ -472,12 +498,6 @@
 			var control = controlsForDestroy[controlIndex];
 			control.destroy();
 		}
-
-		customerControl.destroy();
-		cartControl.destroy();
-		customerTabsControl.destroy();
-		checkoutControl.destroy();
-		numericControl.destroy();
 	};
 });
 
@@ -679,17 +699,17 @@ q("mapTab_checkout", function (arg) {
 			} else {
 				q.ajax({ url: settings.getStripePublicKeyUrl, type: "GET" }).done(function (publicKeyResult) {
 
-					Stripe.setPublishableKey(publicKeyResult.key);
+					window.Stripe.setPublishableKey(publicKeyResult.key);
 					var $form = $('#payment-form');
 
-					Stripe.createToken($form, function (status, response) {
+					window.Stripe.createToken($form, function (status, response) {
 						var $f = $form;
 						if (response.error) {
 							$f.find('.payment-errors').text(response.error.message);
 							processArg.break();
 						} else {
 							var token = response.id;
-							$.ajax({ url: settings.createPaymentInformationUrl, type: "POST", data: { token: token } }).done(function (createPaymentInfoResult) {
+							$.ajax({ url: settings.createPaymentInformationUrl, type: "POST", data: { token: token } }).done(function () {
 								q.events().unbind("global_security_authenticated", changeAuthenticationHandler);
 								processArg.complete();
 							});
