@@ -78,6 +78,7 @@
     <Compile Include="Implementations\Security\CurrentCustomer.cs" />
     <Compile Include="Implementations\Security\CurrentUser.cs" />
     <Compile Include="Implementations\Polygon.cs" />
+    <Compile Include="Implementations\Security\CustomerFactory.cs" />
     <Compile Include="Implementations\Security\CustomersService.cs" />
     <Compile Include="Implementations\SponsorsService.cs" />
     <Compile Include="Implementations\SpotPhaseContainerConverter.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="Interfaces\ITypeConverter.cs" />
     <Compile Include="Interfaces\RemoveSpotArg.cs" />
     <Compile Include="Interfaces\Security\CreateCustomerResult.cs" />
+    <Compile Include="Interfaces\Security\ICustomerFactory.cs" />
     <Compile Include="Interfaces\Security\ICustomerService.cs" />
     <Compile Include="Interfaces\Security\IUserFactory.cs" />
     <Compile Include="Interfaces\Security\IUserValidateFactory.cs" />

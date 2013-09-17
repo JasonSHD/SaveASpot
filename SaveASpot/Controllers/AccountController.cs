@@ -46,7 +46,7 @@ namespace SaveASpot.Controllers
 
 			if (logOffResult.IsSuccess)
 			{
-				return Json(logOffResult.Status.User.AsUserJson());
+				return Json(new { user = logOffResult.Status.User.AsUserJson(), fullUser = new { user = logOffResult.Status.User.AsUserJson() } });
 			}
 
 			return Json(new { result = logOffResult.IsSuccess });

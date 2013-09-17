@@ -55,6 +55,7 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ICardInfoControllerService>().To<CardInfoControllerService>();
 			Bind<ITypeConverter<SpotPhaseContainer, SpotElement>>().To<SpotPhaseContainerConverter>();
 			Bind<ICartAmountCalculator>().To<CartAmountCalculator>();
+			Bind<ICustomerFactory>().To<CustomerFactory>();
 		}
 	}
 }

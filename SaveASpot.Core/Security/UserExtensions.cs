@@ -22,6 +22,14 @@ namespace SaveASpot.Core.Security
 			};
 		}
 
+		public static object AsFullUserJson(this User source)
+		{
+			return new
+							 {
+								 user = source.AsUserJson()
+							 };
+		}
+
 		public static object AsCustomerJson(this Customer source)
 		{
 			return new { user = source.User.AsUserJson(), isPaymentInfoAdded = source.IsPaymentInfoAdded };

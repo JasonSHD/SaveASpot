@@ -21,6 +21,8 @@ namespace SaveASpot.Services.Implementations.Controllers
 		private readonly IPasswordHash _passwordHash;
 		private readonly IElementIdentityConverter _elementIdentityConverter;
 		private readonly ICustomerService _customerService;
+		private readonly ICustomerQueryable _customerQueryable;
+		private readonly ICustomerFactory _customerFactory;
 
 		public AccountControllerService(IWebAuthentication webAuthentication,
 			ITextService textService,
@@ -29,7 +31,9 @@ namespace SaveASpot.Services.Implementations.Controllers
 			IUserQueryable userQueryable,
 			IPasswordHash passwordHash,
 			IElementIdentityConverter elementIdentityConverter,
-			ICustomerService customerService)
+			ICustomerService customerService,
+			ICustomerQueryable customerQueryable,
+			ICustomerFactory customerFactory)
 		{
 			_webAuthentication = webAuthentication;
 			_textService = textService;
@@ -39,6 +43,8 @@ namespace SaveASpot.Services.Implementations.Controllers
 			_passwordHash = passwordHash;
 			_elementIdentityConverter = elementIdentityConverter;
 			_customerService = customerService;
+			_customerQueryable = customerQueryable;
+			_customerFactory = customerFactory;
 		}
 
 		public IMethodResult<UserResult> LogOff()
@@ -50,12 +56,20 @@ namespace SaveASpot.Services.Implementations.Controllers
 
 		public LogOnResultViewModel LogOnAdmin(LogOnViewModel logOn)
 		{
-			return LogOn(logOn, typeof(AdministratorRole));
+			var longOnUserResult = LogOnUser(logOn, typeof(AdministratorRole));
+			return new LogOnResultViewModel(longOnUserResult.IsSuccess, longOnUserResult.IsSuccess ? string.Empty : _textService.ResolveTest(Constants.Errors.UserNotExistsError), longOnUserResult.Status);
 		}
 
-		public LogOnResultViewModel LogOnCustomer(LogOnViewModel logOn)
+		public LogOnCustomerResultViewModel LogOnCustomer(LogOnViewModel logOn)
 		{
-			return LogOn(logOn, typeof(CustomerRole));
+			var logOnUserResult = LogOnUser(logOn, typeof(CustomerRole));
+			if (logOnUserResult.IsSuccess)
+			{
+				var customer = _customerQueryable.Filter(e => e.FilterByUserId(logOnUserResult.Status.Identity)).First();
+				return new LogOnCustomerResultViewModel(logOnUserResult.IsSuccess, string.Empty, _customerFactory.Convert(logOnUserResult.Status, customer));
+			}
+
+			return new LogOnCustomerResultViewModel(logOnUserResult.IsSuccess, _textService.ResolveTest(Constants.Errors.UserNotExistsError), _customerFactory.NotCustomer());
 		}
 
 		public LogOnResultViewModel RegistrateCustomer(CreateCustomerViewModel createCustomerViewModel)
@@ -70,20 +84,19 @@ namespace SaveASpot.Services.Implementations.Controllers
 
 			if (result.IsSuccess)
 			{
-				return
-					LogOn(
-						new LogOnViewModel
-							{
-								Password = createCustomerViewModel.Password,
-								RememberMe = false,
-								UserName = createCustomerViewModel.UserName
-							}, typeof(CustomerRole));
+				var longOnUserResult = LogOnUser(new LogOnViewModel
+																					 {
+																						 Password = createCustomerViewModel.Password,
+																						 RememberMe = false,
+																						 UserName = createCustomerViewModel.UserName
+																					 }, typeof(CustomerRole));
+				return new LogOnResultViewModel(longOnUserResult.IsSuccess, longOnUserResult.IsSuccess ? string.Empty : _textService.ResolveTest(Constants.Errors.UserNotExistsError), longOnUserResult.Status);
 			}
 
 			return new LogOnResultViewModel(false, string.Empty, _userFactory.AnonymUser());
 		}
 
-		private LogOnResultViewModel LogOn(LogOnViewModel logOn, Type roleType)
+		private IMethodResult<User> LogOnUser(LogOnViewModel logOn, Type roleType)
 		{
 			var user = _userQueryable.
 				Filter(e => e.FilterByName(logOn.UserName)).
@@ -95,10 +108,10 @@ namespace SaveASpot.Services.Implementations.Controllers
 			{
 				_webAuthentication.Authenticate(_elementIdentityConverter.ToIdentity(user.Id), logOn.RememberMe);
 
-				return new LogOnResultViewModel(true, string.Empty, _userFactory.Convert(user));
+				return new MethodResult<User>(true, _userFactory.Convert(user));
 			}
 
-			return new LogOnResultViewModel(false, _textService.ResolveTest(Constants.Errors.UserNotExistsError), _userFactory.AnonymUser());
+			return new MethodResult<User>(false, _userFactory.AnonymUser());
 		}
 	}
 }

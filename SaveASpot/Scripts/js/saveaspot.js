@@ -344,6 +344,31 @@ q.controls = q.controls || {};
 })(q.controls, jQuery);
 
 (function (namespace, q, $) {
+	namespace.currentAdmin = function (options) {
+		var result = {};
+		var currentUser = namespace.currentUser(options);
+
+		var onAuthenticateChanged = function (arg) {
+			var user = q.security.currentUser().full();
+			if (user.user.isAdmin) {
+				if (typeof arg == "object")
+					location.reload();
+			} else {
+				currentUser.authenticate();
+			}
+		};
+
+		q.events().bind("global_security_authenticated", onAuthenticateChanged);
+		onAuthenticateChanged(true);
+
+		result.destroy = function () {
+			currentUser.destroy();
+			q.events().unbind("global_security_authenticated", onAuthenticateChanged);
+		};
+
+		return result;
+	};
+
 	namespace.currentUser = function (options) {
 		var settings = $.extend(options, {
 			loginItem: $("[data-login-item]"),
@@ -388,7 +413,7 @@ q.controls = q.controls || {};
 
 		settings.userInfoItem.find("[data-logoff]").click(function () {
 			q.ajax({ type: "POST", url: settings.logoutUrl }).done(function (logoutResult) {
-				q.security.currentUser().authenticate(logoutResult);
+				q.security.currentUser().fullUser(logoutResult.fullUser);
 				logoutUser();
 			});
 		});
@@ -436,14 +461,14 @@ q.controls = q.controls || {};
 
 			q.ajax({ type: "POST", url: settings.loginUrl, data: data }).done(function (logonResult) {
 				if (logonResult.status == false) {
-					var $errorMessageContainer = $(container).find("[data-error-message='container']");//.show().find("[data-error-message-content]").text(logonResult.message);
+					var $errorMessageContainer = $(container).find("[data-error-message='container']");
 					$(container).find("[data-error-message='container']").html("");
 					q.controls.alert($errorMessageContainer, logonResult.message, "error").show();
 					settings.failed();
 					return;
 				}
 
-				settings.authenticate(logonResult);
+				settings.authenticate(logonResult.fullUser);
 			});
 		};
 

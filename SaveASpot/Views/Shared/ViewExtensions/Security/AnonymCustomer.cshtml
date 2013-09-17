@@ -3,7 +3,7 @@
 @model SaveASpot.ViewModels.ViewExtensions.UserCartViewModel
 <script>
 	q(function () {
-		q.security.currentUser().authenticate(@Html.Raw(JsonConvert.SerializeObject(Model.User.AsUserJson()))).
+		q.security.currentUser().fullUser(@Html.Raw(JsonConvert.SerializeObject(Model.User.AsFullUserJson()))).
 			anonym(@Html.Raw(JsonConvert.SerializeObject(Model.User.AsUserJson())));
 		q.controls.currentUser();
 

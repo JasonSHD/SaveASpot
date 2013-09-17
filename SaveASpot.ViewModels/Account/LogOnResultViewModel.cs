@@ -21,7 +21,7 @@ namespace SaveASpot.ViewModels.Account
 
 		public object AsJsonResult()
 		{
-			return new { status = IsSuccess, message = Message, user = User.AsUserJson() };
+			return new { status = IsSuccess, message = Message, user = User.AsUserJson(), fullUser = new { user = User.AsUserJson() } };
 		}
 	}
 }

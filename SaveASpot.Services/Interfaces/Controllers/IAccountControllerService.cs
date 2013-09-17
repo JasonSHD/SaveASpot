@@ -8,7 +8,7 @@ namespace SaveASpot.Services.Interfaces.Controllers
 	{
 		IMethodResult<UserResult> LogOff();
 		LogOnResultViewModel LogOnAdmin(LogOnViewModel logOn);
-		LogOnResultViewModel LogOnCustomer(LogOnViewModel logOn);
+		LogOnCustomerResultViewModel LogOnCustomer(LogOnViewModel logOn);
 		LogOnResultViewModel RegistrateCustomer(CreateCustomerViewModel createCustomerViewModel);
 	}
 }

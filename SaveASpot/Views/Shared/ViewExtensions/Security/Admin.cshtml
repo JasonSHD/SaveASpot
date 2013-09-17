@@ -3,8 +3,8 @@
 @model SaveASpot.ViewModels.ViewExtensions.AdminViewModel
 <script>
 	q(function () {
-		q.security.currentUser().authenticate(@Html.Raw(JsonConvert.SerializeObject(Model.User.AsUserJson()))).
+		q.security.currentUser().fullUser(@Html.Raw(JsonConvert.SerializeObject(Model.User.AsFullUserJson()))).
 			anonym(@Html.Raw(JsonConvert.SerializeObject(Model.Anonym.AsUserJson())));
-		q.controls.currentUser();
+		q.controls.currentAdmin();
 	});
 </script>

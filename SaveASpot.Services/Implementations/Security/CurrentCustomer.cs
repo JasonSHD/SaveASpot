@@ -1,8 +1,8 @@
 using System.Linq;
 using System.Security.Authentication;
-using SaveASpot.Core;
 using SaveASpot.Core.Security;
 using SaveASpot.Repositories.Interfaces.Security;
+using SaveASpot.Services.Interfaces.Security;
 
 namespace SaveASpot.Services.Implementations.Security
 {
@@ -10,13 +10,15 @@ namespace SaveASpot.Services.Implementations.Security
 	{
 		private readonly ICurrentUser _currentUser;
 		private readonly ICustomerQueryable _customerQueryable;
-		private readonly IElementIdentityConverter _elementIdentityConverter;
+		private readonly ICustomerFactory _customerFactory;
 
-		public CurrentCustomer(ICurrentUser currentUser, ICustomerQueryable customerQueryable, IElementIdentityConverter elementIdentityConverter)
+		public CurrentCustomer(ICurrentUser currentUser,
+			ICustomerQueryable customerQueryable,
+			ICustomerFactory customerFactory)
 		{
 			_currentUser = currentUser;
 			_customerQueryable = customerQueryable;
-			_elementIdentityConverter = elementIdentityConverter;
+			_customerFactory = customerFactory;
 		}
 
 		public Customer Customer
@@ -33,7 +35,7 @@ namespace SaveASpot.Services.Implementations.Security
 
 				var customer = customers.First();
 
-				return new Customer(_elementIdentityConverter.ToIdentity(customer.Id), user, !string.IsNullOrEmpty(customer.StripeUserId));
+				return _customerFactory.Convert(user, customer);
 			}
 		}
 	}
