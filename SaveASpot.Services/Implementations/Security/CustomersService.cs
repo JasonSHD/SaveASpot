@@ -1,7 +1,6 @@
 ﻿using SaveASpot.Core;
 using SaveASpot.Core.Security;
 using SaveASpot.Repositories.Interfaces.Security;
-using SaveASpot.Repositories.Models.Security;
 using SaveASpot.Services.Interfaces.Security;
 
 namespace SaveASpot.Services.Implementations.Security
@@ -40,16 +39,6 @@ namespace SaveASpot.Services.Implementations.Security
 			}
 
 			return new MethodResult<CreateCustomerResult>(result.IsSuccess, new CreateCustomerResult { CustomerId = new NullElementIdentity(), MessageKey = result.Status.MessageKey, UserId = result.Status.UserId });
-		}
-
-		public SiteCustomer GetCustomerByUserId(string userId)
-		{
-			return _customerRepository.GetCustomerByUserId(userId);
-		}
-
-		public SiteCustomer GetCustomerById(string id)
-		{
-			return _customerRepository.GetCustomerById(id);
 		}
 
 		public bool UpdateSiteCustomer(string id, string stripeUserToken)

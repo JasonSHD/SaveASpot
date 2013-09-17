@@ -20,6 +20,13 @@ namespace SaveASpot.Repositories.Implementations.Security
 			return new CustomerFilter(Query<SiteCustomer>.Where(e => e.UserId == id));
 		}
 
+		public ICustomerFilter FilterById(IElementIdentity identity)
+		{
+			var id = identity.ToIdentity();
+
+			return new CustomerFilter(Query<SiteCustomer>.Where(e => e.Id == id));
+		}
+
 		public ICustomerFilter All()
 		{
 			return new CustomerFilter(Query<SiteCustomer>.Where(e => true));

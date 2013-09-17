@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SaveASpot.Core;
 using SaveASpot.Core.Security;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
+using SaveASpot.Repositories.Interfaces.Security;
 using SaveASpot.Repositories.Models;
 using SaveASpot.Services.Interfaces;
 using SaveASpot.Services.Interfaces.Controllers.Checkout;
-using SaveASpot.Services.Interfaces.Security;
 using SaveASpot.ViewModels.Checkout;
 using Stripe;
 
@@ -24,9 +22,17 @@ namespace SaveASpot.Services.Implementations.Controllers.Checkout
 		private readonly ISpotPhaseContainerQueryable _spotPhaseContainerQueryable;
 		private readonly IParcelQueryable _parcelQueryable;
 		private readonly ISpotQueryable _spotQueryable;
-		private readonly ICustomerService _customerService;
+		private readonly ICustomerQueryable _customerQueryable;
 
-		public CheckoutControllerService(ICurrentCart currentCart, ICurrentCustomer currentCustomer, ICartService cartService, IElementIdentityConverter elementIdentityConverter, ISpotRepository spotRepository, ISpotPhaseContainerQueryable spotPhaseContainerQueryable, IParcelQueryable parcelQueryable, ISpotQueryable spotQueryable, ICustomerService customerService)
+		public CheckoutControllerService(ICurrentCart currentCart,
+			ICurrentCustomer currentCustomer,
+			ICartService cartService,
+			IElementIdentityConverter elementIdentityConverter,
+			ISpotRepository spotRepository,
+			ISpotPhaseContainerQueryable spotPhaseContainerQueryable,
+			IParcelQueryable parcelQueryable,
+			ISpotQueryable spotQueryable,
+			ICustomerQueryable customerQueryable)
 		{
 			_currentCart = currentCart;
 			_currentCustomer = currentCustomer;
@@ -36,7 +42,7 @@ namespace SaveASpot.Services.Implementations.Controllers.Checkout
 			_spotPhaseContainerQueryable = spotPhaseContainerQueryable;
 			_parcelQueryable = parcelQueryable;
 			_spotQueryable = spotQueryable;
-			_customerService = customerService;
+			_customerQueryable = customerQueryable;
 		}
 
 		public CheckoutResultViewModel Checkout(IElementIdentity[] spotIdentitiesForCheckout)
@@ -71,9 +77,10 @@ namespace SaveASpot.Services.Implementations.Controllers.Checkout
 			{
 				var spotsForUser = (from f in filteredSpots where f.CustomerId == spot.CustomerId select f).ToList();
 				var countOfSpots = spotsForUser.ToArray().Length;
-				var spotPriceInCents = spot.SpotPrice*100;
+				var spotPriceInCents = spot.SpotPrice * 100;
 				var totalAmountInCents = (countOfSpots * spotPriceInCents).ToString();
-				var customer = _customerService.GetCustomerById(spot.CustomerId.ToString());
+				var spot1 = spot;
+				var customer = _customerQueryable.Filter(e => e.FilterById(_elementIdentityConverter.ToIdentity(spot1.CustomerId))).First();
 
 				if (!string.IsNullOrEmpty(customer.StripeUserId))
 				{

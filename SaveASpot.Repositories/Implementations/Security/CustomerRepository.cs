@@ -33,16 +33,6 @@ namespace SaveASpot.Repositories.Implementations.Security
 			return new MongoDBIdentity(newCustomer.Id);
 		}
 
-		public SiteCustomer GetCustomerById(string id)
-		{
-			var customerId = id.ToIdentity();
-
-			var customer =
-				_mongoDBCollectionFactory.Collection<SiteCustomer>().FindOne(Query<SiteCustomer>.Where(e => e.Id == customerId));
-
-			return customer;
-		}
-
 		public bool UpdateSiteCustomer(string id, string stripeUserToken)
 		{
 			var customerId = id.ToIdentity();
@@ -53,16 +43,5 @@ namespace SaveASpot.Repositories.Implementations.Security
 
 			return result.DocumentsAffected == 1;
 		}
-
-		public SiteCustomer GetCustomerByUserId(string userId)
-		{
-			var customerId = userId.ToIdentity();
-
-			var customer =
-				_mongoDBCollectionFactory.Collection<SiteCustomer>().FindOne(Query<SiteCustomer>.Where(e => e.UserId == customerId));
-
-			return customer;
-		}
-
 	}
 }
