@@ -24,7 +24,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 			var stripeCustomerService = new StripeCustomerService();
 			var stripeCustomer = stripeCustomerService.Create(customer);
 
-			var result = _customerService.UpdateSiteCustomer(_currentCustomer.Customer.Identity.ToString(), stripeCustomer.Id);
+			var result = _customerService.UpdateSiteCustomer(_currentCustomer.Customer.Identity, stripeCustomer.Id);
 			return new MessageMethodResult(result, string.Empty);
 		}
 	}

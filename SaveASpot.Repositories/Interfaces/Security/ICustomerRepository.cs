@@ -6,6 +6,6 @@ namespace SaveASpot.Repositories.Interfaces.Security
 	{
 		bool AddSpot(IElementIdentity customerId, IElementIdentity spotId);
 		IElementIdentity CreateCustomer(IElementIdentity userIdentity);
-		bool UpdateSiteCustomer(string id, string stripeUserToken);
+		bool UpdateSiteCustomer(IElementIdentity id, string stripeUserToken);
 	}
 }

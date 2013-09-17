@@ -5,6 +5,6 @@ namespace SaveASpot.Services.Interfaces.Security
 	public interface ICustomerService
 	{
 		IMethodResult<CreateCustomerResult> CreateCustomer(UserArg userArg);
-		bool UpdateSiteCustomer(string id, string stripeUserToken);
+		bool UpdateSiteCustomer(IElementIdentity id, string stripeUserToken);
 	}
 }

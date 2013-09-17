@@ -41,7 +41,7 @@ namespace SaveASpot.Services.Implementations.Security
 			return new MethodResult<CreateCustomerResult>(result.IsSuccess, new CreateCustomerResult { CustomerId = new NullElementIdentity(), MessageKey = result.Status.MessageKey, UserId = result.Status.UserId });
 		}
 
-		public bool UpdateSiteCustomer(string id, string stripeUserToken)
+		public bool UpdateSiteCustomer(IElementIdentity id, string stripeUserToken)
 		{
 			return _customerRepository.UpdateSiteCustomer(id, stripeUserToken);
 		}

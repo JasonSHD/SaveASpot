@@ -33,12 +33,12 @@ namespace SaveASpot.Repositories.Implementations.Security
 			return new MongoDBIdentity(newCustomer.Id);
 		}
 
-		public bool UpdateSiteCustomer(string id, string stripeUserToken)
+		public bool UpdateSiteCustomer(IElementIdentity id, string stripeUserToken)
 		{
 			var customerId = id.ToIdentity();
 
 			var result = _mongoDBCollectionFactory.Collection<SiteCustomer>()
-															 .Update(Query<SiteCustomer>.Where(e => e.UserId == customerId),
+															 .Update(Query<SiteCustomer>.Where(e => e.Id == customerId),
 																			 Update<SiteCustomer>.Set(e => e.StripeUserId, stripeUserToken));
 
 			return result.DocumentsAffected == 1;
