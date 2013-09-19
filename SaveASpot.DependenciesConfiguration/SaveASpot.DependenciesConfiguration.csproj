@@ -49,6 +49,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoriesConfigurationModule.cs" />
     <Compile Include="ServicesConfigurationModule.cs" />
+    <Compile Include="StrategyConfigurationModule.cs" />
+    <Compile Include="TypeConverterModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

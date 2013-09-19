@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using SaveASpot.Controllers.Artifacts;
 using SaveASpot.Core;
+using SaveASpot.Core.Geocoding;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.ViewModels.PhasesAndParcels;
@@ -42,6 +43,21 @@ namespace SaveASpot.Controllers
 				Content = new JavaScriptSerializer { MaxJsonLength = Int32.MaxValue }.Serialize(_spotsControllerService.ByPhase(identity).Spots.Select(e => e.ToJson())),
 				ContentType = "application/json"
 			};
+		}
+
+		[CustomerAuthorize]
+		[AnonymAuthorize]
+		public JsonResult ForSquare(IElementIdentity phaseIdentity, Point topRight, Point bottomLeft)
+		{
+			var result = _spotsControllerService.ForSquare(phaseIdentity, topRight, bottomLeft);
+
+			return Json(new
+										{
+											status = result.Status.ToString(),
+											center = result.Center.ToJson(),
+											message = result.Message,
+											spots = result.Spots.Select(e => e.ToJson()).ToList()
+										}, JsonRequestBehavior.AllowGet);
 		}
 
 		[HttpPost]

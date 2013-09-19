@@ -1,9 +1,11 @@
 using System.Linq;
 using SaveASpot.Core;
+using SaveASpot.Core.Geocoding;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
 using SaveASpot.Services.Interfaces;
 using SaveASpot.Services.Interfaces.Controllers;
+using SaveASpot.Services.Interfaces.Geocoding;
 using SaveASpot.ViewModels.PhasesAndParcels;
 
 namespace SaveASpot.Services.Implementations.Controllers
@@ -15,14 +17,21 @@ namespace SaveASpot.Services.Implementations.Controllers
 		private readonly IParcelQueryable _parcelQueryable;
 		private readonly ITextParserEngine _textParserEngine;
 		private readonly IElementIdentityConverter _elementIdentityConverter;
+		private readonly ISquareElementsCalculator _squareElementsCalculator;
 
-		public SpotsControllerService(ISpotRepository spotRepository, ISpotQueryable spotQueryable, IParcelQueryable parcelQueryable, ITextParserEngine textParserEngine, IElementIdentityConverter elementIdentityConverter)
+		public SpotsControllerService(ISpotRepository spotRepository,
+			ISpotQueryable spotQueryable,
+			IParcelQueryable parcelQueryable,
+			ITextParserEngine textParserEngine,
+			IElementIdentityConverter elementIdentityConverter,
+			ISquareElementsCalculator squareElementsCalculator)
 		{
 			_spotRepository = spotRepository;
 			_spotQueryable = spotQueryable;
 			_parcelQueryable = parcelQueryable;
 			_textParserEngine = textParserEngine;
 			_elementIdentityConverter = elementIdentityConverter;
+			_squareElementsCalculator = squareElementsCalculator;
 		}
 
 		public SpotsViewModel GetSpots(SelectorViewModel selectorViewModel)
@@ -58,13 +67,18 @@ namespace SaveASpot.Services.Implementations.Controllers
 			return new MessageMethodResult(_spotRepository.Remove(identity), string.Empty);
 		}
 
+		public SquareElementsResult ForSquare(IElementIdentity phaseIdentity, Point topRight, Point bottomLeft)
+		{
+			return _squareElementsCalculator.FindElementsForSquare(phaseIdentity, bottomLeft, topRight);
+		}
+
 		private SpotViewModel ToSpotViewModel(Spot spot)
 		{
 			return new SpotViewModel
 			{
 				Identity = _elementIdentityConverter.ToIdentity(spot.Id),
 				Area = spot.SpotArea,
-				Points = spot.SpotShape.Select(e => new ViewModels.PhasesAndParcels.Point { Latitude = e.Latitude, Longitude = e.Longitude }),
+				Points = spot.SpotShape.Select(e => new Point { Latitude = e.Latitude, Longitude = e.Longitude }),
 				CustomerId = _elementIdentityConverter.ToIdentity(spot.CustomerId),
 				SponsorIdentity = _elementIdentityConverter.ToIdentity(spot.SponsorId)
 			};

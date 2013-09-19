@@ -20,6 +20,7 @@
 	controlsForDestroy.push((function (options) {
 		var settings = $.extend(options, {
 			spotsUrl: q.pageConfig.spotsUrl,
+			spotsForSquareUrl: q.pageConfig.spotsForSquareUrl,
 			colors: {
 				available: "#00FF00",
 				selected: "#FFFF00",
@@ -57,8 +58,34 @@
 			});
 		};
 
-		var initializeSpots = function (spots) {
+		var refreshData = function (phaseId) {
+			var mapBound = gmap.getBounds();
+			var southWest = mapBound.getSouthWest();
+			var northEast = mapBound.getNorthEast();
+			//var topRightPoint = {
+			//	Latitude: northEast.lat(),
+			//	Longitude: northEast.lng()
+			//};
+			//var bottomLefpPoint = {
+			//	Latitude: southWest.lat(),
+			//	Longitude: southWest.lng()
+			//};
+			var data = {
+				phaseIdentity: phaseId,
+				"topRight.Latitude": northEast.lat(),
+				"topRight.Longitude": northEast.lng(),
+				"bottomLeft.Latitude": southWest.lat(),
+				"bottomLeft.Longitude": southWest.lng(),
+			};
+			q.ajax({ type: "GET", data: data, url: settings.spotsForSquareUrl }).done(function () {
+			});
+		};
 
+		//var initializeSpotsForMap = function (phaseId) {
+		//	//google.maps.event.addListener(gmap, 'idle', displaySpots);
+		//};
+
+		var initializeSpots = function (spots) {
 			for (var spotDescIndex in spotDescriptions) {
 				var oldSpotDesc = spotDescriptions[spotDescIndex];
 				oldSpotDesc.polygon.setMap(null);
@@ -103,10 +130,16 @@
 		};
 
 		var onPhaseChangedHandler = function (phaseArg) {
-			q.ajax({ url: settings.spotsUrl + "/" + phaseArg.arg.phaseId, type: "GET" }).done(function (spotResults) {
+			//q.ajax({ url: settings.spotsUrl + "/" + phaseArg.arg.phaseId, type: "GET" }).done(function (spotResults) {
 
-				initializeSpots(spotResults);
-			});
+			//	initializeSpots(spotResults);
+			//});
+			window.google.maps.event.clearListeners(gmap, "idle");
+			var idleHandler = function () {
+				refreshData(phaseArg.arg.phaseId);
+			};
+			window.google.maps.event.addListener(gmap, "idle", idleHandler);
+			idleHandler();
 		};
 
 		q.events().bind("phaseChanged", onPhaseChangedHandler);

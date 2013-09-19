@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MongoDB.Bson;
+using SaveASpot.Core.Geocoding;
 
 namespace SaveASpot.Repositories.Models
 {

@@ -26,6 +26,8 @@ namespace SaveASpot
 				new ServicesConfigurationModule(),
 				new RepositoriesConfigurationModule(),
 				new SetupAreaConfigurationModule(),
+				new StrategyConfigurationModule(),
+				new TypeConverterModule(),
 				new CheckoutServicesConfigurationModule());
 			_logger = _kernel.Get<ILogger>();
 		}

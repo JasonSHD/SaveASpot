@@ -1,4 +1,5 @@
-﻿using SaveASpot.Repositories.Models;
+﻿using SaveASpot.Core.Geocoding;
+using SaveASpot.Repositories.Models;
 
 namespace SaveASpot.Services.Implementations
 {

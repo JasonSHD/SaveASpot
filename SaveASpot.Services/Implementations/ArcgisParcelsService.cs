@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.CSharp.RuntimeBinder;
 using Newtonsoft.Json;
 using SaveASpot.Core;
+using SaveASpot.Core.Geocoding;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
 using SaveASpot.Services.Interfaces;
@@ -65,7 +66,7 @@ namespace SaveASpot.Services.Implementations
 																						ParcelName = (string)featuresCol["properties"]["Name"],
 																						ParcelLength = (decimal?)featuresCol["properties"]["Shape_Leng"],
 																						ParcelArea = (decimal?)featuresCol["properties"]["Shape_Area"],
-																						ParcelAcres = (decimal?) featuresCol["properties"]["Acres"],
+																						ParcelAcres = (decimal?)featuresCol["properties"]["Acres"],
 																						ParcelShape = points,
 																						PhaseId = phase.Id
 																					});

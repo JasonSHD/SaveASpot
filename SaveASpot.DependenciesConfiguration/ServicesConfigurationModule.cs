@@ -1,19 +1,17 @@
 using SaveASpot.Core;
-using SaveASpot.Core.Cart;
 using SaveASpot.Core.Security;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Repositories.Models;
-using SaveASpot.Repositories.Models.Security;
 using SaveASpot.Services.Implementations;
 using SaveASpot.Services.Implementations.Controllers;
+using SaveASpot.Services.Implementations.Geocoding;
 using SaveASpot.Services.Implementations.Security;
 using SaveASpot.Services.Implementations.Validators.Security;
 using SaveASpot.Services.Interfaces;
 using SaveASpot.Services.Interfaces.Controllers;
+using SaveASpot.Services.Interfaces.Geocoding;
 using SaveASpot.Services.Interfaces.Security;
 using SaveASpot.ViewModels;
-using SaveASpot.ViewModels.PhasesAndParcels;
-using Cart = SaveASpot.Core.Cart.Cart;
 
 namespace SaveASpot.DependenciesConfiguration
 {
@@ -42,20 +40,17 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ISponsorsControllerService>().To<SponsorsControllerService>();
 			Bind<IMapControllerService>().To<MapControllerService>();
 			Bind<ICustomerService>().To<CustomersService>();
-			Bind<ITypeConverter<SiteCustomer, CustomerViewModel>>().To<CustomerTypeConverter>();
 			Bind<ISpotsBookingService>().To<SpotsBookingService>();
 			Bind<ISpotValidateFactory>().To<SpotValidateFactory>();
 			Bind<IConverter<Sponsor, SponsorViewModel>>().To<SponsorConverter>();
 			Bind<IAdministratorActionsMapControllerService>().To<AdministratorActionsMapControllerService>();
-			Bind<ITypeConverter<Phase, PhaseViewModel>>().To<PhaseTypeConverter>();
 			Bind<ICartControllerService>().To<CartControllerService>();
 			Bind<ICurrentCart>().To<CurrentCart>();
 			Bind<ICartService>().To<CartService>();
-			Bind<ITypeConverter<Repositories.Models.Security.Cart, Cart>>().To<CartConverter>();
 			Bind<ICardInfoControllerService>().To<CardInfoControllerService>();
-			Bind<ITypeConverter<SpotPhaseContainer, SpotElement>>().To<SpotPhaseContainerConverter>();
 			Bind<ICartAmountCalculator>().To<CartAmountCalculator>();
 			Bind<ICustomerFactory>().To<CustomerFactory>();
+			Bind<ISquareElementsCalculator>().To<SquareElementsCalculator>();
 		}
 	}
 }

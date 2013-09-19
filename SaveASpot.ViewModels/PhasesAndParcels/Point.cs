@@ -1,13 +1,12 @@
+using SaveASpot.Core.Geocoding;
+
 namespace SaveASpot.ViewModels.PhasesAndParcels
 {
-	public sealed class Point
+	public static class PointExtensions
 	{
-		public decimal Latitude { get; set; }
-		public decimal Longitude { get; set; }
-
-		public object ToJson()
+		public static object ToJson(this Point source)
 		{
-			return new { lat = Latitude, lng = Longitude };
+			return new { lat = source.Latitude, lng = source.Longitude };
 		}
 	}
 }

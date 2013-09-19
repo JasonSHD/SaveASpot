@@ -6,6 +6,7 @@ using Microsoft.CSharp.RuntimeBinder;
 using MongoDB.Bson;
 using Newtonsoft.Json;
 using SaveASpot.Core;
+using SaveASpot.Core.Geocoding;
 using SaveASpot.Core.Logging;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;

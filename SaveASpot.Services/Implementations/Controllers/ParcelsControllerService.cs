@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using SaveASpot.Core;
+using SaveASpot.Core.Geocoding;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
 using SaveASpot.Services.Interfaces.Controllers;
@@ -36,7 +37,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 
 		private ParcelViewModel ToParcelViewModel(Parcel parcel)
 		{
-			return new ParcelViewModel { Name = parcel.ParcelName, Identity = _elementIdentityConverter.ToIdentity(parcel.Id), Length = parcel.ParcelLength, Points = parcel.ParcelShape.Select(e => new ViewModels.PhasesAndParcels.Point { Latitude = e.Latitude, Longitude = e.Longitude }) };
+			return new ParcelViewModel { Name = parcel.ParcelName, Identity = _elementIdentityConverter.ToIdentity(parcel.Id), Length = parcel.ParcelLength, Points = parcel.ParcelShape.Select(e => new Point { Latitude = e.Latitude, Longitude = e.Longitude }) };
 		}
 	}
 }

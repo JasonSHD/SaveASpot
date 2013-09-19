@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using SaveASpot.Repositories.Models;
+using SaveASpot.Core.Geocoding;
 using SaveASpot.Services.Implementations;
 
 namespace TestsSaveASpot.Implementations

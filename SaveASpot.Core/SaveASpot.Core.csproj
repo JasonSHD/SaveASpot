@@ -49,9 +49,19 @@
   <ItemGroup>
     <Compile Include="Cart\PhaseElement.cs" />
     <Compile Include="Cart\SpotElement.cs" />
+    <Compile Include="Geocoding\Point.cs" />
     <Compile Include="IConverter.cs" />
+    <Compile Include="IStrategy.cs" />
+    <Compile Include="Strategies\BreakStrategyResult.cs" />
+    <Compile Include="Strategies\ContinueStrategyResult.cs" />
+    <Compile Include="Strategies\DefaultStrategyManager.cs" />
+    <Compile Include="Strategies\IStrategyManager.cs" />
     <Compile Include="Security\AnonymRole.cs" />
     <Compile Include="Cart\Cart.cs" />
+    <Compile Include="Strategies\IStrategyResult.cs" />
+    <Compile Include="Strategies\OrderStartegyManager.cs" />
+    <Compile Include="Strategies\StrategyExecuter.cs" />
+    <Compile Include="Strategies\StrategyResult.cs" />
     <Compile Include="TypeElementIdentityConverter.cs" />
     <Compile Include="Validation\CompositeValidator.cs" />
     <Compile Include="Validation\EntityValidator.cs" />

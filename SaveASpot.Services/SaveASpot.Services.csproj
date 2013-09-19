@@ -75,6 +75,7 @@
     <Compile Include="Implementations\Controllers\CardInfoControllerService.cs" />
     <Compile Include="Implementations\Controllers\UploadPhasesAndParcelsControllerService.cs" />
     <Compile Include="Implementations\CurrentCart.cs" />
+    <Compile Include="Implementations\Geocoding\SquareElementsCalculator.cs" />
     <Compile Include="Implementations\Security\CurrentCustomer.cs" />
     <Compile Include="Implementations\Security\CurrentUser.cs" />
     <Compile Include="Implementations\Polygon.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Implementations\Security\UserService.cs" />
     <Compile Include="Implementations\TextParserEngine.cs" />
     <Compile Include="Implementations\TextService.cs" />
+    <Compile Include="Implementations\TypeConverters\SpotTypeConverter.cs" />
     <Compile Include="Implementations\Validators\Security\PasswordValidator.cs" />
     <Compile Include="Implementations\Validators\Security\UseNotExistsValidator.cs" />
     <Compile Include="Implementations\Validators\Security\UserEmailValidator.cs" />
@@ -115,6 +117,7 @@
     <Compile Include="Interfaces\Controllers\SponsorResult.cs" />
     <Compile Include="Interfaces\Controllers\UserResult.cs" />
     <Compile Include="Interfaces\CreateSponsorResult.cs" />
+    <Compile Include="Interfaces\Geocoding\ISquareElementsCalculator.cs" />
     <Compile Include="Interfaces\ICartAmountCalculator.cs" />
     <Compile Include="Interfaces\ICartService.cs" />
     <Compile Include="Interfaces\ICurrentCart.cs" />
