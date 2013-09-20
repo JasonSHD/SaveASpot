@@ -219,4 +219,16 @@
   <data name="SpotPrice" xml:space="preserve">
     <value>Spot price</value>
   </data>
+  <data name="SpotsInCurrentRegionNotFound" xml:space="preserve">
+    <value>Spots for displayed region is not found.</value>
+  </data>
+  <data name="MuchSpotsInSquare" xml:space="preserve">
+    <value>We can not display spots because they so much.</value>
+  </data>
+  <data name="PartSpotsInSquare" xml:space="preserve">
+    <value>Now we display part of sport from selected phase.</value>
+  </data>
+  <data name="UnknowBehavior" xml:space="preserve">
+    <value>We can not display spots because we can not calculate they for selected phase.</value>
+  </data>
 </root>

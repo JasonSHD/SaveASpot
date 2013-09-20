@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Geocoding\PointTests.cs" />
     <Compile Include="Core\LoggerStub.cs" />
     <Compile Include="Core\MethodResultTests.cs" />
     <Compile Include="Core\Web\Mvc\RoleAuthorizeAttributeTests.cs" />

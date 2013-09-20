@@ -119,10 +119,12 @@ namespace SaveASpot.Services.Implementations.Geocoding
 		{
 			if (_center == null)
 			{
+				var points = AllSpots().SelectMany(e => e.SpotShape).ToList();
+
 				_center = new Point
 				{
-					Latitude = SpotsInSquareCount == 0 ? 0 : _spotsInSquare.SelectMany(e => e.SpotShape).Select(e => e.Latitude).Sum() / SpotsInSquareCount,
-					Longitude = SpotsInSquareCount == 0 ? 0 : _spotsInSquare.SelectMany(e => e.SpotShape).Select(e => e.Longitude).Sum() / SpotsInSquareCount
+					Longitude = points.Count == 0 ? 0 : points.Select(e => e.Latitude).Sum() / points.Count,
+					Latitude = points.Count == 0 ? 0 : points.Select(e => e.Longitude).Sum() / points.Count
 				};
 			}
 
@@ -145,7 +147,7 @@ namespace SaveASpot.Services.Implementations.Geocoding
 			{
 				return new StrategyResult<SquareElementsResult>(true, true, new SquareElementsResult
 																																			{
-																																				Center = new Point(),
+																																				Center = arg.Center(),
 																																				Message = string.Empty,
 																																				Spots = arg.AllSpots().Select(e => _typeConverter.Convert(e)).ToList(),
 																																				Status = SquareElementsResult.ResultStatus.All
@@ -226,21 +228,23 @@ namespace SaveASpot.Services.Implementations.Geocoding
 	public sealed class PartSpotsStrategy : IStrategy<SquareStrategyArg, SquareElementsResult>, IStrategyOrder
 	{
 		private readonly ITextService _textService;
+		private readonly ITypeConverter<Spot, SpotViewModel> _typeConverter;
 
-		public PartSpotsStrategy(ITextService textService)
+		public PartSpotsStrategy(ITextService textService, ITypeConverter<Spot, SpotViewModel> typeConverter)
 		{
 			_textService = textService;
+			_typeConverter = typeConverter;
 		}
 
 		public IMethodResult<SquareElementsResult> Execute(SquareStrategyArg arg)
 		{
-			if (arg.SpotsInSquareCount == 0)
+			if (arg.SpotsInSquareCount <= arg.MaxSpotsPerPage)
 			{
 				return new BreakStrategyResult<SquareElementsResult>(new SquareElementsResult
 																															 {
 																																 Center = arg.Center(),
 																																 Message = _textService.ResolveTest(Constants.Errors.PartSpotsInSquare),
-																																 Spots = Enumerable.Empty<SpotViewModel>(),
+																																 Spots = arg.SpotsInSquare().Select(e => _typeConverter.Convert(e)).ToList(),
 																																 Status = SquareElementsResult.ResultStatus.Part
 																															 });
 			}

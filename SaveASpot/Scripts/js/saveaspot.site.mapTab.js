@@ -25,7 +25,9 @@
 				available: "#00FF00",
 				selected: "#FFFF00",
 				unavailable: "#FF0000"
-			}
+			},
+			goToCenter: $("[data-gocenter]"),
+			messageContainer: $("[data-gmap-message-container]")
 		});
 
 		var result = {};
@@ -58,18 +60,50 @@
 			});
 		};
 
+		var goToCenterHandler = function () {
+			var center = settings.center;
+			gmap.setCenter(new window.google.maps.LatLng(center.lat, center.lng));
+		};
+
+		var clearMap = function () {
+			for (var spotDescIndex in spotDescriptions) {
+				var oldSpotDesc = spotDescriptions[spotDescIndex];
+				oldSpotDesc.polygon.setMap(null);
+			}
+		};
+
+		var spotsResultStrategies = {
+			"Much": function (spotsResult) {
+				settings.messageContainer.html("");
+				q.controls.alert(settings.messageContainer, spotsResult.message, "error").show();
+				clearMap();
+			},
+			"NotFound": function (spotsResult) {
+				settings.messageContainer.html("");
+				q.controls.alert(settings.messageContainer, spotsResult.message, "error").show();
+				clearMap();
+			},
+			"All": function (spotsResult) {
+				settings.messageContainer.html("");
+				initializeSpots(spotsResult.spots, settings.isDisplayBounds);
+				settings.isDisplayBounds = false;
+			},
+			"Part": function (spotsResult) {
+				settings.messageContainer.html("");
+				q.controls.alert(settings.messageContainer, spotsResult.message, "info").show();
+				initializeSpots(spotsResult.spots);
+			},
+			"Last": function (spotsResult) {
+				settings.messageContainer.html("");
+				q.controls.alert(settings.messageContainer, spotsResult.message, "error").show();
+				clearMap();
+			}
+		};
+
 		var refreshData = function (phaseId) {
 			var mapBound = gmap.getBounds();
 			var southWest = mapBound.getSouthWest();
 			var northEast = mapBound.getNorthEast();
-			//var topRightPoint = {
-			//	Latitude: northEast.lat(),
-			//	Longitude: northEast.lng()
-			//};
-			//var bottomLefpPoint = {
-			//	Latitude: southWest.lat(),
-			//	Longitude: southWest.lng()
-			//};
 			var data = {
 				phaseIdentity: phaseId,
 				"topRight.Latitude": northEast.lat(),
@@ -77,25 +111,20 @@
 				"bottomLeft.Latitude": southWest.lat(),
 				"bottomLeft.Longitude": southWest.lng(),
 			};
-			q.ajax({ type: "GET", data: data, url: settings.spotsForSquareUrl }).done(function () {
+			q.ajax({ type: "GET", data: data, url: settings.spotsForSquareUrl }).done(function (spotsResult) {
+				spotsResultStrategies[spotsResult.status](spotsResult);
+
+				settings.center = spotsResult.center;
+				settings.goToCenter.unbind("click", goToCenterHandler);
+				settings.goToCenter.bind("click", goToCenterHandler);
 			});
 		};
 
-		//var initializeSpotsForMap = function (phaseId) {
-		//	//google.maps.event.addListener(gmap, 'idle', displaySpots);
-		//};
-
-		var initializeSpots = function (spots) {
-			for (var spotDescIndex in spotDescriptions) {
-				var oldSpotDesc = spotDescriptions[spotDescIndex];
-				oldSpotDesc.polygon.setMap(null);
-			}
-
+		var initializeSpots = function (spots, isSetBounds) {
+			clearMap();
 			spotDescriptions = [];
 
-			// ReSharper disable UseOfImplicitGlobalInFunctionScope
-			var bounds = new google.maps.LatLngBounds();
-			// ReSharper restore UseOfImplicitGlobalInFunctionScope
+			var bounds = new window.google.maps.LatLngBounds();
 
 			for (var spotIndex in spots) {
 				var spot = spots[spotIndex];
@@ -123,17 +152,15 @@
 					bounds.extend(pointArg);
 				});
 			}
-
-			gmap.fitBounds(bounds);
+			if (isSetBounds) {
+				gmap.fitBounds(bounds);
+			}
 
 			q.events().fire("phaseRenderCompleted", {});
 		};
 
 		var onPhaseChangedHandler = function (phaseArg) {
-			//q.ajax({ url: settings.spotsUrl + "/" + phaseArg.arg.phaseId, type: "GET" }).done(function (spotResults) {
-
-			//	initializeSpots(spotResults);
-			//});
+			settings.isDisplayBounds = true;
 			window.google.maps.event.clearListeners(gmap, "idle");
 			var idleHandler = function () {
 				refreshData(phaseArg.arg.phaseId);
@@ -201,6 +228,9 @@
 			q.events().unbind("updateSpotState", onUpdateSpotStateHandler);
 			q.events().unbind("selectFirstAvailableSpot", onSelectFirstAvailableSpot);
 			q.events().unbind("removeFirstSpot", onRemoveFirstSpot);
+			settings.goToCenter.unbind("click", goToCenterHandler);
+
+			window.google.maps.event.clearListeners(gmap, "idle");
 
 			log.write("destory spots control.");
 		};

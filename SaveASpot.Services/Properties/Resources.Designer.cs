@@ -187,6 +187,15 @@ namespace SaveASpot.Services.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We can not display spots because they so much..
+        /// </summary>
+        internal static string MuchSpotsInSquare {
+            get {
+                return ResourceManager.GetString("MuchSpotsInSquare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can not recognize json format when loading Spot document.
         /// </summary>
         internal static string NotRecognizeJsonForSpot {
@@ -210,6 +219,15 @@ namespace SaveASpot.Services.Properties {
         internal static string ParcelsAccordionGroupTitle {
             get {
                 return ResourceManager.GetString("ParcelsAccordionGroupTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Now we display part of sport from selected phase..
+        /// </summary>
+        internal static string PartSpotsInSquare {
+            get {
+                return ResourceManager.GetString("PartSpotsInSquare", resourceCulture);
             }
         }
         
@@ -327,6 +345,24 @@ namespace SaveASpot.Services.Properties {
         internal static string SpotsAccordingGroupTitle {
             get {
                 return ResourceManager.GetString("SpotsAccordingGroupTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spots for displayed region is not found..
+        /// </summary>
+        internal static string SpotsInCurrentRegionNotFound {
+            get {
+                return ResourceManager.GetString("SpotsInCurrentRegionNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We can not display spots because we can not calculate they for selected phase..
+        /// </summary>
+        internal static string UnknowBehavior {
+            get {
+                return ResourceManager.GetString("UnknowBehavior", resourceCulture);
             }
         }
         
