@@ -220,15 +220,15 @@
     <value>Spot price</value>
   </data>
   <data name="SpotsInCurrentRegionNotFound" xml:space="preserve">
-    <value>Spots for displayed region is not found.</value>
+    <value>No spots found for the current region.</value>
   </data>
   <data name="MuchSpotsInSquare" xml:space="preserve">
-    <value>We can not display spots because they so much.</value>
+    <value>Too many spots to display in this region. Please zoom in.</value>
   </data>
   <data name="PartSpotsInSquare" xml:space="preserve">
-    <value>Now we display part of sport from selected phase.</value>
+    <value>For performance purposes we display only those spots of the selected phase that are located within the current region.</value>
   </data>
   <data name="UnknowBehavior" xml:space="preserve">
-    <value>We can not display spots because we can not calculate they for selected phase.</value>
+    <value>No spots displayed since we cannot retrieve the spots of the selected phase.</value>
   </data>
 </root>

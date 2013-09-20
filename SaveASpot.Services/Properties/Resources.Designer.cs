@@ -187,7 +187,7 @@ namespace SaveASpot.Services.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We can not display spots because they so much..
+        ///   Looks up a localized string similar to Too many spots to display in this region. Please zoom in..
         /// </summary>
         internal static string MuchSpotsInSquare {
             get {
@@ -223,7 +223,7 @@ namespace SaveASpot.Services.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Now we display part of sport from selected phase..
+        ///   Looks up a localized string similar to For performance purposes we display only those spots of the selected phase that are located within the current region..
         /// </summary>
         internal static string PartSpotsInSquare {
             get {
@@ -349,7 +349,7 @@ namespace SaveASpot.Services.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Spots for displayed region is not found..
+        ///   Looks up a localized string similar to No spots found for the current region..
         /// </summary>
         internal static string SpotsInCurrentRegionNotFound {
             get {
@@ -358,7 +358,7 @@ namespace SaveASpot.Services.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We can not display spots because we can not calculate they for selected phase..
+        ///   Looks up a localized string similar to No spots displayed since we cannot retrieve the spots of the selected phase..
         /// </summary>
         internal static string UnknowBehavior {
             get {
