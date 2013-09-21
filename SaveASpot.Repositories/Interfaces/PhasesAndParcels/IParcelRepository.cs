@@ -7,7 +7,7 @@ namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
 	public interface IParcelRepository
 	{
 		Parcel AddParcel(Parcel parcel);
-		bool Remove(IElementIdentity identity);
+		bool Remove(IEnumerable<IElementIdentity> identity);
 		IEnumerable<Parcel> GetAllParcelsByPhaseId(string phaseId);
 	}
 }

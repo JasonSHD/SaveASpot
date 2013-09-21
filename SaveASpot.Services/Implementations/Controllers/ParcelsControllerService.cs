@@ -4,19 +4,20 @@ using SaveASpot.Core.Geocoding;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
 using SaveASpot.Services.Interfaces.Controllers;
+using SaveASpot.Services.Interfaces.PhasesAndParcels;
 using SaveASpot.ViewModels.PhasesAndParcels;
 
 namespace SaveASpot.Services.Implementations.Controllers
 {
 	public sealed class ParcelsControllerService : IParcelsControllerService
 	{
-		private readonly IParcelRepository _parcelRepository;
+		private readonly IParcelsService _parcelsService;
 		private readonly IParcelQueryable _parcelQueryable;
 		private readonly IElementIdentityConverter _elementIdentityConverter;
 
-		public ParcelsControllerService(IParcelRepository parcelRepository, IParcelQueryable parcelQueryable, IElementIdentityConverter elementIdentityConverter)
+		public ParcelsControllerService(IParcelsService parcelsService, IParcelQueryable parcelQueryable, IElementIdentityConverter elementIdentityConverter)
 		{
-			_parcelRepository = parcelRepository;
+			_parcelsService = parcelsService;
 			_parcelQueryable = parcelQueryable;
 			_elementIdentityConverter = elementIdentityConverter;
 		}
@@ -32,7 +33,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 
 		public IMethodResult Remove(IElementIdentity identity)
 		{
-			return new MessageMethodResult(_parcelRepository.Remove(identity), string.Empty);
+			return new MessageMethodResult(_parcelsService.RemoveParcels(new[] { identity }), string.Empty);
 		}
 
 		private ParcelViewModel ToParcelViewModel(Parcel parcel)

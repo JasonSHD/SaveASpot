@@ -6,27 +6,28 @@ using SaveASpot.Repositories.Models;
 using SaveASpot.Services.Interfaces;
 using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.Services.Interfaces.Geocoding;
+using SaveASpot.Services.Interfaces.PhasesAndParcels;
 using SaveASpot.ViewModels.PhasesAndParcels;
 
 namespace SaveASpot.Services.Implementations.Controllers
 {
 	public sealed class SpotsControllerService : ISpotsControllerService
 	{
-		private readonly ISpotRepository _spotRepository;
+		private readonly ISpotsService _spotsService;
 		private readonly ISpotQueryable _spotQueryable;
 		private readonly IParcelQueryable _parcelQueryable;
 		private readonly ITextParserEngine _textParserEngine;
 		private readonly IElementIdentityConverter _elementIdentityConverter;
 		private readonly ISquareElementsCalculator _squareElementsCalculator;
 
-		public SpotsControllerService(ISpotRepository spotRepository,
+		public SpotsControllerService(ISpotsService spotsService,
 			ISpotQueryable spotQueryable,
 			IParcelQueryable parcelQueryable,
 			ITextParserEngine textParserEngine,
 			IElementIdentityConverter elementIdentityConverter,
 			ISquareElementsCalculator squareElementsCalculator)
 		{
-			_spotRepository = spotRepository;
+			_spotsService = spotsService;
 			_spotQueryable = spotQueryable;
 			_parcelQueryable = parcelQueryable;
 			_textParserEngine = textParserEngine;
@@ -64,7 +65,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 
 		public IMethodResult Remove(IElementIdentity identity)
 		{
-			return new MessageMethodResult(_spotRepository.Remove(identity), string.Empty);
+			return new MessageMethodResult(_spotsService.RemoveSpots(new[] { identity }), string.Empty);
 		}
 
 		public SquareElementsResult ForSquare(IElementIdentity phaseIdentity, Point topRight, Point bottomLeft)

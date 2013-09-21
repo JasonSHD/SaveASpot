@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver.Builders;
 using SaveASpot.Core;
@@ -24,11 +25,11 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			return parcel;
 		}
 
-		public bool Remove(IElementIdentity identity)
+		public bool Remove(IEnumerable<IElementIdentity> identities)
 		{
-			ObjectId id = identity.ToIdentity();
+			var idCollection = identities.Select(e => e.ToIdentity());
 
-			_mongoDbCollectionFactory.Collection<Parcel>().Remove(Query<Parcel>.Where(e => e.Id == id));
+			_mongoDbCollectionFactory.Collection<Parcel>().Remove(Query<Parcel>.In(e => e.Id, idCollection));
 			return true;
 		}
 

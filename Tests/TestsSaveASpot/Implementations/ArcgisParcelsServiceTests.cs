@@ -6,14 +6,14 @@ using NSubstitute;
 using NUnit.Framework;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
-using SaveASpot.Services.Implementations;
+using SaveASpot.Services.Implementations.PhasesAndParcels;
 
 namespace TestsSaveASpot.Implementations
 {
 	[TestFixture]
 	public sealed class ArcgisParcelsServiceTests
 	{
-		private ArcgisParcelsService Target { get; set; }
+		private ArcgisParcelsParceService Target { get; set; }
 		private IParcelRepository ParcelRepository { get; set; }
 		private IPhaseRepository PhaseRepository { get; set; }
 		private IPhaseQueryable PhaseQueryable { get; set; }
@@ -24,7 +24,7 @@ namespace TestsSaveASpot.Implementations
 			ParcelRepository = Substitute.For<IParcelRepository>();
 			PhaseRepository = Substitute.For<IPhaseRepository>();
 			PhaseQueryable = Substitute.For<IPhaseQueryable>();
-			Target = new ArcgisParcelsService(PhaseRepository, PhaseQueryable, ParcelRepository);
+			Target = new ArcgisParcelsParceService(PhaseRepository, PhaseQueryable, ParcelRepository);
 		}
 
 		private static StreamReader ParcelsResource1
