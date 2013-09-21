@@ -87,6 +87,7 @@
 				settings.messageContainer.html("");
 				initializeSpots(spotsResult.spots, settings.isDisplayBounds);
 				settings.isDisplayBounds = false;
+				window.google.maps.event.clearListeners(gmap, "idle");
 			},
 			"Part": function (spotsResult) {
 				settings.messageContainer.html("");
