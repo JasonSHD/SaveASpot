@@ -25,19 +25,37 @@
 
 		<tr>
 			<td style="width: 50%; text-align: center; vertical-align: top;">
+				<div data-template="parcelsData" style="display: none;">
+					<div>
+						<input type="file" data-parcels-file="" width="30px" height="10px;" />
+						Spot price:
+							<input type="text" data-spots-price="" data-val-required-depend="Spot price required." data-val-required-depend-element="" />
+						<br />
+						<br />
+					</div>
+				</div>
 				<fieldset>
 					@using (Html.BeginForm("UploadParcels", "UploadPhasesAndParcels", FormMethod.Post, new { @id = "parcels", enctype = "multipart/form-data", data_arg_name = "postedParcels" }))
 		 {
 						<div>
-							<input type="file" name="postedParcels" width="30px" height="10px;" /><br />
+							<input type="file" data-parcels-file="" width="30px" height="10px;" />
+							Spot price:
+							<input type="text" data-spots-price="" data-val-required-depend="Spot price required." data-val-required-depend-element="" />
+							<br />
 							<br />
 						</div>
 						<div>
-							<input type="file" name="postedParcels" width="30px" height="10px;" /><br />
+							<input type="file" data-parcels-file="" width="30px" height="10px;" />
+							Spot price:
+							<input type="text" data-spots-price="" data-val-required-depend="Spot price required." data-val-required-depend-element="" />
+							<br />
 							<br />
 						</div>
 						<div>
-							<input type="file" name="postedParcels" width="30px" height="10px;" /><br />
+							<input type="file" data-parcels-file="" width="30px" height="10px;" />
+							Spot price:
+							<input type="text" data-spots-price="" data-val-required-depend="Spot price required." data-val-required-depend-element="" />
+							<br />
 							<br />
 						</div>
 						<a class="new-uploader-link" href="javascript:void(0)">Add new file</a><br />

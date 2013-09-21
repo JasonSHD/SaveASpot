@@ -167,12 +167,27 @@ q("uploadPhasesAndParcelsTab", function (arg) {
 	arg = arg || {};
 
 	$('form#parcels .new-uploader-link, form#spots .new-uploader-link').click(function () {
-		var $form = $(this).parents("form");
-		$("<div>").append($("<input type='file'>").attr("name", $form.attr("data-arg-name")).attr("width", "30px").attr("height", "10px")).append("<br/><br/>").insertBefore(this);
+		$(q.template("parcelsData").html()).insertBefore(this);
 	});
 
 	$("#phases-and-parcels-uploader-table [data-upload-button]").click(function () {
+		$("[data-parcels-file]").each(function (index) {
+			var elementInArrayIndex = index - 1;
+			$(this).attr("name", "ParcelsAndPhases[" + elementInArrayIndex + "].ParcelFile");
+		});
+
+		$("[data-spots-price]").each(function (index) {
+			var elementInArrayIndex = index - 1;
+			$(this).attr("name", "ParcelsAndPhases[" + elementInArrayIndex + "].SpotPrice");
+			$(this).attr("data-val-required-depend-element", "[name='ParcelsAndPhases[" + elementInArrayIndex + "].ParcelFile']");
+		});
+
 		var $form = $(this).parents("form");
+
+		if (!q.validation.validator($form).validate()) {
+			return;
+		}
+
 		$form.find(".alert").remove();
 		var uploadType = this.getAttribute("data-upload-button");
 		var url = $form.attr("action");
@@ -281,7 +296,7 @@ q("phasesTab", function (arg) {
 		var spotPrice = $("tr[phase-id='" + phaseId + "']").find('td[data-phase-spot-price]').text();
 
 		if (confirm("Are you sure you want to check out phase with name '" + name + "'?") == true) {
-			q.ajax({ url: q.pageConfig.checkOutUrl, type: "POST", data: { phaseId: phaseId} }).done(function (result) {
+			q.ajax({ url: q.pageConfig.checkOutUrl, type: "POST", data: { phaseId: phaseId } }).done(function (result) {
 			});
 		}
 	});

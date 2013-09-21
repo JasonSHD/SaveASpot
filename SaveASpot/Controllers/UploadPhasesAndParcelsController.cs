@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using SaveASpot.Controllers.Artifacts;
 using SaveASpot.Core.Web.Mvc;
 using SaveASpot.Services.Interfaces.Controllers;
+using SaveASpot.ViewModels.PhasesAndParcels;
 
 namespace SaveASpot.Controllers
 {
@@ -33,9 +34,9 @@ namespace SaveASpot.Controllers
 		}
 
 		[HttpPost]
-		public JsonResult UploadParcels(IEnumerable<HttpPostedFileBase> postedParcels)
+		public JsonResult UploadParcels(UploadParcelsAndPhasesCollectionViewModel parcelsData)
 		{
-			var result = _uploadPhasesAndParcelsControllerService.AddParcels(postedParcels);
+			var result = _uploadPhasesAndParcelsControllerService.AddParcels(parcelsData);
 
 			return Json(new { status = result.IsSuccess, files = result.Status.ToArray() });
 		}

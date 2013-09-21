@@ -171,6 +171,35 @@
 	};
 })(q);
 
+(function (namespace, $) {
+	namespace.template = function (name) {
+		var result = {
+			_data: {
+				name: name
+			}
+		};
+
+		result.html = function () {
+			var $element = $("[data-template='" + name + "']");
+
+			return $element.html();
+		};
+
+		result.execute = function (model) {
+			var html = result.html();
+			if (typeof model == "object") {
+				for (var propertyName in model) {
+					html = html.replace("${" + propertyName + "}", model[propertyName]);
+				}
+			}
+
+			return html;
+		};
+
+		return result;
+	};
+})(q, jQuery);
+
 q.controls = q.controls || {};
 (function (namespace, $) {
 	namespace.ajaxForm = function (formAlias) {
@@ -749,6 +778,25 @@ q.validation = q.validation || {};
 		return result;
 	};
 
+	namespace.attrValidator.requiredDepend = function (element, dependElement, expression, message) {
+		var result = { _data: {}, message: function () { return message; } };
+		var $element = result._data.element = $(element);
+		var $elementDepend = result._data.elementDepend = $(dependElement);
+
+		result.validate = function () {
+			var elementDependOfValue = $elementDepend.val();
+			if (elementDependOfValue != undefined && elementDependOfValue != "") {
+				var elementValue = $element.val();
+
+				return elementValue != undefined && elementValue != "";
+			}
+
+			return true;
+		};
+
+		return result;
+	};
+
 	namespace.attrValidator.factory = function () {
 		var result = {};
 
@@ -794,6 +842,14 @@ q.validation = q.validation || {};
 			attr: "data-val-range",
 			factory: function (element) {
 				return namespace.attrValidator.range(element, $(element).attr("data-val-range-min"), $(element).attr("data-val-range-max"), $(element).attr("data-val-range"));
+			}
+		});
+
+		mappings.push({
+			attr: "data-val-required-depend",
+			factory: function (element) {
+				var $element = $(element);
+				return namespace.attrValidator.requiredDepend(element, $element.attr("data-val-required-depend-element"), $element.attr("data-val-required-depend-expression"), $element.attr("data-val-required-depend"));
 			}
 		});
 

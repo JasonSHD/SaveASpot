@@ -5,6 +5,7 @@ using SaveASpot.Core;
 using SaveASpot.Core.Logging;
 using SaveASpot.Services.Interfaces;
 using SaveASpot.Services.Interfaces.Controllers;
+using SaveASpot.ViewModels.PhasesAndParcels;
 
 namespace SaveASpot.Services.Implementations.Controllers
 {
@@ -23,24 +24,24 @@ namespace SaveASpot.Services.Implementations.Controllers
 			_textService = textService;
 		}
 
-		public IMethodResult<IEnumerable<string>> AddParcels(IEnumerable<HttpPostedFileBase> parcelsFiles)
+		public IMethodResult<IEnumerable<string>> AddParcels(UploadParcelsAndPhasesCollectionViewModel parcelsData)
 		{
 			var result = new List<string>();
 
-			foreach (var file in parcelsFiles)
+			foreach (var data in parcelsData.ParcelsAndPhases)
 			{
-				if (file != null && file.ContentLength > 0)
+				if (data.ParcelFile != null && data.ParcelFile.ContentLength > 0)
 				{
-					var b = new BinaryReader(file.InputStream);
-					byte[] binData = b.ReadBytes((int)file.InputStream.Length);
+					var b = new BinaryReader(data.ParcelFile.InputStream);
+					byte[] binData = b.ReadBytes((int)data.ParcelFile.InputStream.Length);
 
-					IMethodResult<MessageResult> resultStatus = _parcelsService.AddParcels(new StreamReader(new MemoryStream(binData)), 0);
+					IMethodResult<MessageResult> resultStatus = _parcelsService.AddParcels(new StreamReader(new MemoryStream(binData)), data.SpotPrice);
 
 					//if file wasn't writed log message about it
 					if (!resultStatus.IsSuccess)
 					{
-						result.Add(file.FileName);
-						_logger.Info(string.Format("{0} FileName: {1}", _textService.ResolveTest(resultStatus.Status.Message), file.FileName));
+						result.Add(data.ParcelFile.FileName);
+						_logger.Info(string.Format("{0} FileName: {1}", _textService.ResolveTest(resultStatus.Status.Message), data.ParcelFile.FileName));
 					}
 				}
 			}
