@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using MongoDB.Bson;
 using NSubstitute;
 using NUnit.Framework;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
@@ -56,19 +59,28 @@ namespace TestsSaveASpot.Implementations
 
 		public static object[] AddParcelsForPhases_TestCaseSource = new object[]
 			                                                            {
-				                                                            new object[]{ParcelsResource1, 4},
-				                                                            new object[]{ParcelsResource2, 6},
-				                                                            new object[]{ParcelsResource3, 8},
+				                                                            new object[]{ParcelsResource1, 1},
+				                                                            new object[]{ParcelsResource2, 1},
+				                                                            new object[]{ParcelsResource3, 1},
 			                                                            };
 
 		[Test, TestCaseSource("AddParcelsForPhases_TestCaseSource")]
 		public void AddParcels_should_add_phases(StreamReader input, int count)
 		{
 			//arrange
+			var phases = new List<string>();
+			PhaseQueryable.Find(Arg.Is<PhaseFilter>(f => phases.Any(e => e == f.Name))).Returns(new[] { new Phase { Id = ObjectId.GenerateNewId() } });
+			PhaseRepository.AddPhase(Arg.Do<Phase>(p => phases.Add(p.PhaseName)));
+			PhaseQueryable.ByName(Arg.Any<string>()).Returns(c => new PhaseFilter { Name = c.Arg<string>() });
 			//act
 			Target.AddParcels(input, default(decimal));
 			//assert
 			PhaseRepository.Received(count).AddPhase(Arg.Any<Phase>());
+		}
+
+		private sealed class PhaseFilter : IPhaseFilter
+		{
+			public string Name { get; set; }
 		}
 	}
 }

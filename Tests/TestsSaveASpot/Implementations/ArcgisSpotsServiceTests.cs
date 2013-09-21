@@ -1,7 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using MongoDB.Bson;
 using NSubstitute;
 using NUnit.Framework;
+using SaveASpot.Core.Geocoding;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
 using SaveASpot.Services.Implementations;
@@ -21,7 +24,21 @@ namespace TestsSaveASpot.Implementations
 		{
 			SpotRepository = Substitute.For<ISpotRepository>();
 			ParcelQueryable = Substitute.For<IParcelQueryable>();
-			ParcelQueryable.Find(Arg.Any<IParcelFilter>()).Returns(new[] { new Parcel { Id = ObjectId.GenerateNewId() } });
+
+			const int maxLongitude = 1000,
+				maxLatitude = 1000;
+
+			ParcelQueryable.Find(Arg.Any<IParcelFilter>()).Returns(new[] { new Parcel
+			{
+				Id = ObjectId.GenerateNewId(), 
+				ParcelShape = new List<Point>
+					              {
+						              new Point{Longitude = maxLongitude *-1, Latitude = maxLatitude *-1},
+													new Point{Longitude = maxLongitude *-1, Latitude = maxLatitude},
+													new Point{Longitude = maxLongitude, Latitude = maxLatitude},
+													new Point{Longitude = maxLongitude, Latitude = maxLatitude *-1}
+					              }
+			} });
 			Target = new ArcgisSpotsService(ParcelQueryable, new LoggerStub(), SpotRepository);
 		}
 
