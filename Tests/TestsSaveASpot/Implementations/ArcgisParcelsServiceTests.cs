@@ -49,7 +49,7 @@ namespace TestsSaveASpot.Implementations
 		{
 			//arrange
 			//act
-			Target.AddParcels(input);
+			Target.AddParcels(input, default(decimal));
 			//assert
 			ParcelRepository.Received(count).AddParcel(Arg.Any<Parcel>());
 		}
@@ -66,7 +66,7 @@ namespace TestsSaveASpot.Implementations
 		{
 			//arrange
 			//act
-			Target.AddParcels(input);
+			Target.AddParcels(input, default(decimal));
 			//assert
 			PhaseRepository.Received(count).AddPhase(Arg.Any<Phase>());
 		}

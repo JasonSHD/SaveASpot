@@ -55,7 +55,7 @@ namespace SaveASpot.Services.Implementations.Controllers.Checkout
 			foreach (var container in spotPhaseContainersForCheckout)
 			{
 				_cartService.RemoveSpotFromCart(cartIdentity, _elementIdentityConverter.ToIdentity(container.Spot.Id));
-				_spotRepository.MapSpotToCustomer(container.Spot, currentCustomerIdentity, container.Phase.SpotPrice.HasValue ? container.Phase.SpotPrice : null);
+				_spotRepository.MapSpotToCustomer(container.Spot, currentCustomerIdentity, container.Phase.SpotPrice);
 			}
 
 			return new CheckoutResultViewModel { IsSuccess = true, Cart = _currentCart.Cart };

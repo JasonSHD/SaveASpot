@@ -18,7 +18,7 @@ namespace SaveASpot.Services.Implementations
 		{
 			return new SpotElement(_elementIdentityConverter.ToIdentity(source.Spot.Id),
 														 new PhaseElement(_elementIdentityConverter.ToIdentity(source.Phase.Id),
-															 source.Phase.SpotPrice.HasValue ? source.Phase.SpotPrice.Value : default(decimal),
+															 source.Phase.SpotPrice,
 															 source.Phase.PhaseName));
 		}
 	}

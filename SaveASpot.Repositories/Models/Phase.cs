@@ -7,6 +7,6 @@ namespace SaveASpot.Repositories.Models
 	{
 		public ObjectId Id { get; set; }
 		public string PhaseName { get; set; }
-		public Decimal? SpotPrice { get; set; }
+		public Decimal SpotPrice { get; set; }
 	}
 }

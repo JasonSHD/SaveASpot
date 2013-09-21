@@ -12,7 +12,7 @@ namespace SaveASpot.ViewModels.PhasesAndParcels
 		[Required(ErrorMessage = "Spot price is required")]
 		[Range(0.01, 4000000, ErrorMessage = "InvalidSpotPriceValue")]
 		[Display(Name = Constants.Display.SpotPrice)]
-		public decimal? SpotPrice { get; set; }
+		public decimal SpotPrice { get; set; }
 
 		public object ToJson()
 		{

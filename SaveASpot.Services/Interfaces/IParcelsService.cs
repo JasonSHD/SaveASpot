@@ -5,6 +5,6 @@ namespace SaveASpot.Services.Interfaces
 {
 	public interface IParcelsService
 	{
-		IMethodResult<MessageResult> AddParcels(StreamReader input);
+		IMethodResult<MessageResult> AddParcels(StreamReader input, decimal spotPrice);
 	}
 }

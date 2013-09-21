@@ -24,7 +24,7 @@ namespace SaveASpot.Services.Implementations
 			_parcelRepository = parcelRepository;
 		}
 
-		public IMethodResult<MessageResult> AddParcels(StreamReader input)
+		public IMethodResult<MessageResult> AddParcels(StreamReader input, decimal spotPrice)
 		{
 			var jsonParcels = input.ReadToEnd();
 			dynamic array;
@@ -46,7 +46,8 @@ namespace SaveASpot.Services.Implementations
 					{
 						var phase = new Phase
 													{
-														PhaseName = (string)featuresCol["properties"]["Phase"]
+														PhaseName = (string)featuresCol["properties"]["Phase"],
+														SpotPrice = spotPrice
 													};
 
 						if (!_phaseQueryable.Find(_phaseQueryable.ByName(phase.PhaseName)).Any())

@@ -34,7 +34,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 					var b = new BinaryReader(file.InputStream);
 					byte[] binData = b.ReadBytes((int)file.InputStream.Length);
 
-					IMethodResult<MessageResult> resultStatus = _parcelsService.AddParcels(new StreamReader(new MemoryStream(binData)));
+					IMethodResult<MessageResult> resultStatus = _parcelsService.AddParcels(new StreamReader(new MemoryStream(binData)), 0);
 
 					//if file wasn't writed log message about it
 					if (!resultStatus.IsSuccess)
