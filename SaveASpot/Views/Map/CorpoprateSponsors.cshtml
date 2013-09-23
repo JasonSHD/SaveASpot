@@ -1,5 +1,5 @@
 ﻿@model SaveASpot.ViewModels.MapViewModel
-<div style="display: none;" id="sponsorsSpotSelectPanel">
+<div data-numericcontrol="" style="display: none;" id="sponsorsSpotSelectPanel">
 	Corporate sponsors:
 	<select id="sponsors" class="span3">
 		@foreach (var sponsor in Model.Sponsors)
@@ -8,7 +8,7 @@
 	}
 	</select>
 
-	<div data-numericcontrol="">
+	<div>
 		Spots selected:
 	<input type="text" disabled="disabled" data-count="" value="0" />
 		<div class="btn-group-vertical">

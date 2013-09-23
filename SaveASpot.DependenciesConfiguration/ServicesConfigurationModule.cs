@@ -53,6 +53,9 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ICartAmountCalculator>().To<CartAmountCalculator>();
 			Bind<ICustomerFactory>().To<CustomerFactory>();
 			Bind<ISquareElementsCalculator>().To<SquareElementsCalculator>();
+			Bind<ISpotsService>().To<SpotsService>();
+			Bind<IPhasesService>().To<PhasesService>();
+			Bind<IParcelsService>().To<ParcelsService>();
 		}
 	}
 }

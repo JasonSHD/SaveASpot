@@ -32,7 +32,7 @@ namespace SaveASpot.Services.Implementations.PhasesAndParcels
 		{
 			var spotsInParcels = _spotQueryable.Filter(e => e.ByParcels(parcelIdentity));
 			_parcelRepository.Remove(parcelIdentity);
-			_spotService.RemoveSpots(spotsInParcels.Select(e => _elementIdentityConverter.ToIdentity((object) e.Id)));
+			_spotService.RemoveSpots(spotsInParcels.Select(e => _elementIdentityConverter.ToIdentity(e.Id)));
 
 			return true;
 		}
