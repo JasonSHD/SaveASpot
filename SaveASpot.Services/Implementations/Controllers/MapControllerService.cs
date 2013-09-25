@@ -1,12 +1,14 @@
 ﻿using System.Linq;
 using SaveASpot.Core;
 using SaveASpot.Core.Configuration;
+using SaveASpot.Core.Geocoding;
 using SaveASpot.Core.Security;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Interfaces.Sponsors;
 using SaveASpot.Repositories.Models;
 using SaveASpot.Services.Interfaces;
 using SaveASpot.Services.Interfaces.Controllers;
+using SaveASpot.Services.Interfaces.Geocoding;
 using SaveASpot.ViewModels;
 using SaveASpot.ViewModels.PhasesAndParcels;
 
@@ -21,6 +23,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 		private readonly IConfigurationManager _configurationManager;
 		private readonly IConverter<Sponsor, SponsorViewModel> _converter;
 		private readonly ICurrentCart _currentCart;
+		private readonly ISquareElementsCalculator _squareElementsCalculator;
 
 		public MapControllerService(ICurrentUser currentUser,
 			ISponsorQueryable sponsorQueryable,
@@ -28,7 +31,8 @@ namespace SaveASpot.Services.Implementations.Controllers
 			ITypeConverter<Phase, PhaseViewModel> typeConverter,
 			IConfigurationManager configurationManager,
 			IConverter<Sponsor, SponsorViewModel> converter,
-			ICurrentCart currentCart)
+			ICurrentCart currentCart, 
+			ISquareElementsCalculator squareElementsCalculator)
 		{
 			_currentUser = currentUser;
 			_sponsorQueryable = sponsorQueryable;
@@ -37,6 +41,7 @@ namespace SaveASpot.Services.Implementations.Controllers
 			_configurationManager = configurationManager;
 			_converter = converter;
 			_currentCart = currentCart;
+			_squareElementsCalculator = squareElementsCalculator;
 		}
 
 		public MapViewModel GetMapViewModel()
@@ -59,6 +64,11 @@ namespace SaveASpot.Services.Implementations.Controllers
 			}
 
 			return viewModel;
+		}
+
+		public SquareElementsResult ForSquare(IElementIdentity phaseIdentity, Point topRight, Point bottomLeft)
+		{
+			return _squareElementsCalculator.FindElementsForSquare(phaseIdentity, bottomLeft, topRight);
 		}
 	}
 }

@@ -14,7 +14,7 @@ namespace SaveASpot.DependenciesConfiguration
 			//square elements calculator
 			Bind(typeof(IStrategyManager<,>)).To(typeof(OrderStartegyManager<,>)).WhenInjectedInto(typeof(SquareElementsCalculator));
 			Bind<IStrategy<SquareStrategyArg, SquareElementsResult>>().To<AllSpotsStrategy>();
-			Bind<IStrategy<SquareStrategyArg, SquareElementsResult>>().To<MuchSpotsStrategy>();
+			Bind<IStrategy<SquareStrategyArg, SquareElementsResult>>().To<PhaseSpotsStrategy>();
 			Bind<IStrategy<SquareStrategyArg, SquareElementsResult>>().To<NotFoundSpotsStrategy>();
 			Bind<IStrategy<SquareStrategyArg, SquareElementsResult>>().To<PartSpotsStrategy>();
 			Bind<IStrategy<SquareStrategyArg, SquareElementsResult>>().To<LastSpotsStrategy>();

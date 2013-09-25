@@ -20,6 +20,7 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ITypeConverter<Repositories.Models.Security.Cart, Cart>>().To<CartConverter>();
 			Bind<ITypeConverter<SpotPhaseContainer, SpotElement>>().To<SpotPhaseContainerConverter>();
 			Bind<ITypeConverter<Spot, SpotViewModel>>().To<SpotTypeConverter>();
+			Bind<ITypeConverter<Parcel, ParcelViewModel>>().To<ParcelTypeConverter>();
 		}
 	}
 }

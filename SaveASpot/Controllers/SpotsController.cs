@@ -45,21 +45,6 @@ namespace SaveASpot.Controllers
 			};
 		}
 
-		[CustomerAuthorize]
-		[AnonymAuthorize]
-		public JsonResult ForSquare(IElementIdentity phaseIdentity, Point topRight, Point bottomLeft)
-		{
-			var result = _spotsControllerService.ForSquare(phaseIdentity, topRight, bottomLeft);
-
-			return Json(new
-										{
-											status = result.Status.ToString(),
-											center = result.Center.ToJson(),
-											message = result.Message,
-											spots = result.Spots.Select(e => e.ToJson()).ToList()
-										}, JsonRequestBehavior.AllowGet);
-		}
-
 		[HttpPost]
 		public ViewResult Remove(IElementIdentity identity, SelectorViewModel selectorViewModel)
 		{

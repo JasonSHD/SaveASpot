@@ -21,6 +21,7 @@
 		var settings = $.extend(options, {
 			spotsUrl: q.pageConfig.spotsUrl,
 			spotsForSquareUrl: q.pageConfig.spotsForSquareUrl,
+			spotColor: "#00FF00",
 			colors: {
 				available: "#00FF00",
 				selected: "#FFFF00",
@@ -34,15 +35,16 @@
 
 		var spotDescriptions = [];
 
+		var parcelsDescriptions = [];
+
 		var spotSelectedHandler = function () {
 			q.events().fire(this.val + "SpotSelected", { spot: this.spot });
 		};
 
 		var displaySpot = function (spotDesc) {
 			var colors = settings.colors;
-			// ReSharper disable UseOfImplicitGlobalInFunctionScope
-			var polygon = new google.maps.Polygon({
-				// ReSharper restore UseOfImplicitGlobalInFunctionScope
+
+			var polygon = new window.google.maps.Polygon({
 				paths: spotDesc.paths,
 				strokeColor: colors[spotDesc.val],
 				strokeOpacity: 0.8,
@@ -53,11 +55,23 @@
 			polygon.setMap(gmap);
 			spotDesc.polygon = polygon;
 
-			// ReSharper disable UseOfImplicitGlobalInFunctionScope
-			google.maps.event.addListener(polygon, 'click', function () {
-				// ReSharper restore UseOfImplicitGlobalInFunctionScope
+
+			window.google.maps.event.addListener(polygon, 'click', function () {
 				spotSelectedHandler.call(spotDesc);
 			});
+		};
+
+		var displayParcel = function (parcelDesc) {
+			var polygon = new window.google.maps.Polygon({
+				paths: parcelDesc.paths,
+				strokeColor: settings.spotColor,
+				strokeOpacity: 0.8,
+				strokeWeight: 2,
+				fillColor: settings.spotColor,
+				fillOpacity: 0.35
+			});
+			polygon.setMap(gmap);
+			parcelDesc.polygon = polygon;
 		};
 
 		var goToCenterHandler = function () {
@@ -70,34 +84,57 @@
 				var oldSpotDesc = spotDescriptions[spotDescIndex];
 				oldSpotDesc.polygon.setMap(null);
 			}
+
+			spotDescriptions = [];
+
+			for (var parcelDescIndex in parcelsDescriptions) {
+				var oldParcelDesc = parcelsDescriptions[parcelDescIndex];
+				oldParcelDesc.polygon.setMap(null);
+			}
+
+			parcelsDescriptions = [];
 		};
 
 		var spotsResultStrategies = {
-			"Much": function (spotsResult) {
+			"Phase": function (spotsResult) {
 				settings.messageContainer.html("");
+				initializeParcels(spotsResult.parcels, settings.isDisplayBounds);
+				settings.isDisplayBounds = false;
 				q.controls.alert(settings.messageContainer, spotsResult.message, "error").show();
-				clearMap();
+
+				if (settings.isNavigateToCenter) {
+					goToCenterHandler();
+				}
+				settings.isNavigateToCenter = false;
 			},
 			"NotFound": function (spotsResult) {
 				settings.messageContainer.html("");
 				q.controls.alert(settings.messageContainer, spotsResult.message, "error").show();
 				clearMap();
+
+				if (settings.isNavigateToCenter) {
+					goToCenterHandler();
+				}
+				settings.isNavigateToCenter = false;
 			},
 			"All": function (spotsResult) {
 				settings.messageContainer.html("");
 				initializeSpots(spotsResult.spots, settings.isDisplayBounds);
 				settings.isDisplayBounds = false;
 				window.google.maps.event.clearListeners(gmap, "idle");
+				settings.isNavigateToCenter = false;
 			},
 			"Part": function (spotsResult) {
 				settings.messageContainer.html("");
 				q.controls.alert(settings.messageContainer, spotsResult.message, "info").show();
 				initializeSpots(spotsResult.spots);
+				settings.isNavigateToCenter = false;
 			},
 			"Last": function (spotsResult) {
 				settings.messageContainer.html("");
 				q.controls.alert(settings.messageContainer, spotsResult.message, "error").show();
 				clearMap();
+				settings.isNavigateToCenter = false;
 			}
 		};
 
@@ -113,17 +150,46 @@
 				"bottomLeft.Longitude": southWest.lng(),
 			};
 			q.ajax({ type: "GET", data: data, url: settings.spotsForSquareUrl }).done(function (spotsResult) {
-				spotsResultStrategies[spotsResult.status](spotsResult);
-
 				settings.center = spotsResult.center;
-				settings.goToCenter.unbind("click", goToCenterHandler);
-				settings.goToCenter.bind("click", goToCenterHandler);
+				spotsResultStrategies[spotsResult.status](spotsResult);
 			});
+		};
+
+		var initializeParcels = function (parcels, isSetBound) {
+			clearMap();
+
+			var bounds = new window.google.maps.LatLngBounds();
+
+			for (var parcelIndex in parcels) {
+				var parcel = parcels[parcelIndex];
+
+				var elementPolygonCoords = [];
+
+				for (var pointIndex in parcel.points) {
+					var point = parcel.points[pointIndex];
+					elementPolygonCoords.push(new window.google.maps.LatLng(point.lng, point.lat));
+				}
+
+				var parcelDesc = {
+					parcel: parcel,
+					paths: elementPolygonCoords
+				};
+
+				parcelsDescriptions.push(parcelDesc);
+				displayParcel(parcelDesc);
+
+				parcelDesc.polygon.getPath().forEach(function (pointArg) {
+					bounds.extend(pointArg);
+				});
+
+				if (isSetBound) {
+					gmap.fitBounds(bounds);
+				}
+			}
 		};
 
 		var initializeSpots = function (spots, isSetBounds) {
 			clearMap();
-			spotDescriptions = [];
 
 			var bounds = new window.google.maps.LatLngBounds();
 
@@ -135,9 +201,7 @@
 				for (var pointIndex in spot.points) {
 					var point = spot.points[pointIndex];
 
-					// ReSharper disable UseOfImplicitGlobalInFunctionScope
-					elementPolygonCoords.push(new google.maps.LatLng(point.lng, point.lat));
-					// ReSharper restore UseOfImplicitGlobalInFunctionScope
+					elementPolygonCoords.push(new window.google.maps.LatLng(point.lng, point.lat));
 				}
 
 				var spotDesc = {
@@ -162,6 +226,7 @@
 
 		var onPhaseChangedHandler = function (phaseArg) {
 			settings.isDisplayBounds = true;
+			settings.isNavigateToCenter = true;
 			window.google.maps.event.clearListeners(gmap, "idle");
 			var idleHandler = function () {
 				refreshData(phaseArg.arg.phaseId);
@@ -229,8 +294,6 @@
 			q.events().unbind("updateSpotState", onUpdateSpotStateHandler);
 			q.events().unbind("selectFirstAvailableSpot", onSelectFirstAvailableSpot);
 			q.events().unbind("removeFirstSpot", onRemoveFirstSpot);
-			settings.goToCenter.unbind("click", goToCenterHandler);
-
 			window.google.maps.event.clearListeners(gmap, "idle");
 
 			console.log("destory spots control.");

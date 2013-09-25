@@ -40,10 +40,11 @@ namespace SaveASpot.Services.Implementations.Geocoding
 		public SquareElementsResult FindElementsForSquare(IElementIdentity phase, Point leftBottom, Point rightTop)
 		{
 			var maxSpotsPerPage = _configurationManager.GetInt32Settings(MaxSpotsPerPageKey).Status;
-			var parcels = _parcelQueryable.Filter(e => e.ByPhase(phase)).Select(e => _elementIdentityConverter.ToIdentity(e.Id)).ToList();
-			var spots = _spotQueryable.Filter(e => e.ByParcels(parcels)).ToList();
+			var parcels = _parcelQueryable.Filter(e => e.ByPhase(phase)).ToList();
+			var parcelsIdCollection = parcels.Select(e => _elementIdentityConverter.ToIdentity(e.Id)).ToList();
+			var spots = _spotQueryable.Filter(e => e.ByParcels(parcelsIdCollection)).ToList();
 
-			return _strategyManager.Execute(new SquareStrategyArg(spots, leftBottom, rightTop, maxSpotsPerPage)).First(e => e.IsSuccess).Status;
+			return _strategyManager.Execute(new SquareStrategyArg(spots, leftBottom, rightTop, maxSpotsPerPage, parcels)).First(e => e.IsSuccess).Status;
 		}
 	}
 
@@ -53,18 +54,20 @@ namespace SaveASpot.Services.Implementations.Geocoding
 		private readonly Point _leftBottom;
 		private readonly Point _rightTop;
 		private readonly int _maxSpotsPerPage;
+		private readonly IEnumerable<Parcel> _parcels;
 
 		private IEnumerable<Spot> _spotsInSquare;
 		private int _allSpotsCount = -1;
 		private int _spotsInSquareCount = -1;
 		private Point _center;
 
-		public SquareStrategyArg(IEnumerable<Spot> allSpots, Point leftBottom, Point rightTop, int maxSpotsPerPage)
+		public SquareStrategyArg(IEnumerable<Spot> allSpots, Point leftBottom, Point rightTop, int maxSpotsPerPage, IEnumerable<Parcel> parcels)
 		{
 			_allSpots = allSpots.ToList();
 			_leftBottom = leftBottom;
 			_rightTop = rightTop;
 			_maxSpotsPerPage = maxSpotsPerPage;
+			_parcels = parcels;
 		}
 
 		public int AllSpotsCount
@@ -130,6 +133,8 @@ namespace SaveASpot.Services.Implementations.Geocoding
 
 			return _center;
 		}
+
+		public IEnumerable<Parcel> Parcels { get { return _parcels; } }
 	}
 
 	public sealed class AllSpotsStrategy : IStrategy<SquareStrategyArg, SquareElementsResult>, IStrategyOrder
@@ -150,7 +155,8 @@ namespace SaveASpot.Services.Implementations.Geocoding
 																																				Center = arg.Center(),
 																																				Message = string.Empty,
 																																				Spots = arg.AllSpots().Select(e => _typeConverter.Convert(e)).ToList(),
-																																				Status = SquareElementsResult.ResultStatus.All
+																																				Status = SquareElementsResult.ResultStatus.All,
+																																				Parcels = Enumerable.Empty<ParcelViewModel>()
 																																			});
 			}
 
@@ -163,13 +169,15 @@ namespace SaveASpot.Services.Implementations.Geocoding
 		}
 	}
 
-	public sealed class MuchSpotsStrategy : IStrategy<SquareStrategyArg, SquareElementsResult>, IStrategyOrder
+	public sealed class PhaseSpotsStrategy : IStrategy<SquareStrategyArg, SquareElementsResult>, IStrategyOrder
 	{
 		private readonly ITextService _textService;
+		private readonly ITypeConverter<Parcel, ParcelViewModel> _parcelTypeConverter;
 
-		public MuchSpotsStrategy(ITextService textService)
+		public PhaseSpotsStrategy(ITextService textService, ITypeConverter<Parcel, ParcelViewModel> parcelTypeConverter)
 		{
 			_textService = textService;
+			_parcelTypeConverter = parcelTypeConverter;
 		}
 
 		public IMethodResult<SquareElementsResult> Execute(SquareStrategyArg arg)
@@ -181,7 +189,8 @@ namespace SaveASpot.Services.Implementations.Geocoding
 																																				Center = arg.Center(),
 																																				Message = _textService.ResolveTest(Constants.Errors.MuchSpotsInSquare),
 																																				Spots = Enumerable.Empty<SpotViewModel>(),
-																																				Status = SquareElementsResult.ResultStatus.Much
+																																				Status = SquareElementsResult.ResultStatus.Phase,
+																																				Parcels = arg.Parcels.Select(e => _parcelTypeConverter.Convert(e))
 																																			});
 			}
 
@@ -212,7 +221,8 @@ namespace SaveASpot.Services.Implementations.Geocoding
 																																				Center = arg.Center(),
 																																				Message = _textService.ResolveTest(Constants.Errors.SpotsInCurrentRegionNotFound),
 																																				Spots = Enumerable.Empty<SpotViewModel>(),
-																																				Status = SquareElementsResult.ResultStatus.NotFound
+																																				Status = SquareElementsResult.ResultStatus.NotFound,
+																																				Parcels = Enumerable.Empty<ParcelViewModel>()
 																																			});
 			}
 
@@ -245,7 +255,8 @@ namespace SaveASpot.Services.Implementations.Geocoding
 																																 Center = arg.Center(),
 																																 Message = _textService.ResolveTest(Constants.Errors.PartSpotsInSquare),
 																																 Spots = arg.SpotsInSquare().Select(e => _typeConverter.Convert(e)).ToList(),
-																																 Status = SquareElementsResult.ResultStatus.Part
+																																 Status = SquareElementsResult.ResultStatus.Part,
+																																 Parcels = Enumerable.Empty<ParcelViewModel>()
 																															 });
 			}
 
@@ -274,7 +285,8 @@ namespace SaveASpot.Services.Implementations.Geocoding
 				Center = arg.Center(),
 				Message = _textService.ResolveTest(Constants.Errors.UnknowBehavior),
 				Spots = Enumerable.Empty<SpotViewModel>(),
-				Status = SquareElementsResult.ResultStatus.Last
+				Status = SquareElementsResult.ResultStatus.Last,
+				Parcels = Enumerable.Empty<ParcelViewModel>()
 			});
 		}
 

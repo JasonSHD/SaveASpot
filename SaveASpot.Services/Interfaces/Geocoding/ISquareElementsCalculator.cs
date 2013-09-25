@@ -16,10 +16,12 @@ namespace SaveASpot.Services.Interfaces.Geocoding
 		public ResultStatus Status { get; set; }
 		public string Message { get; set; }
 		public IEnumerable<SpotViewModel> Spots { get; set; }
+		public IEnumerable<ParcelViewModel> Parcels { get; set; } 
 
 		public enum ResultStatus
 		{
-			Much,
+			//Much,
+			Phase,
 			NotFound,
 			All,
 			Part,
