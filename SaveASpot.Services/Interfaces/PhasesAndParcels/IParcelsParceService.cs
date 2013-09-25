@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using SaveASpot.Core;
 
-namespace SaveASpot.Services.Interfaces
+namespace SaveASpot.Services.Interfaces.PhasesAndParcels
 {
-	public interface IParcelsService
+	public interface IParcelsParceService
 	{
 		IMethodResult<MessageResult> AddParcels(StreamReader input, decimal spotPrice);
 	}

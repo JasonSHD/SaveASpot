@@ -10,17 +10,17 @@ using SaveASpot.Core.Geocoding;
 using SaveASpot.Core.Logging;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
-using SaveASpot.Services.Interfaces;
+using SaveASpot.Services.Interfaces.PhasesAndParcels;
 
-namespace SaveASpot.Services.Implementations
+namespace SaveASpot.Services.Implementations.PhasesAndParcels
 {
-	public sealed class ArcgisSpotsService : ISpotsService
+	public sealed class ArcgisSpotsParceService : ISpotsParceService
 	{
 		private readonly IParcelQueryable _parcelQueryable;
 		private readonly ILogger _logger;
 		private readonly ISpotRepository _spotRepository;
 
-		public ArcgisSpotsService(IParcelQueryable parcelQueryable, ILogger logger, ISpotRepository spotRepository)
+		public ArcgisSpotsParceService(IParcelQueryable parcelQueryable, ILogger logger, ISpotRepository spotRepository)
 		{
 			_parcelQueryable = parcelQueryable;
 			_logger = logger;

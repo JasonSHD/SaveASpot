@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using MongoDB.Bson;
 using NSubstitute;
@@ -7,7 +6,7 @@ using NUnit.Framework;
 using SaveASpot.Core.Geocoding;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
-using SaveASpot.Services.Implementations;
+using SaveASpot.Services.Implementations.PhasesAndParcels;
 using TestsSaveASpot.Core;
 
 namespace TestsSaveASpot.Implementations
@@ -17,7 +16,7 @@ namespace TestsSaveASpot.Implementations
 	{
 		private ISpotRepository SpotRepository { get; set; }
 		private IParcelQueryable ParcelQueryable { get; set; }
-		private ArcgisSpotsService Target { get; set; }
+		private ArcgisSpotsParceService Target { get; set; }
 
 		[SetUp]
 		public void SetUp()
@@ -39,7 +38,7 @@ namespace TestsSaveASpot.Implementations
 													new Point{Longitude = maxLongitude, Latitude = maxLatitude *-1}
 					              }
 			} });
-			Target = new ArcgisSpotsService(ParcelQueryable, new LoggerStub(), SpotRepository);
+			Target = new ArcgisSpotsParceService(ParcelQueryable, new LoggerStub(), SpotRepository);
 		}
 
 		private static StreamReader SpotsResource1

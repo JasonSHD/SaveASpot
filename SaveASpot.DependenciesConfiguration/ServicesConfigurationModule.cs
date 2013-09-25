@@ -5,11 +5,13 @@ using SaveASpot.Repositories.Models;
 using SaveASpot.Services.Implementations;
 using SaveASpot.Services.Implementations.Controllers;
 using SaveASpot.Services.Implementations.Geocoding;
+using SaveASpot.Services.Implementations.PhasesAndParcels;
 using SaveASpot.Services.Implementations.Security;
 using SaveASpot.Services.Implementations.Validators.Security;
 using SaveASpot.Services.Interfaces;
 using SaveASpot.Services.Interfaces.Controllers;
 using SaveASpot.Services.Interfaces.Geocoding;
+using SaveASpot.Services.Interfaces.PhasesAndParcels;
 using SaveASpot.Services.Interfaces.Security;
 using SaveASpot.ViewModels;
 
@@ -27,8 +29,8 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ICurrentUser>().To<CurrentUser>();
 			Bind<IRoleFactory>().To<RoleFactory>();
 			Bind<ITextService>().To<TextService>();
-			Bind<IParcelsService>().To<ArcgisParcelsService>();
-			Bind<ISpotsService>().To<ArcgisSpotsService>();
+			Bind<IParcelsParceService>().To<ArcgisParcelsParceService>();
+			Bind<ISpotsParceService>().To<ArcgisSpotsParceService>();
 			Bind<IAuthorizeManager>().To<AuthorizeManager>();
 			Bind<ISetupUsersControllerService>().To<SetupUsersControllerService>();
 			Bind<IParcelsControllerService>().To<ParcelsControllerService>();
@@ -51,6 +53,9 @@ namespace SaveASpot.DependenciesConfiguration
 			Bind<ICartAmountCalculator>().To<CartAmountCalculator>();
 			Bind<ICustomerFactory>().To<CustomerFactory>();
 			Bind<ISquareElementsCalculator>().To<SquareElementsCalculator>();
+			Bind<ISpotsService>().To<SpotsService>();
+			Bind<IPhasesService>().To<PhasesService>();
+			Bind<IParcelsService>().To<ParcelsService>();
 		}
 	}
 }

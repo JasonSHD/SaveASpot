@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver.Builders;
 using SaveASpot.Core;
@@ -24,11 +25,11 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			return spot;
 		}
 
-		public bool Remove(IElementIdentity identity)
+		public bool Remove(IEnumerable<IElementIdentity> identity)
 		{
-			ObjectId id = identity.ToIdentity();
+			var idCollection = identity.Select(e => e.ToIdentity());
 
-			_mongoDbCollectionFactory.Collection<Spot>().Remove(Query<Spot>.Where(e => e.Id == id));
+			_mongoDbCollectionFactory.Collection<Spot>().Remove(Query<Spot>.In(e => e.Id, idCollection));
 
 			return true;
 		}
@@ -63,11 +64,6 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			_mongoDbCollectionFactory.Collection<Spot>().Save(spot);
 
 			return true;
-		}
-
-		public IEnumerable<Spot> GetSpotsByParcelId(string parcelId)
-		{
-			return _mongoDbCollectionFactory.Collection<Spot>().Find(Query<Spot>.Where(s => s.ParcelId == parcelId.ToIdentity()));
 		}
 	}
 }

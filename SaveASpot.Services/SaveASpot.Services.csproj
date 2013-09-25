@@ -52,8 +52,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implementations\AllowCustomerToRemoveSpotValidator.cs" />
-    <Compile Include="Implementations\ArcgisParcelsService.cs" />
-    <Compile Include="Implementations\ArcgisSpotsService.cs" />
+    <Compile Include="Implementations\PhasesAndParcels\ArcgisParcelsParceService.cs" />
+    <Compile Include="Implementations\PhasesAndParcels\ArcgisSpotsParceService.cs" />
     <Compile Include="Implementations\CartAmountCalculator.cs" />
     <Compile Include="Implementations\CartConverter.cs" />
     <Compile Include="Implementations\CartService.cs" />
@@ -76,6 +76,12 @@
     <Compile Include="Implementations\Controllers\UploadPhasesAndParcelsControllerService.cs" />
     <Compile Include="Implementations\CurrentCart.cs" />
     <Compile Include="Implementations\Geocoding\SquareElementsCalculator.cs" />
+    <Compile Include="Interfaces\PhasesAndParcels\IParcelsService.cs" />
+    <Compile Include="Interfaces\PhasesAndParcels\IPhasesService.cs" />
+    <Compile Include="Interfaces\PhasesAndParcels\ISpotsService.cs" />
+    <Compile Include="Implementations\PhasesAndParcels\ParcelsService.cs" />
+    <Compile Include="Implementations\PhasesAndParcels\PhasesService.cs" />
+    <Compile Include="Implementations\PhasesAndParcels\SpotsService.cs" />
     <Compile Include="Implementations\Security\CurrentCustomer.cs" />
     <Compile Include="Implementations\Security\CurrentUser.cs" />
     <Compile Include="Implementations\Polygon.cs" />
@@ -121,10 +127,10 @@
     <Compile Include="Interfaces\ICartAmountCalculator.cs" />
     <Compile Include="Interfaces\ICartService.cs" />
     <Compile Include="Interfaces\ICurrentCart.cs" />
-    <Compile Include="Interfaces\IParcelsService.cs" />
+    <Compile Include="Interfaces\PhasesAndParcels\IParcelsParceService.cs" />
     <Compile Include="Interfaces\ISponsorsService.cs" />
     <Compile Include="Interfaces\ISpotsBookingService.cs" />
-    <Compile Include="Interfaces\ISpotsService.cs" />
+    <Compile Include="Interfaces\PhasesAndParcels\ISpotsParceService.cs" />
     <Compile Include="Interfaces\ISpotValidateFactory.cs" />
     <Compile Include="Interfaces\ITextParserCase.cs" />
     <Compile Include="Interfaces\ITextParserEngine.cs" />
@@ -175,6 +181,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

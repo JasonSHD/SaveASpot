@@ -7,17 +7,19 @@ using SaveASpot.Core;
 using SaveASpot.Core.Geocoding;
 using SaveASpot.Repositories.Interfaces.PhasesAndParcels;
 using SaveASpot.Repositories.Models;
-using SaveASpot.Services.Interfaces;
+using SaveASpot.Services.Interfaces.PhasesAndParcels;
 
-namespace SaveASpot.Services.Implementations
+namespace SaveASpot.Services.Implementations.PhasesAndParcels
 {
-	public sealed class ArcgisParcelsService : IParcelsService
+	public sealed class ArcgisParcelsParceService : IParcelsParceService
 	{
 		private readonly IPhaseRepository _phaseRepository;
 		private readonly IPhaseQueryable _phaseQueryable;
 		private readonly IParcelRepository _parcelRepository;
 
-		public ArcgisParcelsService(IPhaseRepository phaseRepository, IPhaseQueryable phaseQueryable, IParcelRepository parcelRepository)
+		public ArcgisParcelsParceService(IPhaseRepository phaseRepository,
+			IPhaseQueryable phaseQueryable,
+			IParcelRepository parcelRepository)
 		{
 			_phaseRepository = phaseRepository;
 			_phaseQueryable = phaseQueryable;

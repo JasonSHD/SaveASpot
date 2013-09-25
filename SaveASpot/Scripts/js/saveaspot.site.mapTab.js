@@ -232,7 +232,7 @@
 
 			window.google.maps.event.clearListeners(gmap, "idle");
 
-			log.write("destory spots control.");
+			console.log("destory spots control.");
 		};
 
 		return result;
@@ -556,7 +556,7 @@
 		})({}, jQuery));
 	}
 
-	arg.destroy = function () {
+	arg.unload = function () {
 		for (var controlIndex in controlsForDestroy) {
 			var control = controlsForDestroy[controlIndex];
 			control.destroy();
@@ -887,7 +887,7 @@ q("mapTab_checkout", function (arg) {
 	checkoutControl.start();
 
 
-	arg.destroy = function () {
+	arg.unload = function () {
 		checkoutControl.destroy();
 	};
 });
