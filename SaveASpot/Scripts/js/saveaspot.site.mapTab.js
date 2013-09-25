@@ -5,10 +5,9 @@
 	var gmap;
 	q.controls.gmap(gmapKey, function () {
 		var mapOptions = {
-			zoom: 8,
-			// ReSharper disable UseOfImplicitGlobalInFunctionScope
-			center: new google.maps.LatLng(0, 0),
-			mapTypeId: google.maps.MapTypeId.ROADMAP
+			zoom: 17,
+		    center: new google.maps.LatLng(40.58822748562923,-111.58563494682312),
+			mapTypeId: google.maps.MapTypeId.SATELLITE
 		};
 		gmap = new google.maps.Map(gmapCanvas, mapOptions);
 		// ReSharper restore UseOfImplicitGlobalInFunctionScope
