@@ -9,6 +9,7 @@ namespace SaveASpot.Repositories.Interfaces.PhasesAndParcels
 	{
 		IParcelFilter All();
 		IParcelFilter ByPhase(IElementIdentity identity);
+		IParcelFilter ByPhases(IEnumerable<IElementIdentity> identities);
 		IParcelFilter ByIdentities(IEnumerable<IElementIdentity> parcelsIdentities);
 	}
 

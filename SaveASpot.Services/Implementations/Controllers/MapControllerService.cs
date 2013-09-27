@@ -22,8 +22,10 @@ namespace SaveASpot.Services.Implementations.Controllers
 		private readonly ITypeConverter<Phase, PhaseViewModel> _typeConverter;
 		private readonly IConfigurationManager _configurationManager;
 		private readonly IConverter<Sponsor, SponsorViewModel> _converter;
-		private readonly ICurrentCart _currentCart;
 		private readonly ISquareElementsCalculator _squareElementsCalculator;
+		private readonly IParcelQueryable _parcelQueryable;
+		private readonly ITypeConverter<Parcel, ParcelViewModel> _parcelTypeConverter;
+		private readonly IElementIdentityConverter _elementIdentityConverter;
 
 		public MapControllerService(ICurrentUser currentUser,
 			ISponsorQueryable sponsorQueryable,
@@ -31,8 +33,10 @@ namespace SaveASpot.Services.Implementations.Controllers
 			ITypeConverter<Phase, PhaseViewModel> typeConverter,
 			IConfigurationManager configurationManager,
 			IConverter<Sponsor, SponsorViewModel> converter,
-			ICurrentCart currentCart, 
-			ISquareElementsCalculator squareElementsCalculator)
+			ISquareElementsCalculator squareElementsCalculator, 
+			IParcelQueryable parcelQueryable, 
+			ITypeConverter<Parcel, ParcelViewModel> parcelTypeConverter, 
+			IElementIdentityConverter elementIdentityConverter)
 		{
 			_currentUser = currentUser;
 			_sponsorQueryable = sponsorQueryable;
@@ -40,23 +44,27 @@ namespace SaveASpot.Services.Implementations.Controllers
 			_typeConverter = typeConverter;
 			_configurationManager = configurationManager;
 			_converter = converter;
-			_currentCart = currentCart;
 			_squareElementsCalculator = squareElementsCalculator;
+			_parcelQueryable = parcelQueryable;
+			_parcelTypeConverter = parcelTypeConverter;
+			_elementIdentityConverter = elementIdentityConverter;
 		}
 
 		public MapViewModel GetMapViewModel()
 		{
+			var allPhases = _phaseQueryable.Filter(e => e.All()).ToList();
+
 			var viewModel = new MapViewModel
 							 {
 								 ShowCustomerBookingPanel = _currentUser.User.IsCustomer() || _currentUser.User.IsAnonym(),
-								 Phases = _phaseQueryable.Filter(e => e.All()).Find().Select(_typeConverter.Convert).ToList(),
-								 GoogleMapKey = _configurationManager.GetSettings("GoogleMapKey")
+								 Phases = allPhases.Select(_typeConverter.Convert).ToList(),
+								 GoogleMapKey = _configurationManager.GetSettings("GoogleMapKey"),
+								 Parcels = _parcelQueryable.Filter(e => e.ByPhases(allPhases.Select(p => _elementIdentityConverter.ToIdentity(p.Id)))).Select(e => _parcelTypeConverter.Convert(e))
 							 };
 
 			if (viewModel.ShowCustomerBookingPanel)
 			{
 				viewModel.Sponsors = Enumerable.Empty<SponsorViewModel>();
-				viewModel.Cart = _currentCart.Cart;
 			}
 			else
 			{

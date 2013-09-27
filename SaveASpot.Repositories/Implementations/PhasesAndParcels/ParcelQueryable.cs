@@ -23,6 +23,12 @@ namespace SaveASpot.Repositories.Implementations.PhasesAndParcels
 			return new ParcelFilter(Query<Parcel>.Where(e => e.PhaseId == phaseId));
 		}
 
+		public IParcelFilter ByPhases(IEnumerable<IElementIdentity> identities)
+		{
+			var idCollection = identities.Select(e => e.ToIdentity()).ToList();
+			return new ParcelFilter(Query<Parcel>.In(e => e.PhaseId, idCollection));
+		}
+
 		public IParcelFilter ByIdentities(IEnumerable<IElementIdentity> parcelsIdentities)
 		{
 			var parcelIds = parcelsIdentities.Select(e => e.ToIdentity());
