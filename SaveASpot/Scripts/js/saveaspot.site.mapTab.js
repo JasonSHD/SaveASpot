@@ -10,6 +10,7 @@
 			mapTypeId: window.google.maps.MapTypeId.ROADMAP
 		};
 		gmap = new google.maps.Map(gmapCanvas, mapOptions);
+		$("[data-identity='all_phases']").trigger("click");
 	});
 
 	var controlsForDestroy = [];
@@ -627,8 +628,6 @@
 			return result;
 		})({}, jQuery));
 	}
-
-	$("[data-identity='all_phases']").trigger("click");
 
 	arg.unload = function () {
 		for (var controlIndex in controlsForDestroy) {
