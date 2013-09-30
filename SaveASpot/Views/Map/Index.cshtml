@@ -51,7 +51,14 @@
 			<div id="map-canvas" class="mini-layout-body">
 			</div>
 		</div>
-
+		@if (Model.ShowCustomerBookingPanel)
+	{
+		Html.RenderPartial("CustomerSpots", Model);
+	}
+	else
+	{
+		Html.RenderPartial("CorpoprateSponsors", Model);
+	}
 	</div>
 	<div data-tabelement="checkout" style="display: none;" id="pad-wrapper">
 		<div data-checkout-content="">
