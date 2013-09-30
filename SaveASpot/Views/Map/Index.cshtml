@@ -1,4 +1,6 @@
 ﻿﻿@model SaveASpot.ViewModels.MapViewModel
+@using System.Linq
+@using Newtonsoft.Json
 @using SaveASpot.Controllers
 @{
 	ViewBag.Title = "Index";
@@ -69,4 +71,10 @@
 		</p>
 	</div>
 </div>
+
+<script>
+	window.___allActiveParcels = function () {
+		return @Html.Raw(JsonConvert.SerializeObject(Model.Parcels.Select(e => e.ToJson())));
+	};
+</script>
 

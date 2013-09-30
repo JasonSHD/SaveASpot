@@ -137,6 +137,16 @@
 		};
 
 		var refreshData = function (phaseId) {
+			if (phaseId == "all_phases") {
+				settings.messageContainer.html("");
+				initializeParcels(window.___allActiveParcels(), true);
+				window.google.maps.event.clearListeners(gmap, "idle");
+				settings.isDisplayBounds = false;
+				settings.isNavigateToCenter = false;
+				
+				return;
+			}
+
 			var mapBound = gmap.getBounds();
 			var southWest = mapBound.getSouthWest();
 			var northEast = mapBound.getNorthEast();
@@ -617,6 +627,8 @@
 			return result;
 		})({}, jQuery));
 	}
+
+	$("[data-identity='all_phases']").trigger("click");
 
 	arg.unload = function () {
 		for (var controlIndex in controlsForDestroy) {
