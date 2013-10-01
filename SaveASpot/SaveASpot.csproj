@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Areas\API\APIAreaRegistration.cs" />
+    <Compile Include="Areas\API\Controllers\CartController.cs" />
     <Compile Include="Areas\API\Controllers\PhaseController.cs" />
     <Compile Include="Areas\API\Controllers\SponsorSpotController.cs" />
     <Compile Include="Areas\API\Controllers\SpotController.cs" />
@@ -342,6 +343,7 @@
     <Content Include="Areas\Settings\Views\Sponsor\Index.cshtml" />
     <Content Include="Areas\Settings\Views\Sponsor\New.cshtml" />
     <Content Include="Areas\Settings\Views\Sponsor\Edit.cshtml" />
+    <Content Include="Areas\Settings\Views\Sponsor\Checkout.cshtml" />
     <None Include="Content\css\scss\calendar.scss" />
     <None Include="Content\css\scss\chart-showcase.scss" />
     <None Include="Content\css\scss\elements.scss" />

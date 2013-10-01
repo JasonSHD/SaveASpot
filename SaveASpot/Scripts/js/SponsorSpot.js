@@ -79,15 +79,17 @@ SaveASpot.SponsorSpot = (function ($) {
     my.ToggleSelect = function () {
         var color = SaveASpot.Map.SpotColors.Selected;
         if (this.selected) {
-            console.log("remove:" + my.RemoveFromSelected(this.SpotID));
+            SaveASpot.Map.removeFromCart(this.SpotID, my.SelectedPhaseID);
             color = SaveASpot.Map.SpotColors.Available;
         }
         else {
-            console.log("add: " + this.SpotID);
-
+            SaveASpot.Map.addToCart(this.SpotID, my.SelectedPhaseID);
             var spot = my.FindSpotByID(this.SpotID);
             my.SelectedSpots.push(spot);
         }
+
+        $(".notification-count").html(my.SelectedSpots.length);
+        my.RenderList();
 
         this.selected = !this.selected;
         this.setOptions({
@@ -117,36 +119,17 @@ SaveASpot.SponsorSpot = (function ($) {
 
     my.RenderList = function () {
         // clear the menu
-        $("#dashboard-menu").html("");
+        $("#cart").html("");
 
         // load the templates
-        var template = $("#phaseItem").html();
-        var all = $("#phaseAllItem").html();
-
-        // load the all item
-        $("#dashboard-menu").append(all);
+        var template = $("#cartItem").html();
 
         // load the phase items
-        for (var i = 0; i < my.Phases.length; i++) {
-            var output = Mustache.render(template, my.Phases[i]);
-            $("#dashboard-menu").append(output);
+        for (var i = 0; i < my.SelectedSpots.length; i++) {
+            var data = { Index: i + 1, Price: "N/A", ID: my.SelectedSpots[i].SpotIDString };
+            var output = Mustache.render(template, data);
+            $("#cart").append(output);
         }
-
-        // bind events
-        $(".phase").click(function () {
-            var phase = $(this).attr("href").replace("#", "");
-            SaveASpot.Map.setPhase(phase);
-
-            var parent = $(this).parent().parent();
-            parent.find("li").removeClass("active");
-            $(this).parent().addClass("active");
-            return false;
-        });
-
-        $(".phase-all").click(function () {
-            SaveASpot.Map.setAllPhase();
-            return false;
-        });
     };
 
     my.FindSpotByID = function (id) {

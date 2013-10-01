@@ -67,6 +67,7 @@
     <Compile Include="Controllers\WebEventsCollection.cs" />
     <Compile Include="DataContext.cs" />
     <Compile Include="Models\Author.cs" />
+    <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Coordinate.cs" />
     <Compile Include="Models\Count.cs" />
     <Compile Include="Models\Parcel.cs" />

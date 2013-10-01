@@ -103,5 +103,46 @@ namespace SaveASpot.Areas.Settings.Controllers
 
             return Json(new { success = success });
         }
+
+        public ActionResult Checkout(ObjectId id)
+        {
+            CurrentCart.SponsorID = id;
+            return View(CurrentCart);
+        }
+
+        [HttpPost]
+        public ActionResult Checkout(Cart model)
+        {
+            var cart = CurrentCart;
+
+            foreach (var item in cart.Items)
+            {
+                var spot = Context.SponsorSpots.GetSpot(item.SpotID);
+                spot.Taken = true;
+                spot.SponsorID = model.SponsorID;
+
+                Context.SponsorSpots.SaveSpot(spot);
+            }
+
+            return RedirectToAction("Edit", new { id = model.SponsorID });
+        }
+
+        private Cart CurrentCart
+        {
+            get
+            {
+                object cart = Session["Cart"];
+                if (cart == null)
+                {
+                    cart = new Cart() { CartID = ObjectId.GenerateNewId(), Items = new List<CartItem>() };
+                    Session["Cart"] = cart;
+                }
+                return (Cart)cart;
+            }
+            set
+            {
+                Session["Cart"] = value;
+            }
+        }
     }
 }

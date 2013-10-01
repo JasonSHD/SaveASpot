@@ -18,6 +18,7 @@ SaveASpot.Map = (function ($) {
 
     my.SpotColors = { Available: "#00FF00", Selected: "#FFFF00", Unavailable: "#FF0000" };
     my.baseUrl = "/API/Map/";
+    my.CartUrl = "/API/Cart/";
 
     my.Initialize = function () {
         // initialize map
@@ -213,6 +214,30 @@ SaveASpot.Map = (function ($) {
 
         layer.getPath().forEach(function (element, index) { bounds.extend(element); });
         return bounds;
+    };
+
+    my.addToCart = function (id, phaseID) {
+        var data = { id: id, phaseID: phaseID };
+        $.post(my.CartUrl + "Add", data, function (result) {
+            if (result.success) {
+                //console.log("hooray beer added.");
+            }
+            else {
+                //console.log("boo beer, not added.");
+            }
+        }, "json");
+    };
+
+    my.removeFromCart = function (id) {
+        var data = { id: id };
+        $.post(my.CartUrl + "Remove", data, function (result) {
+            if (result.success) {
+                //console.log("hooray beer removed.");
+            }
+            else {
+                //console.log("boo beer, not removed.");
+            }
+        }, "json");
     };
 
     return my;

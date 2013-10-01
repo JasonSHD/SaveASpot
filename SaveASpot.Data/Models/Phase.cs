@@ -19,7 +19,7 @@ namespace SaveASpot.Data.Models
         [BsonId]
         public ObjectId PhaseID { get; set; }
         public string PhaseName { get; set; }
-        public string SpotPrice { get; set; }
+        public int SpotPrice { get; set; }
         public bool Active { get; set; }
         public bool Complete { get; set; }
 
