@@ -1,8 +1,44 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Save A Spot Map";
 }
 
-<h2>@ViewBag.Message</h2>
-<p>
-    To learn more about ASP.NET MVC visit <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
-</p>
+@section styles {    
+    <link rel="stylesheet" type="text/css" href="/Content/Map.css" />
+}
+
+@section SideBar {
+    <ul id="dashboard-menu"></ul>
+
+    <p style="text-align: center; padding: 1em;">Spot Count: <span id="spotCount"></span></p>
+}
+        
+<div id="map_canvas"></div>
+<div id="map_loading" class="hide">
+    <div class="progress progress-striped active">
+        <div class="bar" style="width: 40%;"></div>
+    </div>
+</div>
+
+<script id="phaseItem" type="text/html"><li>
+    <a href="#{{ID}}" class="phase">                    
+        <i class="icon-map-marker"></i>
+        <span>{{PhaseName}}</span>
+    </a>
+</li> 
+</script>
+
+<script id="phaseAllItem" type="text/html"><li class="active">
+    <a href="#all" class="phase-all">
+        <i class="icon-map-marker"></i>
+        <span>Show All</span>
+    </a>
+</li>
+</script>
+
+@section footer {
+    <script src="/Scripts/mustache.js" type="text/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCw9fP5c4kc5MiZBvUzLiMc8tY00BU4_i4&sensor=true" type="text/javascript"></script>
+    <script src="/Scripts/js/map.js" type="text/javascript"></script>
+    <script src="/Scripts/js/Phase.js" type="text/javascript"></script>
+    <script src="/Scripts/js/Spot.js" type="text/javascript"></script>
+}

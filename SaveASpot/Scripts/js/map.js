@@ -1,166 +1,206 @@
-var map, directionService, directionRenderer, geocoder, infoWindow;
-
 $(function () {
-    // initialize map
-    var mapOptions = {
-        center: new google.maps.LatLng(40.58822748562923,-111.58563494682312),
-        zoom: 17,
-        mapTypeId: google.maps.MapTypeId.SATELLITE
-    };
-    map = new google.maps.Map(document.getElementById("map"),
-      mapOptions);
-
-    // initialize directions
-    directionService = new google.maps.DirectionsService();
-    directionRenderer = new google.maps.DirectionsRenderer();
-    directionRenderer.setMap(map);
-    geocoder = new google.maps.Geocoder();
-    infoWindow = new google.maps.InfoWindow();
-
-
-    // compute the distance
-    google.maps.event.addListener(directionRenderer, 'directions_changed', function () {
-        computeTotalDistance(directionRenderer.directions);
-    });
-
-    // get settings
-    $.post('data/Phase1.json', function(result) {
-      processPolygonsLayers(result, '#FF0000');
-    }, 'json');
-
-    // get settings
-    $.post('data/Phase1_Grid.json', function(result) {        
-      processPolygonsLayers(result, '#00FF00');
-    }, 'json');
-
+    SaveASpot.Phase.Initialize();
+    SaveASpot.Spot.Initialize();
+    SaveASpot.Map.Initialize();
 });
 
-function processPolygonsLayers(result, color) {
-      if(result != null) {
-        for(var i = 0; i < result.features.length; i++) {
-          var feature = result.features[i];
-          var coords = feature.geometry.coordinates[0];
-          var name = feature.properties.Name;
-          var phase = feature.properties.Phase;
+var SaveASpot = SaveASpot || {};
 
-          var phaseCoords = new Array();
+SaveASpot.Map = (function ($) {
+    var my = {};
 
-          for(var j = 0; j < coords.length; j++) {
-            phaseCoords.push(new google.maps.LatLng(coords[j][1],coords[j][0]));
-          }
+    my.map;
+    my.geocoder;
+    my.infoWindow;
+    my.layers = [];
+    my.Loader = null;
 
-          var spot = new google.maps.Polygon({
-            paths: phaseCoords,
-            strokeColor: color,
-            strokeOpacity: 0.5,
-            strokeWeight: 1,
-            fillColor: color,
-            fillOpacity: 0.35
-          });
+    my.SpotColors = { Available: "#00FF00", Selected: "#FFFF00", Unavailable: "#FF0000" };
+    my.baseUrl = "/API/Map/";
 
-          spot.setMap(map);
+    my.Initialize = function () {
+        // initialize map
+        var mapOptions = {
+            center: new google.maps.LatLng(40.58822748562923, -111.58563494682312),
+            zoom: 17,
+            mapTypeId: google.maps.MapTypeId.SATELLITE
+        };
+        my.map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
-          // add a listener for the click event
-          google.maps.event.addListener(spot, 'click', showArrays);
-        }
-      }
-    }
+        // initialize directions
+        my.infoWindow = new google.maps.InfoWindow();
 
-      
-/** @this {google.maps.Polygon} */
-function showArrays(event) {
-
-  // Since this Polygon only has one path, we can call getPath()
-  // to return the MVCArray of LatLngs
-  var vertices = this.getPath();
-
-  var contentString = '<b>Phase Polygons</b><br>';
-  contentString += 'Clicked Location: <br>' + event.latLng.lat() + ',' + event.latLng.lng() + '<br>';
-
-  // Iterate over the vertices.
-  for (var i =0; i < vertices.getLength(); i++) {
-    var xy = vertices.getAt(i);
-    contentString += '<br>' + 'Coordinate: ' + i + '<br>' + xy.lat() +',' + xy.lng();
-  }
-
-  // Replace our Info Window's content and position
-  infoWindow.setContent(contentString);
-  infoWindow.setPosition(event.latLng);
-
-  infoWindow.open(map);
-}
-
-function showLocation() {
-    var start = document.getElementById("address1").value;
-    var end = document.getElementById("address2").value;
-    var request = {
-        origin: start,
-        destination: end,
-        travelMode: google.maps.TravelMode.DRIVING
+        // map loader
+        my.Loader = $("#map_loading");
     };
-    directionService.route(request, function (result, status) {
-        if (status == google.maps.DirectionsStatus.OK) {
-            directionRenderer.setDirections(result);
+
+    my.SetLoaderPercentage = function (percent) {
+        my.Loader.find(".bar").css("width", percent + "%");
+    };
+
+    my.setPhase = function (id) {
+        // clear layers
+        my.clearOverlays();
+
+        // find the phase
+        var phase = SaveASpot.Phase.FindPhaseByID(id);
+
+        // get settings
+        my.loadPhase(phase, true, my.showArrays);
+    };
+
+    my.setAllPhase = function () {
+        // clear layers
+        my.clearOverlays();
+
+        for (var i = 0; i < SaveASpot.Phase.Phases.length; i++) {
+            // get settings
+            my.loadPhase(SaveASpot.Phase.Phases[i], false);
         }
-    });
-}
+    };
 
-function computeTotalDistance(result) {
-    var total = 0;
-    var myroute = result.routes[0];
-    for (i = 0; i < myroute.legs.length; i++) {
-        total += myroute.legs[i].distance.value;
-    }
-    var drivingDistanceMiles = total / 1609.344;
-    drivingDistanceMiles = Math.round(drivingDistanceMiles * 100) / 100;
-    var drivingrate1 = Math.round((drivingDistanceMiles * fleetSettings.EstimateMileageCost * fleetSettings.EstimateMileageTicks) + fleetSettings.EstimatePkupCost);
-    var drivingrate2 = Math.round(drivingrate1 * (1 + fleetSettings.EstimateUpperPercentage));
+    my.loadPhase = function (phase, selectable, clickEvent) {
+        var color = my.pickPhaseColor(phase)
+        my.processPolygonsLayers(phase, color, selectable, clickEvent);
+        my.map.fitBounds(my.getBounds());
+    };
 
-    $("#estimate").html('<strong>Driving Distance: </strong>' + drivingDistanceMiles + ' miles <br/><strong>Rate estimate: </strong> $' + drivingrate1 + ' to $' + drivingrate2 + '<br/>');
-    $("#estimate").show();
-}
+    my.pickPhaseColor = function (phase) {
+        if (phase.Complete) { return my.PhaseColors.Complete; }
+        else if (phase.Active) { return my.PhaseColors.Active; }
+        return my.PhaseColors.Default;
+    };
 
-function codeAddress() {
-    geocoder.geocode({ 'address': fleetSettings.MapZipCode }, function (results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-            map.setCenter(results[0].geometry.location);
-        } else {
-            alert("Unable to center the map because: " + status);
+    my.PhaseColors = { Active: "#5BA0A3", Complete: "#444444", Default: "#aaaaaa" };
+
+    my.clearOverlays = function () {
+        for (var i = 0; i < my.layers.length; i++) {
+            my.layers[i].setMap(null);
         }
-    });
-}
+        my.layers = [];
+    };
 
-function getUserAddress() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-        function (position) {
+    my.processPolygonsLayers = function (phase, color, selectable, clickEvent) {
+        if (selectable == null) { selectable = false; }
+        if (phase != null) {
+            for (var i = 0; i < phase.Parcels.length; i++) {
+                var parcel = phase.Parcels[i];
+                var coords = parcel.ParcelShape;
+                //var name = parcel.ParcelName;
+                //var phaseName = phase.PhaseName;
 
-            // Did we get the position correctly?
-            // alert (position.coords.latitude);
+                var phaseCoords = new Array();
 
-            // To see everything available in the position.coords array:
-            // for (key in position.coords) {alert(key)}
+                for (var j = 0; j < coords.length; j++) {
+                    phaseCoords.push(new google.maps.LatLng(coords[j].Longitude, coords[j].Latitude));
+                }
 
-            mapServiceProvider(position.coords.latitude, position.coords.longitude);
+                var spot = new google.maps.Polygon({
+                    paths: phaseCoords,
+                    strokeColor: color,
+                    strokeOpacity: 0.50,
+                    strokeWeight: 1,
+                    fillColor: color,
+                    fillOpacity: 0.45
+                });
+                spot.selected = false;
 
-        },
-        // next function is the error callback
-        function (error) {
-            switch (error.code) {
-                case error.TIMEOUT:
-                    alert('Timeout');
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    alert('Position unavailable');
-                    break;
-                case error.PERMISSION_DENIED:
-                    alert('Permission denied');
-                    break;
-                case error.UNKNOWN_ERROR:
-                    alert('Unknown error');
-                    break;
+                spot.setMap(my.map);
+                my.layers.push(spot);
+
+                // add a listener for the click event
+                if (selectable) {
+                    google.maps.event.addListener(spot, 'click', clickEvent);
+                }
             }
         }
-        );
-    }
-}
+    };
+
+    my.processSpot = function (spot, color, selectable, clickEvent) {
+        if (selectable == null) { selectable = false; }
+        if (spot != null) {
+            var coords = spot.SpotShape;
+            var phaseCoords = new Array();
+
+            for (var j = 0; j < coords.length; j++) {
+                phaseCoords.push(new google.maps.LatLng(coords[j].Longitude, coords[j].Latitude));
+            }
+
+            var spot = new google.maps.Polygon({
+                paths: phaseCoords,
+                strokeColor: color,
+                strokeOpacity: 0.50,
+                strokeWeight: 1,
+                fillColor: color,
+                fillOpacity: 0.45
+            });
+            spot.selected = false;
+
+            spot.setMap(my.map);
+            my.layers.push(spot);
+
+            // add a listener for the click event
+            if (selectable) {
+                google.maps.event.addListener(spot, 'click', clickEvent);
+            }
+        }
+    };
+
+    /** @this {google.maps.Polygon} */
+    my.showArrays = function (event) {
+
+        var color = my.selectedColor;
+        if (this.selected) {
+            color = my.availableColor;
+        }
+        this.selected = !this.selected;
+        this.setOptions({
+            fillColor: color,
+            strokeColor: color
+        });
+
+        // Since this Polygon only has one path, we can call getPath()
+        // to return the MVCArray of LatLngs
+        /*var vertices = this.getPath();
+
+        var contentString = '<b>Phase Polygons</b><br>';
+        contentString += 'Clicked Location: <br>' + event.latLng.lat() + ',' + event.latLng.lng() + '<br>';
+
+        // Iterate over the vertices.
+        for (var i =0; i < vertices.getLength(); i++) {
+        var xy = vertices.getAt(i);
+        contentString += '<br>' + 'Coordinate: ' + i + '<br>' + xy.lat() +',' + xy.lng();
+        }
+
+        // Replace our Info Window's content and position
+        infoWindow.setContent(contentString);
+        infoWindow.setPosition(event.latLng);
+
+        infoWindow.open(map);*/
+    };
+
+    my.showSpots = function (event) {
+        var file = this.file.replace('.json', '_Grid.json');
+        my.map.fitBounds(getPhaseBounds(this));
+        my.setGrid(file);
+    };
+
+    my.getBounds = function () {
+        var bounds = new google.maps.LatLngBounds();
+
+        for (var i = 0; i < my.layers.length; i++) {
+            my.layers[i].getPath().forEach(function (element, index) { bounds.extend(element); });
+        }
+
+        return bounds;
+    };
+
+    my.getPhaseBounds = function (layer) {
+        var bounds = new google.maps.LatLngBounds();
+
+        layer.getPath().forEach(function (element, index) { bounds.extend(element); });
+        return bounds;
+    };
+
+    return my;
+} (jQuery));

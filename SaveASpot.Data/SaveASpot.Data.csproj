@@ -56,13 +56,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ParcelCollection.cs" />
+    <Compile Include="Controllers\PhaseCollection.cs" />
     <Compile Include="Controllers\RolesCollection.cs" />
+    <Compile Include="Controllers\SponsorCollection.cs" />
+    <Compile Include="Controllers\SponsorSpotCollection.cs" />
+    <Compile Include="Controllers\SpotCollection.cs" />
     <Compile Include="Controllers\UsersCollection.cs" />
     <Compile Include="Controllers\UsersInRolesCollection.cs" />
     <Compile Include="Controllers\WebEventsCollection.cs" />
     <Compile Include="DataContext.cs" />
     <Compile Include="Models\Author.cs" />
+    <Compile Include="Models\Coordinate.cs" />
+    <Compile Include="Models\Count.cs" />
+    <Compile Include="Models\Parcel.cs" />
+    <Compile Include="Models\Phase.cs" />
     <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\Sponsor.cs" />
+    <Compile Include="Models\SponsorSpot.cs" />
+    <Compile Include="Models\Spot.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UsersInRoles.cs" />
     <Compile Include="Models\WebEvent.cs" />

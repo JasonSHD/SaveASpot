@@ -58,8 +58,14 @@ namespace SaveASpot.Data
         private const string kUsersInSites = "UsersInSites";
         private const string kRoles = "Roles";
         private const string kUsersInRoles = "UsersInRoles";
-        private const string kWebEvents = "WebEvents"; 
+        private const string kWebEvents = "WebEvents";
 
+        private const string kPhase = "Phase";
+        private const string kParcel = "Parcel";
+        private const string kSpot = "Spot";
+        private const string kSponsorSpot = "SponsorSpot";
+        private const string kSponsors = "Sponsors"; 
+        
         #endregion
 
         #region collections
@@ -113,6 +119,71 @@ namespace SaveASpot.Data
                     _usersInRoles = new UsersInRolesCollection(Database.GetCollection<UsersInRoles>(kUsersInRoles));
                 }
                 return _usersInRoles;
+            }
+        }
+
+        private PhaseCollection _phases = null;
+        public PhaseCollection Phases
+        {
+            get
+            {
+                if (_phases == null)
+                {
+                    _phases = new PhaseCollection(Database.GetCollection<Phase>(kPhase));
+                }
+                return _phases;
+            }
+        }
+
+        private ParcelCollection _parcels = null;
+        public ParcelCollection Parcels
+        {
+            get
+            {
+                if (_parcels == null)
+                {
+                    _parcels = new ParcelCollection(Database.GetCollection<Parcel>(kParcel));
+                }
+                return _parcels;
+            }
+        }
+
+        private SpotCollection _spots = null;
+        public SpotCollection Spots
+        {
+            get
+            {
+                if (_spots == null)
+                {
+                    _spots = new SpotCollection(Database.GetCollection<Spot>(kSpot));
+                }
+                return _spots;
+            }
+        }
+
+        private SponsorSpotCollection _sponsorSpots = null;
+        public SponsorSpotCollection SponsorSpots
+        {
+            get
+            {
+                if (_sponsorSpots == null)
+                {
+                    _sponsorSpots = new SponsorSpotCollection(Database.GetCollection<SponsorSpot>(kSponsorSpot));
+                }
+                return _sponsorSpots;
+            }
+        }
+
+        private SponsorCollection _sponsors = null;
+        public SponsorCollection Sponsors
+        {
+            get
+            {
+                if (_sponsors == null)
+                {
+                    _sponsors = new SponsorCollection(Database.GetCollection<Sponsor>(kSponsors));
+                }
+                return _sponsors;
             }
         }
 

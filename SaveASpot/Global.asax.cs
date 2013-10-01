@@ -31,6 +31,9 @@ namespace SaveASpot
 
         protected void Application_Start()
         {
+            // added the binder for the mongo db object id
+            ModelBinders.Binders.Add(typeof(MongoDB.Bson.ObjectId), new SaveASpot.Models.ObjectIdBinder());
+
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);

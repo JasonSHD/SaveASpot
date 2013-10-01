@@ -4,3 +4,11 @@
 	height: 650px;
 	background-color: #EAEAEA;
 }
+
+/* admin styles */
+
+.table-image 
+{
+    max-width: 150px;
+    max-height: 100px;
+}
