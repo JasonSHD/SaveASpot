@@ -44,7 +44,7 @@ SaveASpot.Phase = (function ($) {
         $(".phase").click(function () {
             var phase = $(this).attr("href").replace("#", "");
             SaveASpot.Map.setPhase(phase);
-            SaveASpot.Spot.LoadSpots(phase);
+            SaveASpot.SponsorSpot.LoadSpots(phase);
 
             var parent = $(this).parent().parent();
             parent.find("li").removeClass("active");

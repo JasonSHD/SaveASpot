@@ -28,6 +28,11 @@ namespace SaveASpot.Data.Models
 
         public List<Coordinate> SpotShape { get; set; }
 
+        [BsonIgnore]
+        public string SpotIDString { get { return SpotID.ToString(); } }
+        [BsonIgnore]
+        public string PhaseIDString { get { return PhaseID.ToString(); } }
+
         public bool Validate()
         {
             return true;

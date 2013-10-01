@@ -45,5 +45,63 @@ namespace SaveASpot.Areas.Settings.Controllers
 
             return View(model);
         }
+
+        public ActionResult Edit(ObjectId id)
+        {
+            var model = new SponsorDetail();
+            model.Sponsor = Context.Sponsors.GetSponsor(id);
+
+            // get spot information
+            model.SpotInfo = new Count();// Context.Spots.GetSpotsInfoByPhase(id);
+
+            // get sponsor information
+            model.SponsorInfo = new Count();// Context.SponsorSpots.GetSpotsInfoByPhase(id);
+
+            ViewBag.Success = false;
+            ViewBag.Error = false;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(SponsorDetail model)
+        {
+            ViewBag.Success = false;
+            ViewBag.Error = true;
+
+            if (ModelState.IsValid)
+            {
+                bool success = Context.Sponsors.Update(model.Sponsor);
+
+                if (success)
+                {
+                    ViewBag.Success = true;
+                    ViewBag.Error = false;
+                }
+            }
+
+            // get spot information
+            model.SpotInfo = new Count();// Context.Spots.GetSpotsInfoByPhase(id);
+
+            // get sponsor information
+            model.SponsorInfo = new Count();// Context.SponsorSpots.GetSpotsInfoByPhase(id);
+
+            return View(model);
+        }
+
+        public JsonResult Delete(ObjectId id)
+        {
+            bool success = true;
+            try
+            {
+                success = Context.Sponsors.Delete(id);
+            }
+            catch
+            {
+                success = false;
+            }
+
+            return Json(new { success = success });
+        }
     }
 }

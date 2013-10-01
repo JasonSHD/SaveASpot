@@ -1,6 +1,7 @@
 $(function () {
     SaveASpot.Phase.Initialize();
     SaveASpot.Spot.Initialize();
+    SaveASpot.SponsorSpot.Initialize();
     SaveASpot.Map.Initialize();
 });
 
@@ -46,7 +47,7 @@ SaveASpot.Map = (function ($) {
         var phase = SaveASpot.Phase.FindPhaseByID(id);
 
         // get settings
-        my.loadPhase(phase, true, my.showArrays);
+        //my.loadPhase(phase, true, my.showArrays);
     };
 
     my.setAllPhase = function () {
@@ -55,8 +56,18 @@ SaveASpot.Map = (function ($) {
 
         for (var i = 0; i < SaveASpot.Phase.Phases.length; i++) {
             // get settings
-            my.loadPhase(SaveASpot.Phase.Phases[i], false);
+            my.loadPhase(SaveASpot.Phase.Phases[i], SaveASpot.Phase.Phases[i].Active, my.loadPhaseSpots);
         }
+    };
+
+    my.setZoom = function () {
+        my.map.fitBounds(my.getBounds());
+    };
+
+    my.loadPhaseSpots = function () {
+        console.log("load spots");
+        SaveASpot.Map.setPhase(this.phase);
+        SaveASpot.SponsorSpot.LoadSpots(this.phase);
     };
 
     my.loadPhase = function (phase, selectable, clickEvent) {
@@ -104,6 +115,7 @@ SaveASpot.Map = (function ($) {
                     fillOpacity: 0.45
                 });
                 spot.selected = false;
+                spot.phase = phase.ID;
 
                 spot.setMap(my.map);
                 my.layers.push(spot);
@@ -126,7 +138,7 @@ SaveASpot.Map = (function ($) {
                 phaseCoords.push(new google.maps.LatLng(coords[j].Longitude, coords[j].Latitude));
             }
 
-            var spot = new google.maps.Polygon({
+            var layer = new google.maps.Polygon({
                 paths: phaseCoords,
                 strokeColor: color,
                 strokeOpacity: 0.50,
@@ -134,14 +146,15 @@ SaveASpot.Map = (function ($) {
                 fillColor: color,
                 fillOpacity: 0.45
             });
-            spot.selected = false;
+            layer.selected = false;
+            layer.SpotID = spot.SpotIDString;
 
-            spot.setMap(my.map);
-            my.layers.push(spot);
+            layer.setMap(my.map);
+            my.layers.push(layer);
 
             // add a listener for the click event
             if (selectable) {
-                google.maps.event.addListener(spot, 'click', clickEvent);
+                google.maps.event.addListener(layer, 'click', clickEvent);
             }
         }
     };

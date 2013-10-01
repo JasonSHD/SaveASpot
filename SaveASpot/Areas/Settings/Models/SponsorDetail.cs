@@ -6,13 +6,13 @@ using SaveASpot.Data.Models;
 
 namespace SaveASpot.Areas.Settings.Models
 {
-    public class PhaseDetail
+    public class SponsorDetail
     {
-        public PhaseDetail()
+        public SponsorDetail()
         {
         }
 
-        public Phase Phase { get; set; }
+        public Sponsor Sponsor { get; set; }
 
         public Count SpotInfo { get; set; }
         public Count SponsorInfo { get; set; }

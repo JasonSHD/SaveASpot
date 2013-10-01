@@ -41,14 +41,14 @@ namespace SaveASpot.Areas.Settings.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(Phase model)
+        public ActionResult Edit(PhaseDetail model)
         {
             ViewBag.Success = false;
             ViewBag.Error = true;
 
             if (ModelState.IsValid)
             {
-                bool success = Context.Phases.Update(model);
+                bool success = Context.Phases.Update(model.Phase);
 
                 if (success)
                 {
@@ -56,6 +56,16 @@ namespace SaveASpot.Areas.Settings.Controllers
                     ViewBag.Error = false;
                 }
             }
+
+            // get parcel information
+            model.Phase.Parcels = Context.Parcels.GetParcelsByPhaseID(model.Phase.PhaseID) ?? new List<Parcel>();
+
+            // get spot information
+            model.SpotInfo = Context.Spots.GetSpotsInfoByPhase(model.Phase.PhaseID);
+
+            // get sponsor information
+            model.SponsorInfo = Context.SponsorSpots.GetSpotsInfoByPhase(model.Phase.PhaseID);
+
             return View(model);
         }
 
