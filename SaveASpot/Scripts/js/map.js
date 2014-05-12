@@ -1,6 +1,6 @@
 $(function () {
     SaveASpot.Phase.Initialize();
-    SaveASpot.Spot.Initialize();
+    //SaveASpot.Spot.Initialize();
     SaveASpot.SponsorSpot.Initialize();
     SaveASpot.Map.Initialize();
 });
@@ -15,6 +15,8 @@ SaveASpot.Map = (function ($) {
     my.infoWindow;
     my.layers = [];
     my.Loader = null;
+    my.phaseID = null;
+    my.SponsorMarker = null;
 
     my.SpotColors = { Available: "#00FF00", Selected: "#FFFF00", Unavailable: "#FF0000" };
     my.baseUrl = "/API/Map/";
@@ -25,15 +27,22 @@ SaveASpot.Map = (function ($) {
         var mapOptions = {
             center: new google.maps.LatLng(40.58822748562923, -111.58563494682312),
             zoom: 17,
-            mapTypeId: google.maps.MapTypeId.SATELLITE
+            mapTypeId: google.maps.MapTypeId.TERRAIN
         };
         my.map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+        if (!SaveASpot.IsSponsor) {
+            google.maps.event.addListener(my.map, 'dragend', my.changeMapBounds);
+            google.maps.event.addListener(my.map, 'zoom_changed', my.changeMapBounds);
+        }
 
         // initialize directions
         my.infoWindow = new google.maps.InfoWindow();
 
         // map loader
         my.Loader = $("#map_loading");
+
+        $(".project-btn").click(my.addRandomToCart);
     };
 
     my.SetLoaderPercentage = function (percent) {
@@ -46,9 +55,10 @@ SaveASpot.Map = (function ($) {
 
         // find the phase
         var phase = SaveASpot.Phase.FindPhaseByID(id);
+        my.phaseID = id;
 
         // get settings
-        //my.loadPhase(phase, true, my.showArrays);
+        my.loadPhase(phase, true, null);
     };
 
     my.setAllPhase = function () {
@@ -61,20 +71,73 @@ SaveASpot.Map = (function ($) {
         }
     };
 
+    my.setSponsors = function (sponsorID) {
+        for (var i = 0; i < SaveASpot.Phase.Sponsors.length; i++) {
+            var sponsor = SaveASpot.Phase.Sponsors[i];
+
+            if (sponsor.SponsorID == sponsorID) {
+                var coord = new google.maps.LatLng(sponsor.Center.Longitude, sponsor.Center.Latitude);
+                var marker = new google.maps.Marker({
+                    position: coord,
+                    icon: {
+                        url: sponsor.ImageUrl,
+                        size: new google.maps.Size(150, 75),
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(0, 0),
+                        scaledSize: new google.maps.Size(150, 75)
+                    },
+                    title: sponsor.Name
+                });
+
+                if (my.SponsorMarker != null) { my.SponsorMarker.setMap(null); }
+
+                marker.setMap(my.map);
+                my.SponsorMarker = marker;
+                my.layers.push(marker);
+                break;
+            }
+        }
+    };
+
     my.setZoom = function () {
         my.map.fitBounds(my.getBounds());
     };
 
     my.loadPhaseSpots = function () {
-        console.log("load spots");
+        my.clearOverlays();
         SaveASpot.Map.setPhase(this.phase);
-        SaveASpot.SponsorSpot.LoadSpots(this.phase);
+        SaveASpot.Phase.DisplaySponsors(this.phase);
+        if (SaveASpot.IsSponsor) {
+            SaveASpot.SponsorSpot.LoadSpots(this.phase);
+        }
+        else {
+            //SaveASpot.Spot.LoadSpots(this.phase);
+        }
+        /*for (var i = 0; i < SaveASpot.Phase.Phases.length; i++) {
+        // get settings
+        my.loadPhase(SaveASpot.Phase.Phases[i], SaveASpot.Phase.Phases[i].Active, my.loadPhaseSpots);
+        }*/
     };
 
     my.loadPhase = function (phase, selectable, clickEvent) {
         var color = my.pickPhaseColor(phase)
-        my.processPolygonsLayers(phase, color, selectable, clickEvent);
-        my.map.fitBounds(my.getBounds());
+        var layer = my.processPolygonsLayers(phase, color, selectable, clickEvent);
+
+        // set active marker
+        if (phase.Active) {
+            var bounds = my.getPhaseBounds(layer);
+            my.map.fitBounds(bounds);
+            var center = bounds.getCenter();
+
+            var marker = new google.maps.Marker({
+                position: center,
+                icon: "/Content/img/active.png",
+                title: "Active"
+            });
+
+            marker.setMap(my.map);
+            my.layers.push(marker);
+        }
     };
 
     my.pickPhaseColor = function (phase) {
@@ -83,7 +146,7 @@ SaveASpot.Map = (function ($) {
         return my.PhaseColors.Default;
     };
 
-    my.PhaseColors = { Active: "#5BA0A3", Complete: "#444444", Default: "#aaaaaa" };
+    my.PhaseColors = { Active: "#60D4F7", Complete: "#444444", Default: "#aaaaaa" };
 
     my.clearOverlays = function () {
         for (var i = 0; i < my.layers.length; i++) {
@@ -92,7 +155,20 @@ SaveASpot.Map = (function ($) {
         my.layers = [];
     };
 
+    my.changeMapBounds = function () {
+        var bounds = my.map.getBounds();
+
+        var northEast = bounds.getNorthEast();
+        var southWest = bounds.getSouthWest();
+
+        if (northEast && southWest && my.phaseID) {
+
+            // SaveASpot.Spot.LoadSpots(my.phaseID, northEast, southWest);
+        }
+    };
+
     my.processPolygonsLayers = function (phase, color, selectable, clickEvent) {
+        var spot = null;
         if (selectable == null) { selectable = false; }
         if (phase != null) {
             for (var i = 0; i < phase.Parcels.length; i++) {
@@ -107,13 +183,14 @@ SaveASpot.Map = (function ($) {
                     phaseCoords.push(new google.maps.LatLng(coords[j].Longitude, coords[j].Latitude));
                 }
 
-                var spot = new google.maps.Polygon({
+                spot = new google.maps.Polygon({
                     paths: phaseCoords,
                     strokeColor: color,
-                    strokeOpacity: 0.50,
-                    strokeWeight: 1,
+                    strokeOpacity: 1,
+                    strokeWeight: 2,
                     fillColor: color,
-                    fillOpacity: 0.45
+                    fillOpacity: 0.75,
+                    zIndex: 1
                 });
                 spot.selected = false;
                 spot.phase = phase.ID;
@@ -122,11 +199,13 @@ SaveASpot.Map = (function ($) {
                 my.layers.push(spot);
 
                 // add a listener for the click event
-                if (selectable) {
+                if (selectable && clickEvent) {
                     google.maps.event.addListener(spot, 'click', clickEvent);
                 }
             }
         }
+
+        return spot;
     };
 
     my.processSpot = function (spot, color, selectable, clickEvent) {
@@ -145,7 +224,8 @@ SaveASpot.Map = (function ($) {
                 strokeOpacity: 0.50,
                 strokeWeight: 1,
                 fillColor: color,
-                fillOpacity: 0.45
+                fillOpacity: 0.45,
+                zIndex: 2
             });
             layer.selected = false;
             layer.SpotID = spot.SpotIDString;
@@ -154,7 +234,7 @@ SaveASpot.Map = (function ($) {
             my.layers.push(layer);
 
             // add a listener for the click event
-            if (selectable) {
+            if (selectable && clickEvent) {
                 google.maps.event.addListener(layer, 'click', clickEvent);
             }
         }
@@ -172,25 +252,6 @@ SaveASpot.Map = (function ($) {
             fillColor: color,
             strokeColor: color
         });
-
-        // Since this Polygon only has one path, we can call getPath()
-        // to return the MVCArray of LatLngs
-        /*var vertices = this.getPath();
-
-        var contentString = '<b>Phase Polygons</b><br>';
-        contentString += 'Clicked Location: <br>' + event.latLng.lat() + ',' + event.latLng.lng() + '<br>';
-
-        // Iterate over the vertices.
-        for (var i =0; i < vertices.getLength(); i++) {
-        var xy = vertices.getAt(i);
-        contentString += '<br>' + 'Coordinate: ' + i + '<br>' + xy.lat() +',' + xy.lng();
-        }
-
-        // Replace our Info Window's content and position
-        infoWindow.setContent(contentString);
-        infoWindow.setPosition(event.latLng);
-
-        infoWindow.open(map);*/
     };
 
     my.showSpots = function (event) {
@@ -203,7 +264,9 @@ SaveASpot.Map = (function ($) {
         var bounds = new google.maps.LatLngBounds();
 
         for (var i = 0; i < my.layers.length; i++) {
-            my.layers[i].getPath().forEach(function (element, index) { bounds.extend(element); });
+            if (my.layers[i].getPath != null) {
+                my.layers[i].getPath().forEach(function (element, index) { bounds.extend(element); });
+            }
         }
 
         return bounds;
@@ -224,6 +287,21 @@ SaveASpot.Map = (function ($) {
             }
             else {
                 //console.log("boo beer, not added.");
+            }
+        }, "json");
+    };
+
+    my.addRandomToCart = function () {
+        var data = {
+            sponsorID: $(".sponsor-list").val(),
+            qty: $(".qty").val() 
+        };
+        $.post(my.CartUrl + "AddItems", data, function (result) {
+            if (result.success) {
+                $(".count").html(result.quantity);
+            }
+            else {
+                alert("There was an issue adding spots to the cart.");
             }
         }, "json");
     };

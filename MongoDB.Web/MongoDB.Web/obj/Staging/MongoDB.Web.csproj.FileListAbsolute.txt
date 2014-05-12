@@ -7,3 +7,12 @@ C:\Code\LeulyWeb\MongoDB.Web\MongoDB.Web\bin\Staging\MongoDB.Driver.xml
 C:\Code\LeulyWeb\MongoDB.Web\MongoDB.Web\obj\Staging\ResolveAssemblyReference.cache
 C:\Code\LeulyWeb\MongoDB.Web\MongoDB.Web\obj\Staging\MongoDB.Web.dll
 C:\Code\LeulyWeb\MongoDB.Web\MongoDB.Web\obj\Staging\MongoDB.Web.pdb
+C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Staging\MongoDB.Web.dll
+C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Staging\MongoDB.Web.pdb
+C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Staging\MongoDB.Bson.dll
+C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Staging\MongoDB.Driver.dll
+C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Staging\MongoDB.Bson.xml
+C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Staging\MongoDB.Driver.xml
+C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Staging\MongoDB.Web.csprojResolveAssemblyReference.cache
+C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Staging\MongoDB.Web.dll
+C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Staging\MongoDB.Web.pdb

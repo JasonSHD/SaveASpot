@@ -249,9 +249,12 @@ input.search{
 
 /* Sidebar */
 #sidebar-nav {
-	position: absolute;
+	position: fixed;
 	width: 180px;
-	float: left;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 180px;
 	margin: 0em;
 	padding-top: 5.8em;	
 }

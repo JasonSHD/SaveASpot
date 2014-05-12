@@ -64,7 +64,8 @@ namespace SaveASpot.Data
         private const string kParcel = "Parcel";
         private const string kSpot = "Spot";
         private const string kSponsorSpot = "SponsorSpot";
-        private const string kSponsors = "Sponsors"; 
+        private const string kSponsors = "Sponsors";
+        private const string kCart = "Cart"; 
         
         #endregion
 
@@ -184,6 +185,19 @@ namespace SaveASpot.Data
                     _sponsors = new SponsorCollection(Database.GetCollection<Sponsor>(kSponsors));
                 }
                 return _sponsors;
+            }
+        }
+
+        private CartCollection _carts = null;
+        public CartCollection Carts
+        {
+            get
+            {
+                if (_carts == null)
+                {
+                    _carts = new CartCollection(Database.GetCollection<Cart>(kCart));
+                }
+                return _carts;
             }
         }
 

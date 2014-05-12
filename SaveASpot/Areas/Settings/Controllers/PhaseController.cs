@@ -11,6 +11,7 @@ using SaveASpot.Data.Models;
 
 namespace SaveASpot.Areas.Settings.Controllers
 {
+    [Authorize(Roles="Admin")]
     public class PhaseController : SaveASpot.Controllers.ApplicationController
     {
         public ActionResult Index()
@@ -241,6 +242,12 @@ namespace SaveASpot.Areas.Settings.Controllers
             catch { success = false; }
 
             return Json(new { success = success });
+        }
+
+        public JsonResult ClearSponsors()
+        {
+            bool success = Context.SponsorSpots.DeleteAll();
+            return Json(new { success = success }, JsonRequestBehavior.AllowGet);
         }
 
         #region helper methods

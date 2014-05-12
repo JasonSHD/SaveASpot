@@ -56,6 +56,7 @@ namespace SaveASpot.Data.Controllers
             phase.Complete = model.Complete;
             phase.PhaseName = model.PhaseName;
             phase.SpotPrice = model.SpotPrice;
+            phase.SponsorPrice = model.SponsorPrice;
 
             WriteConcernResult result = Phases.Save(phase, new MongoInsertOptions { WriteConcern = WriteConcern.Acknowledged });
             return result.Ok;
@@ -78,6 +79,12 @@ namespace SaveASpot.Data.Controllers
         public Phase GetPhase(ObjectId id)
         {
             return Phases.FindOneById(id);
+        }
+
+        public Phase GetActivePhase()
+        {
+            var phase = (from p in Phases.AsQueryable() where p.Active select p).FirstOrDefault();
+            return phase;
         }
 
         /// <summary>

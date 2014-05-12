@@ -1,0 +1,263 @@
+﻿@model SaveASpot.Data.Models.Cart
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section styles {    
+    <link rel="stylesheet" type="text/css" href="/Content/css/tables.css" />
+    <link rel="stylesheet" href="/Content/css/compiled/form-wizard.css" type="text/css" media="screen" />
+}
+
+<form method="post">
+<div id="pad-wrapper">
+<div class="row-fluid">
+                    <div class="span12">
+                        <div id="fuelux-wizard" class="wizard row-fluid">
+                            <ul class="wizard-steps">
+                                <li data-target="#step1" class="active">
+                                    <span class="step">1</span>
+                                    <span class="title">Confirm <br /> Cart</span>
+                                </li>
+                                <li data-target="#step2">
+                                    <span class="step">2</span>
+                                    <span class="title">Payment <br /> Information</span>
+                                </li>
+                                <li data-target="#step3">
+                                    <span class="step">3</span>
+                                    <span class="title">User <br /> Information</span>
+                                </li>
+                                <li data-target="#step4">
+                                    <span class="step">4</span>
+                                    <span class="title">Additional <br /> Information</span>
+                                </li>
+                            </ul>                            
+                        </div>
+                        <div class="step-content">
+                            <div class="step-pane active" id="step1">
+                                <div class="row-fluid form-wrapper">
+                                    <div class="span11">
+                                        <form class="table-wrapper products-table section">
+                                            <div class="row-fluid filter-block">
+                                                <div class="pull-right">
+                                                    <a class="btn-flat error remove-selected">Remove Selected</a>
+                                                </div>
+                                            </div>
+
+                                            <div class="row-fluid">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="span2">
+                                                                <input type="checkbox">
+                                                                Spot
+                                                            </th>
+                                                            <th class="span2">
+                                                                Phase
+                                                            </th>
+                                                            <th class="span2">
+                                                                Sponsor
+                                                            </th>
+                                                            <th class="span1">
+                                                                Qty
+                                                            </th>
+                                                            <th class="span1">
+                                                                Square Footage
+                                                            </th>
+                                                            <th class="span1">
+                                                                Price
+                                                            </th>
+                                                            <th class="span2">
+                                        
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <!-- row -->
+                                                        @foreach (var item in Model.Items)
+                                                        {
+                                                        <tr id="@item.SpotID">
+                                                            <td>
+                                                                <input type="checkbox" class="remove-item" data-id="@item.SpotID" >
+                                                                <i class="icon-map-marker"></i> Spot
+                                                            </td>
+                                                            <td>
+                                                                <a href="#">@item.Phase</a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="#">@item.Sponsor</a>
+                                                            </td>
+                                                            <td class="description">
+                                                                <span class="time"> @item.Qty</span>
+                                                            </td>
+                                                            <td class="description">
+                                                                <span class="time"> @((item.Qty * 900).ToString("N"))</span>
+                                                            </td>
+                                                            <td class="description">
+                                                                <span class="time"><i class="icon-dollar"></i> @item.Price.ToString("0.##")</span>
+                                                            </td>
+                                                            <td>
+                                                                <a href="@item.SpotID" class="btn-flat danger delete-spots">Delete</a>
+                                                            </td>
+                                                        </tr>
+                                                        }
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <!-- row -->
+                                                        <tr>
+                                                            <th>
+                                                            </th>
+                                                            <th>
+                                                            </th>
+                                                            <th>
+                                                            </th>
+                                                            <th>
+                                                            </th>
+                                                            <th>
+                                                            </th>
+                                                            <th class="description">
+                                                                <span class="time"><i class="icon-dollar"></i> @Model.Items.Sum(i => i.Price * i.Qty).ToString("0.##")</span>
+                                                            </th>
+                                                            <th>
+                                                            </th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step-pane" id="step2">
+                                <div class="row-fluid form-wrapper">
+                                    <div class="span8">
+                                            <div class="alert hide payment-message">&nbsp;</div>
+                                            <div class="field-box">
+                                                <label>Name on Card</label>
+                                                <input type="text" size="50" class="card-name span8" />
+                                            </div>
+                                            <div class="field-box">
+                                                <label>Card Number</label>
+                                                <input class="span8 card-number" type="text" size="20" autocomplete="off" />
+                                            </div>
+                                            <div class="field-box">
+                                                <label>Expiration (MM/YYYY)</label>
+                                                <select class="card-expiry-month span3">
+                                                    <option value=""></option>
+                                                    <option value="01">01</option>
+                                                    <option value="02">02</option>
+                                                    <option value="03">03</option>
+                                                    <option value="04">04</option>
+                                                    <option value="05">05</option>
+                                                    <option value="06">06</option>
+                                                    <option value="07">07</option>
+                                                    <option value="08">08</option>
+                                                    <option value="09">09</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                </select>
+                                                <span> / </span>
+                                                <select class="card-expiry-year span3">
+                                                    <option value=""></option>
+                                                    @foreach (var year in Model.Years)
+                                                    {
+                                                        <option value="@year">@year</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="field-box">
+                                                <label>Cvc</label>
+                                                <input type="text" size="4" autocomplete="off" class="card-cvc span8" />
+                                            </div>
+                                            <div class="field-box">
+                                                <label>Postal Code</label>
+                                                <input type="text" class="card-zip span8" placeholder="Only required if you live in the U.S." />
+                                            </div>
+                                            <input type="hidden" id="CustomerKey" name="CustomerKey" value="" />
+                                            <p>Please review the <a href="#">terms of service</a>, and <a href="#">privacy policy</a>.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step-pane" id="step3">
+                                <div class="row-fluid form-wrapper">
+                                    <div class="span8">
+                                            <div class="alert hide user-message">&nbsp;</div>
+                                            <div class="field-box">
+                                                <label>User name</label>
+                                                <input class="span8" type="text" id="UserName" name="UserName" />
+                                            </div>
+                                            <div class="field-box">
+                                                <label>Email address</label>
+                                                <input class="span8" type="text" id="Email" name="Email" />
+                                            </div>
+                                            <div class="field-box">
+                                                <label>Password</label>
+                                                <input class="span8" type="password" id="Password" name="Password" />
+                                            </div>
+                                            <div class="field-box">
+                                                <label>Confirm Password</label>
+                                                <input class="span8" type="password" id="ConfirmPassword" name="ConfirmPassword" />
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step-pane" id="step4">
+                                <div class="row-fluid form-wrapper payment-info">
+                                    <div class="span8">
+                                            <label class="checkbox">
+                                                <input type="checkbox" id="certificate" name="certificate"> Would you like a certificate mailed to you?
+                                            </label>
+                                            <div class="certificate hide">
+                                                <div class="field-box">
+                                                    <label>Mailing Address</label>
+                                                    <input class="span8" type="text" id="Address1" name="Address1" />
+                                                </div>
+                                                <div class="field-box">
+                                                    <label>City</label>
+                                                    <input class="span8" type="text" id="City" name="City" />
+                                                </div>
+                                                <div class="field-box">
+                                                    <label>State</label>
+                                                    <input class="span8" type="text" id="State" name="State" />
+                                                </div>
+                                                <div class="field-box">
+                                                    <label>Zip</label>
+                                                    <input class="span8" type="text" id="Zip" name="Zip" />
+                                                </div>
+                                                <div class="field-box">
+                                                    <label>Name on Certificate (your's or whoever you would like to gift it to.)</label>
+                                                    <input class="span8" type="text" id="CertificateName" name="CertificateName" />
+                                                </div>
+                                            </div>
+                                            <label class="checkbox">
+                                                <input type="checkbox" id="Newsletter" name="Newsletter"> Would you like to receive an email update of the phase targets and newsletters?
+                                            </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wizard-actions">
+                            <button type="button" disabled class="btn-glow primary btn-prev"> 
+                                <i class="icon-chevron-left"></i> Prev
+                            </button>
+                            <button type="button" class="btn-flat primary btn-next" data-last="Finish">
+                                Next <i class="icon-chevron-right"></i>
+                            </button>
+                            <button type="button" class="btn-flat success btn-finish">
+                                Order your Spots!
+                            </button>
+                        </div>
+                    </div>
+                </div>
+</div>
+</form>
+
+@section footer {
+<script type="text/javascript" src="https://js.stripe.com/v1/"></script>
+<script type="text/javascript">
+    Stripe.setPublishableKey('@ViewBag.StripePublicKey');
+</script>
+<script src="/Scripts/checkout.js" type="text/javascript"></script>
+<script src="/Scripts/js/fuelux.wizard.js"></script>
+}

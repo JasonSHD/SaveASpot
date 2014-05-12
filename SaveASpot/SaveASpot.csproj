@@ -87,14 +87,18 @@
     <Compile Include="Areas\Settings\SettingsAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\AllowCrossSiteJsonAttribute.cs" />
     <Compile Include="Models\IConfigurationManager.cs" />
     <Compile Include="Models\ObjectIdBinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\img\active.png" />
+    <Content Include="Scripts\checkout.js" />
     <Content Include="Scripts\js\SponsorSpot.js" />
   </ItemGroup>
   <ItemGroup>
@@ -324,6 +328,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\clipper_library\clipper_library.csproj">
+      <Project>{9B062971-A88E-4A3D-B3C9-12B78D15FA66}</Project>
+      <Name>clipper_library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MongoDB.Web\MongoDB.Web\MongoDB.Web.csproj">
       <Project>{90BB8808-E091-463D-AAFD-5134183BDCF7}</Project>
       <Name>MongoDB.Web</Name>
@@ -382,6 +390,7 @@
     <Content Include="Views\Shared\_LayoutDetailAdmin.cshtml" />
     <Content Include="Views\Home\Test.cshtml" />
     <Content Include="Views\Shared\AdminMenu.cshtml" />
+    <Content Include="Views\Checkout\Index.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
@@ -400,7 +409,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>10800</DevelopmentServerPort>
+          <DevelopmentServerPort>4102</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

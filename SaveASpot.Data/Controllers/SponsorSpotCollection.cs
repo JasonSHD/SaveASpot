@@ -74,6 +74,12 @@ namespace SaveASpot.Data.Controllers
             return result.Ok;
         }
 
+        public bool DeleteAll()
+        {
+            var result = Spots.RemoveAll(WriteConcern.Acknowledged);
+            return result.Ok;
+        }
+
         /// <summary>
         /// Returns all spots from the database
         /// </summary>
@@ -99,6 +105,7 @@ namespace SaveASpot.Data.Controllers
 
             Count result = new Count();
             result.Total = spots.Count();
+            result.Paid = (from s in Spots.AsQueryable() where s.SponsorID != ObjectId.Empty select s).Count();
             //result.Paid = spots.Where(s => s.CustomerId != ObjectId.Empty).Count();
 
             return result;
@@ -110,6 +117,26 @@ namespace SaveASpot.Data.Controllers
 
             var spots = (from s in Spots.AsQueryable() where s.PhaseID == phaseID select s);
             return spots.Skip(index).Take(take).ToList();
+        }
+
+        public int GetCountByPhase(ObjectId phaseID)
+        {
+            var spots = (from s in Spots.AsQueryable() where s.PhaseID == phaseID select s);
+            return spots.Count();
+        }
+
+
+
+        public List<SponsorSpot> GetSpotsBySponsors(ObjectId sponsorID)
+        {
+            var spots = (from s in Spots.AsQueryable() where s.SponsorID == sponsorID select s);
+            return spots.ToList();
+        }
+
+        public List<ObjectId> GetAllSponsorIDsByPhase(ObjectId phaseID)
+        {
+            var spots = (from s in Spots.AsQueryable() where s.PhaseID == phaseID select s.SponsorID);
+            return spots.Distinct().ToList();
         }
 
         public bool SaveSpot(SponsorSpot spot)

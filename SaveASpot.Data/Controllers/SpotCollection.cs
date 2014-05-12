@@ -61,6 +61,29 @@ namespace SaveASpot.Data.Controllers
             return true;
         }
 
+        public bool UpdateSponsor(List<Spot> spots, ObjectId sponsorID)
+        {
+            try
+            {
+                /*List<BsonValue> ids = new List<BsonValue>();
+                foreach (var spot in spots)
+                {
+                    ids.Add(BsonValue.Create(spot.SpotID));
+                }
+                var query = Query.In("SpotID", ids);
+                var update = Update.Set("SponsorId", sponsorID);
+                Spots.Update(query, update);*/
+
+                foreach(var spot in spots) 
+                {
+                    spot.SponsorId = sponsorID;
+                    Spots.Save(spot, WriteConcern.Unacknowledged);
+                }
+            }
+            catch { return false; }
+            return true;
+        }
+
         // <summary>
         /// Deletes the spot with the specified id
         /// </summary>
@@ -95,6 +118,17 @@ namespace SaveASpot.Data.Controllers
             return Spots.FindAll().ToList();
         }
 
+        public int GetSpotCountByRegion(ObjectId phaseID, Coordinate northEast, Coordinate southWest)
+        {
+            var spots = (from s in Spots.AsQueryable()
+                         where s.PhaseID == phaseID &&  s.SpotShape.Any(c => 
+                             c.Latitude > southWest.Longitude && c.Latitude < northEast.Longitude &&
+                             c.Longitude > southWest.Latitude && c.Longitude < northEast.Latitude
+                         ) select s).Count();
+
+            return spots;
+        }
+
         /// <summary>
         /// Returns the spot by their spot id
         /// </summary>
@@ -116,12 +150,86 @@ namespace SaveASpot.Data.Controllers
             return result;
         }
 
-        public List<Spot> GetSpotsByPhase(ObjectId phaseID, int take, int index)
+        public List<Spot> GetSpotsAvailableByPhase(ObjectId phaseID, int take)
+        {
+            var spots = (from s in Spots.AsQueryable()
+                         where s.PhaseID == phaseID && s.CustomerId == null
+                         select s);
+            return spots.Take(take).ToList();
+        }
+
+        public List<Spot> GetSpotsByPhase(ObjectId phaseID, int take, int index, Coordinate northEast, Coordinate southWest)
         {
             if (index < 0) { index = 0; }
 
-            var spots = (from s in Spots.AsQueryable() where s.PhaseID == phaseID select s);
+            var spots = (from s in Spots.AsQueryable()
+                         where s.PhaseID == phaseID && s.SpotShape.Any(c =>
+                             c.Latitude > southWest.Longitude && c.Latitude < northEast.Longitude &&
+                             c.Longitude > southWest.Latitude && c.Longitude < northEast.Latitude
+                         )
+                         select s);
             return spots.Skip(index).Take(take).ToList();
+        }
+
+        public List<Spot> GetSpotsByRegion(Coordinate northEast, Coordinate southWest)
+        {
+            var spots = (from s in Spots.AsQueryable()
+                         where s.SpotShape.Any(c =>
+                             c.Longitude > southWest.Longitude && c.Longitude < northEast.Longitude &&
+                             c.Latitude > southWest.Latitude && c.Latitude < northEast.Latitude
+                         )
+                         select s);
+            return spots.ToList();
+        }
+
+        public List<Spot> CheckArea(Coordinate northEast, Coordinate southWest, List<Spot> spots)
+        {
+            List<Spot> results = new List<Spot>();
+
+            foreach (var spot in spots)
+            {
+                var aNorth = spot.NorthEastCoordinate;
+                var aSouth = spot.SouthWestCoordinate;
+                var area = (aSouth.Latitude + aNorth.Latitude) * (aNorth.Longitude - aSouth.Longitude);
+                var overlaparea = RectangleOverlap(aNorth, aSouth, northEast, southWest);
+
+                if (overlaparea > area / 2) { results.Add(spot); }
+            }
+
+            return results;
+        }
+
+
+        public double LineOverlap(double line1a, double line1b, double line2a, double line2b) 
+        {
+          // assume line1a <= line1b and line2a <= line2b
+          if (line1a < line2a) 
+          {
+            if (line1b > line2b)
+              return line2b-line2a;
+            else if (line1b > line2a)
+              return line1b-line2a;
+            else 
+              return 0;
+          }
+          else if (line2a < line1b)
+            return line2b-line1a;
+          else 
+            return 0;
+        }
+
+
+        public double RectangleOverlap(Coordinate aNorthEast, Coordinate aSouthWest, Coordinate bNorthEast, Coordinate bSouthWest) 
+        {
+            return LineOverlap(aNorthEast.Latitude, aSouthWest.Latitude, bNorthEast.Latitude, bSouthWest.Latitude) *
+            LineOverlap(aNorthEast.Longitude, aSouthWest.Longitude, bNorthEast.Longitude, bSouthWest.Longitude);
+        }
+
+
+        public List<Spot> GetSpotsBySponsor(ObjectId sponsorID)
+        {
+            var spots = (from s in Spots.AsQueryable() where s.SponsorId == sponsorID select s);
+            return spots.ToList();
         }
 
         public bool UpdateSpotsWithPhaseID(ObjectId phaseID, ObjectId parcelID)

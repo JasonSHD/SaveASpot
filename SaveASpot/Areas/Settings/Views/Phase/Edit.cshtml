@@ -50,6 +50,13 @@
                                 <span class="add-on"><i class="icon-usd"></i></span>
                                 @Html.TextBoxFor(m => m.Phase.SpotPrice, new { @class = "span9" })
                             </div>
+                        </div>                 
+                        <div class="span12 field-box">
+                            <label>Sponsor Price:</label>
+                            <div class="input-prepend">
+                                <span class="add-on"><i class="icon-usd"></i></span>
+                                @Html.TextBoxFor(m => m.Phase.SponsorPrice, new { @class = "span9" })
+                            </div>
                         </div>
                         <div class="field-box">
                             <label>Status:</label>
@@ -122,12 +129,12 @@
                 <div class="knobs">
                     <h6>User Spots - @Model.SpotInfo.Paid Paid / @Model.SpotInfo.Total</h6>
                     <div class="knob-wrapper">
-                        <input type="text" value="@Model.SpotInfo.Percentage" class="knob" data-thickness=".3" data-inputColor="#333" data-fgColor="#30a1ec" data-bgColor="#d4ecfd" data-width="150">
+                        <input type="text" value="@Model.SpotInfo.Percentage" class="knob" data-thickness=".3" data-inputColor="#333" data-fgColor="#30a1ec" data-bgColor="#d4ecfd" data-width="150" data-min="0" data-max="100">
                     </div>
                     <hr />
                     <h6>Sponsor Spots - @Model.SponsorInfo.Paid / @Model.SponsorInfo.Total</h6>
                     <div class="knob-wrapper">
-                        <input type="text" value="@Model.SponsorInfo.Percentage" class="knob second" data-thickness=".3" data-inputColor="#333" data-fgColor="#3d88ba" data-bgColor="#d4ecfd" data-width="150">
+                        <input type="text" value="@Model.SponsorInfo.Percentage" class="knob second" data-thickness=".3" data-inputColor="#333" data-fgColor="#3d88ba" data-bgColor="#d4ecfd" data-width="150" data-min="0" data-max="100">
                     </div>                        
                 </div>
                 <div class="alert alert-info hidden-tablet">

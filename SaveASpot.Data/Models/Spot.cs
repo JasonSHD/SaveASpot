@@ -33,6 +33,30 @@ namespace SaveASpot.Data.Models
         [BsonIgnore]
         public string PhaseIDString { get { return PhaseID.ToString(); } }
 
+        [BsonIgnore]
+        public Coordinate NorthEastCoordinate
+        {
+            get
+            {
+                var lat = SpotShape.Min(m => m.Latitude);
+                var lon = SpotShape.Max(m => m.Longitude);
+
+                return new Coordinate { Latitude = lat, Longitude = lon };
+            }
+        }
+
+        [BsonIgnore]
+        public Coordinate SouthWestCoordinate
+        {
+            get
+            {
+                var lat = SpotShape.Max(m => m.Latitude);
+                var lon = SpotShape.Min(m => m.Longitude);
+
+                return new Coordinate { Latitude = lat, Longitude = lon };
+            }
+        }
+
         public bool Validate()
         {
             return true;

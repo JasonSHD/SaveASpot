@@ -55,11 +55,23 @@
                     <input class="search" type="text" />
                 </li>
                 @RenderSection("navigation", false)
+                @if (Request.IsAuthenticated)
+                {
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle hidden-phone" data-toggle="dropdown">
+                        @User.Identity.Name
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="@Url.Action("ChangePassword", "Account", new { area = "" })">Change Password</a></li>
+                    </ul>
+                </li>
                 <li class="settings hidden-phone">
-                    <a href="#" role="button">
-                        <i class="icon-envelope-alt"></i>
+                    <a href="@Url.Action("LogOff", "Account", new { area = "" })" role="button">
+                        <i class="icon-share-alt"></i>
                     </a>
                 </li>
+                }
             </ul>            
         </div>
     </div>

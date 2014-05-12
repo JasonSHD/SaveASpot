@@ -22,6 +22,15 @@ C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Deb
 C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Debug\MongoDB.Driver.dll
 C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Debug\MongoDB.Bson.xml
 C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Debug\MongoDB.Driver.xml
-C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Debug\MongoDB.Web.csprojResolveAssemblyReference.cache
 C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Debug\MongoDB.Web.dll
 C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Debug\MongoDB.Web.pdb
+C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Debug\MongoDB.Web.csprojResolveAssemblyReference.cache
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Debug\MongoDB.Web.dll
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Debug\MongoDB.Web.pdb
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Debug\MongoDB.Bson.dll
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Debug\MongoDB.Driver.dll
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Debug\MongoDB.Bson.xml
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Debug\MongoDB.Driver.xml
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Debug\MongoDB.Web.csprojResolveAssemblyReference.cache
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Debug\MongoDB.Web.dll
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Debug\MongoDB.Web.pdb

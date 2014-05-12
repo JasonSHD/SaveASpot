@@ -15,7 +15,9 @@ namespace SaveASpot.Data.Models
             get
             {
                 var total = Total == 0 ? 1 : Total;
-                return Convert.ToInt32((Paid / total) * 100);
+                var calc = (float)Paid / (float)total;
+
+                return Convert.ToInt32(calc * 100);
             }
         }
     }

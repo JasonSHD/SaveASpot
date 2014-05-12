@@ -7,3 +7,11 @@ C:\Code\LeulyWeb\MongoDB.Web\MongoDB.Web\bin\Release\MongoDB.Driver.xml
 C:\Code\LeulyWeb\MongoDB.Web\MongoDB.Web\obj\Release\ResolveAssemblyReference.cache
 C:\Code\LeulyWeb\MongoDB.Web\MongoDB.Web\obj\Release\MongoDB.Web.dll
 C:\Code\LeulyWeb\MongoDB.Web\MongoDB.Web\obj\Release\MongoDB.Web.pdb
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Release\MongoDB.Web.dll
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Release\MongoDB.Web.pdb
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Release\MongoDB.Bson.dll
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Release\MongoDB.Driver.dll
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Release\MongoDB.Bson.xml
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Release\MongoDB.Driver.xml
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Release\MongoDB.Web.dll
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Release\MongoDB.Web.pdb

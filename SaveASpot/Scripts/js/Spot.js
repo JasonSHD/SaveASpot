@@ -5,16 +5,18 @@ SaveASpot.Spot = (function ($) {
 
     my.baseUrl = "/API/Spot/";
     my.Spots = [];
+    my.SelectedSpots = [];
     my.Total = 0;
     my.Loaded = 0;
     my.Take = 400;
     my.SelectedPhaseID = null;
     my.Loader = null;
+    my.Data = null;
 
     my.Initialize = function () {
     };
 
-    my.LoadSpots = function (phaseID) {
+    my.LoadSpots = function (phaseID, northEast, southWest) {
         // clear out the old spots
         my.Spots = [];
         my.Loaded = 0;
@@ -24,11 +26,35 @@ SaveASpot.Spot = (function ($) {
         SaveASpot.Map.SetLoaderPercentage(1);
         SaveASpot.Map.Loader.show();
 
+        my.Data = {
+            id: phaseID,
+            neLat: northEast.lat(),
+            neLng: northEast.lng(),
+            swLat: southWest.lat(),
+            swLng: southWest.lng()
+        };
+
         // get the count of the spots
-        $.post(my.baseUrl + "CountByPhase", { id: phaseID }, function (result) {
+        $.post(my.baseUrl + "GetByPhaseAndBounds", my.Data, function (result) {
             if (result.success) {
                 my.Total = result.count;
-                my.RecursiveLoad();
+
+                if (my.Total < 1000) {
+                    // clear the old
+                    SaveASpot.Map.clearOverlays();
+                    $("#spotCount").hide();
+
+                    // load the new
+                    my.RecursiveLoad();
+                }
+                else {
+                    var output = "Found Spots:<br /><strong>" + my.Total + "</strong><br />Zoom in to see spots available.";
+                    $("#spotCount").html(output);
+                    $("#spotCount").show();
+                    SaveASpot.Map.Loader.hide();
+                    //var phase = SaveASpot.Phase.FindPhaseByID(my.SelectedPhaseID);
+                    //SaveASpot.Map.loadPhase(phase, true, null);
+                }
             }
             else {
                 alert("there was an error loading the spots.");
@@ -36,13 +62,27 @@ SaveASpot.Spot = (function ($) {
         }, "json");
     };
 
+    my.GetBySponsor = function (sponsorID) {
+        SaveASpot.Map.Loader.hide();
+
+        $.post(my.baseUrl + "GetBySponsor", { id: sponsorID }, function (result) {
+            if (result.success) {
+                for (var i = 0; i < result.results.length; i++) {
+                    my.Spots.push(result.results[i]);
+                    SaveASpot.Map.processSpot(result.results[i], "#0000ff", true, my.ToggleSelect);
+                }
+            }
+            else {
+                alert("there was an error loading spots.");
+            }
+        });
+    };
+
     my.RecursiveLoad = function () {
         if (my.Loaded < my.Total) {
-            var data = {
-                id: my.SelectedPhaseID,
-                index: my.Loaded,
-                take: my.Take
-            };
+            var data = my.Data;
+            data.index = my.Loaded;
+            data.take = my.Take;
 
             $.post(my.baseUrl + "GetByPhase", data, function (result) {
                 if (result.success) {
@@ -53,7 +93,7 @@ SaveASpot.Spot = (function ($) {
 
                     for (var i = 0; i < result.results.length; i++) {
                         my.Spots.push(result.results[i]);
-                        SaveASpot.Map.processSpot(result.results[i], "#0000ff", true, null);
+                        SaveASpot.Map.processSpot(result.results[i], "#0000ff", true, my.ToggleSelect);
                     }
 
                     // recursive call to load more sequentially
@@ -103,27 +143,52 @@ SaveASpot.Spot = (function ($) {
         });
     };
 
+    my.ToggleSelect = function () {
+        /*var color = SaveASpot.Map.SpotColors.Selected;
+        if (this.selected) {
+            SaveASpot.Map.removeFromCart(this.SpotID, my.SelectedPhaseID);
+            color = SaveASpot.Map.SpotColors.Available;
+        }
+        else {
+            SaveASpot.Map.addToCart(this.SpotID, my.SelectedPhaseID);
+            var spot = my.FindSpotByID(this.SpotID);
+            my.SelectedSpots.push(spot);
+        }
+
+        $(".notification-count").html(my.SelectedSpots.length);
+        my.RenderList();
+
+        this.selected = !this.selected;
+        this.setOptions({
+            fillColor: color,
+            strokeColor: color
+        });*/
+    };
+
+    my.RenderList = function () {
+        // clear the menu
+        $("#cart").html("");
+
+        // load the templates
+        var template = $("#cartItem").html();
+
+        // load the phase items
+        for (var i = 0; i < my.SelectedSpots.length; i++) {
+            var data = { Index: i + 1, Price: "N/A", ID: my.SelectedSpots[i].SpotIDString };
+            var output = Mustache.render(template, data);
+            $("#cart").append(output);
+        }
+    };
+    
+
     my.FindSpotByID = function (id) {
         for (var i = 0; i < my.Spots.length; i++) {
-            if (my.Spots[i].ID == id) {
+            if (my.Spots[i].SpotIDString == id) {
                 return my.Spots[i];
             }
         }
 
         return null;
-    };
-
-    my.Select = function () {
-        /// <summary>
-        /// select a blog page from the site.
-        /// </summary>
-        var data = { id: $(this).attr("id") };
-
-        if (data.id != $("#PageID").val()) {
-
-            // get the pageEditor
-            $.post(baseURL + 'Details', data, my.setData, "json");
-        }
     };
 
     return my;

@@ -50,6 +50,9 @@ namespace SaveASpot.Data.Controllers
             sponsor.ImageUrl = model.ImageUrl;
             sponsor.Name = model.Name;
             sponsor.Url = model.Url;
+            sponsor.ShowSponsor = model.ShowSponsor;
+            sponsor.Order = model.Order;
+            sponsor.Center = model.Center;
 
             WriteConcernResult result = Sponsors.Save(sponsor, new MongoInsertOptions { WriteConcern = WriteConcern.Acknowledged });
             return result.Ok;
@@ -72,6 +75,18 @@ namespace SaveASpot.Data.Controllers
         public Sponsor GetSponsor(ObjectId id)
         {
             return Sponsors.FindOneById(id);
+        }
+
+        public List<Sponsor> GetSponsors(List<ObjectId> ids)
+        {
+            var sponsors = (from s in Sponsors.AsQueryable() where ids.Contains(s.SponsorID) orderby s.Name select s);
+            return sponsors.ToList();
+        }
+
+        public List<Sponsor> GetActiveSponsors()
+        {
+            var sponsors = (from s in Sponsors.AsQueryable() where s.ShowSponsor orderby s.Name select s);
+            return sponsors.ToList();
         }
 
         /// <summary>

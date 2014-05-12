@@ -13,6 +13,15 @@ C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\SaveASpot.Data\bin\Debug\MongoD
 C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\SaveASpot.Data\bin\Debug\MongoDB.Driver.dll
 C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\SaveASpot.Data\bin\Debug\MongoDB.Bson.xml
 C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\SaveASpot.Data\bin\Debug\MongoDB.Driver.xml
-C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\SaveASpot.Data\obj\Debug\SaveASpot.Data.csprojResolveAssemblyReference.cache
 C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\SaveASpot.Data\obj\Debug\SaveASpot.Data.dll
 C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\SaveASpot.Data\obj\Debug\SaveASpot.Data.pdb
+C:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\SaveASpot.Data\obj\Debug\SaveASpot.Data.csprojResolveAssemblyReference.cache
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\SaveASpot.Data\bin\Debug\SaveASpot.Data.dll
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\SaveASpot.Data\bin\Debug\SaveASpot.Data.pdb
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\SaveASpot.Data\bin\Debug\MongoDB.Bson.dll
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\SaveASpot.Data\bin\Debug\MongoDB.Driver.dll
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\SaveASpot.Data\bin\Debug\MongoDB.Bson.xml
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\SaveASpot.Data\bin\Debug\MongoDB.Driver.xml
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\SaveASpot.Data\obj\Debug\SaveASpot.Data.csprojResolveAssemblyReference.cache
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\SaveASpot.Data\obj\Debug\SaveASpot.Data.dll
+E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\SaveASpot.Data\obj\Debug\SaveASpot.Data.pdb

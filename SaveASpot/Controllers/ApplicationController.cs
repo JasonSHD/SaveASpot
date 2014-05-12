@@ -281,5 +281,28 @@ namespace SaveASpot.Controllers
 
         #endregion
 
+        public Cart CurrentCart
+        {
+            get
+            {
+                var cart = Context.Carts.GetCart(ObjectId.Empty, ClientIP) ??
+                new Cart { CartID = ObjectId.GenerateNewId(), ClientIP = ClientIP, Items = new List<CartItem>() };
+                return cart;
+            }
+        }
+
+        public void ClearCart()
+        {
+            Context.Carts.DeleteCart(ObjectId.Empty, ClientIP);
+        }
+
+        public string ClientIP
+        {
+            get
+            {
+                return Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Request.UserHostAddress;
+            }
+        }
+
     }
 }

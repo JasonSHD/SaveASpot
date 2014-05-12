@@ -21,11 +21,14 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th class="span4">Sponsor Spot</th>
-                        <th class="span4">
+                        <th class="span3">Sponsor Spot</th>
+                        <th class="span3">
                             <span class="line"></span>Price
                         </th>
-                        <th class="span4">
+                        <th class="span3">
+                            <span class="line"></span>Square Footage
+                        </th>
+                        <th class="span3">
                             <span class="line"></span>Actions
                         </th>
                     </tr>
@@ -38,7 +41,10 @@
                             <a href="@Url.Action("Edit", new { id = phase.SpotID })" class="name">@phase.Phase</a>
                         </td>
                         <td class="description">
-                            N/A
+                            @phase.SponsorPrice.ToString("C")
+                        </td>
+                        <td class="description">
+                            @((phase.Qty * 43560).ToString("N"))
                         </td>
                         <td>
                             <a href="@Url.Action("Remove", new { area = "API", controller = "Cart", id = phase.SpotID })" class="btn-flat danger delete-sponsor">Delete</a>

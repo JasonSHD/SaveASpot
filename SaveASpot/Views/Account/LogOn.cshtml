@@ -1,48 +1,85 @@
 ﻿@model SaveASpot.Models.LogOnModel
 
 @{
+    Layout = null;
     ViewBag.Title = "Log On";
 }
 
-<h2>Log On</h2>
-<p>
-    Please enter your user name and password. @Html.ActionLink("Register", "Register") if you don't have an account.
-</p>
+<!DOCTYPE html>
+<html class="login-bg">
+<head>
+	<title>Detail Admin - Sign in</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+    <!-- bootstrap -->
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/css/bootstrap/bootstrap-overrides.css")" type="text/css" rel="stylesheet" />
 
-<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    <!-- global styles -->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/layout.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/elements.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/icons.css")" />
 
-@Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.")
+    <!-- libraries -->
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <!--[if IE 7]>
+        <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.css" rel="stylesheet">
+    <![endif]-->
+    
+    <!-- this page specific styles -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/compiled/signin.css")" type="text/css" media="screen" />
 
-@using (Html.BeginForm()) {
-    <div>
-        <fieldset>
-            <legend>Account Information</legend>
+    <!-- open sans font -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 
-            <div class="editor-label">
-                @Html.LabelFor(m => m.UserName)
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    <div class="row-fluid login-wrapper">
+        <a href="index.html">
+            <img class="logo" src="http://leulymedia.s3.amazonaws.com/saveaspot/2013/7/635102142585056482/SaveASpotlogoWholeSmall100.png">
+        </a>
+
+        <div class="span4 box">
+            <div class="content-wrap">
+                <h6>Log in</h6>
+
+                @Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.")
+
+                @using (Html.BeginForm()) {
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "span12", placeholder = "User name" })
+                    @Html.ValidationMessageFor(m => m.UserName)
+
+                    @Html.PasswordFor(m => m.Password, new { @class = "span12", placeholder = "Your password" })
+                    @Html.ValidationMessageFor(m => m.Password)
+
+                    <div class="remember">
+                        @Html.CheckBoxFor(m => m.RememberMe)
+                        <label for="remember-me">Remember me</label>
+                    </div>
+                    <button type="submit" class="btn-glow primary login">Log in</button>
+                }
             </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(m => m.UserName)
-                @Html.ValidationMessageFor(m => m.UserName)
-            </div>
+        </div>
 
-            <div class="editor-label">
-                @Html.LabelFor(m => m.Password)
-            </div>
-            <div class="editor-field">
-                @Html.PasswordFor(m => m.Password)
-                @Html.ValidationMessageFor(m => m.Password)
-            </div>
-
-            <div class="editor-label">
-                @Html.CheckBoxFor(m => m.RememberMe)
-                @Html.LabelFor(m => m.RememberMe)
-            </div>
-
-            <p>
-                <input type="submit" value="Log On" />
-            </p>
-        </fieldset>
     </div>
-}
+
+	<!-- scripts -->
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/js/theme.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+    <!-- pre load bg imgs -->
+    <script type="text/javascript">
+        $(function () {
+
+        });
+    </script>
+</body>
+</html>

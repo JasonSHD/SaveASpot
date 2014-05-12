@@ -20,6 +20,7 @@ namespace SaveASpot.Data.Models
         public ObjectId PhaseID { get; set; }
         public string PhaseName { get; set; }
         public int SpotPrice { get; set; }
+        public int SponsorPrice { get; set; }
         public bool Active { get; set; }
         public bool Complete { get; set; }
 

@@ -56,6 +56,14 @@
                             <label>Description:</label>
                             @Html.TextAreaFor(m => m.Sponsor.Description, new { @class = "span9 " })
                         </div>
+                        <div class="span12 field-box">
+                            <label>Show Sponsor:</label>
+                            @Html.CheckBoxFor(m => m.Sponsor.ShowSponsor)
+                        </div>
+                        <div class="span12 field-box">
+                            <label>Order:</label>
+                            @Html.TextBoxFor(m => m.Sponsor.Order, new { @class = "span2", placeholder = "order" })
+                        </div>
 
                         @Html.HiddenFor(m => m.Sponsor.SponsorID)
                         <div class="span11 field-box actions">
@@ -70,7 +78,8 @@
                         <h3>Parcel Information</h3>
                     </div>
                     <div class="span11 field-box">
-                        <a href="@Url.Action("Index", new{ area = "", controller = "Home", sponsorID = Model.Sponsor.SponsorID})" class="btn-flat success">Select Spots</a>
+                        <a href="@Url.Action("Index", new { area = "", controller = "Home", sponsorID = Model.Sponsor.SponsorID })" class="btn-flat success">Select Spots</a>
+                        <button type="button" class="btn-flat pull-right clear-spots">Clear Selected Spots</button>
                     </div>
                 </div>
             </div>
@@ -79,12 +88,12 @@
                 <div class="knobs">
                     <h6>User Spots - @Model.SpotInfo.Paid Paid / @Model.SpotInfo.Total</h6>
                     <div class="knob-wrapper">
-                        <input type="text" value="@Model.SpotInfo.Percentage" class="knob" data-thickness=".3" data-inputColor="#333" data-fgColor="#30a1ec" data-bgColor="#d4ecfd" data-width="150">
+                        <input type="text" value="@Model.SpotInfo.Percentage" class="knob" data-thickness=".3" data-inputColor="#333" data-min="0" data-max="100" data-fgColor="#30a1ec" data-bgColor="#d4ecfd" data-width="150">
                     </div>
                     <hr />
                     <h6>Sponsor Spots - @Model.SponsorInfo.Paid / @Model.SponsorInfo.Total</h6>
                     <div class="knob-wrapper">
-                        <input type="text" value="@Model.SponsorInfo.Percentage" class="knob second" data-thickness=".3" data-inputColor="#333" data-fgColor="#3d88ba" data-bgColor="#d4ecfd" data-width="150">
+                        <input type="text" value="@Model.SponsorInfo.Percentage" class="knob second" data-thickness=".3" data-inputColor="#333" data-min="0" data-max="100" data-fgColor="#3d88ba" data-bgColor="#d4ecfd" data-width="150">
                     </div>                        
                 </div>
                 <div class="alert alert-info hidden-tablet">
@@ -117,6 +126,24 @@
             else {*/
             $(".loader").hide();
             //}
+        });
+
+        $(".clear-spots").click(function () {
+            var data = { id: $("#Sponsor.SponsorID").val() };
+            if (data.id == null) {
+                data.id = $("#Sponsor_SponsorID").val();
+            }
+
+            if (data.id != null) {
+                $.post("/Settings/Sponsor/ClearSpots", data, function (result) {
+                    if (result.success) {
+                        alert("spots cleared");
+                    }
+                    else {
+                        alert("spots not cleared");
+                    }
+                }, 'json');
+            }
         });
     });
     </script>
