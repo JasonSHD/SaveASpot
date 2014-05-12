@@ -75,6 +75,7 @@ SaveASpot.Map = (function ($) {
     my.setSponsors = function (sponsorID) {
         for (var i = 0; i < SaveASpot.Phase.Sponsors.length; i++) {
             var sponsor = SaveASpot.Phase.Sponsors[i];
+            var center = sponsor.Center;
 
             if (sponsor.SponsorID == sponsorID) {
                 var coord = new google.maps.LatLng(sponsor.Center.Longitude, sponsor.Center.Latitude);

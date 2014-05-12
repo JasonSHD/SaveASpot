@@ -77,6 +77,7 @@ namespace SaveASpot.Areas.API.Controllers
         public JsonResult GetBySponsor(ObjectId id)
         {
             var spots = Context.SponsorSpots.GetSpotsBySponsors(id);
+            var sponsor = Context.Sponsors.GetSponsor(id);
 
             Clipper clipper = new Clipper();
             var polygons = new List<List<IntPoint>>();
