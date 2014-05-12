@@ -1,0 +1,104 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>@ViewBag.Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="SquareHook.com" />
+	
+    <!-- bootstrap -->
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/css/bootstrap/bootstrap-overrides.css")" type="text/css" rel="stylesheet" />
+
+    <!-- global styles -->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/layout.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/elements.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/icons.css")" />
+
+    <!-- libraries -->
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <!--[if IE 7]>
+        <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.css" rel="stylesheet">
+    <![endif]-->
+    
+    <!-- this page specific styles -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/compiled/gallery.css")" type="text/css" media="screen" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/map.css")" type="text/css" />
+    @RenderSection("styles", false)
+
+    <!-- open sans font -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css' />
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    <!-- navbar -->
+    <div class="navbar navbar-inverse">
+        <div class="navbar-inner">
+            <button type="button" class="btn btn-navbar visible-phone" id="menu-toggler">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+            <a class="brand" href="@Url.Action("Index", "Home", new { area = "" })">Save A Spot</a>
+
+            <ul class="nav pull-right">                
+                <li class="hidden-phone">
+                    <input class="search" type="text" />
+                </li>
+                @RenderSection("navigation", false)
+                @if (Request.IsAuthenticated)
+                {
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle hidden-phone" data-toggle="dropdown">
+                        @User.Identity.Name
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="@Url.Action("ChangePassword", "Account", new { area = "" })">Change Password</a></li>
+                    </ul>
+                </li>
+                <li class="settings hidden-phone">
+                    <a href="@Url.Action("LogOff", "Account", new { area = "" })" role="button">
+                        <i class="icon-share-alt"></i>
+                    </a>
+                </li>
+                }
+            </ul>            
+        </div>
+    </div>
+    <!-- end navbar -->
+
+    <!-- sidebar -->
+    <div id="sidebar-nav">
+        @RenderSection("SideBar", false)
+
+        <p style="text-align: center;">Powered by <br /><a href="http://www.squarehook.com">SquareHook</a></p>
+    </div>
+    <!-- end sidebar -->
+
+
+	<!-- main container -->
+    <div class="content">        
+        @RenderBody()
+    </div>
+    <!-- end main container -->
+
+
+
+	<!-- this page scripts -->
+    <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.0/jquery.validate.min.js"></script>
+    <script src="@Url.Content("~/Scripts/js/theme.js")" type="text/javascript"></script>
+    @RenderSection("Footer", false)
+</body>
+</html>

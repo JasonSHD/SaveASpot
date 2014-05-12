@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaveASpot", "SaveASpot\SaveASpot.csproj", "{A9BC5894-1B38-4C61-88A7-C5DD0F7A8A77}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoDB.Web", "MongoDB.Web\MongoDB.Web\MongoDB.Web.csproj", "{90BB8808-E091-463D-AAFD-5134183BDCF7}"

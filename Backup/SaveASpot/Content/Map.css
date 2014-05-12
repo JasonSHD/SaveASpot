@@ -1,0 +1,44 @@
+﻿#map_loading 
+{
+    position: fixed;
+    bottom: 0;
+    left: 178px;
+    right: 0;
+    padding: 5px;
+    background-color: #FFF; 
+}
+
+
+#dashboard-sponsors {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+#dashboard-sponsors > li 
+{
+    text-align: center;
+    margin-bottom: 5px;
+    margin-right: 15px;
+    margin-left: 20px;
+}
+
+#dashboard-sponsors > li > img 
+{
+    max-width: 140px;
+}
+
+#dashboard-sponsors > li:last-child 
+{
+    padding-bottom: 5px;
+	border-bottom: 1px solid rgb(218, 225, 232);
+    box-shadow: 0px 2px 1px -1px rgb(255, 255, 255);
+}
+
+#spotCount 
+{
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: center;
+    padding-right: 14px;
+}

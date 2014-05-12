@@ -14,6 +14,7 @@ SaveASpot.Map = (function ($) {
     my.geocoder;
     my.infoWindow;
     my.layers = [];
+    my.phases = [];
     my.Loader = null;
     my.phaseID = null;
     my.SponsorMarker = null;
@@ -94,6 +95,7 @@ SaveASpot.Map = (function ($) {
                 marker.setMap(my.map);
                 my.SponsorMarker = marker;
                 my.layers.push(marker);
+
                 break;
             }
         }
@@ -137,6 +139,7 @@ SaveASpot.Map = (function ($) {
 
             marker.setMap(my.map);
             my.layers.push(marker);
+            //my.phases.push(marker);
         }
     };
 
@@ -196,7 +199,8 @@ SaveASpot.Map = (function ($) {
                 spot.phase = phase.ID;
 
                 spot.setMap(my.map);
-                my.layers.push(spot);
+               // my.layers.push(spot);
+                my.phases.push(spot);
 
                 // add a listener for the click event
                 if (selectable && clickEvent) {

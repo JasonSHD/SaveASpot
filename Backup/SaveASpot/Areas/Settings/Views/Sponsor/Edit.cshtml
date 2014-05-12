@@ -1,0 +1,150 @@
+﻿@model SaveASpot.Areas.Settings.Models.SponsorDetail
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutDetailAdmin.cshtml";
+}
+
+@section styles {
+    <!-- this page specific styles -->
+    <link rel="stylesheet" href="/Content/css/compiled/new-user.css" type="text/css" media="screen" />
+}
+
+@section SideBar {
+    @Html.Partial("AdminMenu")
+}
+
+<div class="container-fluid">
+    <div id="pad-wrapper" class="new-user">
+        <div class="row-fluid header">
+            <h3>Update sponsor</h3>
+        </div>
+        
+        @if (ViewBag.Success)
+        {
+            <div class="alert alert-success">
+                <i class="icon-ok-sign"></i> Your sponsor has been updated.
+            </div>
+        }
+        @if(ViewBag.Error)
+        {
+            <div class="alert alert-error">
+                <i class="icon-remove-sign"></i>
+                Unable to save the sponsor.
+            </div>
+        }
+
+        <div class="row-fluid form-wrapper">
+            <!-- left column -->
+            <div class="span9 with-sidebar">
+                <div class="container">
+                    @using (Html.BeginForm())
+                    {
+                        <div class="span12 field-box">
+                            <label>Name:</label>
+                            @Html.TextBoxFor(m => m.Sponsor.Name, new { @class = "span9 " })
+                        </div> 
+                        <div class="span12 field-box">
+                            <label>Website Url:</label>
+                            @Html.TextBoxFor(m => m.Sponsor.Url, new { @class = "span9 " })
+                        </div> 
+                        <div class="span12 field-box">
+                            <label>Image Url:</label>
+                            @Html.TextBoxFor(m => m.Sponsor.ImageUrl, new { @class = "span9 " })
+                        </div>  
+                        <div class="span12 field-box">
+                            <label>Description:</label>
+                            @Html.TextAreaFor(m => m.Sponsor.Description, new { @class = "span9 " })
+                        </div>
+                        <div class="span12 field-box">
+                            <label>Show Sponsor:</label>
+                            @Html.CheckBoxFor(m => m.Sponsor.ShowSponsor)
+                        </div>
+                        <div class="span12 field-box">
+                            <label>Order:</label>
+                            @Html.TextBoxFor(m => m.Sponsor.Order, new { @class = "span2", placeholder = "order" })
+                        </div>
+
+                        @Html.HiddenFor(m => m.Sponsor.SponsorID)
+                        <div class="span11 field-box actions">
+                            <input type="submit" class="btn-flat default" value="Update sponsor">
+                            <span>OR</span> 
+                            <input type="reset" value="Cancel" class="reset">
+                        </div>
+                    }
+
+                    <hr />
+                    <div class="row-fluid header">
+                        <h3>Parcel Information</h3>
+                    </div>
+                    <div class="span11 field-box">
+                        <a href="@Url.Action("Index", new { area = "", controller = "Home", sponsorID = Model.Sponsor.SponsorID })" class="btn-flat success">Select Spots</a>
+                        <button type="button" class="btn-flat pull-right clear-spots">Clear Selected Spots</button>
+                    </div>
+                </div>
+            </div>
+            <!-- side right column -->
+            <div class="span3 form-sidebar pull-right">
+                <div class="knobs">
+                    <h6>User Spots - @Model.SpotInfo.Paid Paid / @Model.SpotInfo.Total</h6>
+                    <div class="knob-wrapper">
+                        <input type="text" value="@Model.SpotInfo.Percentage" class="knob" data-thickness=".3" data-inputColor="#333" data-min="0" data-max="100" data-fgColor="#30a1ec" data-bgColor="#d4ecfd" data-width="150">
+                    </div>
+                    <hr />
+                    <h6>Sponsor Spots - @Model.SponsorInfo.Paid / @Model.SponsorInfo.Total</h6>
+                    <div class="knob-wrapper">
+                        <input type="text" value="@Model.SponsorInfo.Percentage" class="knob second" data-thickness=".3" data-inputColor="#333" data-min="0" data-max="100" data-fgColor="#3d88ba" data-bgColor="#d4ecfd" data-width="150">
+                    </div>                        
+                </div>
+                <div class="alert alert-info hidden-tablet">
+                    <i class="icon-lightbulb pull-left"></i>
+                    Use the stats above to see where the current stats are for this phase.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section footer {
+<script src="/Scripts/js/jquery.knob.js" type="text/javascript"></script>
+<script src="/Scripts/json2.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        // jQuery Knobs
+        $(".knob").knob();
+
+        $(".load-btn").click(function (event) {
+            $(this).next().show();
+        });
+
+        $("#loadFile").load(function (data) {
+            /*var result = $.parseJSON($(this).contents().text());
+            if (result == null || !result.success) {
+            // alert failure
+            alert("There was an error trying to save the file.");
+            }
+            else {*/
+            $(".loader").hide();
+            //}
+        });
+
+        $(".clear-spots").click(function () {
+            var data = { id: $("#Sponsor.SponsorID").val() };
+            if (data.id == null) {
+                data.id = $("#Sponsor_SponsorID").val();
+            }
+
+            if (data.id != null) {
+                $.post("/Settings/Sponsor/ClearSpots", data, function (result) {
+                    if (result.success) {
+                        alert("spots cleared");
+                    }
+                    else {
+                        alert("spots not cleared");
+                    }
+                }, 'json');
+            }
+        });
+    });
+    </script>
+}

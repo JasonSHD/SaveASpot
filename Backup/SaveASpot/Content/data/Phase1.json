@@ -1,0 +1,13 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "Name": "RAB", "Shape_Leng": 1231.562845, "Phase": "Phase 1", "Acres": 18.407651, "Shape_Le_1": 1231.562845, "Shape_Area": 74493.119374 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -111.585213, 40.586746 ], [ -111.588940, 40.583885 ], [ -111.590265, 40.585209 ], [ -111.586237, 40.587846 ], [ -111.585213, 40.586746 ] ] ] } }
+,
+{ "type": "Feature", "properties": { "Name": "Martha", "Shape_Leng": 1203.609294, "Phase": "Phase 1", "Acres": 15.985622, "Shape_Le_1": 1203.609294, "Shape_Area": 64691.516019 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -111.588394, 40.586340 ], [ -111.592684, 40.583744 ], [ -111.593694, 40.584791 ], [ -111.589379, 40.587308 ], [ -111.588394, 40.586340 ] ] ] } }
+,
+{ "type": "Feature", "properties": { "Name": "Carnegie", "Shape_Leng": 1296.937977, "Phase": "Phase 1", "Acres": 21.262675, "Shape_Le_1": 1296.937977, "Shape_Area": 86046.993938 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -111.584102, 40.590942 ], [ -111.584784, 40.586787 ], [ -111.586968, 40.586990 ], [ -111.586293, 40.591099 ], [ -111.584102, 40.590942 ] ] ] } }
+,
+{ "type": "Feature", "properties": { "Name": "Ida May", "Shape_Leng": 1331.777095, "Phase": "Phase 1", "Acres": 23.211687, "Shape_Le_1": 1331.777095, "Shape_Area": 93934.364332 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -111.582108, 40.591238 ], [ -111.582847, 40.587125 ], [ -111.585400, 40.587366 ], [ -111.584320, 40.591468 ], [ -111.582108, 40.591238 ] ] ] } }
+
+]
+}

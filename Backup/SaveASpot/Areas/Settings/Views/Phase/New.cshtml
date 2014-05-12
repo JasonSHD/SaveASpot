@@ -1,0 +1,93 @@
+﻿@model SaveASpot.Data.Models.Phase
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutDetailAdmin.cshtml";
+}
+
+@section styles {
+    <!-- this page specific styles -->
+    <link rel="stylesheet" href="/Content/css/compiled/new-user.css" type="text/css" media="screen" />
+}
+
+@section SideBar {
+    @Html.Partial("AdminMenu")
+}
+
+<div class="container-fluid">
+    <div id="pad-wrapper" class="new-user">
+        <div class="row-fluid header">
+            <h3>New phase</h3>
+        </div>
+
+        @if(ViewBag.Error)
+        {
+            <div class="alert alert-error">
+                <i class="icon-remove-sign"></i>
+                Unable to save the phase.
+            </div>
+        }
+
+        <div class="row-fluid form-wrapper">
+            <!-- left column -->
+            <div class="span9 with-sidebar">
+                <div class="container">
+                    @using (Html.BeginForm())
+                    {
+                        <div class="span12 field-box">
+                            <label>Name:</label>
+                            @Html.TextBoxFor(m => m.PhaseName, new { @class = "span9 " })
+                        </div>                        
+                        <div class="span12 field-box">
+                            <label>Spot Price:</label>
+                            <div class="input-prepend">
+                                <span class="add-on"><i class="icon-usd"></i></span>
+                                @Html.TextBoxFor(m => m.SpotPrice, new { @class = "span9" })
+                            </div>
+                        </div>                    
+                        <div class="span12 field-box">
+                            <label>Sponsor Price:</label>
+                            <div class="input-prepend">
+                                <span class="add-on"><i class="icon-usd"></i></span>
+                                @Html.TextBoxFor(m => m.SponsorPrice, new { @class = "span9" })
+                            </div>
+                        </div>
+                        <div class="field-box">
+                            <label>Status:</label>
+                            <label class="checkbox">
+                                <div class="checker"><span>@Html.CheckBoxFor(m => m.Active)</span></div> Active
+                            </label>
+                            <label class="checkbox">
+                                <div class="checker"><span>@Html.CheckBoxFor(m => m.Complete)</span></div> Complete
+                            </label>
+                        </div>
+
+                        @Html.HiddenFor(m => m.PhaseID)
+                        <div class="span11 field-box actions">
+                            <input type="submit" class="btn-flat default" value="Add phase">
+                            <span>OR</span> 
+                            <input type="reset" value="Cancel" class="reset">
+                        </div>
+                    }
+                </div>
+            </div>
+            <!-- side right column -->
+            <div class="span3 form-sidebar pull-right">
+                <div class="alert alert-info hidden-tablet">
+                    <i class="icon-lightbulb pull-left"></i>
+                    Once you create a phase, you will be taken to a page where you can upload the shape content.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section footer {
+<script src="/Scripts/js/jquery.knob.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        // jQuery Knobs
+        $(".knob").knob();
+    });
+    </script>
+}

@@ -1,0 +1,13 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "Name": "Kimball #1", "Shape_Leng": 1291.679060, "Phase": "Phase 2", "Acres": 20.832620, "Shape_Le_1": 1291.679060, "Shape_Area": 84306.623059 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -111.577840, 40.571365 ], [ -111.575880, 40.570764 ], [ -111.577990, 40.566902 ], [ -111.580009, 40.567526 ], [ -111.577840, 40.571365 ] ] ] } }
+,
+{ "type": "Feature", "properties": { "Name": "Kimball #2", "Shape_Leng": 1299.317386, "Phase": "Phase 2", "Acres": 21.121641, "Shape_Le_1": 1299.317386, "Shape_Area": 85476.248741 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -111.577839, 40.571377 ], [ -111.579996, 40.567525 ], [ -111.582031, 40.568133 ], [ -111.579828, 40.571996 ], [ -111.577839, 40.571377 ] ] ] } }
+,
+{ "type": "Feature", "properties": { "Name": "Kimball #3", "Shape_Leng": 1287.247487, "Phase": "Phase 2", "Acres": 20.435110, "Shape_Le_1": 1287.247487, "Shape_Area": 82697.955811 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -111.581867, 40.572595 ], [ -111.579844, 40.571995 ], [ -111.582031, 40.568133 ], [ -111.583910, 40.568703 ], [ -111.581867, 40.572595 ] ] ] } }
+,
+{ "type": "Feature", "properties": { "Name": "Kimball #4", "Shape_Leng": 1331.335386, "Phase": "Phase 2", "Acres": 21.513812, "Shape_Le_1": 1331.335386, "Shape_Area": 87063.307244 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -111.583930, 40.573119 ], [ -111.581867, 40.572595 ], [ -111.583910, 40.568703 ], [ -111.586046, 40.568919 ], [ -111.583930, 40.573119 ] ] ] } }
+
+]
+}

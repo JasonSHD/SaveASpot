@@ -15,3 +15,12 @@ E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Rel
 E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Release\MongoDB.Driver.xml
 E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Release\MongoDB.Web.dll
 E:\Code\CustomerProjects\SaveASpotJosh\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Release\MongoDB.Web.pdb
+C:\Users\christy\GitHub\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Release\MongoDB.Web.dll
+C:\Users\christy\GitHub\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Release\MongoDB.Web.pdb
+C:\Users\christy\GitHub\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Release\MongoDB.Bson.dll
+C:\Users\christy\GitHub\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Release\MongoDB.Driver.dll
+C:\Users\christy\GitHub\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Release\MongoDB.Bson.xml
+C:\Users\christy\GitHub\SaveASpot\MongoDB.Web\MongoDB.Web\bin\Release\MongoDB.Driver.xml
+C:\Users\christy\GitHub\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Release\MongoDB.Web.csprojResolveAssemblyReference.cache
+C:\Users\christy\GitHub\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Release\MongoDB.Web.dll
+C:\Users\christy\GitHub\SaveASpot\MongoDB.Web\MongoDB.Web\obj\Release\MongoDB.Web.pdb
