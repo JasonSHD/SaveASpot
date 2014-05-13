@@ -54,12 +54,18 @@ SaveASpot.SponsorSpot = (function ($) {
 
                     for (var i = 0; i < result.results.length; i++) {
                         var color = SaveASpot.Map.SpotColors.Available;
-                        if (result.results[i].Taken) {
+                        var selectable = true;
+
+                        if (result.results[i].Taken && result.results[i].SponsorIDString == $("#id").val()) {
+                            color = SaveASpot.Map.SpotColors.Selected;
+                        } else if (result.results[i].Taken /*&& result.results[i].sponsorID == sponsorID*/) {
+                            // if spot's sponsorID is this sponsor, color not red (yellow?)
                             color = SaveASpot.Map.SpotColors.Unavailable;
+                            selectable = false;
                         }
 
                         my.Spots.push(result.results[i]);
-                        SaveASpot.Map.processSpot(result.results[i], color, true, my.ToggleSelect);
+                        SaveASpot.Map.processSpot(result.results[i], color, selectable, my.ToggleSelect);
                     }
 
                     // recursive call to load more sequentially
