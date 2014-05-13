@@ -112,6 +112,35 @@ namespace SaveASpot.Areas.API.Controllers
                 results.Add(resultShape);
             }
 
+            /*var coordinateList = new List<Coordinate>();
+            //var swList = new List<Coordinate>();
+
+            foreach (var r in spots)
+            {
+                Coordinate northEast = new Coordinate()
+                {
+                    Latitude = r.SpotShape.Max(s => s.Latitude),
+                    Longitude = r.SpotShape.Max(s => s.Longitude)
+                };
+                coordinateList.Add(northEast);
+                Coordinate southWest = new Coordinate()
+                {
+                    Latitude = r.SpotShape.Min(s => s.Latitude),
+                    Longitude = r.SpotShape.Min(s => s.Longitude)
+                };
+                coordinateList.Add(southWest);
+            }
+
+            var latMax = coordinateList.Max(s => s.Latitude);
+            var latMin = coordinateList.Min(s => s.Latitude);
+            var lngMax = coordinateList.Max(s => s.Longitude);
+            var lngMin = coordinateList.Min(s => s.Longitude);
+
+            sponsor.Center.Latitude = (latMax+ latMin)/2;
+            sponsor.Center.Longitude = (lngMax + lngMin) / 2;
+
+            Context.Sponsors.Update(sponsor);*/
+
             return Json(new { success = true, results = results }, JsonRequestBehavior.AllowGet);
         }
 
