@@ -247,10 +247,13 @@ SaveASpot.Map = (function ($) {
     /** @this {google.maps.Polygon} */
     my.showArrays = function (event) {
 
-        var color = my.selectedColor;
+        var color;// = my.selectedColor;
         if (this.selected) {
             color = my.availableColor;
+        } else {
+            color = my.selectedColor;
         }
+        
         this.selected = !this.selected;
         this.setOptions({
             fillColor: color,

@@ -58,8 +58,7 @@ SaveASpot.SponsorSpot = (function ($) {
 
                         if (result.results[i].Taken && result.results[i].SponsorIDString == $("#id").val()) {
                             color = SaveASpot.Map.SpotColors.Selected;
-                        } else if (result.results[i].Taken /*&& result.results[i].sponsorID == sponsorID*/) {
-                            // if spot's sponsorID is this sponsor, color not red (yellow?)
+                        } else if (result.results[i].Taken) {
                             color = SaveASpot.Map.SpotColors.Unavailable;
                             selectable = false;
                         }
@@ -84,13 +83,15 @@ SaveASpot.SponsorSpot = (function ($) {
 
     my.ToggleSelect = function () {
         var color = SaveASpot.Map.SpotColors.Selected;
+        var spot = my.FindSpotByID(this.SpotID);
+
         if (this.selected) {
             SaveASpot.Map.removeFromCart(this.SpotID, my.SelectedPhaseID);
+            //my.SelectedSpots.pop(spot); believe this is needed to update cart correctly
             color = SaveASpot.Map.SpotColors.Available;
         }
         else {
             SaveASpot.Map.addToCart(this.SpotID, my.SelectedPhaseID);
-            var spot = my.FindSpotByID(this.SpotID);
             my.SelectedSpots.push(spot);
         }
 
