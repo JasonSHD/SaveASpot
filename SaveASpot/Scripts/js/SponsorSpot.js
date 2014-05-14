@@ -87,7 +87,7 @@ SaveASpot.SponsorSpot = (function ($) {
 
         if (this.selected) {
             SaveASpot.Map.removeFromCart(this.SpotID, my.SelectedPhaseID);
-            //my.SelectedSpots.pop(spot); believe this is needed to update cart correctly
+            //my.SelectedSpots.pop(spot); //believe this is needed to update cart correctly
             color = SaveASpot.Map.SpotColors.Available;
         }
         else {
